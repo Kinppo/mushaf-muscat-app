@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  String currentTheme = 'system';
+  String currentTheme = 'light';
 
   ThemeMode get themeMode {
     if (currentTheme == 'light') {
