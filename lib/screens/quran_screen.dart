@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
 // import '../widgets/appbar.dart';
+import '../widgets/drawer.dart';
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -52,6 +53,9 @@ class _QuranScreenState extends State<QuranScreen> {
               child: Text(""),
               preferredSize: Size(0.0, 0.0),
             ),
+      drawer: Container(
+    width: double.infinity,
+    child: MainDrawer(),),
 
       body: SingleChildScrollView(
         child: Column(
