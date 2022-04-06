@@ -24,7 +24,7 @@ class ThemeProvider extends ChangeNotifier {
   initialize() async {
     final SharedPreferences _prefs = await SharedPreferences.getInstance();
 
-    currentTheme = _prefs.getString('theme') ?? 'system';
+    currentTheme = _prefs.getString('theme') ?? 'light';
     notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/screens/splash_screen.dart';
+import 'package:mushafmuscat/themes/app_themes.dart';
 import 'package:provider/provider.dart';
 
 import './routes/app_routes.dart';
@@ -27,12 +28,9 @@ class MyApp extends StatelessWidget {
         onUnknownRoute: AppRoutes.onUnkownRoute,
         supportedLocales: AppLocalizationsSetup.supportedLocales,
         localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,
-
-        // Each time a new state emitted, the app will be rebuilt with the new
-        // locale.
         locale: const Locale('ar'),
-        theme: ThemeData.light(),
-        darkTheme: ThemeData.dark(),
+        theme: AppThemes.lightTheme,
+        darkTheme: AppThemes.darkTheme,
         themeMode: provider.themeMode,
         //home: const SplashScreen(),
         home: QuranScreen(),
