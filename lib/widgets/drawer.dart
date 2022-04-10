@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mushafmuscat/screens/quran_screen.dart';
 import 'package:sliding_switch/sliding_switch.dart';
 import 'package:flutter/cupertino.dart';
 import '../resources/dimens.dart';
@@ -25,8 +26,8 @@ class _MainDrawerState extends State<MainDrawer> {
     return hint;
   }
 
-  Widget buildListTile(
-      String subtitle, String num, String title, Function tapHandler) {
+  Widget buildListTile(String numAya, String type, String num, String title,
+      Function tapHandler) {
     return segmentedControlValue == 0
         ? ListTile(
             trailing: CircleAvatar(
@@ -44,7 +45,7 @@ class _MainDrawerState extends State<MainDrawer> {
                   fontWeight: FontWeight.w600,
                   fontSize: 20),
             ),
-            subtitle: Text(subtitle,
+            subtitle: Text("آياتها : $numAya   .   $type",
                 style:
                     const TextStyle(color: Color.fromRGBO(148, 135, 121, 1.0))),
             onTap: () {})
@@ -59,87 +60,116 @@ class _MainDrawerState extends State<MainDrawer> {
       child: Column(
         children: <Widget>[
           Container(
-            padding: const EdgeInsets.all(Dimens.px30),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(Dimens.px30),
-            child: Container(
+            //margin: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top: 80.0),
+            // width: 180,
 
-              width: 190,
-              height: 40,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  width: 70,
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 200,
+                    minWidth: 180,
+                  ),
+                  child: Container(
+                    child: CupertinoSlidingSegmentedControl(
+                        groupValue: segmentedControlValue,
+                        backgroundColor: Theme.of(context).shadowColor,
+                        children: <int, Widget>{
+                          0: Text(
+                            'السور',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.copyWith(
+                                  color: const Color.fromRGBO(105, 91, 77, 1),
+                                  fontWeight: FontWeight.normal,
+                                                                    fontSize: 17,
 
-              child: CupertinoSlidingSegmentedControl(
-                  groupValue: segmentedControlValue,
-                  backgroundColor: Theme.of(context).shadowColor,
+                                ),
+                          ),
+                          1: Text(
+                            'الأرباع',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.copyWith(
+                                  color: const Color.fromRGBO(105, 91, 77, 1),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 17,
+                                ),
+                          ),
+                        },
+                        onValueChanged: (value) {
+                          setState(() {
+                            segmentedControlValue = value as int;
 
-                  children:  <int, Widget>{
-                    0: Text('السور',style:Theme.of(context).textTheme.headline1?.copyWith(
-                      color: const Color.fromRGBO(105, 91, 77,1), fontWeight: FontWeight.normal,
-                      
-                    ),
-            ),
-                    1: Text('الأرباع', style:Theme.of(context).textTheme.headline1?.copyWith(
-                      color: const Color.fromRGBO(105, 91, 77,1), fontWeight: FontWeight.normal,
-                    ),),
-                  },
-                  onValueChanged: (value) {
-                    setState(() {
-                      segmentedControlValue = value as int;
-                      
-                      print(segmentedControlValue);
-                    });
-                  }),
-
+                            print(segmentedControlValue);
+                          });
+                        }),
+                  ),
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                IconButton(
+                  iconSize: 28,
+                onPressed: () {
+                  Navigator.of(context).popAndPushNamed(QuranScreen.routeName);
+                },
+                icon: const Icon(Icons.cancel), ),
+              ],
             ),
           ),
           Container(
             width: double.infinity,
-            height: 85,
+            height: 80,
             padding: const EdgeInsets.all(Dimens.px20),
             child: TextField(
-              
+              textAlign: TextAlign.right,
+              textAlignVertical: TextAlignVertical.bottom,
               decoration: InputDecoration(
-                 border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10.0),
-        borderSide: const BorderSide(
-                  width: 0, 
-                  style: BorderStyle.none,
-              ),
-      ),
-                filled:true,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                filled: true,
                 fillColor: Theme.of(context).indicatorColor,
-                 prefixIcon: const Icon(Icons.search),
-                iconColor: Color.fromRGBO(148, 135, 121,1),
-                //fillColor: Color(0xe6ded6),
-                //hintText: 'البحث عن سورة',
+                prefixIcon: const Icon(Icons.search),
+                iconColor: const Color.fromRGBO(148, 135, 121, 1),
                 hintText: hintText(),
                 hintStyle: const TextStyle(
-                color: Color.fromRGBO(148, 135, 121,1),
-                  //color: Color.fromRGBO(230, 222, 214,1),
-                
+                  color: Color.fromRGBO(148, 135, 121, 1),
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               style: const TextStyle(
-                color: Color.fromRGBO(148, 135, 121,1),
+                color: Color.fromRGBO(148, 135, 121, 1),
               ),
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          buildListTile("آياتها : ٧ . مكية", "١", "الفاتحة", () {
+         
+          const Divider(height: 0,),
+
+          buildListTile("٧", "مكية", "١", "الفاتحة", () {
             //Navigator.of(context).pushReplacementNamed('/');
           }),
           const Divider(),
-          buildListTile("آياتها : ٧ . مكية", "٢", "البقرة", () {
+          buildListTile("٧", "مكية", "١", "البقرة", () {
             //Navigator.of(context).pushReplacementNamed(FiltersScreen.routeName);
           }),
           const Divider(),
-          buildListTile("آياتها : ٧ . مكية", "٣", "آل عمران", () {}),
+          buildListTile("٧", "مكية", "١", "آل عمران", () {}),
           const Divider(),
-          buildListTile("آياتها : ٧ . مكية", "٤", "النساء", () {}),
+          buildListTile("٧", "مكية", "١", "النساء", () {}),
         ],
       ),
     );
