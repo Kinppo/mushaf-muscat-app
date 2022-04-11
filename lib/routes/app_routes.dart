@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mushafmuscat/screens/book_marks_screen.dart';
 
 import '../screens/quran_screen.dart';
 import '../screens/splash_screen.dart';
@@ -12,6 +13,8 @@ class AppRoutes {
         break;
       case SplashScreen.routeName:
         return MaterialPageRoute(builder: (_) => SplashScreen());
+      case BookMarksScreen.routeName:
+        return MaterialPageRoute(builder: (_) => BookMarksScreen());
       default:
         return null;
     }
