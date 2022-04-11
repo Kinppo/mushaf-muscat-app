@@ -40,7 +40,7 @@ class _QuranScreenState extends State<QuranScreen> {
               preferredSize: const Size(0.0, 0.0),
             ),
       bottomNavigationBar: _showNavBar
-          ? BNavigationBar(
+          ? const BNavigationBar(
               pageIndex: 0,
             )
           : const PreferredSize(
