@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mushafmuscat/models/book_mark.dart';
-import 'package:mushafmuscat/widgets/bottom_navigation_bar.dart';
 
+import '../models/book_mark.dart';
 import '../localization/app_localizations.dart';
+import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/book_mark_item.dart' as bmi;
 
 class BookMarksScreen extends StatelessWidget {
@@ -17,26 +17,26 @@ class BookMarksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BNavigationBar(
+      bottomNavigationBar: const BNavigationBar(
         pageIndex: 1,
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         color: Theme.of(context).backgroundColor,
-        padding: EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
         child: Column(
           children: [
             Text(
               AppLocalizations.of(context)!
                   .translate('book_marks_title')
                   .toString(),
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
             _bookMarks.isEmpty
                 ? Column(
                     children: [
-                      SizedBox(
+                      const SizedBox(
                         width: double.infinity,
                         height: 60,
                       ),
@@ -46,14 +46,14 @@ class BookMarksScreen extends StatelessWidget {
                         children: [
                           SvgPicture.asset("assets/images/mark3.svg"),
                           Padding(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   vertical: 0, horizontal: 4),
                               child:
                                   SvgPicture.asset("assets/images/mark1.svg")),
                           SvgPicture.asset("assets/images/mark2.svg")
                         ],
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: double.infinity,
                         height: 20,
                       ),
@@ -63,7 +63,7 @@ class BookMarksScreen extends StatelessWidget {
                           AppLocalizations.of(context)!
                               .translate('book_marks_description')
                               .toString(),
-                          style: TextStyle(fontSize: 18),
+                          style: const TextStyle(fontSize: 18),
                           textAlign: TextAlign.center,
                         ),
                       )

@@ -17,6 +17,22 @@ class BookMarkItem extends StatelessWidget {
       required this.type,
       required this.id});
 
+  Future<bool?> _showSnackBar(context) async {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(AppLocalizations.of(context)!
+          .translate('book_marks_delete_msg')
+          .toString()),
+      duration: const Duration(seconds: 2),
+      action: SnackBarAction(
+        label: AppLocalizations.of(context)!.translate('undo').toString(),
+        onPressed: () {
+          print("test");
+        },
+      ),
+    ));
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(
@@ -37,24 +53,25 @@ class BookMarkItem extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
-        return showDialog(
-            context: context,
-            builder: (ctx) => AlertDialog(
-                  title: const Text('Are you sure? '),
-                  content: const Text('Do you remove the item from cart?'),
-                  actions: [
-                    FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(false);
-                        },
-                        child: const Text('No')),
-                    FlatButton(
-                        onPressed: () {
-                          Navigator.of(context).pop(true);
-                        },
-                        child: const Text('Yes'))
-                  ],
-                ));
+        return _showSnackBar(context);
+        // return showDialog(
+        //     context: context,
+        //     builder: (ctx) => AlertDialog(
+        //           title: const Text('Are you sure? '),
+        //           content: const Text('Do you remove the item from cart?'),
+        //           actions: [
+        //             FlatButton(
+        //                 onPressed: () {
+        //                   Navigator.of(context).pop(false);
+        //                 },
+        //                 child: const Text('No')),
+        //             FlatButton(
+        //                 onPressed: () {
+        //                   Navigator.of(context).pop(true);
+        //                 },
+        //                 child: const Text('Yes'))
+        //           ],
+        //         ));
       },
       onDismissed: (direction) {},
       child: Card(

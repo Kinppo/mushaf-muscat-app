@@ -3,6 +3,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../localization/app_localizations.dart';
+import '../screens/ayah_screen.dart';
 import '../screens/book_marks_screen.dart';
 import '../screens/quran_screen.dart';
 
@@ -34,7 +35,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
         backgroundColor: Theme.of(context).buttonColor,
         unselectedItemColor: Theme.of(context).secondaryHeaderColor,
         selectedItemColor: Theme.of(context).textSelectionColor,
-        selectedLabelStyle: TextStyle(fontSize: 12),
+        selectedLabelStyle: const TextStyle(fontSize: 12),
         currentIndex: widget.pageIndex,
         onTap: (int index) {
           switch (index) {
@@ -45,6 +46,10 @@ class _BNavigationBarState extends State<BNavigationBar> {
             case 1:
               Navigator.of(context)
                   .pushReplacementNamed(BookMarksScreen.routeName);
+              break;
+
+            case 2:
+              Navigator.of(context).pushReplacementNamed(AyahScreen.routeName);
               break;
 
             default:

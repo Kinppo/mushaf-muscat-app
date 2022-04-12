@@ -8,6 +8,7 @@ class CustomColors {
   CustomColors._();
 
   static Color yellow100 = HexColor('#f5efe9');
+  static Color yellow150 = HexColor('#faf8f5');
   static Color yellow200 = HexColor('#ebe4dd');
   static Color yellow300 = HexColor('#edc671');
   static Color yellow400 = HexColor('#f5c561');
@@ -23,6 +24,9 @@ class CustomColors {
   static Color red200 = HexColor('#f44336');
   static Color red300 = HexColor('#db0f00');
   static Color red400 = HexColor('#db0f00');
+
+  static Color brown100 = HexColor('#453d35');
+  static Color brown400 = HexColor('#8c5a27');
 
   static Color black200 = HexColor('#241c15');
 }

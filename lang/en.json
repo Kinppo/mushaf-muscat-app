@@ -1,6 +1,8 @@
 {
     "head_title": "",
     "app_bar_title": "",
+    "undo": "الغاء ",
+
 
     "quran_screen_title": "",
     "quran_screen_navigation_bar_item1":"11",
@@ -8,9 +10,12 @@
     "quran_screen_navigation_bar_item3":"11",
     "quran_screen_navigation_bar_item4":"11",
 
+    "ayah_screen_title":"11",
+
     "book_marks_title": "11",
     "book_marks_description":"11",
     "book_marks_aya":"11",
+    "book_marks_delete_msg": "Do you remove the Bookmark?",
      
 
     "dummy_text": ""
