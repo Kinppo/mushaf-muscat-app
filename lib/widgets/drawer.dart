@@ -353,9 +353,9 @@ class _MainDrawerState extends State<MainDrawer> {
               },
             ),
           ),
-          ],
+          ]
 
-          else if(segmentedControlValue == 1) [
+          else if(segmentedControlValue == 1)...[
             Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.only(top: 25),
