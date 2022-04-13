@@ -25,7 +25,7 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
+    selectedRadio = 1;
   }
 
   @override
@@ -62,9 +62,12 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(AppLocalizations.of(context)!
-                            .translate('setting_screen_appearance_option2')
-                            .toString()),
+                        Text(
+                          AppLocalizations.of(context)!
+                              .translate('setting_screen_appearance_option2')
+                              .toString(),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
+                        ),
                         Radio(
                             value: 2,
                             groupValue: selectedRadio,
@@ -81,10 +84,14 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(AppLocalizations.of(context)!
-                            .translate('setting_screen_appearance_option1')
-                            .toString()),
+                        Text(
+                            AppLocalizations.of(context)!
+                                .translate('setting_screen_appearance_option1')
+                                .toString(),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w700)),
                         Radio(
+                            activeColor: CustomColors.brown600,
                             value: 1,
                             groupValue: selectedRadio,
                             onChanged: (value) => {}),
@@ -100,9 +107,12 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(AppLocalizations.of(context)!
-                            .translate('setting_screen_appearance_option3')
-                            .toString()),
+                        Text(
+                            AppLocalizations.of(context)!
+                                .translate('setting_screen_appearance_option3')
+                                .toString(),
+                            style:
+                                const TextStyle(fontWeight: FontWeight.w700)),
                         Radio(
                             value: 3,
                             groupValue: selectedRadio,
