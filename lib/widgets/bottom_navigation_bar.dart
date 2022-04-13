@@ -24,7 +24,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(top: 20),
+      padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
       decoration: BoxDecoration(
         border: Border.all(color: CustomColors.yellow200),
         color: Theme.of(context).buttonColor,
