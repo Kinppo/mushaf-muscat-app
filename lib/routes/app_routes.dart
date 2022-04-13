@@ -3,6 +3,7 @@ import 'package:mushafmuscat/screens/book_marks_screen.dart';
 
 import '../screens/ayah_screen.dart';
 import '../screens/quran_screen.dart';
+import '../screens/setting_appearance_screen.dart';
 import '../screens/setting_screen.dart';
 import '../screens/splash_screen.dart';
 import '../screens/unknown_screen.dart';
@@ -24,6 +25,10 @@ class AppRoutes {
         break;
       case SettingScreen.routeName:
         return MaterialPageRoute(builder: (_) => SettingScreen());
+        break;
+
+      case SettingAppearanceScreen.routeName:
+        return MaterialPageRoute(builder: (_) => SettingAppearanceScreen());
         break;
       default:
         return null;
