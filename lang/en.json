@@ -1,22 +1,33 @@
 {
-    "head_title": "",
-    "app_bar_title": "",
-    "undo": "الغاء ",
+    "head_title": "test",
+    "app_bar_title": "test",
+    "undo": "test",
 
+    "quran_screen_title": "test",
+    "quran_screen_navigation_bar_item1":"test",
+    "quran_screen_navigation_bar_item2":"test",
+    "quran_screen_navigation_bar_item3":"test",
+    "quran_screen_navigation_bar_item4":"test",
 
-    "quran_screen_title": "",
-    "quran_screen_navigation_bar_item1":"11",
-    "quran_screen_navigation_bar_item2":"11",
-    "quran_screen_navigation_bar_item3":"11",
-    "quran_screen_navigation_bar_item4":"11",
+    "book_marks_title": "test",
+    "book_marks_description":"test",
+    "book_marks_aya":"test",
+    "book_marks_delete_msg": "test",
 
-    "ayah_screen_title":"11",
+    "ayah_screen_title":"test",
 
-    "book_marks_title": "11",
-    "book_marks_description":"11",
-    "book_marks_aya":"11",
-    "book_marks_delete_msg": "Do you remove the Bookmark?",
+    "setting_screen_title":"test",
+    "setting_screen_appearance":"test",
+    "setting_screen_appearance_option1":"test",
+    "setting_screen_quran":"test",
+    "setting_screen_quran_option1":"test",
+    "setting_screen_storage":"test",
+    "setting_screen_storage_size":"test",
+    "setting_screen_about":"test",
+    "setting_screen_feedback":"test",
      
 
-    "dummy_text": ""
+
+
+    "dummy_text": "test"
 }

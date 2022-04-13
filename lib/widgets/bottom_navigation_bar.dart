@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mushafmuscat/screens/setting_screen.dart';
 
 import '../localization/app_localizations.dart';
 import '../screens/ayah_screen.dart';
@@ -50,6 +51,11 @@ class _BNavigationBarState extends State<BNavigationBar> {
 
             case 2:
               Navigator.of(context).pushReplacementNamed(AyahScreen.routeName);
+              break;
+
+            case 3:
+              Navigator.of(context)
+                  .pushReplacementNamed(SettingScreen.routeName);
               break;
 
             default:

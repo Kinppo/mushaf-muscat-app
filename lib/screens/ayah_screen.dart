@@ -26,76 +26,78 @@ class AyahScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             color: Theme.of(context).backgroundColor,
             padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
-            child: Column(
-              children: [
-                Text(
-                  AppLocalizations.of(context)!
-                      .translate('ayah_screen_title')
-                      .toString(),
-                  style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
-                ),
-                Container(
-                    margin: const EdgeInsets.only(top: 30),
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 22, vertical: 33),
-                    decoration: BoxDecoration(
-                        color: CustomColors.yellow150,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Column(
-                      children: [
-                        Text(_ayah.ayah,
-                            style: TextStyle(
-                                fontFamily: 'ScheherazadeNew',
-                                fontWeight: FontWeight.w700,
-                                fontSize: 24,
-                                color: CustomColors.black200)),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Align(
-                          child: Text(
-                            _ayah.surah,
-                            style: TextStyle(
-                                fontFamily: 'IBMPlexSansArabic',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
-                                color: CustomColors.brown400),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!
+                        .translate('ayah_screen_title')
+                        .toString(),
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
+                  Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 33),
+                      decoration: BoxDecoration(
+                          color: CustomColors.yellow150,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        children: [
+                          Text(_ayah.ayah,
+                              style: TextStyle(
+                                  fontFamily: 'ScheherazadeNew',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                  color: CustomColors.black200)),
+                          const SizedBox(
+                            height: 5,
                           ),
-                          alignment: Alignment.topRight,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Align(
-                          child: Text(
-                            _ayah.content,
-                            style: TextStyle(
-                                fontFamily: 'IBMPlexSansArabic',
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400,
-                                color: CustomColors.brown100),
+                          Align(
+                            child: Text(
+                              _ayah.surah,
+                              style: TextStyle(
+                                  fontFamily: 'IBMPlexSansArabic',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: CustomColors.brown400),
+                            ),
+                            alignment: Alignment.topRight,
                           ),
-                          alignment: Alignment.topRight,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border.all(color: CustomColors.yellow100),
-                            //color: CustomColors.brown100,
+                          const SizedBox(
+                            height: 5,
                           ),
-                          child: IconButton(
-                            icon: const Icon(MdiIcons.share),
-                            color: CustomColors.grey100,
-                            onPressed: () {},
+                          Align(
+                            child: Text(
+                              _ayah.content,
+                              style: TextStyle(
+                                  fontFamily: 'IBMPlexSansArabic',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: CustomColors.brown100),
+                            ),
+                            alignment: Alignment.topRight,
                           ),
-                        )
-                      ],
-                    )),
-              ],
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              border: Border.all(color: CustomColors.yellow100),
+                              //color: CustomColors.brown100,
+                            ),
+                            child: IconButton(
+                              icon: const Icon(MdiIcons.share),
+                              color: CustomColors.grey100,
+                              onPressed: () {},
+                            ),
+                          )
+                        ],
+                      )),
+                ],
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+              ),
             )));
   }
 }
