@@ -181,7 +181,7 @@ class _MainDrawerState extends State<MainDrawer> {
     return hint;
   }
 
-  Widget buildListTile(String surahNum, String surahTitle, String surahType,
+  Widget buildSurahListTile(String surahNum, String surahTitle, String surahType,
       String numOfAyas, Function tapHandler) {
     return segmentedControlValue == 0
         ? SurahsList(
@@ -200,6 +200,27 @@ class _MainDrawerState extends State<MainDrawer> {
     //     quarterPage: '٥');
 
     //SurahList();
+  }
+
+  Widget buildQuarterListTile(String num,
+  String aya,
+  String surah,
+  String juzz,
+  String quarterAya,
+  String quarterPage,
+  bool beginningIndex, Function tapHandler) {
+    return QuartersList(
+            num: num,
+      aya: aya,
+  surah: surah,
+  juzz: juzz,
+  quarterAya :quarterAya,
+  quarterPage:  quarterPage,
+  beginningIndex:beginningIndex,
+            
+            );
+        
+  
   }
 
   @override
@@ -306,28 +327,61 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
             ),
           ),
-          const Divider(height: 0,),
+          const Divider(
+            height: 0,
+          ),
+          if( segmentedControlValue == 0) ...[
           Expanded(
             child: ListView.builder(
-                    padding: EdgeInsets.zero,
-
+              padding: const EdgeInsets.only(top: 25),
               itemCount: _surah.length,
               itemBuilder: (ctx, i) {
                 return Column(
                   children: [
-                    buildListTile(
+                    buildSurahListTile(
                       _surah[i].surahNum,
                       _surah[i].surahTitle,
                       _surah[i].numOfAyas,
                       _surah[i].surahType,
                       () {},
                     ),
-                    const Divider(height: 20,),
+                    const Divider(
+                      height: 20,
+                    ),
                   ],
                 );
               },
             ),
           ),
+          ],
+
+          else if(segmentedControlValue == 1) [
+            Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 25),
+              itemCount: _quarter.length,
+              itemBuilder: (ctx, i) {
+                return Column(
+                  children: [
+                    buildQuarterListTile(
+                       num: _quarter[i].num,
+      aya: _quarter[i].aya,
+  surah: _quarter[i].surah,
+  juzz: _quarter[i].juzz,
+  quarterAya :_quarter[i].quarterAya,
+  quarterPage:  _quarter[i].quarterPage,
+  beginningIndex:_quarter[i].beginningIndex,
+                      () {},
+                    ),
+                    const Divider(
+                      height: 20,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
+          ],
 
           // buildListTile(true, "الأول", "٧", "مكية", "١", "الفاتحة", () {}),
           // const Divider(),

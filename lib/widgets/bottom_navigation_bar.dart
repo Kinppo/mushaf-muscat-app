@@ -7,6 +7,7 @@ import '../localization/app_localizations.dart';
 import '../screens/ayah_screen.dart';
 import '../screens/book_marks_screen.dart';
 import '../screens/quran_screen.dart';
+import '../resources/colors.dart';
 
 class BNavigationBar extends StatefulWidget {
   final int pageIndex;
@@ -23,14 +24,12 @@ class _BNavigationBarState extends State<BNavigationBar> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      //padding: EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+      padding: const EdgeInsets.only(top: 20),
       decoration: BoxDecoration(
-          border: Border(top: BorderSide(color: HexColor('#ebe4dd'), width: 1)),
-          color: Theme.of(context).buttonColor),
-      //color: Theme.of(context).buttonColor,
-      child: Center(
-          child: BottomNavigationBar(
+        border: Border.all(color: CustomColors.yellow200),
+        color: Theme.of(context).buttonColor,
+      ),
+      child: BottomNavigationBar(
         mouseCursor: SystemMouseCursors.grab,
         elevation: 0,
         backgroundColor: Theme.of(context).buttonColor,
@@ -111,7 +110,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
                 .toString(),
           ),
         ],
-      )),
+      ),
     );
   }
 }

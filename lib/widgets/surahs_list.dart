@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../resources/colors.dart';
 
 class SurahsList extends StatelessWidget {
   String num;
@@ -23,13 +24,13 @@ SurahsList({Key? key, required this.num, required this.title, required this. num
             title: Text(
               title,
               style: Theme.of(context).textTheme.headline1?.copyWith(
-                  color: const Color.fromRGBO(36, 28, 21,1),
+                  color: CustomColors.black200,
                   fontWeight: FontWeight.w600,
                   fontSize: 23),
             ),
             subtitle: Text("آياتها : $type   .   $numAya",
                 style:
-                    const TextStyle(color: Color.fromRGBO(148, 135, 121, 1.0))),
+                     TextStyle(color: CustomColors.grey200)),
             onTap: () {});
   }
 }
