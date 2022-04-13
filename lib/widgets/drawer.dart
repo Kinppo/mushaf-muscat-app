@@ -181,46 +181,34 @@ class _MainDrawerState extends State<MainDrawer> {
     return hint;
   }
 
-  Widget buildSurahListTile(String surahNum, String surahTitle, String surahType,
-      String numOfAyas, Function tapHandler) {
-    return segmentedControlValue == 0
-        ? SurahsList(
-            num: surahNum,
-            title: surahTitle,
-            numAya: numOfAyas,
-            type: surahType)
-        : Container();
-    // : QuartersList(
-    //     beginningIndex: beginningIndex,
-    //     num: num,
-    //     surah: title,
-    //     aya: 'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
-    //     juzz: juzz,
-    //     quarterAya: '٢٦',
-    //     quarterPage: '٥');
-
-    //SurahList();
+  Widget buildSurahListTile(String surahNum, String surahTitle,
+      String surahType, String numOfAyas, Function tapHandler) {
+    return SurahsList(
+        num: surahNum, title: surahTitle, numAya: numOfAyas, type: surahType);
   }
 
-  Widget buildQuarterListTile(String num,
-  String aya,
-  String surah,
-  String juzz,
-  String quarterAya,
-  String quarterPage,
-  bool beginningIndex, Function tapHandler) {
+  Widget buildQuarterListTile(
+      bool startingJuzzIndex,
+      bool startingHizbIndex,
+      int quarter,
+      String hizbNum,
+      String surahTitle,
+      String startingAya,
+      String juzz,
+      String quarterAyaNum,
+      String quarterPageNum,
+      Function tapHandler) {
     return QuartersList(
-            num: num,
-      aya: aya,
-  surah: surah,
-  juzz: juzz,
-  quarterAya :quarterAya,
-  quarterPage:  quarterPage,
-  beginningIndex:beginningIndex,
-            
-            );
-        
-  
+      startingJuzzIndex: startingJuzzIndex,
+      startingHizbIndex: startingHizbIndex,
+      quarter: quarter,
+      hizbNum: hizbNum,
+      surahTitle: surahTitle,
+      startingAya: startingAya,
+      juzz: juzz,
+      quarterAyaNum: quarterAyaNum,
+      quarterPageNum: quarterPageNum,
+    );
   }
 
   @override
@@ -330,58 +318,86 @@ class _MainDrawerState extends State<MainDrawer> {
           const Divider(
             height: 0,
           ),
-          if( segmentedControlValue == 0) ...[
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 25),
-              itemCount: _surah.length,
-              itemBuilder: (ctx, i) {
-                return Column(
-                  children: [
-                    buildSurahListTile(
-                      _surah[i].surahNum,
-                      _surah[i].surahTitle,
-                      _surah[i].numOfAyas,
-                      _surah[i].surahType,
-                      () {},
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                  ],
-                );
-              },
-            ),
-          ),
-          ]
-
-          else if(segmentedControlValue == 1)...[
+          if (segmentedControlValue == 0) ...[
             Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: 25),
-              itemCount: _quarter.length,
-              itemBuilder: (ctx, i) {
-                return Column(
-                  children: [
-                    buildQuarterListTile(
-                       num: _quarter[i].num,
-      aya: _quarter[i].aya,
-  surah: _quarter[i].surah,
-  juzz: _quarter[i].juzz,
-  quarterAya :_quarter[i].quarterAya,
-  quarterPage:  _quarter[i].quarterPage,
-  beginningIndex:_quarter[i].beginningIndex,
-                      () {},
-                    ),
-                    const Divider(
-                      height: 20,
-                    ),
-                  ],
-                );
-              },
+              child: ListView.builder(
+                padding: const EdgeInsets.only(top: 25),
+                itemCount: _surah.length,
+                itemBuilder: (ctx, i) {
+                  return Column(
+                    children: [
+                      buildSurahListTile(
+                        _surah[i].surahNum,
+                        _surah[i].surahTitle,
+                        _surah[i].numOfAyas,
+                        _surah[i].surahType,
+                        () {},
+                      ),
+                      const Divider(
+                        height: 20,
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
-          ),
+          ] else if (segmentedControlValue == 1) ...[
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.only(top: 25),
+                itemCount: _surah.length,
+                itemBuilder: (ctx, i) {
+                  return Column(
+                    children: [
+                      buildQuarterListTile(
+                        _quarter[i].startingJuzzIndex,
+                        _quarter[i].startingHizbIndex,
+                        _quarter[i].quarter,
+                        _quarter[i].hizbNum,
+                        _quarter[i].surahTitle,
+                        _quarter[i].startingAya,
+                        _quarter[i].juzz,
+                        _quarter[i].quarterAyaNum,
+                        _quarter[i].quarterPageNum,
+                        () {},
+                      ),
+                      const Divider(
+                        height: 20,
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
           ],
+
+          //         else if(segmentedControlValue == 1) [
+          //           Expanded(
+          //           child: ListView.builder(
+          //             padding: const EdgeInsets.only(top: 25),
+          //             itemCount: _quarter.length,
+          //             itemBuilder: (ctx, i) {
+          //               return Column(
+          //                 children: [
+          //                   buildQuarterListTile(
+          //                      num: _quarter[i].num,
+          //     aya: _quarter[i].aya,
+          // surah: _quarter[i].surah,
+          // juzz: _quarter[i].juzz,
+          // quarterAya :_quarter[i].quarterAya,
+          // quarterPage:  _quarter[i].quarterPage,
+          // beginningIndex:_quarter[i].beginningIndex,
+          //                     () {},
+          //                   ),
+          //                   const Divider(
+          //                     height: 20,
+          //                   ),
+          //                 ],
+          //               );
+          //             },
+          //           ),
+          //         ),
+          //         ],
 
           // buildListTile(true, "الأول", "٧", "مكية", "١", "الفاتحة", () {}),
           // const Divider(),
