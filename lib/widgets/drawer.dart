@@ -206,140 +206,145 @@ class _MainDrawerState extends State<MainDrawer> {
   Widget build(BuildContext context) {
     return Drawer(
       backgroundColor: Theme.of(context).backgroundColor,
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            Container(
-              //margin: EdgeInsets.all(16.0),
-              padding: const EdgeInsets.only(top: 80.0),
-              // width: 180,
+      child: Column(
+        children: <Widget>[
+          Container(
+            //margin: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top: 80.0),
+            // width: 180,
 
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  const SizedBox(
-                    width: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                const SizedBox(
+                  width: 70,
+                ),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(
+                    maxWidth: 200,
+                    minWidth: 180,
                   ),
-                  ConstrainedBox(
-                    constraints: const BoxConstraints(
-                      maxWidth: 200,
-                      minWidth: 180,
-                      
-                    ),
-                    child: Container(
-                      child: CupertinoSlidingSegmentedControl(
-                          groupValue: segmentedControlValue,
-                          backgroundColor: Theme.of(context).shadowColor,
-                          children: <int, Widget>{
-                            0: Text(
-                              'السور',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  ?.copyWith(
-                                    color: const Color.fromRGBO(105, 91, 77, 1),
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 17,
-                                  ),
-                            ),
-                            1: Text(
-                              'الأرباع',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .headline1
-                                  ?.copyWith(
-                                    color: const Color.fromRGBO(105, 91, 77, 1),
-                                    fontWeight: FontWeight.normal,
-                                    fontSize: 17,
-                                  ),
-                            ),
-                          },
-                          onValueChanged: (value) {
-                            setState(() {
-                              segmentedControlValue = value as int;
+                  child: Container(
+                    child: CupertinoSlidingSegmentedControl(
+                        groupValue: segmentedControlValue,
+                        backgroundColor: Theme.of(context).shadowColor,
+                        children: <int, Widget>{
+                          0: Text(
+                            'السور',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.copyWith(
+                                  color: const Color.fromRGBO(105, 91, 77, 1),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 17,
+                                ),
+                          ),
+                          1: Text(
+                            'الأرباع',
+                            style: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.copyWith(
+                                  color: const Color.fromRGBO(105, 91, 77, 1),
+                                  fontWeight: FontWeight.normal,
+                                  fontSize: 17,
+                                ),
+                          ),
+                        },
+                        onValueChanged: (value) {
+                          setState(() {
+                            segmentedControlValue = value as int;
 
-                              print(segmentedControlValue);
-                            });
-                          }),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  IconButton(
-                    iconSize: 28,
-                    onPressed: () {
-                      Navigator.of(context)
-                          .popAndPushNamed(QuranScreen.routeName);
-                    },
-                    icon: const Icon(Icons.cancel),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 80,
-              padding: const EdgeInsets.all(Dimens.px20),
-              child: TextField(
-                textAlign: TextAlign.right,
-                textAlignVertical: TextAlignVertical.bottom,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: const BorderSide(
-                      width: 0,
-                      style: BorderStyle.none,
-                    ),
-                  ),
-                  filled: true,
-                  fillColor: Theme.of(context).indicatorColor,
-                  prefixIcon: const Icon(Icons.search),
-                  iconColor: const Color.fromRGBO(148, 135, 121, 1),
-                  hintText: hintText(),
-                  hintStyle: const TextStyle(
-                    color: Color.fromRGBO(148, 135, 121, 1),
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+                            print(segmentedControlValue);
+                          });
+                        }),
                   ),
                 ),
-                style: const TextStyle(
+                const SizedBox(
+                  width: 5,
+                ),
+                IconButton(
+                  iconSize: 28,
+                  onPressed: () {
+                    Navigator.of(context)
+                        .popAndPushNamed(QuranScreen.routeName);
+                  },
+                  icon: const Icon(Icons.cancel),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            height: 80,
+            padding: const EdgeInsets.all(Dimens.px20),
+            child: TextField(
+              textAlign: TextAlign.right,
+              textAlignVertical: TextAlignVertical.bottom,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: const BorderSide(
+                    width: 0,
+                    style: BorderStyle.none,
+                  ),
+                ),
+                filled: true,
+                fillColor: Theme.of(context).indicatorColor,
+                prefixIcon: const Icon(Icons.search),
+                iconColor: const Color.fromRGBO(148, 135, 121, 1),
+                hintText: hintText(),
+                hintStyle: const TextStyle(
                   color: Color.fromRGBO(148, 135, 121, 1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
+              style: const TextStyle(
+                color: Color.fromRGBO(148, 135, 121, 1),
+              ),
             ),
-            const Divider(height: 0),
-            Expanded(
-              child: ListView.builder(
-                itemCount: 1,
-              
-                itemBuilder: (ctx, i) => const Text("dd")
-                // buildListTile(
-                //   _surah[i].surahNum,
-                //   _surah[i].surahTitle,
-                //   _surah[i].numOfAyas,
-                //   _surah[i].surahType,
-                //   () {},
-                // ),
-              ),),
-            
-            // buildListTile(true, "الأول", "٧", "مكية", "١", "الفاتحة", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "البقرة", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "آل عمران", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-            // const Divider(),
-            // buildListTile(true, "الثاني", "٧", "مكية", "١", "النساء", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-            // const Divider(),
-            // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-          ],
-        ),
+          ),
+          const Divider(height: 0,),
+          Expanded(
+            child: ListView.builder(
+                    padding: EdgeInsets.zero,
+
+              itemCount: _surah.length,
+              itemBuilder: (ctx, i) {
+                return Column(
+                  children: [
+                    buildListTile(
+                      _surah[i].surahNum,
+                      _surah[i].surahTitle,
+                      _surah[i].numOfAyas,
+                      _surah[i].surahType,
+                      () {},
+                    ),
+                    const Divider(height: 20,),
+                  ],
+                );
+              },
+            ),
+          ),
+
+          // buildListTile(true, "الأول", "٧", "مكية", "١", "الفاتحة", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "البقرة", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "آل عمران", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
+          // const Divider(),
+          // buildListTile(true, "الثاني", "٧", "مكية", "١", "النساء", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
+          // const Divider(),
+          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
+        ],
       ),
     );
   }

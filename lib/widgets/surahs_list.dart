@@ -27,7 +27,7 @@ SurahsList({Key? key, required this.num, required this.title, required this. num
                   fontWeight: FontWeight.w600,
                   fontSize: 23),
             ),
-            subtitle: Text("آياتها : $numAya   .   $type",
+            subtitle: Text("آياتها : $type   .   $numAya",
                 style:
                     const TextStyle(color: Color.fromRGBO(148, 135, 121, 1.0))),
             onTap: () {});
