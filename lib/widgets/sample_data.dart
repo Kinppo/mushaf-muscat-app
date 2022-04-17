@@ -3,49 +3,49 @@ import '../models/quarter.dart';
 
  List<Surah> surah = [
     Surah(
-      surahNum: "١",
+      surahPageNum: "١",
       surahTitle: "الفاتحة",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٢",
+      surahPageNum: "٢",
       surahTitle: "البقرة",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٣",
+      surahPageNum: "٥٠",
       surahTitle: "آل عمران",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٤",
+      surahPageNum: "٧٧",
       surahTitle: "النساء",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٥",
+      surahPageNum: "١٠٦",
       surahTitle: "المائدة",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٦",
+      surahPageNum: "١٢٨",
       surahTitle: "الأنعام",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٧",
+      surahPageNum: "٧٧",
       surahTitle: "النساء",
       surahType: "مكية",
       numOfAyas: "٧",
     ),
     Surah(
-      surahNum: "٨",
+      surahPageNum: "١٠٦",
       surahTitle: "المائدة",
       surahType: "مكية",
       numOfAyas: "٧",

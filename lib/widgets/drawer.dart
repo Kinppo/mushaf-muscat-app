@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mushafmuscat/resources/colors.dart';
 import 'package:mushafmuscat/screens/quran_screen.dart';
 import 'package:mushafmuscat/widgets/quarters_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mushafmuscat/models/surah.dart';
 import 'package:mushafmuscat/models/quarter.dart';
 
+import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
 import '../widgets/surahs_list.dart';
 import '../widgets/quarters_list.dart';
 import '../widgets/sample_data.dart';
-
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -19,10 +21,8 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  
   final List<Surah> _surah = surah;
-    final List<Quarter> _quarter = quarter;
-
+  final List<Quarter> _quarter = quarter;
 
   int segmentedControlValue = 0;
   String hint = 'البحث عن سورة';
@@ -30,9 +30,13 @@ class _MainDrawerState extends State<MainDrawer> {
   String hintText() {
     setState(() {
       if (segmentedControlValue == 0) {
-        hint = 'البحث عن سورة';
+        hint = AppLocalizations.of(context)!
+            .translate('drawer_screen_search_hint_surahs')
+            .toString();
       } else {
-        hint = 'البحث في الأجزاء (مثلا: ١٤)';
+        hint = AppLocalizations.of(context)!
+            .translate('drawer_screen_search_hint_quarters')
+            .toString();
       }
     });
 
@@ -97,7 +101,9 @@ class _MainDrawerState extends State<MainDrawer> {
                         backgroundColor: Theme.of(context).shadowColor,
                         children: <int, Widget>{
                           0: Text(
-                            'السور',
+                            AppLocalizations.of(context)!
+                                .translate('drawer_screen_switch_surahs')
+                                .toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
@@ -108,7 +114,9 @@ class _MainDrawerState extends State<MainDrawer> {
                                 ),
                           ),
                           1: Text(
-                            'الأرباع',
+                            AppLocalizations.of(context)!
+                                .translate('drawer_screen_switch_quarters')
+                                .toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1
@@ -179,13 +187,13 @@ class _MainDrawerState extends State<MainDrawer> {
           if (segmentedControlValue == 0) ...[
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.only(top: 25),
+                padding: const EdgeInsets.only(top: 20),
                 itemCount: _surah.length,
                 itemBuilder: (ctx, i) {
                   return Column(
                     children: [
                       buildSurahListTile(
-                        _surah[i].surahNum,
+                        _surah[i].surahPageNum,
                         _surah[i].surahTitle,
                         _surah[i].numOfAyas,
                         _surah[i].surahType,
@@ -202,7 +210,7 @@ class _MainDrawerState extends State<MainDrawer> {
           ] else if (segmentedControlValue == 1) ...[
             Expanded(
               child: ListView.builder(
-                padding: const EdgeInsets.only(top: 25),
+                padding: const EdgeInsets.only(top: 2),
                 itemCount: _surah.length,
                 itemBuilder: (ctx, i) {
                   return Column(
@@ -228,50 +236,6 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
             ),
           ],
-
-          //         else if(segmentedControlValue == 1) [
-          //           Expanded(
-          //           child: ListView.builder(
-          //             padding: const EdgeInsets.only(top: 25),
-          //             itemCount: _quarter.length,
-          //             itemBuilder: (ctx, i) {
-          //               return Column(
-          //                 children: [
-          //                   buildQuarterListTile(
-          //                      num: _quarter[i].num,
-          //     aya: _quarter[i].aya,
-          // surah: _quarter[i].surah,
-          // juzz: _quarter[i].juzz,
-          // quarterAya :_quarter[i].quarterAya,
-          // quarterPage:  _quarter[i].quarterPage,
-          // beginningIndex:_quarter[i].beginningIndex,
-          //                     () {},
-          //                   ),
-          //                   const Divider(
-          //                     height: 20,
-          //                   ),
-          //                 ],
-          //               );
-          //             },
-          //           ),
-          //         ),
-          //         ],
-
-          // buildListTile(true, "الأول", "٧", "مكية", "١", "الفاتحة", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "البقرة", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "آل عمران", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-          // const Divider(),
-          // buildListTile(true, "الثاني", "٧", "مكية", "١", "النساء", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
-          // const Divider(),
-          // buildListTile(false, "الأول", "٧", "مكية", "١", "النساء", () {}),
         ],
       ),
     );

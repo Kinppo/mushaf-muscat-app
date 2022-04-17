@@ -31,6 +31,11 @@
     "setting_screen_about":"test",
     "setting_screen_feedback":"test",
      
+     
+    "drawer_screen_switch_surahs": "test",
+    "drawer_screen_switch_quarters": "test",
+    "drawer_screen_search_hint_surahs": "test",
+    "drawer_screen_search_hint_quarters": "test",
 
 
 
