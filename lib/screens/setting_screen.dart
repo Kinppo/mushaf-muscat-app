@@ -18,23 +18,26 @@ class SettingScreen extends StatelessWidget {
         ),
         body: Container(
             width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
             color: Theme.of(context).backgroundColor,
             padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
-            child: Column(children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  AppLocalizations.of(context)!
-                      .translate('setting_screen_title')
-                      .toString(),
-                  style: const TextStyle(
-                      fontSize: 22, fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.right,
+            child: SingleChildScrollView(
+              child: Column(children: [
+                Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    AppLocalizations.of(context)!
+                        .translate('setting_screen_title')
+                        .toString(),
+                    style: const TextStyle(
+                        fontSize: 22, fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.right,
+                  ),
                 ),
-              ),
-              const SettingAppearance(),
-              const SettingStorage(),
-              const SettingAbout(),
-            ])));
+                const SettingAppearance(),
+                const SettingStorage(),
+                const SettingAbout(),
+              ]),
+            )));
   }
 }

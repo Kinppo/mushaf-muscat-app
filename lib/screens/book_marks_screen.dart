@@ -16,6 +16,9 @@ class BookMarksScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     return Scaffold(
       bottomNavigationBar: const BNavigationBar(
         pageIndex: 1,
@@ -34,40 +37,48 @@ class BookMarksScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             _bookMarks.isEmpty
-                ? Column(
-                    children: [
-                      const SizedBox(
-                        width: double.infinity,
-                        height: 60,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset("assets/images/mark3.svg"),
-                          Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 0, horizontal: 4),
-                              child:
-                                  SvgPicture.asset("assets/images/mark1.svg")),
-                          SvgPicture.asset("assets/images/mark2.svg")
-                        ],
-                      ),
-                      const SizedBox(
-                        width: double.infinity,
-                        height: 20,
-                      ),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          AppLocalizations.of(context)!
-                              .translate('book_marks_description')
-                              .toString(),
-                          style: const TextStyle(fontSize: 18),
-                          textAlign: TextAlign.center,
+                ? SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        if (_isLandscape)
+                          const SizedBox(
+                            width: double.infinity,
+                            height: 20,
+                          )
+                        else
+                          const SizedBox(
+                            width: double.infinity,
+                            height: 60,
+                          ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset("assets/images/mark3.svg"),
+                            Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 0, horizontal: 4),
+                                child: SvgPicture.asset(
+                                    "assets/images/mark1.svg")),
+                            SvgPicture.asset("assets/images/mark2.svg")
+                          ],
                         ),
-                      )
-                    ],
+                        const SizedBox(
+                          width: double.infinity,
+                          height: 20,
+                        ),
+                        Align(
+                          alignment: Alignment.center,
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .translate('book_marks_description')
+                                .toString(),
+                            style: const TextStyle(fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        )
+                      ],
+                    ),
                   )
                 : Expanded(
                     child: ListView.builder(
