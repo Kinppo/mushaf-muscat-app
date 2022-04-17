@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
 import '../localization/app_localizations.dart';
+import '../providers/theme_provider.dart';
 import '../resources/colors.dart';
 
 class SettingAppearanceScreen extends StatefulWidget {
@@ -11,21 +13,23 @@ class SettingAppearanceScreen extends StatefulWidget {
       _SettingAppearanceScreenState();
 }
 
-void setState(Null Function() param0) {}
-
 class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
-  late int selectedRadio;
-
-  setSelectedRadio(int val) {
-    setState(() {
-      selectedRadio = val;
-    });
-  }
+  String selectedRadio = 'system';
+  var _isInit = true;
 
   @override
   void initState() {
     super.initState();
-    selectedRadio = 1;
+    selectedRadio = 'system';
+  }
+
+  @override
+  void didChangeDependencies() {
+    String currentTheme = Provider.of<ThemeProvider>(context).currentTheme;
+    setState(() {
+      selectedRadio = currentTheme;
+    });
+    super.didChangeDependencies();
   }
 
   @override
@@ -50,77 +54,96 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
         child: Column(
           children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
-              padding: const EdgeInsets.fromLTRB(0, 5, 10, 10),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(7),
-                  color: CustomColors.yellow150),
-              child: Column(
-                children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppLocalizations.of(context)!
-                              .translate('setting_screen_appearance_option2')
-                              .toString(),
-                          style: const TextStyle(fontWeight: FontWeight.w700),
-                        ),
-                        Radio(
-                            value: 2,
-                            groupValue: selectedRadio,
-                            onChanged: (value) => {}),
-                      ]),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Divider(
-                      height: 1,
-                      color: CustomColors.yellow200,
-                      thickness: 1,
-                    ),
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
+            Consumer<ThemeProvider>(builder: (context, provider, child) {
+              return Container(
+                width: MediaQuery.of(context).size.width,
+                margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
+                padding: const EdgeInsets.fromLTRB(0, 5, 10, 10),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: CustomColors.yellow150),
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
                             AppLocalizations.of(context)!
-                                .translate('setting_screen_appearance_option1')
+                                .translate('setting_screen_appearance_system')
                                 .toString(),
-                            style:
-                                const TextStyle(fontWeight: FontWeight.w700)),
-                        Radio(
-                            activeColor: CustomColors.brown600,
-                            value: 1,
-                            groupValue: selectedRadio,
-                            onChanged: (value) => {}),
-                      ]),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Divider(
-                      height: 1,
-                      color: CustomColors.yellow200,
-                      thickness: 1,
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          Radio(
+                              value: 'system',
+                              activeColor: CustomColors.brown600,
+                              groupValue: selectedRadio,
+                              onChanged: (value) => {
+                                    setState(() {
+                                      selectedRadio = value as String;
+                                    }),
+                                    provider.changeTheme(value as String)
+                                  }),
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Divider(
+                        height: 1,
+                        color: CustomColors.yellow200,
+                        thickness: 1,
+                      ),
                     ),
-                  ),
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                            AppLocalizations.of(context)!
-                                .translate('setting_screen_appearance_option3')
-                                .toString(),
-                            style:
-                                const TextStyle(fontWeight: FontWeight.w700)),
-                        Radio(
-                            value: 3,
-                            groupValue: selectedRadio,
-                            onChanged: (value) => {}),
-                      ]),
-                ],
-              ),
-            ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .translate('setting_screen_appearance_light')
+                                  .toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w700)),
+                          Radio(
+                              activeColor: CustomColors.brown600,
+                              value: 'light',
+                              groupValue: selectedRadio,
+                              onChanged: (value) => {
+                                    setState(() {
+                                      selectedRadio = value as String;
+                                    }),
+                                    provider.changeTheme(value as String)
+                                  }),
+                        ]),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Divider(
+                        height: 1,
+                        color: CustomColors.yellow200,
+                        thickness: 1,
+                      ),
+                    ),
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                              AppLocalizations.of(context)!
+                                  .translate('setting_screen_appearance_dark')
+                                  .toString(),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w700)),
+                          Radio(
+                              value: 'dark',
+                              activeColor: CustomColors.brown600,
+                              groupValue: selectedRadio,
+                              onChanged: (value) => {
+                                    setState(() {
+                                      selectedRadio = value as String;
+                                    }),
+                                    provider.changeTheme(value as String)
+                                  }),
+                        ]),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
