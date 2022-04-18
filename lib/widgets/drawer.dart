@@ -5,14 +5,14 @@ import 'package:mushafmuscat/widgets/quarters_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mushafmuscat/models/surah.dart';
 import 'package:mushafmuscat/models/quarter.dart';
-import 'package:mushafmuscat/widgets/search_bar.dart';
+import 'package:mushafmuscat/widgets/quran_screen_search_bar.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
 import '../widgets/surahs_list.dart';
 import '../widgets/quarters_list.dart';
 import '../widgets/sample_data.dart';
-import '../widgets/search_bar.dart';
+import 'drawer_screen_search_bar.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -155,33 +155,8 @@ class _MainDrawerState extends State<MainDrawer> {
             width: double.infinity,
             height: 80,
             padding: const EdgeInsets.all(Dimens.px20),
-            child: searchBar(hint: hintText()),
-            // child: TextField(
-            //   textAlign: TextAlign.right,
-            //   textAlignVertical: TextAlignVertical.bottom,
-            //   decoration: InputDecoration(
-            //     border: OutlineInputBorder(
-            //       borderRadius: BorderRadius.circular(10.0),
-            //       borderSide: const BorderSide(
-            //         width: 0,
-            //         style: BorderStyle.none,
-            //       ),
-            //     ),
-            //     filled: true,
-            //     fillColor: Theme.of(context).indicatorColor,
-            //     prefixIcon: const Icon(Icons.search),
-            //     iconColor: const Color.fromRGBO(148, 135, 121, 1),
-            //     hintText: hintText(),
-            //     hintStyle: const TextStyle(
-            //       color: Color.fromRGBO(148, 135, 121, 1),
-            //       fontSize: 16,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            //   style: const TextStyle(
-            //     color: Color.fromRGBO(148, 135, 121, 1),
-            //   ),
-            // ),
+            child: drawerSearchBar(hint: hintText()),
+            
           ),
           const Divider(
             height: 0,

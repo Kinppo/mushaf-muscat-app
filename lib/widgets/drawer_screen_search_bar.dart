@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
-class searchBar extends StatelessWidget {
+class drawerSearchBar extends StatelessWidget {
   String hint;
 
-  searchBar({
-    Key? key,
+
+  drawerSearchBar({
+     Key? key,
     required this.hint,
   }) : super(key: key);
   @override
