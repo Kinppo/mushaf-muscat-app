@@ -4,9 +4,12 @@ import 'package:hexcolor/hexcolor.dart';
 import '../screens/book_marks_screen.dart';
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
-// import '../widgets/appbar.dart';
+import '../resources/colors.dart';
+ import '../widgets/search_bar.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
+
+
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -26,16 +29,39 @@ class _QuranScreenState extends State<QuranScreen> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _showAppBar
-          ? AppBar(
-              backgroundColor: Theme.of(context).primaryColor,
-              title: Text(
-                AppLocalizations.of(context)!
-                    .translate('quran_screen_title')
-                    .toString(),
-                style: Theme.of(context).textTheme.headline1,
-              ),
-            )
-          : PreferredSize(
+      ? AppBar(
+          leading: Builder(
+          builder: (context) => IconButton(
+            icon: Icon(Icons.menu_rounded),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),),
+    iconTheme:IconThemeData(color: Theme.of(context).scaffoldBackgroundColor),
+    toolbarHeight: 120, // Set this height
+    flexibleSpace: Container(
+                  padding: const EdgeInsets.all(30),
+
+      color: CustomColors.yellow500,
+      child: Column(
+        children: [Container(),
+            Container(
+            padding: const EdgeInsets.only(top:10),
+            width: double.infinity,
+            height: 40,
+            child: searchBar(hint: "البحث",),
+          ),
+        ],
+      ), ), ):
+   
+          // ? AppBar(
+          //     backgroundColor: Theme.of(context).primaryColor,
+          //     title: Text(
+          //       AppLocalizations.of(context)!
+          //           .translate('quran_screen_title')
+          //           .toString(),
+          //       style: Theme.of(context).textTheme.headline1,
+          //     ),
+          //   )
+            PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
             ),

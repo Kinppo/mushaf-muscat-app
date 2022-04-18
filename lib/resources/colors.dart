@@ -12,6 +12,8 @@ class CustomColors {
   static Color yellow200 = HexColor('#ebe4dd');
   static Color yellow300 = HexColor('#edc671');
   static Color yellow400 = HexColor('#f5c561');
+  static Color yellow500 = HexColor('#faf6f2');
+
 
   static Color green100 = HexColor('#b3c1aa');
 
@@ -26,6 +28,7 @@ class CustomColors {
   static Color red400 = HexColor('#db0f00');
 
   static Color brown100 = HexColor('#453d35');
+  static Color brown200 =HexColor('#e3d8cc');
   static Color brown400 = HexColor('#8c5a27');
   static Color brown500 = HexColor('#bdb0a4');
   static Color brown600 = HexColor('#996a39');

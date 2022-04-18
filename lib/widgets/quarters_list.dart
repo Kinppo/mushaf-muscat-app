@@ -35,6 +35,7 @@ class QuartersList extends StatelessWidget {
       } else if (quarter == 4) {
         return MdiIcons.circleSlice6;
       }
+      return null;
     }
 
     return Column(
@@ -71,19 +72,17 @@ class QuartersList extends StatelessWidget {
                       color: CustomColors.brown500,
                     ),
                   ),
-
-     
             title: Text(
               startingAya,
               style: Theme.of(context).textTheme.headline1?.copyWith(
-                  color: const Color.fromRGBO(36, 28, 21, 1),
+                  color: CustomColors.black200,
                   fontWeight: FontWeight.normal,
                   fontSize: 22),
             ),
             subtitle: Text(
-                "$surahTitle $quarterAyaNum  .  الصفحة $quarterPageNum ",
-                style:
-                    const TextStyle(color: Color.fromRGBO(148, 135, 121, 1.0))),
+              "$surahTitle $quarterAyaNum  .  الصفحة $quarterPageNum ",
+              style: TextStyle(color: CustomColors.grey200),
+            ),
             onTap: () {}),
       ],
     );
