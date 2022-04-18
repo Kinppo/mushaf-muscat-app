@@ -2,6 +2,8 @@
     "head_title": "test",
     "app_bar_title": "test",
     "undo": "test",
+    "app_version": "test",
+
 
     "quran_screen_title": "test",
     "quran_screen_navigation_bar_item1":"test",
@@ -30,6 +32,8 @@
     "setting_screen_storage_size":"test",
     "setting_screen_about":"test",
     "setting_screen_feedback":"test",
+
+    "about_screen_details":"test",
      
      
     "drawer_screen_switch_surahs": "test",

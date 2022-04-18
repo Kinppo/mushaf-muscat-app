@@ -3,6 +3,8 @@
     "head_title": "مرحبا, هذا نص مترجم.",
     "app_bar_title": "ترجمة",
     "undo": "الغاء ",
+    "app_version": "الاصدار ١.٢",
+    
 
     "quran_screen_title": "القرآن",
     "quran_screen_navigation_bar_item1":"القرآن",
@@ -32,12 +34,12 @@
     "setting_screen_about":"عن التطبيق",
     "setting_screen_feedback":"شاركنا رأيك",
 
+    "about_screen_details":" تساعدك علامات الرجوع في تنظيم خططك في حفظ وقرائة ومراجعة القرآن   تساعدك علامات الرجوع في تنظيم خططك في حفظ وقرائة ومراجعة القرآن ",
 
     "drawer_screen_switch_surahs": "السور",
     "drawer_screen_switch_quarters": "الأرباع",
     "drawer_screen_search_hint_surahs": "البحث عن سورة",
     "drawer_screen_search_hint_quarters": "البحث في الأجزاء (مثلا: ١٤)",
-
 
 
 

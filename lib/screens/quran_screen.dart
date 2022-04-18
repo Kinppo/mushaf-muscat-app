@@ -42,9 +42,9 @@ class _QuranScreenState extends State<QuranScreen> {
 
       color: CustomColors.yellow500,
       child: Column(
-        children: [Container(),
+        children: [SizedBox(height: 40,),
             Container(
-            padding: const EdgeInsets.only(top:10),
+            padding: const EdgeInsets.only(top:50),
             width: double.infinity,
             height: 40,
             child: searchBar(hint: "البحث",),
