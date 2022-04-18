@@ -36,7 +36,7 @@ class SettingScreen extends StatelessWidget {
                 ),
                 const SettingAppearance(),
                 const SettingStorage(),
-                const SettingAbout(),
+                SettingAbout(),
               ]),
             )));
   }

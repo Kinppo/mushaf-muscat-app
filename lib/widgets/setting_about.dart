@@ -1,11 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mushafmuscat/screens/about_app_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
+String? encodeQueryParameters(Map<String, String> params) {
+  return params.entries
+      .map((e) =>
+          '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      .join('&');
+}
+
 class SettingAbout extends StatelessWidget {
-  const SettingAbout({Key? key}) : super(key: key);
+  final Uri emailLaunchUri = Uri(
+    scheme: 'mailto',
+    path: 'smith@example.com',
+    query: encodeQueryParameters(
+        <String, String>{'subject': 'Example Subject & Symbols are allowed!'}),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -17,37 +31,41 @@ class SettingAbout extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 30),
       padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
       child: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  MdiIcons.helpCircle,
+        GestureDetector(
+          onTap: () =>
+              {Navigator.of(context).pushNamed(AboutAppScreen.routeName)},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    MdiIcons.helpCircle,
+                    color: CustomColors.grey200,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!
+                        .translate('setting_screen_about')
+                        .toString(),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: CustomColors.black200),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Icon(
+                  MdiIcons.chevronLeft,
                   color: CustomColors.grey200,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  AppLocalizations.of(context)!
-                      .translate('setting_screen_about')
-                      .toString(),
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: CustomColors.black200),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Icon(
-                MdiIcons.chevronLeft,
-                color: CustomColors.grey200,
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
         Padding(
           padding: const EdgeInsets.only(top: 10),
@@ -60,37 +78,41 @@ class SettingAbout extends StatelessWidget {
         SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  MdiIcons.messageAlert,
+        GestureDetector(
+          onTap: () =>
+              {launch("mailto:shaban.mohamed@etco.om?subject=test&body=test")},
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    MdiIcons.messageAlert,
+                    color: CustomColors.grey200,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!
+                        .translate('setting_screen_feedback')
+                        .toString(),
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: CustomColors.black200),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Icon(
+                  MdiIcons.chevronLeft,
                   color: CustomColors.grey200,
                 ),
-                const SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  AppLocalizations.of(context)!
-                      .translate('setting_screen_feedback')
-                      .toString(),
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: CustomColors.black200),
-                )
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Icon(
-                MdiIcons.chevronLeft,
-                color: CustomColors.grey200,
               ),
-            ),
-          ],
+            ],
+          ),
         )
       ]),
     );

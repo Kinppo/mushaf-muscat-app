@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../screens/about_app_screen.dart';
 import '../screens/book_marks_screen.dart';
 import '../screens/ayah_screen.dart';
 import '../screens/quran_screen.dart';
@@ -34,6 +35,11 @@ class AppRoutes {
       case SettingAppearanceScreen.routeName:
         return MaterialPageRoute(builder: (_) => SettingAppearanceScreen());
         break;
+
+      case AboutAppScreen.routeName:
+        return MaterialPageRoute(builder: (_) => AboutAppScreen());
+        break;
+
       default:
         return null;
     }
