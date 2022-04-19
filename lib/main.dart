@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mushafmuscat/screens/splash_screen.dart';
-import 'package:mushafmuscat/themes/app_themes.dart';
+import 'package:mushafmuscat/providers/bookMarks_provider.dart';
+
 import 'package:provider/provider.dart';
+import 'localization/app_localizations_setup.dart';
 
 import './routes/app_routes.dart';
+import '../screens/splash_screen.dart';
+import '../themes/app_themes.dart';
 import './providers/theme_provider.dart';
-import 'localization/app_localizations_setup.dart';
 
 //temp
 import './screens/quran_screen.dart';
@@ -21,20 +23,29 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Consumer<ThemeProvider>(builder: (context, provider, child) {
-      return MaterialApp(
-        title: 'Flutter Demo',
-        onGenerateRoute: AppRoutes.onGenerateRoute,
-        onUnknownRoute: AppRoutes.onUnkownRoute,
-        supportedLocales: AppLocalizationsSetup.supportedLocales,
-        localizationsDelegates: AppLocalizationsSetup.localizationsDelegates,
-        locale: const Locale('ar'),
-        theme: AppThemes.lightTheme,
-        darkTheme: AppThemes.darkTheme,
-        themeMode: provider.themeMode,
-        //home: const SplashScreen(),
-        home: QuranScreen(),
-      );
-    });
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (ctx) => BookMarks(),
+          ),
+        ],
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            return MaterialApp(
+              title: 'Flutter Demo',
+              onGenerateRoute: AppRoutes.onGenerateRoute,
+              onUnknownRoute: AppRoutes.onUnkownRoute,
+              supportedLocales: AppLocalizationsSetup.supportedLocales,
+              localizationsDelegates:
+                  AppLocalizationsSetup.localizationsDelegates,
+              locale: const Locale('ar'),
+              theme: AppThemes.lightTheme,
+              darkTheme: AppThemes.darkTheme,
+              themeMode: themeProvider.themeMode,
+              //home: const SplashScreen(),
+              home: QuranScreen(),
+            );
+          },
+        ));
   }
 }
