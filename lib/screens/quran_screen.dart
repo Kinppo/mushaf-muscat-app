@@ -13,6 +13,7 @@ import '../resources/colors.dart';
 import '../widgets/quran_screen_search_bar.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
+import '../providers/app_state.dart';
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -34,7 +35,6 @@ class _QuranScreenState extends State<QuranScreen> {
 
   // final toggleAppBar = return
   //GlobalKey<QuranSearchBarState> segmentGlobalKey = new GlobalKey<QuranSearchBarState>();
-  final _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class _QuranScreenState extends State<QuranScreen> {
                       width: double.infinity,
                       height: 50,
                       child: QuranSearchBar(
-                        hint: "البحث",
+                       "البحث", 
                       ),
                     ),
                   ],
