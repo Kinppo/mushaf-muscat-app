@@ -8,7 +8,7 @@ import '../resources/colors.dart';
 class BookMarkItem extends StatelessWidget {
   final String page;
   final String aya;
-  final int type;
+  final String type;
   final String id;
 
   BookMarkItem(
@@ -82,9 +82,9 @@ class BookMarkItem extends StatelessWidget {
           child: ListTile(
             leading: Icon(
               MdiIcons.bookmark,
-              color: type == 1
+              color: type == "1"
                   ? CustomColors.yellow400
-                  : type == 2
+                  : type == "2"
                       ? CustomColors.red400
                       : CustomColors.pink100,
               size: 31,

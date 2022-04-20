@@ -18,21 +18,28 @@ import '../providers/app_state.dart';
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
 
-
-
   @override
   State<QuranScreen> createState() => _QuranScreenState();
-
 }
 
-
 class _QuranScreenState extends State<QuranScreen> {
+  GlobalKey<_QuranScreenState> myKey = GlobalKey();
 
   bool _showAppBar = true;
   bool _showNavBar = true;
   int segmentedControlValue = 0;
   bool orientationPotrait = true;
+  bool toggleSearch = false;
 
+  // void searchController(bool handle) {
+  //   setState(() {
+  //     toggleSearch = !toggleSearch;
+  //   });
+  // }
+
+  // void myNumber() {
+  //   print("hello");
+  // }
   // final toggleAppBar = return
   //GlobalKey<QuranSearchBarState> segmentGlobalKey = new GlobalKey<QuranSearchBarState>();
 
@@ -144,25 +151,22 @@ class _QuranScreenState extends State<QuranScreen> {
                       width: double.infinity,
                       height: 50,
                       child: QuranSearchBar(
-                       "البحث", 
+                        hint: 'البحث',
+                        searchController: () => {
+                          setState(
+                            () {
+                              toggleSearch = !toggleSearch;
+                              print(toggleSearch);
+                            },
+                          ),
+                        },
                       ),
                     ),
                   ],
                 ),
               ),
             )
-          :
-
-          // ? AppBar(
-          //     backgroundColor: Theme.of(context).primaryColor,
-          //     title: Text(
-          //       AppLocalizations.of(context)!
-          //           .translate('quran_screen_title')
-          //           .toString(),
-          //       style: Theme.of(context).textTheme.headline1,
-          //     ),
-          //   )
-          PreferredSize(
+          : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
             ),
@@ -176,13 +180,13 @@ class _QuranScreenState extends State<QuranScreen> {
             ),
       drawer: Container(
         width: double.infinity,
-        child: MainDrawer(),
+        child: const MainDrawer(),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
             GestureDetector(
-                child: (segmentedControlValue == 0)
+                child: (segmentedControlValue == 0 && toggleSearch == false)
                     ? Container(
                         padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
@@ -193,14 +197,29 @@ class _QuranScreenState extends State<QuranScreen> {
                               .toString()),
                         ),
                       )
-                    : (segmentedControlValue == 0)
-                        ? Container(
-                            color: Theme.of(context).backgroundColor,
-                            child: Text("Tafsir"),
-                          )
-                        : Container(
-                            color: Theme.of(context).backgroundColor,
+                    : (segmentedControlValue == 1 && toggleSearch == false)
+                        ?Expanded(
+                          child: Container(
+                          padding: const EdgeInsets.all(Dimens.px22),
+                          color: CustomColors.yellow500,
+                          width: double.infinity,
+                          child: SizedBox.expand(
+                            child:  Text("Tafsir"),
                           ),
+                                              
+                        
+                                 
+                              
+                          ),
+                        )
+                        // if user is searching
+                        : (toggleSearch == true)
+                            ? Container(
+                                color: CustomColors.yellow500,
+                              )
+                            : Container(
+                                color: CustomColors.yellow500,
+                              ),
                 onTap: () {
                   setState(() {
                     _showAppBar = !_showAppBar;

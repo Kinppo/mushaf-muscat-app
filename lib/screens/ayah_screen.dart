@@ -83,6 +83,9 @@ class AyahScreen extends StatelessWidget {
                             ),
                             alignment: Alignment.topRight,
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),

@@ -2,25 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:mushafmuscat/providers/app_state.dart';
 
 class QuranSearchBar extends StatefulWidget {
+
   String hint;
+  final VoidCallback searchController;
 
-
-
-
+QuranSearchBar({ Key? key, required this.hint, required this.searchController}) : super(key: key);
 
   @override
   State<QuranSearchBar> createState() => QuranSearchBarState();
-QuranSearchBar( this.hint, {Key? key}) : super(key: key);
 
 }
 
 class QuranSearchBarState extends State<QuranSearchBar> {
+  bool isStillSearching = false;
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context,) {
     return TextField(
-      onChanged: () {
-        AppProvider.updateSearchController()
-      },
+
+      onChanged: (text) {
+        print(text);
+        if (isStillSearching== false) {
+            widget.searchController();
+            isStillSearching= true;
+        }
+
+        //myNumber();
+
+      //   key.currentState.myNumber();
+       
+
+      // print("text $text");
+   },
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
@@ -47,4 +60,7 @@ class QuranSearchBarState extends State<QuranSearchBar> {
       ),
     );
   }
+
 }
+
+
