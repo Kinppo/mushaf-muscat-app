@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:mushafmuscat/widgets/book_mark_grid.dart';
 import 'package:provider/provider.dart';
 
@@ -15,6 +16,13 @@ class BookMarksScreen extends StatefulWidget {
 class _BookMarksScreenState extends State<BookMarksScreen> {
   var _isInit = true;
   var _isLoading = false;
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    //Hive.box('bookMarks').close();
+    super.dispose();
+  }
 
   @override
   void didChangeDependencies() {
