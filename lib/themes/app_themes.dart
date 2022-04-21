@@ -4,7 +4,7 @@ import 'package:hexcolor/hexcolor.dart';
 class AppThemes {
   static final ThemeData lightTheme = ThemeData(
       primaryColor: HexColor('#e3d8cc'),
-      scaffoldBackgroundColor: HexColor('#241c15'),
+      scaffoldBackgroundColor: HexColor('#faf6f2'),
       accentColor: HexColor('#c7beb5'),
       buttonColor: HexColor('#ffffff'),
       textSelectionColor: HexColor('#db0f00'),

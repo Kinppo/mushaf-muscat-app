@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:mushafmuscat/providers/app_state.dart';
+import 'package:mushafmuscat/resources/colors.dart';
 
 class QuranSearchBar extends StatefulWidget {
 
-  String hint;
-  final VoidCallback searchController;
+   Function searchController;
 
-QuranSearchBar({ Key? key, required this.hint, required this.searchController}) : super(key: key);
+QuranSearchBar({ Key? key,  required this.searchController}) : super(key: key);
 
   @override
   State<QuranSearchBar> createState() => QuranSearchBarState();
@@ -16,24 +15,32 @@ QuranSearchBar({ Key? key, required this.hint, required this.searchController}) 
 class QuranSearchBarState extends State<QuranSearchBar> {
   bool isStillSearching = false;
 
+
   @override
   Widget build(BuildContext context,) {
     return TextField(
 
       onChanged: (text) {
-        print(text);
+        setState(() {
+          print(text);
         if (isStillSearching== false) {
-            widget.searchController();
             isStillSearching= true;
+            widget.searchController(isStillSearching);
+
         }
 
-        //myNumber();
+        else if (isStillSearching== true && text=='' ) {
+          isStillSearching=false;
+           widget.searchController(isStillSearching);
+        }
 
-      //   key.currentState.myNumber();
-       
-
-      // print("text $text");
+        });
+        
    },
+
+   onSubmitted: (text) {},
+   onEditingComplete: () {},
+
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
@@ -46,17 +53,17 @@ class QuranSearchBarState extends State<QuranSearchBar> {
         ),
         filled: true,
         fillColor: Theme.of(context).indicatorColor,
-        prefixIcon: const Icon(Icons.search),
-        iconColor: const Color.fromRGBO(148, 135, 121, 1),
-        hintText: widget.hint,
-        hintStyle: const TextStyle(
-          color: Color.fromRGBO(148, 135, 121, 1),
+        prefixIcon:  Icon(Icons.search ,color: CustomColors.grey200),
+        iconColor: CustomColors.grey200,
+        hintText:  "البحث",
+        hintStyle:  TextStyle(
+          color: CustomColors.grey200,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
       ),
-      style: const TextStyle(
-        color: Color.fromRGBO(148, 135, 121, 1),
+      style:  TextStyle(
+        color: CustomColors.grey200,
       ),
     );
   }

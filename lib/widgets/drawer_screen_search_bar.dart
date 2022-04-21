@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../resources/colors.dart';
+
 class drawerSearchBar extends StatelessWidget {
   String hint;
 
@@ -24,10 +26,10 @@ class drawerSearchBar extends StatelessWidget {
         filled: true,
         fillColor: Theme.of(context).indicatorColor,
         prefixIcon: const Icon(Icons.search),
-        iconColor: const Color.fromRGBO(148, 135, 121, 1),
+        iconColor: CustomColors.grey200,
         hintText: hint,
-        hintStyle: const TextStyle(
-          color: Color.fromRGBO(148, 135, 121, 1),
+        hintStyle:  TextStyle(
+          color: CustomColors.grey200,
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
