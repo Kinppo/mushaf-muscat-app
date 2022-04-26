@@ -1,15 +1,23 @@
 class Surah {
-  String surahPageNum;
-  String surahTitle;
-  String surahType;
-  String numOfAyas;
+  String? surahNum;
+  String? surahPageNum;
+  String? surahTitle;
+  String? surahType;
+  String? numOfAyas;
 
   Surah({
-    required this.surahPageNum,
-    required this.surahTitle,
-    required this.surahType,
-    required this.numOfAyas,
+    this.surahNum,
+    this.surahPageNum,
+    this.surahTitle,
+    this.surahType,
+    this.numOfAyas,
   });
+
+  // @override
+  // String toString() {
+  //   return '{surahNum: ${surahNum}, surahPageNum: ${surahPageNum},  surahTitle: ${surahTitle},  surahType: ${surahType},numOfAyas: ${numOfAyas}}';
+  // }
+//  @override
+//   String toString() => '${surahNum}';
+
 }
-
-

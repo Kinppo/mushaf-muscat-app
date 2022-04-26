@@ -1,0 +1,916 @@
+{
+    "data": [
+        {
+            "number": "1",
+            "name": "سُورَةُ ٱلْفَاتِحَةِ",
+            "englishName": "Al-Faatiha",
+            "numberOfAyahs": "7",
+            "revelationType": "مكية",
+            "first_page_num": "1"
+        },
+        {
+            "number": "2",
+            "name": "سُورَةُ البَقَرَةِ",
+            "englishName": "Al-Baqara",
+            "numberOfAyahs": "286",
+            "revelationType": "مدنية",
+            "first_page_num": "2"
+        },
+        {
+            "number": "3",
+            "name": "سُورَةُ آلِ عِمۡرَانَ",
+            "englishName": "Aal-i-Imraan",
+            "numberOfAyahs": "200",
+            "revelationType": "مدنية",
+            "first_page_num": "50"
+        },
+        {
+            "number": "4",
+            "name": "سُورَةُ النِّسَاءِ",
+            "englishName": "An-Nisaa",
+            "numberOfAyahs": "176",
+            "revelationType": "مدنية",
+            "first_page_num": "77"
+        },
+        {
+            "number": "5",
+            "name": "سُورَةُ المَائـِدَةِ",
+            "englishName": "Al-Maaida",
+            "numberOfAyahs": "120",
+            "revelationType": "مدنية",
+            "first_page_num": "106"
+        },
+        {
+            "number": "6",
+            "name": "سُورَةُ الأَنۡعَامِ",
+            "englishName": "Al-An'aam",
+            "numberOfAyahs": "165",
+            "revelationType": "مكية",
+            "first_page_num": "128"
+        },
+        {
+            "number": "7",
+            "name": "سُورَةُ الأَعۡرَافِ",
+            "englishName": "Al-A'raaf",
+            "numberOfAyahs": "206",
+            "revelationType": "مكية",
+            "first_page_num": "151"
+        },
+        {
+            "number": "8",
+            "name": "سُورَةُ الأَنفَالِ",
+            "englishName": "Al-Anfaal",
+            "numberOfAyahs": "75",
+            "revelationType": "مدنية",
+            "first_page_num": "177"
+        },
+        {
+            "number": "9",
+            "name": "سُورَةُ التَّوۡبَةِ",
+            "englishName": "At-Tawba",
+            "numberOfAyahs": "129",
+            "revelationType": "مدنية",
+            "first_page_num": "187"
+        },
+        {
+            "number": "10",
+            "name": "سُورَةُ يُونُسَ",
+            "englishName": "Yunus",
+            "numberOfAyahs": "109",
+            "revelationType": "مكية",
+            "first_page_num": "208"
+        },
+        {
+            "number": "11",
+            "name": "سُورَةُ هُودٍ",
+            "englishName": "Hud",
+            "numberOfAyahs": "123",
+            "revelationType": "مكية",
+            "first_page_num": "221"
+        },
+        {
+            "number": "12",
+            "name": "سُورَةُ يُوسُفَ",
+            "englishName": "Yusuf",
+            "numberOfAyahs": "111",
+            "revelationType": "مكية",
+            "first_page_num": "235"
+        },
+        {
+            "number": "13",
+            "name": "سُورَةُ الرَّعۡدِ",
+            "englishName": "Ar-Ra'd",
+            "numberOfAyahs": "43",
+            "revelationType": "مدنية",
+            "first_page_num": "249"
+        },
+        {
+            "number": "14",
+            "name": "سُورَةُ إِبۡرَاهِيمَ",
+            "englishName": "Ibrahim",
+            "numberOfAyahs": "52",
+            "revelationType": "مكية",
+            "first_page_num": "255"
+        },
+        {
+            "number": "15",
+            "name": "سُورَةُ الحِجۡرِ",
+            "englishName": "Al-Hijr",
+            "numberOfAyahs": "99",
+            "revelationType": "مكية",
+            "first_page_num": "262"
+        },
+        {
+            "number": "16",
+            "name": "سُورَةُ النَّحۡلِ",
+            "englishName": "An-Nahl",
+            "numberOfAyahs": "128",
+            "revelationType": "مكية",
+            "first_page_num": "267"
+        },
+        {
+            "number": "17",
+            "name": "سُورَةُ الإِسۡرَاءِ",
+            "englishName": "Al-Israa",
+            "numberOfAyahs": "111",
+            "revelationType": "مكية",
+            "first_page_num": "282"
+        },
+        {
+            "number": "18",
+            "name": "سُورَةُ الكَهۡفِ",
+            "englishName": "Al-Kahf",
+            "numberOfAyahs": "110",
+            "revelationType": "مكية",
+            "first_page_num": "293"
+        },
+        {
+            "number": "19",
+            "name": "سُورَةُ مَرۡيَمَ",
+            "englishName": "Maryam",
+            "numberOfAyahs": "98",
+            "revelationType": "مكية",
+            "first_page_num": "305"
+        },
+        {
+            "number": "20",
+            "name": "سُورَةُ طه",
+            "englishName": "Taa-Haa",
+            "numberOfAyahs": "135",
+            "revelationType": "مكية",
+            "first_page_num": "312"
+        },
+        {
+            "number": "21",
+            "name": "سُورَةُ الأَنبِيَاءِ",
+            "englishName": "Al-Anbiyaa",
+            "numberOfAyahs": "112",
+            "revelationType": "مكية",
+            "first_page_num": "322"
+        },
+        {
+            "number": "22",
+            "name": "سُورَةُ الحَجِّ",
+            "englishName": "Al-Hajj",
+            "numberOfAyahs": "78",
+            "revelationType": "مدنية",
+            "first_page_num": "332"
+        },
+        {
+            "number": "23",
+            "name": "سُورَةُ المُؤۡمِنُونَ",
+            "englishName": "Al-Muminoon",
+            "numberOfAyahs": "118",
+            "revelationType": "مكية",
+            "first_page_num": "342"
+        },
+        {
+            "number": "24",
+            "name": "سُورَةُ النُّورِ",
+            "englishName": "An-Noor",
+            "numberOfAyahs": "64",
+            "revelationType": "مدنية",
+            "first_page_num": "350"
+        },
+        {
+            "number": "25",
+            "name": "سُورَةُ الفُرۡقَانِ",
+            "englishName": "Al-Furqaan",
+            "numberOfAyahs": "77",
+            "revelationType": "مكية",
+            "first_page_num": "359"
+        },
+        {
+            "number": "26",
+            "name": "سُورَةُ الشُّعَرَاءِ",
+            "englishName": "Ash-Shu'araa",
+            "numberOfAyahs": "227",
+            "revelationType": "مكية",
+            "first_page_num": "367"
+        },
+        {
+            "number": "27",
+            "name": "سُورَةُ النَّمۡلِ",
+            "englishName": "An-Naml",
+            "numberOfAyahs": "93",
+            "revelationType": "مكية",
+            "first_page_num": "377"
+        },
+        {
+            "number": "28",
+            "name": "سُورَةُ القَصَصِ",
+            "englishName": "Al-Qasas",
+            "numberOfAyahs": "88",
+            "revelationType": "مكية",
+            "first_page_num": "385"
+        },
+        {
+            "number": "29",
+            "name": "سُورَةُ العَنكَبُوتِ",
+            "englishName": "Al-Ankaboot",
+            "numberOfAyahs": "69",
+            "revelationType": "مكية",
+            "first_page_num": "396"
+        },
+        {
+            "number": "30",
+            "name": "سُورَةُ الرُّومِ",
+            "englishName": "Ar-Room",
+            "numberOfAyahs": "60",
+            "revelationType": "مكية",
+            "first_page_num": "404"
+        },
+        {
+            "number": "31",
+            "name": "سُورَةُ لُقۡمَانَ",
+            "englishName": "Luqman",
+            "numberOfAyahs": "34",
+            "revelationType": "مكية",
+            "first_page_num": "411"
+        },
+        {
+            "number": "32",
+            "name": "سُورَةُ السَّجۡدَةِ",
+            "englishName": "As-Sajda",
+            "numberOfAyahs": "30",
+            "revelationType": "مكية",
+            "first_page_num": "415"
+        },
+        {
+            "number": "33",
+            "name": "سُورَةُ الأَحۡزَابِ",
+            "englishName": "Al-Ahzaab",
+            "numberOfAyahs": "73",
+            "revelationType": "مدنية",
+            "first_page_num": "418"
+        },
+        {
+            "number": "34",
+            "name": "سُورَةُ سَبَإٍ",
+            "englishName": "Saba",
+            "numberOfAyahs": "54",
+            "revelationType": "مكية",
+            "first_page_num": "428"
+        },
+        {
+            "number": "35",
+            "name": "سُورَةُ فَاطِرٍ",
+            "englishName": "Faatir",
+            "numberOfAyahs": "45",
+            "revelationType": "مكية",
+            "first_page_num": "434"
+        },
+        {
+            "number": "36",
+            "name": "سُورَةُ يسٓ",
+            "englishName": "Yaseen",
+            "numberOfAyahs": "83",
+            "revelationType": "مكية",
+            "first_page_num": "440"
+        },
+        {
+            "number": "37",
+            "name": "سُورَةُ الصَّافَّاتِ",
+            "englishName": "As-Saaffaat",
+            "numberOfAyahs": "182",
+            "revelationType": "مكية",
+            "first_page_num": "446"
+        },
+        {
+            "number": "38",
+            "name": "سُورَةُ صٓ",
+            "englishName": "Saad",
+            "numberOfAyahs": "88",
+            "revelationType": "مكية",
+            "first_page_num": "453"
+        },
+        {
+            "number": "39",
+            "name": "سُورَةُ الزُّمَرِ",
+            "englishName": "Az-Zumar",
+            "numberOfAyahs": "75",
+            "revelationType": "مكية",
+            "first_page_num": "458"
+        },
+        {
+            "number": "40",
+            "name": "سُورَةُ غَافِرٍ",
+            "englishName": "Ghafir",
+            "numberOfAyahs": "85",
+            "revelationType": "مكية",
+            "first_page_num": "467"
+        },
+        {
+            "number": "41",
+            "name": "سُورَةُ فُصِّلَتۡ",
+            "englishName": "Fussilat",
+            "numberOfAyahs": "54",
+            "revelationType": "مكية",
+            "first_page_num": "477"
+        },
+        {
+            "number": "42",
+            "name": "سُورَةُ الشُّورَىٰ",
+            "englishName": "Ash-Shura",
+            "numberOfAyahs": "53",
+            "revelationType": "مكية",
+            "first_page_num": "483"
+        },
+        {
+            "number": "43",
+            "name": "سُورَةُ الزُّخۡرُفِ",
+            "englishName": "Az-Zukhruf",
+            "numberOfAyahs": "89",
+            "revelationType": "مكية",
+            "first_page_num": "489"
+        },
+        {
+            "number": "44",
+            "name": "سُورَةُ الدُّخَانِ",
+            "englishName": "Ad-Dukhaan",
+            "numberOfAyahs": "59",
+            "revelationType": "مكية",
+            "first_page_num": "496"
+        },
+        {
+            "number": "45",
+            "name": "سُورَةُ الجَاثِيَةِ",
+            "englishName": "Al-Jaathiya",
+            "numberOfAyahs": "37",
+            "revelationType": "مكية",
+            "first_page_num": "499"
+        },
+        {
+            "number": "46",
+            "name": "سُورَةُ الأَحۡقَافِ",
+            "englishName": "Al-Ahqaf",
+            "numberOfAyahs": "35",
+            "revelationType": "مكية",
+            "first_page_num": "502"
+        },
+        {
+            "number": "47",
+            "name": "سُورَةُ مُحَمَّدٍ",
+            "englishName": "Muhammad",
+            "numberOfAyahs": "38",
+            "revelationType": "مدنية",
+            "first_page_num": "507"
+        },
+        {
+            "number": "48",
+            "name": "سُورَةُ الفَتۡحِ",
+            "englishName": "Al-Fath",
+            "numberOfAyahs": "29",
+            "revelationType": "مدنية",
+            "first_page_num": "511"
+        },
+        {
+            "number": "49",
+            "name": "سُورَةُ الحُجُرَاتِ",
+            "englishName": "Al-Hujuraat",
+            "numberOfAyahs": "18",
+            "revelationType": "مدنية",
+            "first_page_num": "515"
+        },
+        {
+            "number": "50",
+            "name": "سُورَةُ قٓ",
+            "englishName": "Qaaf",
+            "numberOfAyahs": "45",
+            "revelationType": "مكية",
+            "first_page_num": "518"
+        },
+        {
+            "number": "51",
+            "name": "سُورَةُ الذَّارِيَاتِ",
+            "englishName": "Adh-Dhaariyat",
+            "numberOfAyahs": "60",
+            "revelationType": "مكية",
+            "first_page_num": "520"
+        },
+        {
+            "number": "52",
+            "name": "سُورَةُ الطُّورِ",
+            "englishName": "At-Tur",
+            "numberOfAyahs": "49",
+            "revelationType": "مكية",
+            "first_page_num": "523"
+        },
+        {
+            "number": "53",
+            "name": "سُورَةُ النَّجۡمِ",
+            "englishName": "An-Najm",
+            "numberOfAyahs": "62",
+            "revelationType": "مكية",
+            "first_page_num": "526"
+        },
+        {
+            "number": "54",
+            "name": "سُورَةُ القَمَرِ",
+            "englishName": "Al-Qamar",
+            "numberOfAyahs": "55",
+            "revelationType": "مكية",
+            "first_page_num": "528"
+        },
+        {
+            "number": "55",
+            "name": "سُورَةُ الرَّحۡمَٰن",
+            "englishName": "Ar-Rahmaan",
+            "numberOfAyahs": "78",
+            "revelationType": "مدنية",
+            "first_page_num": "531"
+        },
+        {
+            "number": "56",
+            "name": "سُورَةُ الوَاقِعَةِ",
+            "englishName": "Al-Waaqia",
+            "numberOfAyahs": "96",
+            "revelationType": "مكية",
+            "first_page_num": "534"
+        },
+        {
+            "number": "57",
+            "name": "سُورَةُ الحَدِيدِ",
+            "englishName": "Al-Hadid",
+            "numberOfAyahs": "29",
+            "revelationType": "مدنية",
+            "first_page_num": "537"
+        },
+        {
+            "number": "58",
+            "name": "سُورَةُ المُجَادلَةِ",
+            "englishName": "Al-Mujaadila",
+            "numberOfAyahs": "22",
+            "revelationType": "مدنية",
+            "first_page_num": "542"
+        },
+        {
+            "number": "59",
+            "name": "سُورَةُ الحَشۡرِ",
+            "englishName": "Al-Hashr",
+            "numberOfAyahs": "24",
+            "revelationType": "مدنية",
+            "first_page_num": "545"
+        },
+        {
+            "number": "60",
+            "name": "سُورَةُ المُمۡتَحنَةِ",
+            "englishName": "Al-Mumtahana",
+            "numberOfAyahs": "13",
+            "revelationType": "مدنية",
+            "first_page_num": "549"
+        },
+        {
+            "number": "61",
+            "name": "سُورَةُ الصَّفِّ",
+            "englishName": "As-Saff",
+            "numberOfAyahs": "14",
+            "revelationType": "مدنية",
+            "first_page_num": "551"
+        },
+        {
+            "number": "62",
+            "name": "سُورَةُ الجُمُعَةِ",
+            "englishName": "Al-Jumu'a",
+            "numberOfAyahs": "11",
+            "revelationType": "مدنية",
+            "first_page_num": "553"
+        },
+        {
+            "number": "63",
+            "name": "سُورَةُ المُنَافِقُونَ",
+            "englishName": "Al-Munaafiqoon",
+            "numberOfAyahs": "11",
+            "revelationType": "مدنية",
+            "first_page_num": "554"
+        },
+        {
+            "number": "64",
+            "name": "سُورَةُ التَّغَابُنِ",
+            "englishName": "At-Taghaabun",
+            "numberOfAyahs": "18",
+            "revelationType": "مدنية",
+            "first_page_num": "556"
+        },
+        {
+            "number": "65",
+            "name": "سُورَةُ الطَّلَاقِ",
+            "englishName": "At-Talaaq",
+            "numberOfAyahs": "12",
+            "revelationType": "مدنية",
+            "first_page_num": "558"
+        },
+        {
+            "number": "66",
+            "name": "سُورَةُ التَّحۡرِيمِ",
+            "englishName": "At-Tahrim",
+            "numberOfAyahs": "12",
+            "revelationType": "مدنية",
+            "first_page_num": "560"
+        },
+        {
+            "number": "67",
+            "name": "سُورَةُ المُلۡكِ",
+            "englishName": "Al-Mulk",
+            "numberOfAyahs": "30",
+            "revelationType": "مكية",
+            "first_page_num": "562"
+        },
+        {
+            "number": "68",
+            "name": "سُورَةُ القَلَمِ",
+            "englishName": "Al-Qalam",
+            "numberOfAyahs": "52",
+            "revelationType": "مكية",
+            "first_page_num": "564"
+        },
+        {
+            "number": "69",
+            "name": "سُورَةُ الحَاقَّةِ",
+            "englishName": "Al-Haaqqa",
+            "numberOfAyahs": "52",
+            "revelationType": "مكية",
+            "first_page_num": "566"
+        },
+        {
+            "number": "70",
+            "name": "سُورَةُ المَعَارِجِ",
+            "englishName": "Al-Ma'aarij",
+            "numberOfAyahs": "44",
+            "revelationType": "مكية",
+            "first_page_num": "568"
+        },
+        {
+            "number": "71",
+            "name": "سُورَةُ نُوحٍ",
+            "englishName": "Nooh",
+            "numberOfAyahs": "28",
+            "revelationType": "مكية",
+            "first_page_num": "570"
+        },
+        {
+            "number": "72",
+            "name": "سُورَةُ الجِنِّ",
+            "englishName": "Al-Jinn",
+            "numberOfAyahs": "28",
+            "revelationType": "مكية",
+            "first_page_num": "572"
+        },
+        {
+            "number": "73",
+            "name": "سُورَةُ المُزَّمِّلِ",
+            "englishName": "Al-Muzzammil",
+            "numberOfAyahs": "20",
+            "revelationType": "مكية",
+            "first_page_num": "574"
+        },
+        {
+            "number": "74",
+            "name": "سُورَةُ المُدَّثِّرِ",
+            "englishName": "Al-Muddaththir",
+            "numberOfAyahs": "56",
+            "revelationType": "مكية",
+            "first_page_num": "575"
+        },
+        {
+            "number": "75",
+            "name": "سُورَةُ القِيَامَةِ",
+            "englishName": "Al-Qiyaama",
+            "numberOfAyahs": "40",
+            "revelationType": "مكية",
+            "first_page_num": "577"
+        },
+        {
+            "number": "76",
+            "name": "سُورَةُ الإِنسَانِ",
+            "englishName": "Al-Insaan",
+            "numberOfAyahs": "31",
+            "revelationType": "مدنية",
+            "first_page_num": "578"
+        },
+        {
+            "number": "77",
+            "name": "سُورَةُ المُرۡسَلَاتِ",
+            "englishName": "Al-Mursalaat",
+            "numberOfAyahs": "50",
+            "revelationType": "مكية",
+            "first_page_num": "580"
+        },
+        {
+            "number": "78",
+            "name": "سُورَةُ النَّبَإِ",
+            "englishName": "An-Naba",
+            "numberOfAyahs": "40",
+            "revelationType": "مكية",
+            "first_page_num": "582"
+        },
+        {
+            "number": "79",
+            "name": "سُورَةُ النَّازِعَاتِ",
+            "englishName": "An-Naazi'aat",
+            "numberOfAyahs": "46",
+            "revelationType": "مكية",
+            "first_page_num": "583"
+        },
+        {
+            "number": "80",
+            "name": "سُورَةُ عَبَسَ",
+            "englishName": "Abasa",
+            "numberOfAyahs": "42",
+            "revelationType": "مكية",
+            "first_page_num": "585"
+        },
+        {
+            "number": "81",
+            "name": "سُورَةُ التَّكۡوِيرِ",
+            "englishName": "At-Takwir",
+            "numberOfAyahs": "29",
+            "revelationType": "مكية",
+            "first_page_num": "586"
+        },
+        {
+            "number": "82",
+            "name": "سُورَةُ الانفِطَارِ",
+            "englishName": "Al-Infitaar",
+            "numberOfAyahs": "19",
+            "revelationType": "مكية",
+            "first_page_num": "587"
+        },
+        {
+            "number": "83",
+            "name": "سُورَةُ المُطَفِّفِينَ",
+            "englishName": "Al-Mutaffifin",
+            "numberOfAyahs": "36",
+            "revelationType": "مكية",
+            "first_page_num": "587"
+        },
+        {
+            "number": "84",
+            "name": "سُورَةُ الانشِقَاقِ",
+            "englishName": "Al-Inshiqaaq",
+            "numberOfAyahs": "25",
+            "revelationType": "مكية",
+            "first_page_num": "589"
+        },
+        {
+            "number": "85",
+            "name": "سُورَةُ البُرُوجِ",
+            "englishName": "Al-Burooj",
+            "numberOfAyahs": "22",
+            "revelationType": "مكية",
+            "first_page_num": "590"
+        },
+        {
+            "number": "86",
+            "name": "سُورَةُ الطَّارِقِ",
+            "englishName": "At-Taariq",
+            "numberOfAyahs": "17",
+            "revelationType": "مكية",
+            "first_page_num": "591"
+        },
+        {
+            "number": "87",
+            "name": "سُورَةُ الأَعۡلَىٰ",
+            "englishName": "Al-A'laa",
+            "numberOfAyahs": "19",
+            "revelationType": "مكية",
+            "first_page_num": "591"
+        },
+        {
+            "number": "88",
+            "name": "سُورَةُ الغَاشِيَةِ",
+            "englishName": "Al-Ghaashiya",
+            "numberOfAyahs": "26",
+            "revelationType": "مكية",
+            "first_page_num": "592"
+        },
+        {
+            "number": "89",
+            "name": "سُورَةُ الفَجۡرِ",
+            "englishName": "Al-Fajr",
+            "numberOfAyahs": "30",
+            "revelationType": "مكية",
+            "first_page_num": "593"
+        },
+        {
+            "number": "90",
+            "name": "سُورَةُ البَلَدِ",
+            "englishName": "Al-Balad",
+            "numberOfAyahs": "20",
+            "revelationType": "مكية",
+            "first_page_num": "594"
+        },
+        {
+            "number": "91",
+            "name": "سُورَةُ الشَّمۡسِ",
+            "englishName": "Ash-Shams",
+            "numberOfAyahs": "15",
+            "revelationType": "مكية",
+            "first_page_num": "595"
+        },
+        {
+            "number": "92",
+            "name": "سُورَةُ اللَّيۡلِ",
+            "englishName": "Al-Lail",
+            "numberOfAyahs": "21",
+            "revelationType": "مكية",
+            "first_page_num": "595"
+        },
+        {
+            "number": "93",
+            "name": "سُورَةُ الضُّحَىٰ",
+            "englishName": "Ad-Dhuhaa",
+            "numberOfAyahs": "11",
+            "revelationType": "مكية",
+            "first_page_num": "596"
+        },
+        {
+            "number": "94",
+            "name": "سُورَةُ الشَّرۡحِ",
+            "englishName": "Ash-Sharh",
+            "numberOfAyahs": "8",
+            "revelationType": "مكية",
+            "first_page_num": "596"
+        },
+        {
+            "number": "95",
+            "name": "سُورَةُ التِّينِ",
+            "englishName": "At-Tin",
+            "numberOfAyahs": "8",
+            "revelationType": "مكية",
+            "first_page_num": "597"
+        },
+        {
+            "number": "96",
+            "name": "سُورَةُ العَلَقِ",
+            "englishName": "Al-Alaq",
+            "numberOfAyahs": "19",
+            "revelationType": "مكية",
+            "first_page_num": "597"
+        },
+        {
+            "number": "97",
+            "name": "سُورَةُ القَدۡرِ",
+            "englishName": "Al-Qadr",
+            "numberOfAyahs": "5",
+            "revelationType": "مكية",
+            "first_page_num": "598"
+        },
+        {
+            "number": "98",
+            "name": "سُورَةُ البَيِّنَةِ",
+            "englishName": "Al-Bayyina",
+            "numberOfAyahs": "8",
+            "revelationType": "مدنية",
+            "first_page_num": "598"
+        },
+        {
+            "number": "99",
+            "name": "سُورَةُ الزَّلۡزَلَةِ",
+            "englishName": "Az-Zalzala",
+            "numberOfAyahs": "8",
+            "revelationType": "مدنية",
+            "first_page_num": "599"
+        },
+        {
+            "number": "100",
+            "name": "سُورَةُ العَادِيَاتِ",
+            "englishName": "Al-Aadiyaat",
+            "numberOfAyahs": "11",
+            "revelationType": "مكية",
+            "first_page_num": "599"
+        },
+        {
+            "number": "101",
+            "name": "سُورَةُ القَارِعَةِ",
+            "englishName": "Al-Qaari'a",
+            "numberOfAyahs": "11",
+            "revelationType": "مكية",
+            "first_page_num": "600"
+        },
+        {
+            "number": "102",
+            "name": "سُورَةُ التَّكَاثُرِ",
+            "englishName": "At-Takaathur",
+            "numberOfAyahs": "8",
+            "revelationType": "مكية",
+            "first_page_num": "600"
+        },
+        {
+            "number": "103",
+            "name": "سُورَةُ العَصۡرِ",
+            "englishName": "Al-Asr",
+            "numberOfAyahs": "3",
+            "revelationType": "مكية",
+            "first_page_num": "601"
+        },
+        {
+            "number": "104",
+            "name": "سُورَةُ الهُمَزَةِ",
+            "englishName": "Al-Humaza",
+            "numberOfAyahs": "9",
+            "revelationType": "مكية",
+            "first_page_num": "601"
+        },
+        {
+            "number": "105",
+            "name": "سُورَةُ الفِيلِ",
+            "englishName": "Al-Fil",
+            "numberOfAyahs": "5",
+            "revelationType": "مكية",
+            "first_page_num": "601"
+        },
+        {
+            "number": "106",
+            "name": "سُورَةُ قُرَيۡشٍ",
+            "englishName": "Quraish",
+            "numberOfAyahs": "4",
+            "revelationType": "مكية",
+            "first_page_num": "602"
+        },
+        {
+            "number": "107",
+            "name": "سُورَةُ المَاعُونِ",
+            "englishName": "Al-Maa'un",
+            "numberOfAyahs": "7",
+            "revelationType": "مكية",
+            "first_page_num": "602"
+        },
+        {
+            "number": "108",
+            "name": "سُورَةُ الكَوۡثَرِ",
+            "englishName": "Al-Kawthar",
+            "numberOfAyahs": "3",
+            "revelationType": "مكية",
+            "first_page_num": "602"
+        },
+        {
+            "number": "109",
+            "name": "سُورَةُ الكَافِرُونَ",
+            "englishName": "Al-Kaafiroon",
+            "numberOfAyahs": "6",
+            "revelationType": "مكية",
+            "first_page_num": "603"
+        },
+        {
+            "number": "110",
+            "name": "سُورَةُ النَّصۡرِ",
+            "englishName": "An-Nasr",
+            "numberOfAyahs": "3",
+            "revelationType": "مدنية",
+            "first_page_num": "603"
+        },
+        {
+            "number": "111",
+            "name": "سُورَةُ المَسَدِ",
+            "englishName": "Al-Masad",
+            "numberOfAyahs": "5",
+            "revelationType": "مكية",
+            "first_page_num": "603"
+        },
+        {
+            "number": "112",
+            "name": "سُورَةُ الإِخۡلَاصِ",
+            "englishName": "Al-Ikhlaas",
+            "numberOfAyahs": "4",
+            "revelationType": "مكية",
+            "first_page_num": "604"
+        },
+        {
+            "number": "113",
+            "name": "سُورَةُ الفَلَقِ",
+            "englishName": "Al-Falaq",
+            "numberOfAyahs": "5",
+            "revelationType": "مكية",
+            "first_page_num": "604"
+        },
+        {
+            "number": "114",
+            "name": "سُورَةُ النَّاسِ",
+            "englishName": "An-Naas",
+            "numberOfAyahs": "6",
+            "revelationType": "مكية",
+            "first_page_num": "604"
+        }
+    ]
+}

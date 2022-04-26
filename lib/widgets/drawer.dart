@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
-import 'package:mushafmuscat/screens/quran_screen.dart';
-import 'package:mushafmuscat/widgets/quarters_list.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:mushafmuscat/models/surah.dart';
-import 'package:mushafmuscat/models/quarter.dart';
-import 'package:mushafmuscat/widgets/quran_screen_search_bar.dart';
+import 'package:provider/provider.dart';
 
 import '../localization/app_localizations.dart';
+import '../providers/quarter_provider.dart';
+import '../providers/surah_provider.dart';
 import '../resources/dimens.dart';
+import '../screens/quran_screen.dart';
+import '../widgets/drawer_screen_search_bar.dart';
 import '../widgets/surahs_list.dart';
 import '../widgets/quarters_list.dart';
 import '../widgets/sample_data.dart';
-import 'drawer_screen_search_bar.dart';
+import '../models/quarter.dart';
+import '../models/surah.dart';
 
 class MainDrawer extends StatefulWidget {
   const MainDrawer({Key? key}) : super(key: key);
@@ -22,8 +23,38 @@ class MainDrawer extends StatefulWidget {
 }
 
 class _MainDrawerState extends State<MainDrawer> {
-  final List<Surah> _surah = surah;
-  final List<Quarter> _quarter = quarter;
+  bool _isInit = true;
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      Provider.of<SurahProvider>(context).fetchSurahs().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+
+      Provider.of<QuarterProvider>(context).fetchQuarters().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  // final List<Surah> _surah = surah;
 
   int segmentedControlValue = 0;
   String hint = 'البحث عن سورة';
@@ -44,23 +75,27 @@ class _MainDrawerState extends State<MainDrawer> {
     return hint;
   }
 
-  Widget buildSurahListTile(String surahNum, String surahTitle,
-      String surahType, String numOfAyas, Function tapHandler) {
+  Widget buildSurahListTile(String? surahNum, String? surahTitle,
+      String? surahType, String? numOfAyas, Function? tapHandler) {
     return SurahsList(
-        num: surahNum, title: surahTitle, numAya: numOfAyas, type: surahType);
+      num: surahNum,
+      title: surahTitle,
+      numAya: numOfAyas,
+      type: surahType,
+    );
   }
 
   Widget buildQuarterListTile(
-      bool startingJuzzIndex,
-      bool startingHizbIndex,
-      int quarter,
-      String hizbNum,
-      String surahTitle,
-      String startingAya,
-      String juzz,
-      String quarterAyaNum,
-      String quarterPageNum,
-      Function tapHandler) {
+      bool? startingJuzzIndex,
+      bool? startingHizbIndex,
+      int? quarter,
+      String? hizbNum,
+      String? surahTitle,
+      String? startingAya,
+      String? juzz,
+      String? quarterAyaNum,
+      String? quarterPageNum,
+      Function? tapHandler) {
     return QuartersList(
       startingJuzzIndex: startingJuzzIndex,
       startingHizbIndex: startingHizbIndex,
@@ -76,6 +111,18 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final surahsData = Provider.of<SurahProvider>(context, listen: false);
+    final _surahs = surahsData.surahs;
+    final List<Surah> _surahitem = _surahs;
+
+    final quartersData = Provider.of<QuarterProvider>(context, listen: false);
+    final _quarters = quartersData.quarters;
+    final List<Quarter> _quarteritem = _quarters;
+    // print(_quarteritem.length);
+    //print(_surahitem.length);
+
+    //final List<Quarter> _quarter = quarter;
+
     return Drawer(
       backgroundColor: Theme.of(context).backgroundColor,
       child: Column(
@@ -105,27 +152,23 @@ class _MainDrawerState extends State<MainDrawer> {
                             AppLocalizations.of(context)!
                                 .translate('drawer_screen_switch_surahs')
                                 .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(
-                                  color: const Color.fromRGBO(105, 91, 77, 1),
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 17,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1?.copyWith(
+                                      color: CustomColors.brown300,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 17,
+                                    ),
                           ),
                           1: Text(
                             AppLocalizations.of(context)!
                                 .translate('drawer_screen_switch_quarters')
                                 .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(
-                                  color: const Color.fromRGBO(105, 91, 77, 1),
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 17,
-                                ),
+                            style:
+                                Theme.of(context).textTheme.headline1?.copyWith(
+                                      color: CustomColors.brown300,
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 17,
+                                    ),
                           ),
                         },
                         onValueChanged: (value) {
@@ -156,53 +199,66 @@ class _MainDrawerState extends State<MainDrawer> {
             height: 80,
             padding: const EdgeInsets.all(Dimens.px20),
             child: drawerSearchBar(hint: hintText()),
-            
           ),
           const Divider(
             height: 0,
           ),
           if (segmentedControlValue == 0) ...[
             Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 20),
-                itemCount: _surah.length,
-                itemBuilder: (ctx, i) {
-                  return Column(
-                    children: [
-                      buildSurahListTile(
-                        _surah[i].surahPageNum,
-                        _surah[i].surahTitle,
-                        _surah[i].numOfAyas,
-                        _surah[i].surahType,
-                        () {},
-                      ),
-                      const Divider(
-                        height: 20,
-                      ),
-                    ],
-                  );
-                },
-              ),
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : ListView.builder(
+                      padding: const EdgeInsets.only(top: 20),
+                      itemCount: _surahitem.length,
+                      itemBuilder: (ctx, i) {
+                        return Column(
+                          children: [
+                            buildSurahListTile(
+                              _surahitem[i].surahNum,
+                              _surahitem[i].surahTitle,
+                              _surahitem[i].numOfAyas,
+                              _surahitem[i].surahType,
+                              () {},
+                            ),
+                            const Divider(
+                              height: 20,
+                            )
+                          ],
+                        );
+                      },
+                    ),
             ),
           ] else if (segmentedControlValue == 1) ...[
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.only(top: 2),
-                itemCount: _surah.length,
+                itemCount: _quarters.length,
                 itemBuilder: (ctx, i) {
                   return Column(
                     children: [
                       buildQuarterListTile(
-                        _quarter[i].startingJuzzIndex,
-                        _quarter[i].startingHizbIndex,
-                        _quarter[i].quarter,
-                        _quarter[i].hizbNum,
-                        _quarter[i].surahTitle,
-                        _quarter[i].startingAya,
-                        _quarter[i].juzz,
-                        _quarter[i].quarterAyaNum,
-                        _quarter[i].quarterPageNum,
+                        _quarteritem[i].startingJuzzIndex,
+                        _quarteritem[i].startingHizbIndex,
+                        _quarteritem[i].quarter,
+                        _quarteritem[i].hizbNum,
+                        _quarteritem[i].surahTitle,
+                        _quarteritem[i].startingAya,
+                        _quarteritem[i].juzz,
+                        _quarteritem[i].quarterAyaNum,
+                        _quarteritem[i].quarterPageNum,
                         () {},
+
+                        // buildQuarterListTile(
+                        //   _quarter[i].startingJuzzIndex,
+                        //   _quarter[i].startingHizbIndex,
+                        //   _quarter[i].quarter,
+                        //   _quarter[i].hizbNum,
+                        //   _quarter[i].surahTitle,
+                        //   _quarter[i].startingAya,
+                        //   _quarter[i].juzz,
+                        //   _quarter[i].quarterAyaNum,
+                        //   _quarter[i].quarterPageNum,
+                        //   () {},
                       ),
                       const Divider(
                         height: 20,

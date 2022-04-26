@@ -3,27 +3,27 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import '../resources/colors.dart';
 
 class QuartersList extends StatelessWidget {
-  bool startingJuzzIndex;
-  bool startingHizbIndex;
-  int quarter;
-  String hizbNum;
-  String surahTitle;
-  String startingAya;
-  String juzz;
-  String quarterAyaNum;
-  String quarterPageNum;
+  bool? startingJuzzIndex;
+  bool? startingHizbIndex;
+  int? quarter;
+  String? hizbNum;
+  String? surahTitle;
+  String? startingAya;
+  String? juzz;
+  String? quarterAyaNum;
+  String? quarterPageNum;
 
   QuartersList({
     Key? key,
-    required this.startingJuzzIndex,
-    required this.startingHizbIndex,
-    required this.quarter,
-    required this.hizbNum,
-    required this.surahTitle,
-    required this.startingAya,
-    required this.juzz,
-    required this.quarterAyaNum,
-    required this.quarterPageNum,
+     this.startingJuzzIndex,
+     this.startingHizbIndex,
+     this.quarter,
+     this.hizbNum,
+     this.surahTitle,
+     this.startingAya,
+     this.juzz,
+     this.quarterAyaNum,
+     this.quarterPageNum,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class QuartersList extends StatelessWidget {
 
     return Column(
       children: [
-        if (startingJuzzIndex) ...[
+        if (startingJuzzIndex== true) ...[
           Container(
             alignment: Alignment.topRight,
             padding: const EdgeInsets.fromLTRB(15, 15, 21, 15),
@@ -57,7 +57,7 @@ class QuartersList extends StatelessWidget {
             leading: (quarter == 1)
                 ? CircleAvatar(
                     child: Text(
-                      hizbNum,
+                      hizbNum!,
                       style: Theme.of(context).textTheme.labelMedium,
                     ),
                     radius: 20,
@@ -67,13 +67,13 @@ class QuartersList extends StatelessWidget {
                     backgroundColor: Theme.of(context).shadowColor,
                     radius: 20,
                     child: Icon(
-                      getQuarterIcon(quarter),
+                      getQuarterIcon(quarter!),
                       size: 40,
                       color: CustomColors.brown500,
                     ),
                   ),
             title: Text(
-              startingAya,
+              startingAya!,
               style: Theme.of(context).textTheme.headline1?.copyWith(
                   color: CustomColors.black200,
                   fontWeight: FontWeight.normal,

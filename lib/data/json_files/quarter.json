@@ -1,0 +1,180 @@
+{
+    "data": [
+        {
+            "startingjuzzIndex": true,
+            "startingHizbIndex": true,
+            "quarter": 1,
+            "hizbNum": "١",
+            "surahTitle": "الفاتحة",
+            "startingAya": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ",
+            "juzz": "الأول",
+            "quarterAyaNum": "١",
+            "quarterPageNum": "١"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 2,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "إِنَّ اللَه لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا...",
+            "juzz": "الأول",
+            "quarterAyaNum": "٢٦",
+            "quarterPageNum": "٥"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 3,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "أَتَأْمُرُونَ النَّاسَ بِالْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ ...",
+            "juzz": "الأول",
+            "quarterAyaNum": "٤٤",
+            "quarterPageNum": "٧"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 4,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "وَإِذِ اسْتَسْقَىٰ مُوسَىٰ لِقَوْمِهِ فَقُلْنَا اضْرِب...",
+            "juzz": "الأول",
+            "quarterAyaNum": "٦٠",
+            "quarterPageNum": "٩"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": true,
+            "quarter": 1,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "أَفَتَطْمَعُونَ أَن يُؤْمِنُوا لَكُمْ وَقَدْ كَانَ فَرِيقٌ...",
+            "juzz": "الأول",
+            "quarterAyaNum": "٧٥",
+            "quarterPageNum": "١١"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 2,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "وَلَقَدْ جَآءَكُم مُّوسَىٰ بِٱلْبَيِّنَٰتِ ثُمَّ ٱتَّخَذْتُمُ...",
+            "juzz": "الأول",
+            "quarterAyaNum": "٩٢",
+            "quarterPageNum": "١٤"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 3,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "مَا نَنْسَخْ مِنْ آيَةٍ أَوْ نُنْسِهَا نَأْتِ بِخَيْرٍ مِنْهَا...",
+            "juzz": "الأول",
+            "quarterAyaNum": "١٠٦",
+            "quarterPageNum": "١٧"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 4,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "وَإِذِ ابْتَلَىٰ إِبْرَاهِيمَ رَبُّهُ بِكَلِمَاتٍ فَأَتَمَّهُنَّ ...",
+            "juzz": "الأول",
+            "quarterAyaNum": "١٢٤",
+            "quarterPageNum": "١٩"
+        },
+        {
+            "startingjuzzIndex": true,
+            "startingHizbIndex": true,
+            "quarter": 1,
+            "hizbNum": "١",
+            "surahTitle": "الفاتحة",
+            "startingAya": "الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ ",
+            "juzz": "الثاني",
+            "quarterAyaNum": "١",
+            "quarterPageNum": "١"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 2,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "إِنَّ اللَه لَا يَسْتَحْيِي أَن يَضْرِبَ مَثَلًا مَّا...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "٢٦",
+            "quarterPageNum": "٥"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 3,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "أَتَأْمُرُونَ النَّاسَ بِالْبِرِّ وَتَنسَوْنَ أَنفُسَكُمْ ...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "٤٤",
+            "quarterPageNum": "٧"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 4,
+            "hizbNum": "١",
+            "surahTitle": "البقرة",
+            "startingAya": "وَإِذِ اسْتَسْقَىٰ مُوسَىٰ لِقَوْمِهِ فَقُلْنَا اضْرِب...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "٦٠",
+            "quarterPageNum": "٩"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": true,
+            "quarter": 1,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "أَفَتَطْمَعُونَ أَن يُؤْمِنُوا لَكُمْ وَقَدْ كَانَ فَرِيقٌ...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "٧٥",
+            "quarterPageNum": "١١"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 2,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "وَلَقَدْ جَآءَكُم مُّوسَىٰ بِٱلْبَيِّنَٰتِ ثُمَّ ٱتَّخَذْتُمُ...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "٩٢",
+            "quarterPageNum": "١٤"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 3,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "مَا نَنْسَخْ مِنْ آيَةٍ أَوْ نُنْسِهَا نَأْتِ بِخَيْرٍ مِنْهَا...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "١٠٦",
+            "quarterPageNum": "١٧"
+        },
+        {
+            "startingjuzzIndex": false,
+            "startingHizbIndex": false,
+            "quarter": 4,
+            "hizbNum": "٢",
+            "surahTitle": "البقرة",
+            "startingAya": "وَإِذِ ابْتَلَىٰ إِبْرَاهِيمَ رَبُّهُ بِكَلِمَاتٍ فَأَتَمَّهُنَّ ...",
+            "juzz": "الثاني",
+            "quarterAyaNum": "١٢٤",
+            "quarterPageNum": "١٩"
+        }
+    ]
+}

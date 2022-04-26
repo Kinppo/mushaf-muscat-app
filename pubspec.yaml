@@ -75,7 +75,7 @@ flutter:
   assets:
     - assets/images/
     - lang/
-
+    - lib/data/json_files/
     #- models/data.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

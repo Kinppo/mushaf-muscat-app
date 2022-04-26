@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mushafmuscat/providers/surah_provider.dart';
+import 'package:mushafmuscat/screens/test_screen.dart';
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
 
@@ -8,6 +10,9 @@ import '../screens/splash_screen.dart';
 import '../themes/app_themes.dart';
 import './providers/theme_provider.dart';
 import '../providers/bookMarks_provider.dart';
+import '../providers/surah_provider.dart';
+import '../providers/quarter_provider.dart';
+
 
 //temp
 import './screens/quran_screen.dart';
@@ -38,6 +43,12 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (ctx) => BookMarks(),
+          ),
+            ChangeNotifierProvider(
+            create: (ctx) => SurahProvider(),
+          ),
+           ChangeNotifierProvider(
+            create: (ctx) => QuarterProvider(),
           ),
         ],
         child: Consumer<ThemeProvider>(

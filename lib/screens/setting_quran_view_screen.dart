@@ -15,7 +15,6 @@ class SettingQuranViewScreen extends StatefulWidget {
 class _SettingQuranViewScreenState extends State<SettingQuranViewScreen> {
   String selectedRadio = 'fullscreen';
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
