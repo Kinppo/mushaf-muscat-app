@@ -75,9 +75,13 @@ class _QuranScreenState extends State<QuranScreen> {
                         color: Theme.of(context).backgroundColor,
                         width: double.infinity,
                         child: SingleChildScrollView(
-                          child: Text(AppLocalizations.of(context)!
-                              .translate('dummy_text')
-                              .toString()),
+                          child: Padding(
+                            padding: const EdgeInsets.only(top:170),
+                            child: Center(child: Image.asset(('assets/quran_images/8.png'),fit: BoxFit.fill)),
+                          ),
+                          // Text(AppLocalizations.of(context)!
+                          //     .translate('dummy_text')
+                          //     .toString()),
                         ),
                       )
                     : (segmentedControlValue == 1 && toggleSearch == false)

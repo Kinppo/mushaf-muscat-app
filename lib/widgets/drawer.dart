@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
+import '../utils/helperFunctions.dart';
 
 import '../localization/app_localizations.dart';
 import '../providers/quarter_provider.dart';
@@ -214,9 +215,11 @@ class _MainDrawerState extends State<MainDrawer> {
                         return Column(
                           children: [
                             buildSurahListTile(
-                              _surahitem[i].surahNum,
-                              _surahitem[i].surahTitle,
-                              _surahitem[i].numOfAyas,
+                              HelperFunctions.convertToArabicNumbers(
+                                  _surahitem[i].surahNum),
+                             _surahitem[i].surahTitle,
+                              HelperFunctions.convertToArabicNumbers(
+                                  _surahitem[i].numOfAyas),
                               _surahitem[i].surahType,
                               () {},
                             ),
@@ -247,18 +250,6 @@ class _MainDrawerState extends State<MainDrawer> {
                         _quarteritem[i].quarterAyaNum,
                         _quarteritem[i].quarterPageNum,
                         () {},
-
-                        // buildQuarterListTile(
-                        //   _quarter[i].startingJuzzIndex,
-                        //   _quarter[i].startingHizbIndex,
-                        //   _quarter[i].quarter,
-                        //   _quarter[i].hizbNum,
-                        //   _quarter[i].surahTitle,
-                        //   _quarter[i].startingAya,
-                        //   _quarter[i].juzz,
-                        //   _quarter[i].quarterAyaNum,
-                        //   _quarter[i].quarterPageNum,
-                        //   () {},
                       ),
                       const Divider(
                         height: 20,

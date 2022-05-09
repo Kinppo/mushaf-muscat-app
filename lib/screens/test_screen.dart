@@ -1,4 +1,11 @@
+import 'dart:io';
 import 'dart:math';
+import 'package:carousel_slider/carousel_controller.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mushafmuscat/resources/colors.dart';
+import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../models/surah.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -9,6 +16,8 @@ import 'package:provider/provider.dart';
 
 import '../localization/app_localizations.dart';
 import '../models/surah.dart';
+import '../providers/quran_display_provider.dart';
+import '../utils/helperFunctions.dart';
 import '../widgets/drawer_screen_search_bar.dart';
 import '../widgets/surahs_list.dart';
 
@@ -19,19 +28,19 @@ class TestScreen extends StatefulWidget {
 
   @override
   State<TestScreen> createState() => _TestScreenState();
-  
 }
 
-
-
 class _TestScreenState extends State<TestScreen> {
-    bool _isInit = true;
-    bool _isLoading = true;
+  bool _isInit = true;
+  bool _isLoading = true;
 
+  int activeIndex = 0;
+
+  final controller = CarouselController();
 
   @override
   void initState() {
-  
+    filldata();
     super.initState();
   }
 
@@ -42,7 +51,7 @@ class _TestScreenState extends State<TestScreen> {
         _isLoading = true;
       });
 
-      Provider.of<SurahProvider>(context).fetchSurahs().then((_) {
+      Provider.of<QuranDisplay>(context).fetchImages().then((_) {
         setState(() {
           _isLoading = false;
         });
@@ -51,177 +60,214 @@ class _TestScreenState extends State<TestScreen> {
     _isInit = false;
     super.didChangeDependencies();
   }
+
   @override
   Widget build(BuildContext context) {
+    // final surahsData = Provider.of<SurahProvider>(context, listen: false);
+    // final surahss =surahsData.surahs;
 
-    final surahsData = Provider.of<SurahProvider>(context, listen: false);
-    final surahss =surahsData.surahs;
-  
-        final List<Surah> _surahitem = surahss;
+    //     final List<Surah> _surahitem = surahss;
 
+    final imagesData = Provider.of<QuranDisplay>(context, listen: false);
+    final pagelist = imagesData.imageslist;
 
+    //final List<Surah> _surahitem = surahss;
 
-  int segmentedControlValue = 0;
-  String hint = 'البحث عن سورة';
-
-  String hintText() {
-    setState(() {
-      if (segmentedControlValue == 0) {
-        hint = AppLocalizations.of(context)!
-            .translate('drawer_screen_search_hint_surahs')
-            .toString();
-      } else {
-        hint = AppLocalizations.of(context)!
-            .translate('drawer_screen_search_hint_quarters')
-            .toString();
-      }
-    });
-
-    return hint;
-  }
-
-  Widget buildSurahListTile(String? surahNum, String? surahTitle,
-      String? surahType, String? numOfAyas, Function? tapHandler) {
-    return SurahsList(
-      num: surahNum,
-      title: surahTitle,
-      numAya: numOfAyas,
-      type: surahType,
-    );
-  }
-
-
- 
-    return Drawer(
-      backgroundColor: Theme.of(context).backgroundColor,
-      child: Column(
-        children: <Widget>[
-          Container(
-            //margin: EdgeInsets.all(16.0),
-            padding: const EdgeInsets.only(top: 80.0),
-            // width: 180,
-
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                const SizedBox(
-                  width: 70,
-                ),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 200,
-                    minWidth: 180,
-                  ),
-                  child: Container(
-                    child: CupertinoSlidingSegmentedControl(
-                        groupValue: segmentedControlValue,
-                        backgroundColor: Theme.of(context).shadowColor,
-                        children: <int, Widget>{
-                          0: Text(
-                            AppLocalizations.of(context)!
-                                .translate('drawer_screen_switch_surahs')
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(
-                                  color: const Color.fromRGBO(105, 91, 77, 1),
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 17,
-                                ),
-                          ),
-                          1: Text(
-                            AppLocalizations.of(context)!
-                                .translate('drawer_screen_switch_quarters')
-                                .toString(),
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.copyWith(
-                                  color: const Color.fromRGBO(105, 91, 77, 1),
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 17,
-                                ),
-                          ),
-                        },
-                        onValueChanged: (value) {
-                          setState(() {
-                            segmentedControlValue = value as int;
-
-                            print(segmentedControlValue);
-                          });
-                        }),
-                  ),
-                ),
-                const SizedBox(
-                  width: 5,
-                ),
-                IconButton(
-                  iconSize: 28,
-                  onPressed: () {
-                    Navigator.of(context)
-                        .popAndPushNamed(QuranScreen.routeName);
-                  },
-                  icon: const Icon(Icons.cancel),
-                ),
-              ],
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 150,
             ),
-          ),
-          Container(
-            width: double.infinity,
-            height: 80,
-            padding:  EdgeInsets.all(20),
-            child: drawerSearchBar(hint: hintText()),
-          ),
-          const Divider(
-            height: 0,
-          ),
-          if (segmentedControlValue == 0) ...[
-            Expanded(
-              child:   _isLoading ? const Center(child: CircularProgressIndicator()) : ListView.builder(
-                padding: const EdgeInsets.only(top: 20),
-                itemCount: _surahitem.length,
-                itemBuilder: (ctx, i) {
-                  return Column(  
-                    children: [  
-                    buildSurahListTile(
-                        _surahitem[i].surahNum,
-                        _surahitem[i].surahTitle,
-                        _surahitem[i].numOfAyas,
-                        _surahitem[i].surahType,
-                        () {},
-                      ) ,
-                      const Divider(
-                        height: 20,
-                      ) 
-                    ], 
-                   
-                  );
+            CarouselSlider.builder(
+              carouselController: controller,
+              options: CarouselOptions(
+                height: 650,
+                viewportFraction: 1,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                enableInfiniteScroll: false,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    activeIndex = index;
+                  });
                 },
               ),
+              itemCount: pagelist.length,
+              itemBuilder: (
+                context,
+                index,
+                realIndex,
+              ) {
+                //access one specific image
+                final imageItem = pagelist[index].PNGimagePath;
+                //print(imageItem);
+                return buildImage(imageItem, index);
+              },
             ),
-          ] else if (segmentedControlValue == 1) ...[
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 2),
-                itemCount: _surahitem.length,
-                itemBuilder: (ctx, i) {
-                  return Column(
-                    children: [
-                     Container(),
-                    
-                      const Divider(
-                        height: 20,
-                      ),
-                    ],
-                  );
-                },
-              ),
+            const SizedBox(
+              height: 13,
+            ),
+            Container(
+              margin: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+              //padding: EdgeInsets.all(10),
+              child: getListData(pagelist.length),
             ),
           ],
-        ],
+        ),
       ),
     );
   }
+
+  Widget buildImage(String? imageItem, int index) {
+    return FittedBox(
+      //margin: EdgeInsets.all(2),
+      //color: Colors.grey,
+      child: Image.asset(imageItem!), fit: BoxFit.fill,
+    );
+  }
+
+// Generate list of numbers and convert them to arabic using the helper function
+  List<String> data = [];
+
+  void filldata() {
+    for (int i = 0; i < 100; i++) {
+      String? num = HelperFunctions.convertToArabicNumbers(i.toString());
+      data.add(num!);
+    }
+  }
+
+// getListData(count) {
+  
+//         CarouselSlider(
+//         items:data.map((i){
+//           return Container(child: Text(i, style: TextStyle(color: Colors.black),));
+            
+//         }).toList(),options: CarouselOptions(
+//                 enlargeCenterPage: true,
+//                 autoPlay: true,
+//                 autoPlayCurve: Curves.fastOutSlowIn,
+//                 enableInfiniteScroll: true,
+//               ), 
+   
+        
+//               );
+// }
+
+// IMPORTANT
+// =========================
+  // getListData(count) {
+  //   return SingleChildScrollView(
+  //     scrollDirection: Axis.horizontal,
+  //     padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //       children: [
+  //         Wrap(
+  //           children:
+  //        data
+  //             .map((weakness) => FilterChip(
+  //                 shape: RoundedRectangleBorder(
+  //                   side: BorderSide(color: CustomColors.yellow200, width: 1),
+  //                   borderRadius: BorderRadius.circular(10),
+  //                 ),
+  //                 backgroundColor: Colors.white,
+  //                 label: Container(
+  //                   width: 32,
+  //                   height: 28,
+  //                   child: Center(
+  //                     child: Text(
+  //                       weakness,
+  //                       style: TextStyle(color: CustomColors.grey200, fontSize: 17, fontFamily: "IBMPlexSansArabic", fontWeight: FontWeight.normal),
+  //                     ),
+  //                   ),
+  //                 ),
+  //                 onSelected: (b) {}))
+  //             .toList(),
+  //             spacing: 5,),
+  //       ],
+  //     ),
+  //   );
+  // }
+// =========================
+
+
+
+//    buildIndicator(int count) {
+//     return  Column(
+//                 children: <Widget>[
+//                   Expanded(
+//                     child: Wrap(
+//           children: data.map((e) => _chip(e, context)).toList(),
+//           spacing: 2, ),
+
+//                   ), ] ); }
+//         child: Wrap(
+//           children: data.map((e) => _chip(e, context)).toList(),
+//           spacing: 2,
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+  Widget _chip(String data, BuildContext context) => ChoiceChip(
+        labelPadding: EdgeInsets.all(2.0),
+        label: Text(
+          data,
+          style: TextStyle(
+              color: CustomColors.brown600,
+              fontSize: 19,
+              fontFamily: "IBMPlexSansArabic"),
+        ),
+        selectedColor: Colors.white,
+        selected: true,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: CustomColors.yellow200, width: 1),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        pressElevation: 1,
+        elevation: 0,
+        padding: EdgeInsets.symmetric(horizontal: 10),
+      );
+
+//==============================
+
+  getListData(int count) {
+    return Stack(
+      children: <Widget>[
+        AnimatedSmoothIndicator(
+          activeIndex: activeIndex,
+          count: count,
+          onDotClicked: animatetoSlide,
+          effect: ScrollingDotsEffect(
+              fixedCenter: true,
+              spacing: 8.0,
+              radius: 4.0,
+              dotWidth: 35.0,
+              dotHeight: 25.0,
+              // paintStyle:  PaintingStyle.stroke,
+              // strokeWidth:  1.5,
+              activeDotColor: CustomColors.brown500,
+              dotColor:  Colors.white),
+        ),
+      ],
+    );
+  }
+//==============================
+  // effect: JumpingDotEffect(
+  //   dotWidth: 20,
+  //   dotHeight: 20,
+  //   activeDotColor: CustomColors.brown100,
+  //   dotColor: CustomColors.grey100,
+  // ),
+  // }
+
+// ===============
+  animatetoSlide(int index) {
+    controller.animateToPage(index);
+  }
+
 }
+// ===============
 

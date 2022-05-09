@@ -12,7 +12,7 @@ import './providers/theme_provider.dart';
 import '../providers/bookMarks_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/quarter_provider.dart';
-
+import '../providers/quran_display_provider.dart';
 
 //temp
 import './screens/quran_screen.dart';
@@ -40,34 +40,38 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-        providers: [
-          ChangeNotifierProvider(
-            create: (ctx) => BookMarks(),
-          ),
-            ChangeNotifierProvider(
-            create: (ctx) => SurahProvider(),
-          ),
-           ChangeNotifierProvider(
-            create: (ctx) => QuarterProvider(),
-          ),
-        ],
-        child: Consumer<ThemeProvider>(
-          builder: (context, themeProvider, child) {
-            return MaterialApp(
-              title: 'Flutter Demo',
-              onGenerateRoute: AppRoutes.onGenerateRoute,
-              onUnknownRoute: AppRoutes.onUnkownRoute,
-              supportedLocales: AppLocalizationsSetup.supportedLocales,
-              localizationsDelegates:
-                  AppLocalizationsSetup.localizationsDelegates,
-              locale: const Locale('ar'),
-              theme: AppThemes.lightTheme,
-              darkTheme: AppThemes.darkTheme,
-              themeMode: themeProvider.themeMode,
-              //home: const SplashScreen(),
-              home: QuranScreen(),
-            );
-          },
-        ));
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => BookMarks(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => SurahProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => QuarterProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => QuranDisplay(),
+        ),
+      ],
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Flutter Demo',
+            onGenerateRoute: AppRoutes.onGenerateRoute,
+            onUnknownRoute: AppRoutes.onUnkownRoute,
+            supportedLocales: AppLocalizationsSetup.supportedLocales,
+            localizationsDelegates:
+                AppLocalizationsSetup.localizationsDelegates,
+            locale: const Locale('ar'),
+            theme: AppThemes.lightTheme,
+            darkTheme: AppThemes.darkTheme,
+            themeMode: themeProvider.themeMode,
+            //home: const SplashScreen(),
+            home: QuranScreen(),
+          );
+        },
+      ),
+    );
   }
 }

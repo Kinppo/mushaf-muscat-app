@@ -179,7 +179,9 @@ class _appBarState extends State<appBar> {
                       Container(
                         padding: const EdgeInsets.only(right: 30),
                             child: Text(
-                              "البحث" ,style: Theme.of(context)
+                             AppLocalizations.of(context)!
+                              .translate('search_screen_search')
+                              .toString() ,style: Theme.of(context)
                                 .textTheme
                                 .headline1
                                 ?.copyWith(
@@ -199,7 +201,9 @@ class _appBarState extends State<appBar> {
                                 .pushReplacementNamed(QuranScreen.routeName);
                           },
                           child: Text(
-                            'إلغاء',
+                            AppLocalizations.of(context)!
+                              .translate('search_screen_cancel')
+                              .toString(),
                             style: Theme.of(context)
                                 .textTheme
                                 .headline1

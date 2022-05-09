@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 
+import '../localization/app_localizations.dart';
+
 class QuranSearchBar extends StatefulWidget {
 
    Function searchController;
@@ -55,7 +57,9 @@ class QuranSearchBarState extends State<QuranSearchBar> {
         fillColor: Theme.of(context).indicatorColor,
         prefixIcon:  Icon(Icons.search ,color: CustomColors.grey200),
         iconColor: CustomColors.grey200,
-        hintText:  "البحث",
+        hintText:    AppLocalizations.of(context)!
+                              .translate('search_screen_search')
+                              .toString(),
         hintStyle:  TextStyle(
           color: CustomColors.grey200,
           fontSize: 16,

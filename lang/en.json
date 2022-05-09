@@ -41,7 +41,9 @@
     "drawer_screen_search_hint_surahs": "test",
     "drawer_screen_search_hint_quarters": "test",
 
-
+    "search_screen_search": "test",
+    "search_screen_cancel": "test",
+    
     "tafsir_text": "Test",
     "dummy_text": "test"
 }

@@ -15,10 +15,12 @@ List<Surah> _surahs = [];
 
  Future<void> fetchSurahs() async {
  String data = await rootBundle.loadString('lib/data/json_files/surah.json');
+ 
  //String convertedData = convertToArabicNumbers(data);
-
-String convertedData = HelperFunctions.convertToArabicNumbers(data);
- var jsonResult = jsonDecode(convertedData);
+// String convertedData = HelperFunctions.convertToArabicNumbers(data);
+//  var jsonResult = jsonDecode(convertedData);
+ 
+ var jsonResult = jsonDecode(data);
 
 
   //print (jsonResult['data']);
@@ -38,7 +40,7 @@ String convertedData = HelperFunctions.convertToArabicNumbers(data);
         loadedSurahs.add(Surah(
           surahNum: data['number'],
           surahPageNum: data['first_page_num'],
-           surahTitle: data['name'],
+           surahTitle: HelperFunctions.normalise(data['name']),
           surahType: data['revelationType'],
           numOfAyas: data['numberOfAyahs'],
          ))
@@ -51,8 +53,6 @@ String convertedData = HelperFunctions.convertToArabicNumbers(data);
      
       notifyListeners();
  }
-      
-
 
 
 List<Surah> get surahs {
