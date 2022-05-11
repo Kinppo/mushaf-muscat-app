@@ -65,7 +65,6 @@ class _MainDrawerState extends State<MainDrawer> {
   // final List<Surah> _surah = surah;
 
   int segmentedControlValue = 0;
-  String hint = 'البحث عن سورة';
   bool searchToggle = false;
 
   // List <Surah> surahs= [];
@@ -75,52 +74,16 @@ class _MainDrawerState extends State<MainDrawer> {
     setState(() {
       searchToggle = search;
       //compared(input);
-      _surah_search_results=Provider.of<SurahProvider>(context, listen: false).getSeachResults(input);
+      _surah_search_results = Provider.of<SurahProvider>(context, listen: false)
+          .getSeachResults(input);
       print(input);
       print("toggle search after $searchToggle");
     });
   }
 
-  
-
-  String hintText() {
-    setState(() {
-      if (segmentedControlValue == 0) {
-        hint = AppLocalizations.of(context)!
-            .translate('drawer_screen_search_hint_surahs')
-            .toString();
-      } else {
-        hint = AppLocalizations.of(context)!
-            .translate('drawer_screen_search_hint_quarters')
-            .toString();
-      }
-    });
-
-    return hint;
-  }
-
   void setSurahs(List<Surah> surahs) {
     surahslist = surahs;
   }
-
-  // void compared(String text) async {
-  //   // List<Surah> matches = [];
-
-  //   // matches.addAll(surahslist);
-
-  //   // matches.retainWhere((surah) =>
-  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle)!
-  //   //         .contains(HelperFunctions.removeAllDiacritics(text)!)) ||
-  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle!.substring(2))!
-  //   //         .startsWith(HelperFunctions.removeAllDiacritics(text)!)) ||
-  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
-  //   //         .endsWith(HelperFunctions.removeAllDiacritics(text)!)));
-
-  //   setState(() {
-  //     _surah_search_results = matches;
-  //   });
-
-  // }
 
   Widget buildSurahListTile(String? surahNum, String? surahTitle,
       String? surahType, String? numOfAyas, Function? tapHandler) {
@@ -243,16 +206,25 @@ class _MainDrawerState extends State<MainDrawer> {
               ],
             ),
           ),
-          Container(
-            width: double.infinity,
-            height: 80,
-            padding: const EdgeInsets.all(Dimens.px20),
-            child: drawerSearchBar(
-                hint: hintText(), searchController: searchController),
-          ),
-          const Divider(
-            height: 0,
-          ),
+          if (segmentedControlValue == 0) ...[
+            Container(
+              width: double.infinity,
+              height: 80,
+              padding: const EdgeInsets.all(Dimens.px20),
+              child: drawerSearchBar(searchController: searchController),
+            ),
+            const Divider(
+              height: 0,
+            ),
+          ] else if (segmentedControlValue == 1) ...[
+            Container(),
+            const Divider(
+              height: 20,
+            ),
+          ],
+          // const Divider(
+          //   height: 0,
+          // ),
           if (segmentedControlValue == 0 && searchToggle == false) ...[
             Expanded(
               child: _isLoading

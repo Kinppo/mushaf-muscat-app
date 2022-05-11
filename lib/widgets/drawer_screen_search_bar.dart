@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
 class drawerSearchBar extends StatefulWidget {
-  String hint;
   Function searchController;
 
 
 
   drawerSearchBar({
-     Key? key,
-    required this.hint, required this.searchController
-
+    Key? key,
+    required this.searchController,
   }) : super(key: key);
 
   @override
@@ -65,7 +64,34 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
         });
         
    },
-    onSubmitted: (text) {},
+    onSubmitted: (text) {setState(() {
+          if (text!='' && firstFlag==false) {
+          print("entered here");
+                  firstFlag= true;
+                  isStillSearching= true;
+                            widget.searchController(isStillSearching, text);
+
+
+          }
+
+          else {
+          // print(text);
+        if (isStillSearching== false) {
+            isStillSearching= true;
+            // widget.searchController(isStillSearching, text);
+
+        }
+
+        else if (isStillSearching== true && text=='' ) {
+          isStillSearching=false;
+          //  widget.searchController(isStillSearching, text);
+        }
+         widget.searchController(isStillSearching, text);
+
+          }
+
+        });},
+        
    onEditingComplete: () {
      
    },
@@ -84,7 +110,9 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
         fillColor: Theme.of(context).indicatorColor,
         prefixIcon: const Icon(Icons.search),
         iconColor: CustomColors.grey200,
-        hintText: widget.hint,
+        hintText:  AppLocalizations.of(context)!
+                                .translate('drawer_screen_search_hint_surahs')
+                                .toString(),
         hintStyle:  TextStyle(
           color: CustomColors.grey200,
           fontSize: 16,
