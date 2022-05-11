@@ -60,4 +60,6 @@ List<Surah> get surahs {
     return [..._surahs];
   }
 
+  
+
 }

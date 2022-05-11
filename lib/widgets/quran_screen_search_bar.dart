@@ -16,7 +16,11 @@ QuranSearchBar({ Key? key,  required this.searchController}) : super(key: key);
 
 class QuranSearchBarState extends State<QuranSearchBar> {
   bool isStillSearching = false;
+ final fieldText = TextEditingController();
 
+ void clearText() {
+    fieldText.clear();
+  }
 
   @override
   Widget build(BuildContext context,) {
@@ -65,10 +69,16 @@ class QuranSearchBarState extends State<QuranSearchBar> {
           fontSize: 16,
           fontWeight: FontWeight.bold,
         ),
+        suffixIcon: isStillSearching==true ? IconButton( color:CustomColors.grey200,    // Icon to 
+                    icon: Icon(Icons.cancel), // clear text
+                    onPressed: clearText,
+                ) : null
       ),
       style:  TextStyle(
         color: CustomColors.grey200,
       ),
+                    controller: fieldText,
+
     );
   }
 
