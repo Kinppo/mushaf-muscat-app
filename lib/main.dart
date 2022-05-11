@@ -13,6 +13,7 @@ import '../providers/bookMarks_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/quarter_provider.dart';
 import '../providers/quran_display_provider.dart';
+import '../widgets/drawer.dart';
 
 //temp
 import './screens/quran_screen.dart';
@@ -38,14 +39,16 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ) {
     return MultiProvider(
       providers: [
+    
+
         ChangeNotifierProvider(
           create: (ctx) => BookMarks(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => SurahProvider(),
+          create: (ctx, ) => SurahProvider(user_query: ''),
         ),
         ChangeNotifierProvider(
           create: (ctx) => QuarterProvider(),

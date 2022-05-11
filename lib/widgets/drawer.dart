@@ -70,16 +70,18 @@ class _MainDrawerState extends State<MainDrawer> {
 
   // List <Surah> surahs= [];
   List<Surah> surahslist = [];
-
 // search controller
   void searchController(search, input) {
     setState(() {
       searchToggle = search;
-      compared(input);
+      //compared(input);
+      _surah_search_results=Provider.of<SurahProvider>(context, listen: false).getSeachResults(input);
       print(input);
       print("toggle search after $searchToggle");
     });
   }
+
+  
 
   String hintText() {
     setState(() {
@@ -101,24 +103,24 @@ class _MainDrawerState extends State<MainDrawer> {
     surahslist = surahs;
   }
 
-  void compared(String text) async {
-    List<Surah> matches = [];
+  // void compared(String text) async {
+  //   // List<Surah> matches = [];
 
-    matches.addAll(surahslist);
+  //   // matches.addAll(surahslist);
 
-    matches.retainWhere((surah) =>
-        (HelperFunctions.removeAllDiacritics(surah.surahTitle)!
-            .contains(HelperFunctions.removeAllDiacritics(text)!)) ||
-        (HelperFunctions.removeAllDiacritics(surah.surahTitle!.substring(2))!
-            .startsWith(HelperFunctions.removeAllDiacritics(text)!)) ||
-        (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
-            .endsWith(HelperFunctions.removeAllDiacritics(text)!)));
+  //   // matches.retainWhere((surah) =>
+  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle)!
+  //   //         .contains(HelperFunctions.removeAllDiacritics(text)!)) ||
+  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle!.substring(2))!
+  //   //         .startsWith(HelperFunctions.removeAllDiacritics(text)!)) ||
+  //   //     (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
+  //   //         .endsWith(HelperFunctions.removeAllDiacritics(text)!)));
 
-    setState(() {
-      _surah_search_results = matches;
-    });
+  //   setState(() {
+  //     _surah_search_results = matches;
+  //   });
 
-  }
+  // }
 
   Widget buildSurahListTile(String? surahNum, String? surahTitle,
       String? surahType, String? numOfAyas, Function? tapHandler) {
