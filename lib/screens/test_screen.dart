@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:math';
 import 'package:carousel_slider/carousel_controller.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:mushafmuscat/models/pageText.dart';
+import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -56,6 +58,12 @@ class _TestScreenState extends State<TestScreen> {
           _isLoading = false;
         });
       });
+
+        Provider.of<PageText_provider>(context).fetchPageText().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -71,7 +79,51 @@ class _TestScreenState extends State<TestScreen> {
     final imagesData = Provider.of<QuranDisplay>(context, listen: false);
     final pagelist = imagesData.imageslist;
 
+     final textData = Provider.of<PageText_provider>(context, listen: false);
+    final textlist = textData.text;
+
+    List <String?> names = [];
+
+// for  (int i=0; i<= textlist.length; i++) {
+//     names.add(textlist[i].text);
+// }
+
+Widget getTextWidgets( int id)
+ {
+   List<Widget> list = <Widget>[];
+
+   List <PageText> temp = [];
+   temp.addAll(textlist);
+
+   temp.retainWhere((element) => 
+   (element.page==id )
+   );
+
+    for(var i = 0; i < temp.length; i++){
+           String? s= '';
+           String? m =temp[i].text;
+           print("M");
+           print (m);
+
+if (temp[i].text== null) {
+   list.add(Row());
+  print("null");
+} 
+
+else {
+   s = s + ' '+ temp[i].text!;
+}
+print(s);
+       list.add(Text(s,textDirection:TextDirection.rtl, textAlign: TextAlign.center, style: TextStyle(fontSize: 15, color: Colors.pink)));
+s='';
+
+   }
+   return  Column(children: list);
+ }
+  
+    
     //final List<Surah> _surahitem = surahss;
+  String n= names.join(' ');
 
     return Scaffold(
       body: Center(
@@ -80,30 +132,44 @@ class _TestScreenState extends State<TestScreen> {
             const SizedBox(
               height: 150,
             ),
-            CarouselSlider.builder(
-              carouselController: controller,
-              options: CarouselOptions(
-                height: 650,
-                viewportFraction: 1,
-                enlargeStrategy: CenterPageEnlargeStrategy.height,
-                enableInfiniteScroll: false,
-                onPageChanged: (index, reason) {
-                  setState(() {
-                    activeIndex = index;
-                  });
-                },
+            Stack(
+              children:<Widget>[ Container(
+                child: CarouselSlider.builder(
+                  carouselController: controller,
+                  options: CarouselOptions(
+                    height: 650,
+                    viewportFraction: 1,
+                    enlargeStrategy: CenterPageEnlargeStrategy.height,
+                    enableInfiniteScroll: false,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
+                    },
+                  ),
+                  itemCount: pagelist.length,
+                  itemBuilder: (
+                    context,
+                    index,
+                    realIndex,
+                  ) {
+                    //access one specific image
+                    final imageItem = pagelist[index].PNGimagePath;
+                    //print(imageItem);
+                    return buildImage(imageItem, index);
+                  },
+                ),
               ),
-              itemCount: pagelist.length,
-              itemBuilder: (
-                context,
-                index,
-                realIndex,
-              ) {
-                //access one specific image
-                final imageItem = pagelist[index].PNGimagePath;
-                //print(imageItem);
-                return buildImage(imageItem, index);
-              },
+               Expanded(
+                child:Container(
+                  padding: EdgeInsets.all(40),
+                  child:getTextWidgets(1)),
+                // Text(
+                //   n,
+                //   style: TextStyle(color: Colors.pink,  fontSize: 12.0),
+                // ),
+                ),
+               ],
             ),
             const SizedBox(
               height: 13,
@@ -138,19 +204,18 @@ class _TestScreenState extends State<TestScreen> {
   }
 
 // getListData(count) {
-  
+
 //         CarouselSlider(
 //         items:data.map((i){
 //           return Container(child: Text(i, style: TextStyle(color: Colors.black),));
-            
+
 //         }).toList(),options: CarouselOptions(
 //                 enlargeCenterPage: true,
 //                 autoPlay: true,
 //                 autoPlayCurve: Curves.fastOutSlowIn,
 //                 enableInfiniteScroll: true,
-//               ), 
-   
-        
+//               ),
+
 //               );
 // }
 
@@ -190,8 +255,6 @@ class _TestScreenState extends State<TestScreen> {
   //   );
   // }
 // =========================
-
-
 
 //    buildIndicator(int count) {
 //     return  Column(
@@ -249,7 +312,7 @@ class _TestScreenState extends State<TestScreen> {
               // paintStyle:  PaintingStyle.stroke,
               // strokeWidth:  1.5,
               activeDotColor: CustomColors.brown500,
-              dotColor:  Colors.white),
+              dotColor: Colors.white),
         ),
       ],
     );
@@ -267,7 +330,6 @@ class _TestScreenState extends State<TestScreen> {
   animatetoSlide(int index) {
     controller.animateToPage(index);
   }
-
 }
 // ===============
-
+  

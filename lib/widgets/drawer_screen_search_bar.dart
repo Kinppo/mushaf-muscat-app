@@ -91,7 +91,7 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
           }
 
         });},
-        
+
    onEditingComplete: () {
      
    },

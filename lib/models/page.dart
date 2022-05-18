@@ -3,8 +3,10 @@ class Page {
   String? PNGimagePath;
 
 
+
   Page({
     this.pageNum,
     this.PNGimagePath,
+    
   });
 }

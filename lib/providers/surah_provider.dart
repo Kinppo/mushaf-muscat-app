@@ -74,7 +74,7 @@ class SurahProvider with ChangeNotifier {
     matches.addAll(_undiacritizedSurahList);
 
     matches.retainWhere((surah) =>
-        ((surah.surahTitle)!.contains(query!)) 
+        (HelperFunctions.removeAllDiacritics((surah.surahTitle))!.contains(query!)) 
         ||
 
         ((surah.surahTitle!.substring(2))

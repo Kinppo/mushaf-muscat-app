@@ -41,7 +41,7 @@ class QuarterProvider with ChangeNotifier {
               quarter: updated_quarter(int.parse(data['rub'])),
               hizbNum: HelperFunctions.convertToArabicNumbers(data['hezb']),
               surahTitle: HelperFunctions.normalise(data['surahTitle']),
-              startingAya: sliceAya(data['text']),
+              startingAya: (data['text']),
               juzz: convertToArabicOrdinal(int.parse(data['juz'])),
               quarterAyaNum:
                   HelperFunctions.convertToArabicNumbers(data['quarterAyaNum']),
@@ -78,34 +78,6 @@ if (Counter ==4){
       return false;
     }
   }
-
-  // Slice aya if it's long
-   String? sliceAya(String aya) {
-//  var list_words;
-
-//  list_words= aya.split(' ');
-//  print(list_words.length);
-
-//  if (aya.length > 53) {
-//    var temp_list_words= list_words.take(5);
-
-
-// String tmp= temp_list_words.join(' ');
-    
-//     if (tmp.length < 40) {
-//      list_words= list_words.take(8);
-//     }
-//     else {
-//       list_words=temp_list_words;
-//     }
-   
-//    aya= list_words.join(' ')+ "...";
-//  }
-  
-      return aya;
-
-   }
-
 
 // Convert Juzz numbers to arabic ordinal literals
   String? convertToArabicOrdinal(int num) {

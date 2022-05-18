@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mushafmuscat/providers/ayatLines_provider.dart';
+import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
+import 'package:mushafmuscat/screens/test2.dart';
 import 'package:mushafmuscat/screens/test_screen.dart';
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
@@ -41,9 +44,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context, ) {
     return MultiProvider(
-      providers: [
-    
-
+      providers: [ ChangeNotifierProvider(
+          create: (ctx) => ayatLines_provider(),
+        ),
+     ChangeNotifierProvider(
+          create: (ctx) => PageText_provider(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => BookMarks(),
         ),
@@ -71,7 +77,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppThemes.darkTheme,
             themeMode: themeProvider.themeMode,
             //home: const SplashScreen(),
-            home: QuranScreen(),
+            home: Test2(),
           );
         },
       ),

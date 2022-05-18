@@ -170,9 +170,10 @@ const arabic = ['۰', '۱', '۲', '۳', '٤', '٥', '٦', '۷', '۸', '۹'];
     .replaceAll('\u065F', '') //ARABIC WAVY HAMZA BELOW
      .replaceAll('\u0670', '') //ARABIC LETTER SUPERSCRIPT ALEF
 
+     .replaceAll('إ', 'ا') //ARABIC LETTER SUPERSCRIPT ALEF
+
     // Replace Waw Hamza Above by Waw
     .replaceAll('\u0624', '\u0648')
-
     // Replace Ta Marbuta by Ha
     .replaceAll('\u0629', '\u0647')
 

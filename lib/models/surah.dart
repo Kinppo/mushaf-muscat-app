@@ -19,5 +19,11 @@ class Surah {
   // }
 //  @override
 //   String toString() => '${surahNum}';
-
+  // Surah.clone(Surah source)
+  //     : this.surahNum = source.surahNum,
+  //       this.surahPageNum = source.surahPageNum,
+  //       this.surahTitle = source.surahTitle,
+  //       this.surahType = source.surahType,
+  //       this.numOfAyas = source.numOfAyas;
+  
 }
