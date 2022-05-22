@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context, ) {
     return MultiProvider(
       providers: [ ChangeNotifierProvider(
-          create: (ctx) => ayatLines_provider(),
+          create: (ctx) => ayatLines_provider(1),
         ),
      ChangeNotifierProvider(
           create: (ctx) => PageText_provider(),

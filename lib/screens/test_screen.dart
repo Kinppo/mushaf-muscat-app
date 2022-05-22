@@ -132,48 +132,44 @@ s='';
             const SizedBox(
               height: 150,
             ),
-            Stack(
-              children:<Widget>[ Container(
-                child: CarouselSlider.builder(
-                  carouselController: controller,
-                  options: CarouselOptions(
-                    height: 650,
-                    viewportFraction: 1,
-                    enlargeStrategy: CenterPageEnlargeStrategy.height,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) {
-                      setState(() {
-                        activeIndex = index;
-                      });
-                    },
-                  ),
-                  itemCount: pagelist.length,
-                  itemBuilder: (
-                    context,
-                    index,
-                    realIndex,
-                  ) {
-                    //access one specific image
-                    final imageItem = pagelist[index].PNGimagePath;
-                    //print(imageItem);
-                    return buildImage(imageItem, index);
+            Container(
+              child: CarouselSlider.builder(
+                carouselController: controller,
+                options: CarouselOptions(
+                  height: 650,
+                  viewportFraction: 1,
+                  enlargeStrategy: CenterPageEnlargeStrategy.height,
+                  enableInfiniteScroll: false,
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      activeIndex = index;
+                    });
                   },
                 ),
+                itemCount: pagelist.length,
+                itemBuilder: (
+                  context,
+                  index,
+                  realIndex,
+                ) {
+                  //access one specific image
+                  final imageItem = pagelist[index].PNGimagePath;
+                  //print(imageItem);
+                  return buildImage(imageItem, index);
+                },
               ),
-               Expanded(
-                child:Container(
-                  padding: EdgeInsets.all(40),
-                  child:getTextWidgets(1)),
-                // Text(
-                //   n,
-                //   style: TextStyle(color: Colors.pink,  fontSize: 12.0),
-                // ),
+            ),
+             Expanded(
+              child:Container(
                 ),
-               ],
-            ),
-            const SizedBox(
-              height: 13,
-            ),
+              // Text(
+              //   n,
+              //   style: TextStyle(color: Colors.pink,  fontSize: 12.0),
+              // ),
+              ),
+            // const SizedBox(
+            //   height: 13,
+            // ),
             Container(
               margin: const EdgeInsets.fromLTRB(60, 0, 60, 0),
               //padding: EdgeInsets.all(10),

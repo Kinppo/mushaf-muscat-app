@@ -10,6 +10,7 @@ import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:mushafmuscat/widgets/quran.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:http/http.dart';
@@ -71,11 +72,11 @@ class _Test2State extends State<Test2> {
       //   });
       // });
 
-        Provider.of<ayatLines_provider>(context).fetchPageText().then((_) {
-        setState(() {
-          _isLoading = false;
-        });
-      });
+      //   Provider.of<ayatLines_provider>(context).fetchPageText().then((_) {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      // });
     }
     _isInit = false;
     super.didChangeDependencies();
@@ -96,12 +97,12 @@ class _Test2State extends State<Test2> {
 
   @override
   Widget build(BuildContext context) {
-       final textData = Provider.of<ayatLines_provider>(context, listen: false);
-    final textlist = textData.text;
+    //    final textData = Provider.of<ayatLines_provider>(context, listen: false);
+    // final textlist = ["DDD","DDr"];
 
     final assetsAudioPlayer = AssetsAudioPlayer();
     //print(highlights);
-    print(textlist);
+    // print(textlist);
 
     final bool playing = assetsAudioPlayer.isPlaying.value;
 
@@ -153,6 +154,9 @@ assetsAudioPlayer.current.listen((playingAudio){
     }
 
 
+Widget ayatwidgets(String data) {
+  return Text(data);
+}
     String longtext = '';
     longtext =
         "قُلْ أَعُوذُ بِرَبِّ النَّاسِ (1) مَلِكِ النَّاسِ (2) إِلَهِ النَّاسِ (3) مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ (4) الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ (5) مِنَ الْجِنَّةِ وَالنَّاسِ (6)";
@@ -184,44 +188,90 @@ assetsAudioPlayer.current.listen((playingAudio){
                  
     // print("updated " );
     // print(highlights);
-    
+   List <int> listindex =[1,2,3,4];
+  //  List <String> pages= [""]
     return Scaffold(
       body: Center( 
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 150,
-            ),
-            Container(
-              padding: EdgeInsets.all(40),
-              child: Text(textlist[2].text!),
-             // child: DynamicTextHighlighting(
-          //text:  "قُلْ أَعُوذُ بِرَبِّ النَّاسِ (1) مَلِكِ النَّاسِ (2) إِلَهِ النَّاسِ (3) مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ (4) الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ (5) مِنَ الْجِنَّةِ وَالنَّاسِ (6)",
-         // highlights: highlights,
-          //color: Colors.yellow,
-          //style: TextStyle(
-           // fontSize: 23,
-           // fontFamily: "IBMPlexSansArabic",
-           // color: CustomColors.black200,
-          //),
-         // caseSensitive: false,
-        //),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 120,
+              ),
+              // for (int j=0; j< textlist.length; j++) {
               
-             
-            ),
-            ElevatedButton(
-                onPressed: () async {
-                  await PlayAudios(listofstrings);
+              // }
+              Container(
+                child: Column(
+                  children: <Widget>[
+            // for(var item in textlist) Text(item.text!),
+        
+            CarouselSlider.builder(
+                itemCount: listindex.length,
+                itemBuilder: (context, index, realIndex) {
+                  // final urlImage = pages[index];
+                  // print("INDEX: $index"  );
+                  // print("REAL INDEX: $realIndex"  );
+        
+                  return Quran(pageNum: index+1);
                 },
-                child: Text("Play Audio")),
-            ElevatedButton(
-                onPressed: () {
-                 
-                  // changeText([listofstrings[ayaIndex]]);
-                } ,
+                options: CarouselOptions(
+                    height: 800,
+                    reverse: false,
+                    viewportFraction: 1,
+                    enableInfiniteScroll: false,
+                    initialPage: -1,
+                    scrollDirection: Axis.horizontal,
+                    //aspectRatio: 3,
+                    //enlargeCenterPage: true,
+        
+                    //disableCenter: true,
+                    onPageChanged: (index, reason) {
+                      setState(() {
+                        activeIndex = index;
+                      });
+                    }
+                    //pageSnapping: false
+                    )),
+       
+              ],
+                  // children: <Widget>  [
+                  //  for(int j=0; j< textlist.length; j++) { 
+                  //       ayatwidgets(textlist[j].text);
+                  //  }]
+                   ),
+                   
+                ),
+                //padding: EdgeInsets.all(40),
+                //child: Text(textlist[2].text!),
+               // child: DynamicTextHighlighting(
+            //text:  "قُلْ أَعُوذُ بِرَبِّ النَّاسِ (1) مَلِكِ النَّاسِ (2) إِلَهِ النَّاسِ (3) مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ (4) الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ (5) مِنَ الْجِنَّةِ وَالنَّاسِ (6)",
+           // highlights: highlights,
+            //color: Colors.yellow,
+            //style: TextStyle(
+             // fontSize: 23,
+             // fontFamily: "IBMPlexSansArabic",
+             // color: CustomColors.black200,
+            //),
+           // caseSensitive: false,
+          //),
                 
-                child: Text("Highlight Audio")),
-          ],
+               
+             // ),
+              ElevatedButton(
+                  onPressed: () async {
+                    await PlayAudios(listofstrings);
+                  },
+                  child: Text("Play Audio")),
+              ElevatedButton(
+                  onPressed: () {
+                   
+                    // changeText([listofstrings[ayaIndex]]);
+                  } ,
+                  
+                  child: Text("Highlight Audio")),
+            ],
+          ),
         ),
       ),
     );
