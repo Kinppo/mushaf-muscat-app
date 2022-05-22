@@ -77,7 +77,7 @@ class MyApp extends StatelessWidget {
             darkTheme: AppThemes.darkTheme,
             themeMode: themeProvider.themeMode,
             //home: const SplashScreen(),
-            home: Test2(),
+            home: QuranScreen(),
           );
         },
       ),

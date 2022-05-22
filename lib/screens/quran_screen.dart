@@ -1,8 +1,8 @@
 import 'dart:async';
 
-
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:mushafmuscat/widgets/textCarousel.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
@@ -29,17 +29,18 @@ class _QuranScreenState extends State<QuranScreen> {
 
   void controlSegment(segment) {
     setState(() {
-     segmentedControlValue= segment;
-     //print("segmentedControlValue $segmentedControlValue");
+      segmentedControlValue = segment;
+      //print("segmentedControlValue $segmentedControlValue");
     });
-  } 
+  }
 
   void controlSearch(search) {
     setState(() {
-     toggleSearch= search;
-     print("toggleSearch $toggleSearch");
+      toggleSearch = search;
+      print("toggleSearch $toggleSearch");
     });
-     }  
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +49,7 @@ class _QuranScreenState extends State<QuranScreen> {
           ? appBar(
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
-              toggleSearch: controlSearch)     
+              toggleSearch: controlSearch)
           : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
@@ -74,10 +75,11 @@ class _QuranScreenState extends State<QuranScreen> {
                         padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
                         width: double.infinity,
-                        child: SingleChildScrollView(
+                        child: const SingleChildScrollView(
                           child: Padding(
-                            padding: const EdgeInsets.only(top:170),
-                            child: Center(child: Image.asset(('assets/quran_images/8.png'),fit: BoxFit.fill)),
+                            padding: EdgeInsets.only(top: 170),
+                            child: textCarousel(),
+                            // child: Center(child: Image.asset(('assets/quran_images/8.png'),fit: BoxFit.fill)),
                           ),
                           // Text(AppLocalizations.of(context)!
                           //     .translate('dummy_text')
@@ -120,5 +122,3 @@ class _QuranScreenState extends State<QuranScreen> {
     );
   }
 }
-
-
