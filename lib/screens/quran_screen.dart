@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:mushafmuscat/widgets/test3.dart';
 import 'package:mushafmuscat/widgets/textCarousel.dart';
 
 import '../localization/app_localizations.dart';
@@ -10,6 +11,8 @@ import '../resources/colors.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
+import '../widgets/audioplayer.dart';
+
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -26,6 +29,7 @@ class _QuranScreenState extends State<QuranScreen> {
   int segmentedControlValue = 0;
   bool orientationPotrait = true;
   bool toggleSearch = false;
+  bool showPlayer= true;
 
   void controlSegment(segment) {
     setState(() {
@@ -75,15 +79,17 @@ class _QuranScreenState extends State<QuranScreen> {
                         padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
                         width: double.infinity,
-                        child: const SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 170),
-                            child: textCarousel(),
-                            // child: Center(child: Image.asset(('assets/quran_images/8.png'),fit: BoxFit.fill)),
-                          ),
-                          // Text(AppLocalizations.of(context)!
-                          //     .translate('dummy_text')
-                          //     .toString()),
+                        child:  SingleChildScrollView(
+                          child: Column(
+                            children:  [
+                              Padding(
+                                padding: EdgeInsets.only(top: 170),
+                                child: textCarousel(),
+                              ),
+                              showPlayer ? AudioPlayerWidget():
+                              Container()
+                            ],
+                          ),         
                         ),
                       )
                     : (segmentedControlValue == 1 && toggleSearch == false)
@@ -112,6 +118,7 @@ class _QuranScreenState extends State<QuranScreen> {
                               ),
                 onTap: () {
                   setState(() {
+                  showPlayer= !showPlayer;
                     _showAppBar = !_showAppBar;
                     _showNavBar = !_showNavBar;
                   });

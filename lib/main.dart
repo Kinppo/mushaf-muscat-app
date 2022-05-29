@@ -5,6 +5,8 @@ import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:mushafmuscat/screens/test2.dart';
 import 'package:mushafmuscat/screens/test_screen.dart';
+import 'package:mushafmuscat/widgets/audioplayer.dart';
+import 'package:mushafmuscat/widgets/test3.dart';
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
 
