@@ -54,29 +54,12 @@ var jsonResult = jsonDecode(data);
 
    }  
     
-   // print(fillPages.length);
-
-    // jsonResult['data'].forEach((data) =>
-    //         //convert data to product objects
-
-    //         //  print(data['name'])
-    //         loadedTexts.add(PageText(
-    //           id: data['id'],
-    //           page: data['page'],
-    //           line: data['line'],
-    //           position: data['position'],
-    //           text: data['text'],
-    //         ))
-    //     // );
-
-    //     );
+ 
 
     page_texts = loadedTexts;
    
 
-    //   print("UNDIAC");
     
-    //  print(_undiacritizedSurahList);
 
     notifyListeners();
   }
@@ -87,23 +70,4 @@ var jsonResult = jsonDecode(data);
 
 
 
-  // List<Surah> getSeachResults(user_query) {
-  //   List<Surah> matches = [];
-  //   String ? query= HelperFunctions.removeAllDiacritics(user_query);
-  //   matches.addAll(_undiacritizedSurahList);
-
-  //   matches.retainWhere((surah) =>
-  //       (HelperFunctions.removeAllDiacritics((surah.surahTitle))!.contains(query!)) 
-  //       ||
-
-  //       ((surah.surahTitle!.substring(2))
-  //           .startsWith(query)) 
-  //           ||
-  //       (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
-  //           .endsWith(query))
-  //           );
-
-  //           //print(matches);
-  //           return matches;
-  // }
 }

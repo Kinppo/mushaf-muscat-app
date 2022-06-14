@@ -3,10 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
-import 'package:mushafmuscat/screens/test2.dart';
-import 'package:mushafmuscat/screens/test_screen.dart';
-import 'package:mushafmuscat/widgets/audioplayer.dart';
-import 'package:mushafmuscat/widgets/test3.dart';
+
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
 
@@ -18,7 +15,6 @@ import '../providers/bookMarks_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/quarter_provider.dart';
 import '../providers/quran_display_provider.dart';
-import '../widgets/drawer.dart';
 
 //temp
 import './screens/quran_screen.dart';
@@ -47,7 +43,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context, ) {
     return MultiProvider(
       providers: [ ChangeNotifierProvider(
-          create: (ctx) => ayatLines_provider(1),
+          create: (ctx) => ayatLines_provider(),
         ),
      ChangeNotifierProvider(
           create: (ctx) => PageText_provider(),

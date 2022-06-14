@@ -8,102 +8,42 @@ import 'package:mushafmuscat/models/AyatLines.dart';
 import '../utils/helperFunctions.dart';
 
 class ayatLines_provider with ChangeNotifier {
+  bool firstlist = true;
   List<AyatLines> ayat_lines = [];
-   int page_num ;
 
-  // int pageid;
+  List<int> listofnum = [];
+  List<List<AyatLines>> lis2 = [];
 
-  ayatLines_provider( this.page_num);
+  int pageNumber = 0;
 
-//   Future<void> fetchPageText(page_num) async {
+Future<List<AyatLines>> getLines(pageNum) async {
+// print(pageNum);
 
-//     final List<AyatLines> loadedTexts = [];
-//     // print("reached here");
+    listofnum.add(pageNum);
 
-   
-//     String data = await rootBundle.loadString('lib/data/json_files/Ayat_pages/$page_num.json');
-
-// var jsonResult = jsonDecode(data);
-
-//     //print (jsonResult['data']);
-
-//     if (jsonResult == null) {
-//       print("result is null");
-//       return;
-//     }
-
-//     print("ENTERED");
-//     print(jsonResult);
-
-//     jsonResult.forEach((data) =>
-//             //convert data to product objects
-
-//             //  print(data['name'])
-//             loadedTexts.add(AyatLines(
-//               text: data['line'],
-             
-//             ))
-//         // )
-
-//         );
-
-   
-  
-  
-
-//     ayat_lines = loadedTexts;
-//     print("AYAT LINES");
-//    print(ayat_lines);
-
-
-//     notifyListeners();
-//   }
-
-  
-   Future <List<AyatLines>>  getLines(pageNum) async {
-
+    pageNumber = pageNum;
     final List<AyatLines> lines = [];
-    // print("reached here");
 
-   
-    String data =  await rootBundle.loadString('lib/data/json_files/Ayat_pages/$pageNum.json') ;
+    String data = await rootBundle
+        .loadString('lib/data/json_files/Ayat_pages/$pageNum.json');
 
-var jsonResult = jsonDecode(data);
+    var jsonResult = jsonDecode(data);
 
-    //print (jsonResult['data']);
-
-    
-
-    //print("ENTERED");
-    //print(jsonResult);
-
-    jsonResult.forEach((data) =>
-            //convert data to product objects
-
-            //  print(data['name'])
-            lines.add(AyatLines(
-              text: data['line'],
-             
-            ))
-        // )
-
-        );
-
-   
-  
-  
+    for (int index = 0; index < jsonResult.length; index++) {
+      lines.add(AyatLines(
+        text: jsonResult[index]['line'],
+        pageNumber: pageNum,
+      ));
+    }
 
     ayat_lines = lines;
-  
+
     notifyListeners();
-    return [...ayat_lines];
+
+    return ayat_lines;
   }
 
   List<AyatLines> get text {
     return [...ayat_lines];
   }
-
-
-
-
 }

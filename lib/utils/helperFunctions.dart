@@ -1,5 +1,28 @@
 
 class HelperFunctions {
+
+static List<String> splitLinesintoList(String fullpagetext) {
+
+      String fulltexttosplit;
+      
+
+      fulltexttosplit = fullpagetext;
+
+      fulltexttosplit = fulltexttosplit.replaceAll('(', '.');
+      fulltexttosplit = fulltexttosplit.replaceAll(')', '.');
+      fulltexttosplit = fulltexttosplit.replaceAll(RegExp(r'\d'), '.');
+
+      fulltexttosplit = fulltexttosplit.replaceAll('...', 'L');
+
+      List<String> final_list = fulltexttosplit.split('L');
+
+      return final_list;
+    }
+
+
+
+
+
   static String? convertToArabicNumbers(String? input) {
     const english = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 const arabic = ['۰', '۱', '۲', '۳', '٤', '٥', '٦', '۷', '۸', '۹'];

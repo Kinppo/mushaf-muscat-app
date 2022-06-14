@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:mushafmuscat/widgets/careousel2.dart';
+import 'package:mushafmuscat/widgets/finalCarousel.dart';
 import 'package:mushafmuscat/widgets/test3.dart';
 import 'package:mushafmuscat/widgets/textCarousel.dart';
 
@@ -30,6 +32,8 @@ class _QuranScreenState extends State<QuranScreen> {
   bool orientationPotrait = true;
   bool toggleSearch = false;
   bool showPlayer= true;
+
+
 
   void controlSegment(segment) {
     setState(() {
@@ -84,10 +88,10 @@ class _QuranScreenState extends State<QuranScreen> {
                             children:  [
                               Padding(
                                 padding: EdgeInsets.only(top: 170),
-                                child: textCarousel(),
+                                child: finalCarousel(),
                               ),
-                              showPlayer ? AudioPlayerWidget():
-                              Container()
+                              // showPlayer ? AudioPlayerWidget():
+                              // Container()
                             ],
                           ),         
                         ),

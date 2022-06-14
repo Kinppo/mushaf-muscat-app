@@ -1,10 +1,12 @@
+import 'dart:math';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dynamic_text_highlighting/dynamic_text_highlighting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'package:mushafmuscat/models/quarter.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
+import 'package:mushafmuscat/utils/helperFunctions.dart';
 import 'package:provider/provider.dart';
 
 import '../resources/colors.dart';
@@ -28,26 +30,31 @@ class _QuranTestState extends State<QuranTest> {
   List<String> splittedText = [];
 
   //audioplayer variables
-  final assetsAudioPlayer = AssetsAudioPlayer.withId("0");
   bool firstFlag = false;
   bool showPauseIcon = false;
+
   //List<Audio> audios = [];
 
   bool stopindex = false;
   bool seekBackward = false;
+  final assetsAudioPlayer =
+      AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+
+  // final assetsAudioPlayer = AssetsAudioPlayer.withId("0");
 
   @override
   void initState() {
     super.initState();
-    for (int i = 1; i <= 7; i++) {
-      audios.add(Audio("assets/audios/1/00100$i.mp3"));
-    }
+    // sid= widget.pageNum.toString();
+    // print("PAGE ID= $sid");
+    print("INIT STATTE====================");
+    print(highlights);
   }
 
-  void deactivate() {
-    super.deactivate();
-    assetsAudioPlayer.dispose();
-  }
+  // void deactivate() {
+  //   super.deactivate();
+  //   assetsAudioPlayer.dispose();
+  // }
 
   changeStop() {
     setState(() {
@@ -99,8 +106,15 @@ class _QuranTestState extends State<QuranTest> {
   Widget build(BuildContext context) {
     Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.pageNum);
-    final textData = Provider.of<ayatLines_provider>(context, listen: false);
-    final textlist = textData.text;
+    var textData = Provider.of<ayatLines_provider>(context, listen: false);
+    var textlist = textData.text;
+    int lengthoflines = textlist.length;
+    int page = widget.pageNum;
+
+    for (int i = 1; i <= lengthoflines; i++) {
+      String path = "00" + page.toString() + "00" + i.toString();
+      audios.add(Audio("assets/audios/$page/$path.mp3"));
+    }
 
     List<String> textl = [];
 
@@ -110,22 +124,6 @@ class _QuranTestState extends State<QuranTest> {
     String fulltext;
 
     fulltext = textl.join('\n\n');
-
-    List<String> splitAyasandLines() {
-      String fulltexttosplit;
-
-      fulltexttosplit = fulltext;
-
-      fulltexttosplit = fulltexttosplit.replaceAll('(', '.');
-      fulltexttosplit = fulltexttosplit.replaceAll(')', '.');
-      fulltexttosplit = fulltexttosplit.replaceAll(RegExp(r'\d'), '.');
-
-      fulltexttosplit = fulltexttosplit.replaceAll('...', 'L');
-
-      List<String> final_list = fulltexttosplit.split('L');
-
-      return final_list;
-    }
 
     // final assetsAudioPlayer = AssetsAudioPlayer.withId("0");
 
@@ -138,19 +136,15 @@ class _QuranTestState extends State<QuranTest> {
 
       assetsAudioPlayer.current.listen((playingAudio) {
         final asset = playingAudio!.audio;
-
+        print("CURRENT $asset");
         if (prev != asset && seekBackward == false) {
-          // changeText([splittedText[ayaIndex]]);
           changeText();
-          // print("ASSET");
-          // print(asset);
+          
           setState(() {
             prev = asset;
           });
         } else if (seekBackward == true) {
-          // print("SPLITTED TEXT: $splittedText");
-
-          //changeText([splittedText[ayaIndex-1]]);
+         
           changeText();
 
           print("ASSET");
@@ -163,31 +157,73 @@ class _QuranTestState extends State<QuranTest> {
     }
 
 //split full text by line and by aya numbers
-    splittedText = splitAyasandLines();
+    splittedText = HelperFunctions.splitLinesintoList(fulltext);
 
-    // print(splittedText);
-//print("FULL TEXT $fulltext");
-    return Container(
-      padding: EdgeInsets.only(top: 100),
-      child: Column(
-        children: [
-          DynamicTextHighlighting(
-            text: fulltext,
-            textAlign: TextAlign.center,
-            highlights: highlights,
-            color: Colors.yellow,
-            style: TextStyle(
-              fontSize: 15,
-              fontFamily: "IBMPlexSansArabic",
-              color: CustomColors.black200,
-              //color: Colors.black.withOpacity(0),
+    //num of pages, for now its 4
+    List<int> listindex = [1, 2, 3, 4];
+    int activeIndex = 0;
+
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(top: 100),
+              child: Column(
+                children: [
+                  CarouselSlider.builder(
+                    itemCount: listindex.length,
+                    itemBuilder: (context, index, realIndex) {
+                      return DynamicTextHighlighting(
+                        text: fulltext,
+                        textAlign: TextAlign.center,
+                        highlights: highlights,
+                        color: Colors.yellow,
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: "IBMPlexSansArabic",
+                          color: CustomColors.black200,
+                          //color: Colors.black.withOpacity(0),
+                        ),
+                        caseSensitive: false,
+                      );
+                    },
+                    options: CarouselOptions(
+                        height: 800,
+                        reverse: false,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: false,
+                        initialPage: -1,
+                        scrollDirection: Axis.horizontal,
+                        //aspectRatio: 3,
+                        //enlargeCenterPage: true,
+
+                        //disableCenter: true,
+                        onPageChanged: (index, reason) {
+                          setState(() {
+                          
+                        activeIndex = index;
+                               Provider.of<ayatLines_provider>(context, listen: false)
+        .getLines(activeIndex+1);
+//  textData = Provider.of<ayatLines_provider>(context, listen: false);
+//    textlist = textData.text;
+// lengthoflines = textlist.length; 
+                          });
+                        }
+                      // pageSnapping: false,
+                        ),
+                  ),
+                ],
+              ),
             ),
-            caseSensitive: false,
           ),
-          SizedBox(
-            height: 50,
-          ),
-          Container(
+        ),
+        Container(
+          // clipBehavior:Clip.hardEdge,
+          // padding: EdgeInsets.all(100),
+          padding: EdgeInsets.only(bottom: 95),
+
+          child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(15.0)),
               border: Border.all(color: CustomColors.brown700, width: 1),
@@ -235,7 +271,7 @@ class _QuranTestState extends State<QuranTest> {
                         setState(() {
                           showPauseIcon = true;
                         });
-
+          
                         assetsAudioPlayer.open(Playlist(audios: audios),
                             loopMode: LoopMode.playlist);
                         PlayAudios(splittedText);
@@ -277,9 +313,12 @@ class _QuranTestState extends State<QuranTest> {
                 ),
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        ),
+        SizedBox(
+          height: 80,
+        )
+      ],
     );
   }
 }
