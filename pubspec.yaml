@@ -52,6 +52,9 @@ dependencies:
   dynamic_text_highlighting: ^2.2.0
   assets_audio_player: ^3.0.4+1
   http: ^0.13.4
+  scroll_to_index: any
+
+
 
 
 dev_dependencies:
@@ -90,9 +93,7 @@ flutter:
     - lib/data/json_files/Ayat_pages/
     - lib/data/json_files/audio_page/
 
-    - assets/audios/
-    - assets/audios/1/
-    - assets/audios/2/
+ 
 
 
     #- models/data.json

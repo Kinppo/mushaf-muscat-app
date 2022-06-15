@@ -11,6 +11,7 @@ class SurahProvider with ChangeNotifier {
   List<Surah> _undiacritizedSurahList = [];
 
   String user_query;
+  late int num_param;
 
   SurahProvider({required this.user_query});
 
@@ -66,6 +67,21 @@ class SurahProvider with ChangeNotifier {
     return [..._surahs];
   }
 
+
+//todo: fix function based on new database that will be provided
+  List<Surah> getSurahName(num_param) {
+    List<Surah> nameMatch = [];
+    nameMatch.addAll(_undiacritizedSurahList);
+
+    nameMatch.retainWhere((surah) =>
+    //THIS LINE SHOULD BE FIXED
+        // (int.parse(surah.surahNum!)==num_param) 
+        (num_param-1 < int.parse(surah.surahNum!))
+            );
+
+            //print(matches);
+            return nameMatch;
+  }
 
 
   List<Surah> getSeachResults(user_query) {

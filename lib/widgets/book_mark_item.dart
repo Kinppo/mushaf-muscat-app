@@ -85,7 +85,7 @@ class BookMarkItem extends StatelessWidget {
               color: type == "1"
                   ? CustomColors.yellow400
                   : type == "2"
-                      ? CustomColors.red400
+                      ? CustomColors.red300
                       : CustomColors.pink100,
               size: 31,
             ),

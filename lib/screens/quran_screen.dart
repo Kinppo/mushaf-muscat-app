@@ -80,7 +80,7 @@ class _QuranScreenState extends State<QuranScreen> {
             GestureDetector(
                 child: (segmentedControlValue == 0 && toggleSearch == false)
                     ? Container(
-                        padding: const EdgeInsets.all(Dimens.px22),
+                        // padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
                         width: double.infinity,
                         child:  SingleChildScrollView(

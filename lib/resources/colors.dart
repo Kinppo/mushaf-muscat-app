@@ -25,7 +25,6 @@ class CustomColors {
 
   static Color red200 = HexColor('#f44336');
   static Color red300 = HexColor('#db0f00');
-  static Color red400 = HexColor('#db0f00');
 
   static Color brown100 = HexColor('#453d35');
   static Color brown200 =HexColor('#e3d8cc');
