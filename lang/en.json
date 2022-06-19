@@ -43,6 +43,15 @@
     "search_screen_search": "test",
     "search_screen_cancel": "test",
     
+    "onclick_aya_modalsheet_bk1": "",
+    "onclick_aya_modalsheet_bk2": "",
+    "onclick_aya_modalsheet_bk3": "",
+    "onclick_aya_modalsheet_bk4": "",
+    "onclick_aya_modalsheet_list1": "",
+    "onclick_aya_modalsheet_list2": "",
+    "onclick_aya_modalsheet_list3": "",
+    "onclick_aya_modalsheet_list4": "",
+    
     "tafsir_text": "Test",
     "dummy_text": "test"
 }

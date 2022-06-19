@@ -8,8 +8,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mushafmuscat/models/AyatLines.dart';
 import 'package:mushafmuscat/utils/helperFunctions.dart';
+import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
 import 'package:mushafmuscat/widgets/pageDetails.dart';
 import 'package:provider/provider.dart';
+import '../widgets/aya_clicked_bottom_sheet.dart';
 
 import '../models/surah.dart';
 import '../providers/surah_provider.dart';
@@ -101,6 +103,8 @@ class _finalCarouselState extends State<finalCarousel> {
     });
   }
 
+ 
+
   @override
   Widget build(BuildContext context) {
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
@@ -166,14 +170,32 @@ class _finalCarouselState extends State<finalCarousel> {
 
                 return Builder(
                   builder: (BuildContext context) {
-                    return Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(horizontal: 5.0),
-                      child: pageDetails(
-                          id: idx + 1,
-                          indexhighlight: activeAya,
-                          currentpage: currentPlayingPage,
-                          ayaFlag: ayaFlag),
+                    return GestureDetector(
+                      onDoubleTap: (){
+                      
+                        showModalBottomSheet<void>(
+                          shape: RoundedRectangleBorder(
+     borderRadius: BorderRadius.circular(10.0),
+  ),
+            context: context,
+            builder: (BuildContext context) {
+              return AyaClickedBottomSheet();
+            },
+          );
+      
+      
+                        //  AyaClickedBottomSheet;
+                        // print("Double clicked");
+                         },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        child: pageDetails(
+                            id: idx + 1,
+                            indexhighlight: activeAya,
+                            currentpage: currentPlayingPage,
+                            ayaFlag: ayaFlag),
+                      ),
                     );
                   },
                 );
@@ -292,87 +314,107 @@ class _finalCarouselState extends State<finalCarousel> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                IconButton(
-                    iconSize: 30,
-                    icon: SvgPicture.asset("assets/images/Settings.svg",
-                        width: 30, height: 30, fit: BoxFit.fitWidth),
-                    //seek forward
-                    onPressed: () {
-                      changehighlights();
-                    }),
+                Material(
+                  color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      iconSize: 30,
+                      icon: SvgPicture.asset("assets/images/Settings.svg",
+                          width: 30, height: 30, fit: BoxFit.fitWidth),
+                      //seek forward
+                      onPressed: () {
+                        changehighlights();
+                      }),
+                ),
                 SizedBox(
                   width: 30,
                 ),
-                IconButton(
-                    iconSize: 40,
-                    icon: SvgPicture.asset("assets/images/Seek_right.svg",
-                        width: 40, height: 40, fit: BoxFit.fitWidth),
-                    //seek forward
-                    onPressed: () {
-                      assetsAudioPlayer.next();
-                      PlayAudios();
-                    }),
+                Material(
+                  color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      iconSize: 40,
+                      icon: SvgPicture.asset("assets/images/Seek_right.svg",
+                          width: 40, height: 40, fit: BoxFit.fitWidth),
+                      //seek forward
+                      onPressed: () {
+                        assetsAudioPlayer.next();
+                        PlayAudios();
+                      }),
+                ),
                 SizedBox(
                   width: 20,
                 ),
                 CircleAvatar(
                   backgroundColor: CustomColors.grey200,
                   maxRadius: 20,
-                  child: IconButton(
-                    icon: Icon(
-                      showPauseIcon ? Icons.pause : Icons.play_arrow,
-                      color: CustomColors.yellow100,
-                    ),
-                    iconSize: 20,
-                    onPressed: () async {
-                      if (firstFlag == false) {
-                        setState(() {
-                          currentPlayingPage = currentPage;
-
-                          showPauseIcon = true;
-                        });
-                        audioPaths.forEach((item) {
-                          audios.add(Audio.network(item));
-                        });
-                        // print(audioPaths);
-                        assetsAudioPlayer.open(Playlist(audios: audios),
-                            loopMode: LoopMode.playlist);
-
-                        PlayAudios();
-
-                        firstFlag = true;
-                      }
-                      //plays from paused position
-                      else {
-                        setState(() {
-                          showPauseIcon = !showPauseIcon;
-                          play = !play;
-                        });
-                        assetsAudioPlayer.playOrPause();
-                        if (play == true) {
+                  child: Material(
+                    color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                    child: IconButton(
+                      icon: Icon(
+                        showPauseIcon ? Icons.pause : Icons.play_arrow,
+                        color: CustomColors.yellow100,
+                      ),
+                      iconSize: 20,
+                      onPressed: () async {
+                        if (firstFlag == false) {
+                          setState(() {
+                            currentPlayingPage = currentPage;
+                  
+                            showPauseIcon = true;
+                          });
+                          audioPaths.forEach((item) {
+                            audios.add(Audio.network(item));
+                          });
+                          // print(audioPaths);
+                          assetsAudioPlayer.open(Playlist(audios: audios),
+                              loopMode: LoopMode.playlist);
+                  
                           PlayAudios();
+                  
+                          firstFlag = true;
                         }
-                        //
-                      }
-                    },
+                        //plays from paused position
+                        else {
+                          setState(() {
+                            showPauseIcon = !showPauseIcon;
+                            play = !play;
+                          });
+                          assetsAudioPlayer.playOrPause();
+                          if (play == true) {
+                            PlayAudios();
+                          }
+                          //
+                        }
+                      },
+                    ),
                   ),
                 ),
                 SizedBox(
                   width: 20,
                 ),
-                IconButton(
-                    iconSize: 40,
-                    icon: SvgPicture.asset("assets/images/Seek_left.svg",
-                        width: 40, height: 40, fit: BoxFit.fitWidth),
-                    //seek forward
-                    onPressed: () {
-                      // initializeDuration();
-                      assetsAudioPlayer.previous();
-                      setState(() {
-                        seekBackward = true;
-                      });
-                      PlayAudios();
-                    }),
+                Material(
+                  color: Colors.transparent,
+                shape: CircleBorder(),
+                clipBehavior: Clip.hardEdge,
+                  child: IconButton(
+                      iconSize: 40,
+                      icon: SvgPicture.asset("assets/images/Seek_left.svg",
+                          width: 40, height: 40, fit: BoxFit.fitWidth),
+                      //seek forward
+                      onPressed: () {
+                        // initializeDuration();
+                        assetsAudioPlayer.previous();
+                        setState(() {
+                          seekBackward = true;
+                        });
+                        PlayAudios();
+                      }),
+                ),
                 SizedBox(
                   width: 80,
                 ),
@@ -384,6 +426,7 @@ class _finalCarouselState extends State<finalCarousel> {
         SizedBox(
           height: 80,
         ),
+  
       ]),
     );
   }
