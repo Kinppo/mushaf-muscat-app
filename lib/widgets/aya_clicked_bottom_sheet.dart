@@ -1,23 +1,39 @@
 import 'dart:math' as math; // import this
 
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mushafmuscat/localization/app_localizations.dart';
 
 import '../resources/colors.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
-  const AyaClickedBottomSheet({Key? key}) : super(key: key);
+   Function ShowAudioPlayer;
+AyaClickedBottomSheet({
+    Key? key,
+    required this.ShowAudioPlayer,
+   
+  }) : super(key: key);
 
   @override
   State<AyaClickedBottomSheet> createState() => _AyaClickedBottomSheetState();
+
+  
 }
 
 class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
+
+  void viewAudioPlayerController() {
+    setState(() {
+      widget.ShowAudioPlayer();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // return grid item container
+
     Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText) {
       return Container(
         decoration: BoxDecoration(
@@ -27,19 +43,19 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
         child: Row(
           children: [
             IconButton(
-                padding: EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
                 iconSize: 32,
                 alignment: Alignment.topRight,
                 onPressed: () {
                   //todo: change text next to iconbutton
                   //todo: fill icon button
                 },
-                icon: Icon(Icons.bookmark_border_outlined),
+                icon: const Icon(Icons.bookmark_border_outlined),
                 color: bkColor),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Text(
@@ -61,19 +77,31 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       );
     }
 
-    // return grid list item container
-    Widget returnListItem(IconData listIcon, String listText, bool transform) {
-      return ListTile(
-        leading:(transform== true) ? Transform(
-          alignment: Alignment.center,
-           transform: Matrix4.rotationY(math.pi),
-          child: Icon(listIcon)) : Icon(listIcon),
-        title: Text(listText),
+
+    Widget returnListItem(String listText, bool transform, String path, Function handler) {
+      return Material(
+        child: ListTile(      
+          enableFeedback: true,
+          onTap: (){
+viewAudioPlayerController();
+          Navigator.pop(context);
+          },
+          leading: (transform == true)
+              ? Transform(
+                  alignment: Alignment.center,
+                  transform: Matrix4.rotationY(math.pi),
+                  child: SvgPicture.asset("assets/images/$path.svg",
+                      width: 30, height: 30, fit: BoxFit.fitWidth))
+              // child: Icon(listIcon))
+              : SvgPicture.asset("assets/images/$path.svg",
+                  width: 30, height: 30, fit: BoxFit.fitWidth),
+          title: Text(listText, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
+        ),
       );
     }
 
     return Container(
-      height: 1000,
+      height: 600,
       color: CustomColors.yellow100,
       child: Center(
         child: Column(
@@ -90,9 +118,12 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                     color: CustomColors.yellow100,
                   ),
                   child: GridView(
+                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                              physics: NeverScrollableScrollPhysics(),
                       clipBehavior: Clip.hardEdge,
                       shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisSpacing: 1,
                         mainAxisSpacing: 1,
                         crossAxisCount: 2,
@@ -100,28 +131,32 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                       ),
                       children: <Widget>[
                         returnGridItem(
-                          BorderRadius.only(topRight: Radius.circular(20)),
+                          const BorderRadius.only(
+                              topRight: Radius.circular(20)),
                           CustomColors.yellow400,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk1')
                               .toString(),
                         ),
                         returnGridItem(
-                          BorderRadius.only(topLeft: Radius.circular(20)),
+                          const BorderRadius.only(topLeft: Radius.circular(20)),
                           CustomColors.pink100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk2')
                               .toString(),
                         ),
+                        
                         returnGridItem(
-                          BorderRadius.only(bottomRight: Radius.circular(20)),
+                          const BorderRadius.only(
+                              bottomRight: Radius.circular(20)),
                           CustomColors.green200,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk3')
                               .toString(),
                         ),
                         returnGridItem(
-                          BorderRadius.only(bottomLeft: Radius.circular(20)),
+                          const BorderRadius.only(
+                              bottomLeft: Radius.circular(20)),
                           CustomColors.blue100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk4')
@@ -132,8 +167,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
               ),
             ),
 
-            ListTile(    
-
+            ListTile(
               title: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -141,26 +175,27 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 ),
                 child: Column(children: [
                   returnListItem(
-                      Icons.play_arrow,
                       AppLocalizations.of(context)!
                           .translate('onclick_aya_modalsheet_list1')
-                          .toString(), false),
+                          .toString(),
+                      false,
+                      'listPlay',viewAudioPlayerController),
                   Divider(
                     color: CustomColors.yellow200,
                     indent: 58,
                     thickness: 1.3,
                   ),
                   returnListItem(
-                      Icons.play_arrow,
                       AppLocalizations.of(context)!
                           .translate('onclick_aya_modalsheet_list2')
-                          .toString(), false),
+                          .toString(),
+                      false,
+                      'listPlay', (){}),
                 ]),
               ),
-             
             ),
-             ListTile(    
-
+            SizedBox(height:6),
+            ListTile(
               title: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -168,25 +203,26 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 ),
                 child: Column(children: [
                   returnListItem(
-                      MdiIcons.share,
-
                       AppLocalizations.of(context)!
                           .translate('onclick_aya_modalsheet_list3')
-                          .toString(), false),
+                          .toString(),
+                      true,
+                      'listShare',(){} ),
                   Divider(
                     color: CustomColors.yellow200,
                     indent: 58,
                     thickness: 1.3,
                   ),
                   returnListItem(
-                      Icons.copy,
                       AppLocalizations.of(context)!
                           .translate('onclick_aya_modalsheet_list4')
-                          .toString(), true),
+                          .toString(),
+                      true,
+                      'listCopy', (){}),
                 ]),
               ),
-              
-            ),
+            ),            SizedBox(height:8),
+
 
             // ElevatedButton(
             //   child: const Text('Close BottomSheet'),
