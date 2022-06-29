@@ -83,17 +83,15 @@ class _QuranScreenState extends State<QuranScreen> {
                         // padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
                         width: double.infinity,
-                        child:  SingleChildScrollView(
-                          child: Column(
-                            children:  [
-                              Padding(
-                                padding: EdgeInsets.only(top: 170),
-                                child: finalCarousel(),
-                              ),
-                              // showPlayer ? AudioPlayerWidget():
-                              // Container()
-                            ],
-                          ),         
+                        child:  Column(
+                          children:  [
+                            Padding(
+                              padding: EdgeInsets.only(top: 170),
+                              child: finalCarousel(),
+                            ),
+                            // showPlayer ? AudioPlayerWidget():
+                            // Container()
+                          ],
                         ),
                       )
                     : (segmentedControlValue == 1 && toggleSearch == false)
@@ -107,7 +105,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                   .toString()),
                             ),
                           )
-
+        
                         // if user is searching
                         : (toggleSearch == true)
                             ? Container(
