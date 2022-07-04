@@ -92,6 +92,7 @@ flutter:
     - lib/data/json_files/json_pages/
     - lib/data/json_files/Ayat_pages/
     - lib/data/json_files/audio_page/
+    - lib/data/json_files/quran_lines/
 
  
 

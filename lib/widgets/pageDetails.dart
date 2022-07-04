@@ -14,6 +14,7 @@ class pageDetails extends StatefulWidget {
   int indexhighlight;
   int currentpage;
   bool ayaFlag;
+// Function togg;
 
   pageDetails({
     Key? key,
@@ -21,6 +22,7 @@ class pageDetails extends StatefulWidget {
     required this.indexhighlight,
     required this.currentpage,
     required this.ayaFlag,
+    // required this.togg,
   }) : super(key: key);
 
   @override
@@ -34,24 +36,36 @@ class _pageDetailsState extends State<pageDetails> {
   late bool isLoaded = false;
   var textlist;
 
+  
+
   @override
   initState() {
     if (isLoaded == false) {
       textlist = Provider.of<ayatLines_provider>(context, listen: false)
           .getLines(widget.id);
+
+      //todo:fix this
       isLoaded = true;
     }
 
     super.initState();
   }
 
+//  Future <void> test() async {
+//   widget.togg( textlist[0].surahName.toString());
+//     print("test");
+//   }
+
   String? getData() {
+  // setState(() {
+  //   widget.surahName="rere";
+  // });
+    // test();
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
       });
     }
-
 
     print(widget.indexhighlight);
 
@@ -60,19 +74,22 @@ class _pageDetailsState extends State<pageDetails> {
     // print("current page is $c and widget id is $i");
 
     List<String> textl = [];
+      
+
     textlist.then((value) {
       value.forEach((item) {
         textl.add(item.text!);
         fulltext = textl.join('\n\n');
       });
     });
-      if (fulltext == null) {
+    if (fulltext == null) {
       return '';
     }
 
     splittedList = (HelperFunctions.splitLinesintoList(fulltext!));
-
-  
+    // setState(() {
+    //      widget.surahName= textlist[0].surahName;
+    //   });
 
 // if (widget.indexhighlight!=-1) {
 // //  print(hi[widget.indexhighlight]);}

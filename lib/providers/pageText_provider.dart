@@ -21,6 +21,7 @@ class PageText_provider with ChangeNotifier {
     // print("reached here");
 
     for(  int i = 1 ; i <= 5; i++ ) { 
+      // String data = await rootBundle.loadString('lib/data/json_files/quran_lines/quran_word_$i.json');
           String data = await rootBundle.loadString('lib/data/json_files/json_pages/quran_page_$i.json');
 
 var jsonResult = jsonDecode(data);

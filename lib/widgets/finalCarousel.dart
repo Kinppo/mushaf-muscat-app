@@ -11,6 +11,7 @@ import 'package:mushafmuscat/utils/helperFunctions.dart';
 import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
 import 'package:mushafmuscat/widgets/pageDetails.dart';
 import 'package:provider/provider.dart';
+import '../providers/ayatLines_provider.dart';
 import '../widgets/aya_clicked_bottom_sheet.dart';
 
 import '../models/surah.dart';
@@ -59,8 +60,11 @@ class _finalCarouselState extends State<finalCarousel> {
 
   bool stopindex = false;
   bool seekBackward = false;
-  final assetsAudioPlayer =
-      AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+  final assetsAudioPlayer = AssetsAudioPlayer();
+
+
+   final List<String?> surahNamess = [];
+List<List <int>> flagsForEndofSurah=[];
 
 // important variables
   int currentPlayingPage = 1;
@@ -68,12 +72,42 @@ class _finalCarouselState extends State<finalCarousel> {
 
   @override
   void initState() {
+    activate();
     ShowAudioPlayer = false;
     ShowOnlyPageNum = true;
-
+    loadSurahs();
     super.initState();
   }
 
+
+void loadSurahs() async {
+var data = await rootBundle
+   .loadString('lib/data/json_files/surahs_pages.json');
+ var jsonResult = jsonDecode(data);
+    for (int index = 0; index < jsonResult.length; index++) {
+      surahNamess.add(HelperFunctions.normalise(jsonResult[index]['surah']));
+    }
+
+
+for (int i=1; i<= jsonResult.length; i++) {
+List<int> tempList=[];
+String flgs = await rootBundle
+        .loadString('lib/data/json_files/quran_lines/quran_word_$i.json');
+
+var jsonResult2 = jsonDecode(flgs);
+
+for (int index = 0; index < jsonResult2.length; index++) {
+     tempList.add(int.parse(jsonResult2[index]['EndOfSurah']));
+
+}
+     flagsForEndofSurah.add(tempList);
+tempList=[];
+}
+
+// print("LENGTH OF OUTER LIST: "+ flagsForEndofSurah.length.toString());
+// print(flagsForEndofSurah.toString());
+
+}
   @override
   void didChangeDependencies() {
     if (_isInit) {
@@ -82,19 +116,31 @@ class _finalCarouselState extends State<finalCarousel> {
       });
 
       Provider.of<SurahProvider>(context).fetchSurahs().then((_) {
+          setState(() {
+            _isLoading = false;
+          });
+        });
+
+
         setState(() {
           _isLoading = false;
         });
-      });
+
 
       _isInit = false;
       super.didChangeDependencies();
     }
   }
-  // void deactivate() {
-  //   super.deactivate();
-  //   assetsAudioPlayer.dispose();
-  // }
+
+  void activate() {
+      AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+  }
+  
+  void deactivate() {
+    super.deactivate();
+    assetsAudioPlayer.dispose();
+  }
+
 
   int activeAya = -1;
   bool ayaFlag = false;
@@ -120,10 +166,15 @@ class _finalCarouselState extends State<finalCarousel> {
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
     final List<Surah> _surahitem = _surahs;
+
+    final dkfjd= Provider.of<ayatLines_provider>(context);
+
     // print(_surahitem);
 
     //TODO: This will be the whole quran later on
-    List<int> listindex = [1, 2, 3, 4];
+    // List<int> listindex = [1, 2, 3, 4];
+    List<int> listindex= new List<int>.generate(604, (i) => i + 1);
+
     int activeIndex = 1;
 
     List<AyatLines> listofObjects = [];
@@ -133,23 +184,7 @@ class _finalCarouselState extends State<finalCarousel> {
           pageNumber: i,
         )));
 
-    void fetchSurahName(int i) {
-      setState(() {
-        List<Surah> _surah_search_results = [];
-        _surah_search_results =
-            Provider.of<SurahProvider>(context, listen: false)
-                .getSurahName((i));
-        // surahName= "hello";
-        print(_surah_search_results);
-        // if (i< int.parse(_surah_search_results[i])) {
-
-        // }
-        surahName = _surah_search_results[0].surahTitle.toString();
-      });
-    }
-
-    // print(listofObjects);
-
+    
     return Expanded(
       child: Container(
         child: Column(children: [
@@ -174,6 +209,7 @@ class _finalCarouselState extends State<finalCarousel> {
                       currentPage = index + 1;
                       getAudioPaths();
                       PlayAudios();
+
 
                       // print("PAGE ID IS $currentPage");
                     });
@@ -213,7 +249,7 @@ class _finalCarouselState extends State<finalCarousel> {
                             id: idx + 1,
                             indexhighlight: activeAya,
                             currentpage: currentPlayingPage,
-                            ayaFlag: ayaFlag),
+                            ayaFlag: ayaFlag)
                       ),
                     );
                   },
@@ -273,7 +309,7 @@ class _finalCarouselState extends State<finalCarousel> {
                             pageSnapping: true,
                             enableInfiniteScroll: true,
                           ),
-                          items: [1, 2, 3, 4].map((i) {
+                          items: listindex.map((i) {
                             return Builder(
                               builder: (BuildContext context) {
                                 return Container(
@@ -293,7 +329,10 @@ class _finalCarouselState extends State<finalCarousel> {
                                         //  }
 
                                         // overallid=i-1;
-                                        fetchSurahName(i);
+                                        // fetchSurahName(i);
+                                        setState(() {
+                                          surahName= surahNamess[i-1]!;
+                                        });
                                         carouselController.animateToPage(i - 1);
                                         carouselController2
                                             .animateToPage(i-1 );
@@ -507,7 +546,6 @@ class _finalCarouselState extends State<finalCarousel> {
                         onTap: () {
                           setState(() {
                             ShowOnlyPageNum = !ShowOnlyPageNum;
-                            print("tapped");
                           });
                         },
                         child: Container(
@@ -539,9 +577,9 @@ class _finalCarouselState extends State<finalCarousel> {
 
   Future<void> getAudioPaths() async {
     final List<String> paths = [];
+    print("CURRENT PAGE IS: "+ currentPage.toString());
     String AudioData = await rootBundle
-        .loadString('lib/data/json_files/audio_page/audio_$currentPage.json');
-
+        .loadString('lib/data/json_files/audio_page/quran_audio_$currentPage.json');
     var jsonAudioResult = jsonDecode(AudioData);
 
     for (int index = 0; index < jsonAudioResult.length; index++) {
@@ -554,7 +592,16 @@ class _finalCarouselState extends State<finalCarousel> {
   }
 
   Future<void> PlayAudios() async {
-    // print("AYA INDEX: $ayaIndex");
+//  String temp='0';
+      // print("FLAG IS " + flagsForEndofSurah[currentPage][activeAya+1].toString());
+
+//TODO: END OF SURAH EVENT
+// if ( ayaIndex !=0 ) {
+//     if (flagsForEndofSurah[currentPage][activeAya] ==1) {
+//       print("END OF SURAH");
+//     }
+// }
+    // print("AYA INDEX: $activeAya");
 
     // print("PREVIOUS $prev");
     int previousAudioId = 0;
@@ -565,8 +612,10 @@ class _finalCarouselState extends State<finalCarousel> {
       // print("CURRENT $asset");
       String curr =
           asset.assetAudioPath.substring(0, asset.assetAudioPath.length - 4);
-      // print(curr.substring(curr.length - 6));
-
+     
+      //TODO: TEMP SOLUTION FOR FINDING CURRENT PLAYING AYA
+      //  temp=  int.parse(curr.substring(curr.length - 3)).toString();
+// print("rrrrrrrrrr "  + temp);
       if (prev != asset && seekBackward == false) {
         changeText();
 

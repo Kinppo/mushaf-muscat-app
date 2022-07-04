@@ -19,8 +19,6 @@ AyaClickedBottomSheet({
 
   @override
   State<AyaClickedBottomSheet> createState() => _AyaClickedBottomSheetState();
-
-  
 }
 
 class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
@@ -30,6 +28,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       widget.ShowAudioPlayer();
     });
   }
+
   @override
   Widget build(BuildContext context) {
     // return grid item container
@@ -48,8 +47,9 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 alignment: Alignment.topRight,
                 onPressed: () {
                   //todo: change text next to iconbutton
-                  //todo: fill icon button
+                  //todo: fill icon           
                 },
+
                 icon: const Icon(Icons.bookmark_border_outlined),
                 color: bkColor),
             Column(
