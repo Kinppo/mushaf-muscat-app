@@ -14,7 +14,7 @@ class AppRoutes {
   static Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
       case QuranScreen.routeName:
-        return MaterialPageRoute(builder: (_) => QuranScreen());
+        return MaterialPageRoute(builder: (_) => QuranScreen(),settings: settings);
         break;
       case SplashScreen.routeName:
         return MaterialPageRoute(builder: (_) => SplashScreen());

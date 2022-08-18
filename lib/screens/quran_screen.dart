@@ -2,10 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/widgets/appbar.dart';
-import 'package:mushafmuscat/widgets/careousel2.dart';
 import 'package:mushafmuscat/widgets/finalCarousel.dart';
-import 'package:mushafmuscat/widgets/test3.dart';
-import 'package:mushafmuscat/widgets/textCarousel.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
@@ -32,7 +29,16 @@ class _QuranScreenState extends State<QuranScreen> {
   bool orientationPotrait = true;
   bool toggleSearch = false;
   bool showPlayer= true;
-
+  int goToPage=0;
+  
+@override
+  // void initState() {
+     
+  //     // _detailListBloc = DetailListBloc(widget.apiUrl);  
+ 
+  //   // TODO: implement initState
+  //   super.initState();
+  // }
 
 
   void controlSegment(segment) {
@@ -51,6 +57,23 @@ class _QuranScreenState extends State<QuranScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Future.delayed(Duration.zero,(){//you can await it if you want
+    //   print('init=${ModalRoute.of(context)!.settings.arguments}');
+      goToPage=ModalRoute.of(context)!.settings.arguments as int;  
+      //  });
+      // var arg = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+                  // print("==========");
+
+            // print(arg['page']);
+
+      // goToPage = int.parse(arg['page']);
+      // if (arg != null) {
+      //   // Map pagearg= arg as Map;
+      //   var pagearg= arg['page'];
+      // print("ARGS IS $pagearg");
+
+      // }
+print("GOOOO TO PAGE $goToPage");
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: _showAppBar
@@ -87,7 +110,7 @@ class _QuranScreenState extends State<QuranScreen> {
                           children:  [
                             Padding(
                               padding: EdgeInsets.only(top: 170),
-                              child: finalCarousel(),
+                              child: finalCarousel(goToPage: goToPage),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()

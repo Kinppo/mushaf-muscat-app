@@ -1,4 +1,4 @@
-import 'package:dynamic_text_highlighting/dynamic_text_highlighting.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/models/pageText.dart';
 import 'package:provider/provider.dart';
@@ -14,6 +14,9 @@ class pageDetails extends StatefulWidget {
   int indexhighlight;
   int currentpage;
   bool ayaFlag;
+  int clickedHighlightNum;
+  Function toggleClickedHighlight;
+
 // Function togg;
 
   pageDetails({
@@ -22,6 +25,8 @@ class pageDetails extends StatefulWidget {
     required this.indexhighlight,
     required this.currentpage,
     required this.ayaFlag,
+    required this.clickedHighlightNum,
+    required this.toggleClickedHighlight,
     // required this.togg,
   }) : super(key: key);
 
@@ -35,8 +40,10 @@ class _pageDetailsState extends State<pageDetails> {
   List<String> splittedList = [''];
   late bool isLoaded = false;
   var textlist;
-
-  
+  String tempText = '';
+  bool highlightFlag = false;
+  int idx = 0;
+  bool clickedListen = false;
 
   @override
   initState() {
@@ -56,11 +63,97 @@ class _pageDetailsState extends State<pageDetails> {
 //     print("test");
 //   }
 
+  List<TextSpan> createTextSpans() {
+    if (widget.currentpage != widget.id) {
+      setState(() {
+        widget.indexhighlight = -1;
+      });
+    }
+    //=======
+    textlist = Provider.of<ayatLines_provider>(context, listen: false)
+        .getLines(widget.id);
+    List<String> textl = [];
+
+    textlist.then((value) {
+      value.forEach((item) {
+        textl.add(item.text!);
+        fulltext = textl.join('\n\n');
+      });
+    });
+    // print(fulltext);
+    if (fulltext == null) {
+      return [TextSpan(text: '')];
+    }
+    fulltext = fulltext!.replaceAll(')', ').');
+
+    splittedList = fulltext!.split(".");
+    // splittedList = fulltext!.replaceAll('.', ')');
+
+    // splittedList = (HelperFunctions.splitLinesintoList(fulltext!));
+    //=======
+    final arrayStrings = splittedList;
+    // final string = """Text seems like it should be so simple, but it really isn't.""";
+    // final arrayStrings = string.split(" ");
+    List<TextSpan> arrayOfTextSpan = [];
+    for (int index = 0; index < arrayStrings.length; index++) {
+      final text = arrayStrings[index] + " ";
+      final span = TextSpan(
+          text: text,
+          style: TextStyle(background: Paint()..color = Colors.transparent),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              setState(() {
+                highlightFlag = true;
+                idx = arrayOfTextSpan
+                    .indexWhere((element) => element.text == text);
+                
+                print("highlighted line number  $idx");
+                widget.clickedHighlightNum= idx+1;
+                widget.toggleClickedHighlight(idx+1);
+
+              });
+
+              // print("The word touched is $text");
+              // Paint().color = Colors.red;
+            });
+      arrayOfTextSpan.add(span);
+    }
+
+    if (highlightFlag == true) {
+      arrayOfTextSpan[idx].style?.background!.color =
+          Colors.brown.withOpacity(0.2);
+    }  
+      setState(() {
+        if (widget.currentpage == widget.id &&
+            widget.ayaFlag != false &&
+            arrayStrings[0] != "") {
+
+              ///====temp and may be disposed later based on the use case
+              if (highlightFlag == true) {
+                highlightFlag=false;
+                arrayOfTextSpan[idx].style?.background!.color =
+          Colors.transparent;
+               }
+               ///====
+
+          arrayOfTextSpan[widget.indexhighlight].style?.background!.color =
+              Colors.yellow;
+        }
+      });
+    
+
+//  highlights: (widget.currentpage != widget.id ||
+    //                 widget.ayaFlag == false ||
+    //                 splittedList[0] == "")
+    //             ? ['  ']
+    //             : [splittedList[widget.indexhighlight]],
+    //         color: Colors.yellow,
+
+    //  print(arrayOfTextSpan[3]);
+    return arrayOfTextSpan;
+  }
+
   String? getData() {
-  // setState(() {
-  //   widget.surahName="rere";
-  // });
-    // test();
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
@@ -74,7 +167,6 @@ class _pageDetailsState extends State<pageDetails> {
     // print("current page is $c and widget id is $i");
 
     List<String> textl = [];
-      
 
     textlist.then((value) {
       value.forEach((item) {
@@ -100,23 +192,53 @@ class _pageDetailsState extends State<pageDetails> {
   @override
   Widget build(BuildContext context) {
     return isLoaded
-        ? DynamicTextHighlighting(
-            text: getData(),
-            textAlign: TextAlign.center,
-            highlights: (widget.currentpage != widget.id ||
-                    widget.ayaFlag == false ||
-                    splittedList[0] == "")
-                ? ['  ']
-                : [splittedList[widget.indexhighlight]],
-            color: Colors.yellow,
-            style: TextStyle(
-              fontSize: 15,
-              fontFamily: "IBMPlexSansArabic",
-              color: CustomColors.black200,
-              //color: Colors.black.withOpacity(0),
-            ),
-            caseSensitive: false,
+        ? Center(
+            child: Column(children: [
+              Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 135),
+                  child: RichText(
+                    textAlign: TextAlign.center,
+                    text: new TextSpan(
+                      style: TextStyle(fontSize: 15, color: Colors.black, 
+                      wordSpacing:3, height: 1.3),
+                      children: createTextSpans(),
+                    ),
+                  ),
+                ),
+              ),
+            ]),
           )
+
+        //       child: Material(
+        //         clipBehavior: Clip.hardEdge,
+
+        //         child: InkWell(
+        // splashColor: Colors.yellow,
+        // highlightColor: Colors.blue,
+        // onTap: (){},
+        // child: Icon(Icons.add_circle, size: 50),
+        //         ),),)
+        //     child: DynamicTextHighlighting(
+        //         text: "hello",
+
+        //         textAlign: TextAlign.center,
+        //         highlights: (widget.currentpage != widget.id ||
+        //                 widget.ayaFlag == false ||
+        //                 splittedList[0] == "")
+        //             ? ['  ']
+        //             : [splittedList[widget.indexhighlight]],
+        //         color: Colors.yellow,
+        //         style: TextStyle(
+        //           fontSize: 15,
+        //           fontFamily: "IBMPlexSansArabic",
+        //           color: CustomColors.black200,
+        //           //color: Colors.black.withOpacity(0),
+        //         ),
+        //         caseSensitive: false,
+        //       ),
+        //   ),
+        // )
         : CircularProgressIndicator();
   }
 }

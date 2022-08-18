@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mushafmuscat/screens/test_screen.dart';
 import '../resources/colors.dart';
 
 class SurahsList extends StatelessWidget {
@@ -7,9 +6,12 @@ class SurahsList extends StatelessWidget {
   String? title;
   String? numAya;
   String? type;
+  String? firstPageNum;
+  Function? tapHandler;
 
 
-SurahsList({Key? key,  this.num,  this.title,  this. numAya,  this.type}) : super(key: key);
+
+SurahsList({Key? key,  this.num,  this.title,  this. numAya,  this.type, this.firstPageNum, this.tapHandler}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +35,12 @@ SurahsList({Key? key,  this.num,  this.title,  this. numAya,  this.type}) : supe
                 style:
                      TextStyle(color: CustomColors.grey200)),
             onTap: () {
+            //   print("number: $num");
+            //    print("title: $title");
+            //   print("numAya: $numAya");
+            // print("firstPageNum: $firstPageNum");
+            //   print("tapped $firstPageNum");
+              tapHandler!(firstPageNum);
             });
   }
 }

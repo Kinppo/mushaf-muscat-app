@@ -1,1 +1,30 @@
-[{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001001.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001002.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001003.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001004.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001005.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001006.mp3"},{"audio":"https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001007.mp3"}]
+[
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001001.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001002.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001003.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001004.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001005.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001006.mp3",
+        "EndOfSurah": "0"
+    },
+    {
+        "audio": "https:\/\/dl.salamquran.com\/ayat\/afasy-murattal-192\/001007.mp3",
+        "EndOfSurah": "1"
+    }
+]

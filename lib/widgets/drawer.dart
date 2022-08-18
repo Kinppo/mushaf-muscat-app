@@ -66,6 +66,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
   int segmentedControlValue = 0;
   bool searchToggle = false;
+  int goToPage=1;
 
   // List <Surah> surahs= [];
   List<Surah> surahslist = [];
@@ -85,13 +86,28 @@ class _MainDrawerState extends State<MainDrawer> {
     surahslist = surahs;
   }
 
-  Widget buildSurahListTile(String? surahNum, String? surahTitle,
-      String? surahType, String? numOfAyas, Function? tapHandler) {
+  void tapHandlerFunc(String page) {
+    setState(() {
+    goToPage= int.parse(page);});
+    print("go to page $page");
+     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments: goToPage);
+    // });
+  }
+
+  Widget buildSurahListTile(
+      String? surahNum,
+      String? surahTitle,
+      String? surahType,
+      String? numOfAyas,
+      String? firstPage,
+      Function? tapHandler) {
     return SurahsList(
       num: surahNum,
       title: surahTitle,
       numAya: numOfAyas,
       type: surahType,
+      firstPageNum: firstPage,
+      tapHandler: tapHandler,
     );
   }
 
@@ -242,7 +258,8 @@ class _MainDrawerState extends State<MainDrawer> {
                               HelperFunctions.convertToArabicNumbers(
                                   _surahitem[i].numOfAyas),
                               _surahitem[i].surahType,
-                              () {},
+                              _surahitem[i].surahPageNum,
+                              tapHandlerFunc
                             ),
                             const Divider(
                               height: 20,
@@ -297,7 +314,8 @@ class _MainDrawerState extends State<MainDrawer> {
                                 HelperFunctions.convertToArabicNumbers(
                                     _surah_search_results[i].numOfAyas),
                                 _surah_search_results[i].surahType,
-                                () {},
+                                _surah_search_results[i].surahPageNum,
+                               tapHandlerFunc,
                               ),
                               const Divider(
                                 height: 20,
