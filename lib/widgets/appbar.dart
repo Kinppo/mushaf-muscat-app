@@ -56,99 +56,102 @@ class _appBarState extends State<appBar> {
               ),
             ),
             iconTheme: IconThemeData(color: CustomColors.black200),
-            toolbarHeight: 140, // Set this height
-            flexibleSpace: Container(
-              color: CustomColors.yellow500,
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    padding: const EdgeInsets.only(top: 80.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const SizedBox(
-                          width: 70,
-                        ),
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxWidth: 200,
-                            minWidth: 180,
+            toolbarHeight:140, 
+            flexibleSpace: SingleChildScrollView(
+              child: Container(
+                color: CustomColors.yellow500,
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      height: MediaQuery.of(context).size.height *0.50,
+                      padding: const EdgeInsets.only(bottom: 210.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          const SizedBox(
+                            width: 70,
                           ),
-                          child: Container(
-                            child: CupertinoSlidingSegmentedControl(
-                                groupValue: segmentToggle,
-                                backgroundColor: Theme.of(context).shadowColor,
-                                children: <int, Widget>{
-                                  0: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('quran_screen_switch_quran')
-                                        .toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        ?.copyWith(
-                                          color: CustomColors.brown300,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 17,
-                                        ),
-                                  ),
-                                  1: Text(
-                                    AppLocalizations.of(context)!
-                                        .translate('quran_screen_switch_tafsir')
-                                        .toString(),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headline1
-                                        ?.copyWith(
-                                          color: CustomColors.brown300,
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 17,
-                                        ),
-                                  ),
-                                },
-                                onValueChanged: (value) {
-                                  setState(() {
-                                    segmentToggle = value as int;
-                                    print("app bar $segmentToggle");
-                                    widget.segmentedControlValue(segmentToggle);
-                                  });
-                                }),
+                          ConstrainedBox(
+                            constraints: const BoxConstraints(
+                              maxWidth: 200,
+                              minWidth: 180,
+                            ),
+                            child: Container(
+                              child: CupertinoSlidingSegmentedControl(
+                                  groupValue: segmentToggle,
+                                  backgroundColor: Theme.of(context).shadowColor,
+                                  children: <int, Widget>{
+                                    0: Text(
+                                      AppLocalizations.of(context)!
+                                          .translate('quran_screen_switch_quran')
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          ?.copyWith(
+                                            color: CustomColors.brown300,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 17,
+                                          ),
+                                    ),
+                                    1: Text(
+                                      AppLocalizations.of(context)!
+                                          .translate('quran_screen_switch_tafsir')
+                                          .toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headline1
+                                          ?.copyWith(
+                                            color: CustomColors.brown300,
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 17,
+                                          ),
+                                    ),
+                                  },
+                                  onValueChanged: (value) {
+                                    setState(() {
+                                      segmentToggle = value as int;
+                                      print("app bar $segmentToggle");
+                                      widget.segmentedControlValue(segmentToggle);
+                                    });
+                                  }),
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        IconButton(
-                          iconSize: 28,
-                          onPressed: () {
-                            setState(() {
-                              if (widget.orientationPotrait == true) {
-                                widget.orientationPotrait =
-                                    !widget.orientationPotrait;
-
-                                SystemChrome.setPreferredOrientations(
-                                    [DeviceOrientation.landscapeRight]);
-                              } else {
-                                widget.orientationPotrait =
-                                    !widget.orientationPotrait;
-
-                                SystemChrome.setPreferredOrientations(
-                                    [DeviceOrientation.portraitUp]);
-                              }
-                            });
-                          },
-                          icon: const Icon(MdiIcons.screenRotation),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          IconButton(
+                            iconSize: 28,
+                            onPressed: () {
+                              setState(() {
+                                if (widget.orientationPotrait == true) {
+                                  widget.orientationPotrait =
+                                      !widget.orientationPotrait;
+                          
+                                  SystemChrome.setPreferredOrientations(
+                                      [DeviceOrientation.landscapeRight]);
+                                } else {
+                                  widget.orientationPotrait =
+                                      !widget.orientationPotrait;
+                          
+                                  SystemChrome.setPreferredOrientations(
+                                      [DeviceOrientation.portraitUp]);
+                                }
+                              });
+                            },
+                            icon: const Icon(MdiIcons.screenRotation),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
-                    width: double.infinity,
-                    height: 50,
-                    child: QuranSearchBar(searchController: searchController),
-                  ),
-                ],
+                    Container(
+                      padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
+                      width: double.infinity,
+                      height: 50,
+                      child: QuranSearchBar(searchController: searchController),
+                    ),
+                  ],
+                ),
               ),
             ),
           )

@@ -7,7 +7,9 @@ class AppThemes {
       scaffoldBackgroundColor: HexColor('#faf6f2'),
       accentColor: HexColor('#c7beb5'),
       buttonColor: HexColor('#ffffff'),
-      textSelectionColor: HexColor('#db0f00'),
+      hintColor: HexColor('#db0f00'),
+      
+      // textSelectionColor: HexColor('#db0f00'),
       secondaryHeaderColor: HexColor('#948779'),
       indicatorColor: HexColor('#e6ded6'),
       shadowColor: HexColor('#e6dfd8'),

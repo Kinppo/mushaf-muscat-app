@@ -11,6 +11,7 @@ import '../resources/colors.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
    Function ShowAudioPlayer;
+   
 AyaClickedBottomSheet({
     Key? key,
     required this.ShowAudioPlayer,

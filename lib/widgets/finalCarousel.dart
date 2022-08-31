@@ -21,8 +21,11 @@ import '../resources/colors.dart';
 
 class finalCarousel extends StatefulWidget {
   int goToPage;
+  Function toggleBars;
+
   finalCarousel({
     required this.goToPage,
+    required this.toggleBars,
     Key? key,
   }) : super(key: key);
 
@@ -191,8 +194,9 @@ class _finalCarouselState extends State<finalCarousel> {
   }
 
   void togglePlayer() {
-    setState(() {
-      ShowAudioPlayer = true;
+    setState(()  {
+widget.toggleBars();
+            ShowAudioPlayer = true;
     });
     print("TOGGLED TO $ShowAudioPlayer");
   }
@@ -216,426 +220,437 @@ class _finalCarouselState extends State<finalCarousel> {
           pageNumber: i,
         )));
 
-    return Expanded(
-      child: Container(
-        //change color later based on requirements
-        color: Colors.white,
-        child: Column(children: [
-          Container(
-            padding: EdgeInsets.fromLTRB(0, 90, 0, 20),
-            // height: 550,
-            // height: MediaQuery.of(context).size.height,
+    return Container(
+      //change color later based on requirements
+      color: Colors.white,
+                        height: MediaQuery.of(context).size.height,
 
-            child: CarouselSlider(
-              options: CarouselOptions(
-                  height: 590,
-                  
-                  //  height: 700,
-          
+      child: Column( 
 
-                  // height: MediaQuery.of(context).size.height,
+children: [   
 
-                  reverse: false,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: true,
-                  initialPage:
-                      //if infinite scroll is false, then initial page has to be -1 not 0
-                      (cameFromMenu == true) ? widget.goToPage - 1 : 0,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      overallid = index;
-                      currentPage = index + 1;
-                      surahName = surahNamess[index]!;
-                      getAudioPaths();
-                      PlayAudios();
-                      // print("PAGE ID IS $currentPage");
-                    });
-                  }),
-              items: listofObjects.map((i) {
-                int idx = listofObjects.indexOf(i);
-                // print("building... $idx")
 
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        ShowOnlyPageNum = !ShowOnlyPageNum;
-                      },
-                      onDoubleTap: () {
-                        print(ShowAudioPlayer);
-                        showModalBottomSheet<void>(
-                          constraints:
-                              BoxConstraints(maxWidth: 400, maxHeight: 460),
-                          clipBehavior: Clip.hardEdge,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AyaClickedBottomSheet(
-                              ShowAudioPlayer: togglePlayer,
-                            );
-                          },
-                        );
-                      },
-                      child: Stack(
-                        fit: StackFit.passthrough,
-                        children: [Image.asset('assets/quran_images/img_1.jpg',
-                                  fit: BoxFit.cover,                              width: MediaQuery.of(context).size.width,
-                              height: MediaQuery.of(context).size.height),
-                              Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: pageDetails(
-                              id: idx + 1,
-                              indexhighlight: activeAya,
-                              currentpage: currentPlayingPage,
-                              ayaFlag: ayaFlag,
-                              toggleClickedHighlight: toggleClickedHighlight,
-                              clickedHighlightNum: clickedHighlightNum,
-                            )),]
-                      ),
-                    );
-                  },
-                );
-              }).toList(),
-              carouselController: carouselController,
-            ),
-          ),
-          // SizedBox(
-          //   height: 20,
-          // ),
-
-          //====================PAGE INDICATOR=====================
-          (ShowAudioPlayer != true && ShowOnlyPageNum == false)
-              ? GestureDetector(
-                  onTap: () {
-                    setState(() {
+        Container(
+          padding: EdgeInsets.fromLTRB(0, 155, 0, 0),
+          // height:  MediaQuery.of(context).size.height,
+          // height: ,
+          color: Colors.white,
+        
+          child: CarouselSlider(
+            options: CarouselOptions(
+                
+                        // height: MediaQuery.of(context).size.height,
+        height: 672,
+        
+        
+                reverse: false,
+                viewportFraction: 1,
+                enableInfiniteScroll: true,
+                initialPage:
+                    //if infinite scroll is false, then initial page has to be -1 not 0
+                    (cameFromMenu == true) ? widget.goToPage - 1 : 0,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    overallid = index;
+                    currentPage = index + 1;
+                    surahName = surahNamess[index]!;
+                    getAudioPaths();
+                    PlayAudios();
+                    // print("PAGE ID IS $currentPage");
+                  });
+                }),
+            items: listofObjects.map((i) {
+              int idx = listofObjects.indexOf(i);
+              // print("building... $idx")
+        
+              return Builder(
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
                       ShowOnlyPageNum = !ShowOnlyPageNum;
-                      // print("what is this");
-                    });
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    // margin: EdgeInsets.only(bottom: 70),
-                    // padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                    height: 85,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: CustomColors.yellow200,
-                          width: 1,
+                    },
+                    onDoubleTap: () {
+                      print(ShowAudioPlayer);
+                      showModalBottomSheet<void>(
+                        constraints:
+                            BoxConstraints(maxWidth: 400, maxHeight: 460),
+                        clipBehavior: Clip.hardEdge,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25.0),
                         ),
-                        color: CustomColors.yellow500),
-                    child: Column(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AyaClickedBottomSheet(
+                            ShowAudioPlayer: togglePlayer,
+                          );
+                        },
+                      );
+                    },
+                    child: Stack(
+                      fit: StackFit.passthrough,
                       children: [
-                        Text(
-                          surahName,
-                          style: TextStyle(color: CustomColors.red300),
+                        IgnorePointer(
+                          child: Image.asset('assets/quran_images/img_3.jpg',
+                          // height:300,
+                                  fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
+                            ),
                         ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        CarouselSlider(
-                          carouselController: carouselController2,
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) {
-                              // _currentIndex = index;
-                              print("INDEX IS $index");
-                            },
-                            height: 34.0,
-                            viewportFraction: 0.16,
-                            reverse: false,
-                            initialPage: (cameFromMenu == true)
-                                ? widget.goToPage - 1
-                                : 0,
-                            scrollDirection: Axis.horizontal,
-                            pageSnapping: true,
-                            enableInfiniteScroll: true,
-                          ),
-                          items: listindex.map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                  width: 50,
-                                  height: 2,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        //  if(tapped==true &&overallid==i-1){
-                                        //  ShowOnlyPageNum=!ShowOnlyPageNum;
-
-                                        //  }
-
-                                        // overallid=i-1;
-                                        // fetchSurahName(i);
-
-                                        surahName = surahNamess[i - 1]!;
-
-                                        carouselController.animateToPage(i - 1);
-                                        carouselController2
-                                            .animateToPage(i - 1);
-                                        // ShowOnlyPageNum=true;
-                                      });
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.grey200
-                                                  : CustomColors.yellow200,
-                                              width: 1,
-                                            ),
-                                            color: Colors.white),
-                                        height: 30,
-                                        width: 40,
-                                        child: Text(
-                                          HelperFunctions
-                                                  .convertToArabicNumbers(
-                                                      i.toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.red300
-                                                  : CustomColors.grey200,
-                                              fontSize: 18),
-                                          textAlign: TextAlign.center,
-                                        )),
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ],
+                            Container(
+                                                        width: MediaQuery.of(context).size.width,
+                                                        padding: (idx==0 ||idx==1) ? EdgeInsets.only(top: 100) : EdgeInsets.only(top: 0) ,
+                                                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                                        child: pageDetails(
+                            id: idx + 1,
+                            indexhighlight: activeAya,
+                            currentpage: currentPlayingPage,
+                            ayaFlag: ayaFlag,
+                            toggleClickedHighlight: toggleClickedHighlight,
+                            clickedHighlightNum: clickedHighlightNum,
+                                                        )),]
                     ),
-                  ),
-                )
+                  );
+                },
+              );
+            }).toList(),
+            carouselController: carouselController,
+          ),
+        ),
+        // SizedBox(
+        //   height: 9,
+        // ),
 
-              //====================AUDIOPLAYER=====================
-              : (ShowAudioPlayer == true)
-                  ? Container(
-                      // padding: EdgeInsets.only(bottom: 95),
-                      child: Container(
-                        margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(15.0)),
-                          border: Border.all(
-                              color: CustomColors.brown700, width: 1),
+        //====================PAGE INDICATOR=====================
+        (ShowAudioPlayer != true && ShowOnlyPageNum == false)
+            ? GestureDetector(
+              
+                onTap: () {
+                  setState(() {
+                    ShowOnlyPageNum = !ShowOnlyPageNum;
+                    // print("what is this");
+                  });
+                },
+                child: Container(
+                  
+                  width: double.infinity,
+                  // margin: EdgeInsets.only(bottom: 70),
+                  // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  height: 85,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: CustomColors.yellow200,
+                        width: 1,
+                      ),
+                      color: CustomColors.yellow500),
+                  child: Column(
+                    children: [
+                      Text(
+                        surahName,
+                        style: TextStyle(color: CustomColors.red300),
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      CarouselSlider(
+                        carouselController: carouselController2,
+                        options: CarouselOptions(
+                          onPageChanged: (index, reason) {
+                            // _currentIndex = index;
+                            print("INDEX IS $index");
+                          },
+                          height: 34.0,
+                          viewportFraction: 0.16,
+                          reverse: false,
+                          initialPage: (cameFromMenu == true)
+                              ? widget.goToPage - 1
+                              : 0,
+                          scrollDirection: Axis.horizontal,
+                          pageSnapping: true,
+                          enableInfiniteScroll: true,
                         ),
-                        width: 650,
-                        height: 70,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  iconSize: 30,
-                                  icon: SvgPicture.asset(
-                                      "assets/images/Settings.svg",
-                                      width: 30,
-                                      height: 30,
-                                      fit: BoxFit.fitWidth),
-                                  onPressed: () {
-                                    // changehighlights();
-                                  }),
-                            ),
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  iconSize: 40,
-                                  icon: SvgPicture.asset(
-                                      "assets/images/Seek_right.svg",
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.fitWidth),
-                                  //seek forward
-                                  onPressed: () {
-                                    assetsAudioPlayer.next();
-                                    PlayAudios();
-                                  }),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            CircleAvatar(
-                              backgroundColor: CustomColors.grey200,
-                              maxRadius: 20,
-                              child: Material(
-                                color: Colors.transparent,
-                                shape: CircleBorder(),
-                                clipBehavior: Clip.hardEdge,
-                                child: IconButton(
-                                  icon: Icon(
-                                    showPauseIcon
-                                        ? Icons.pause
-                                        : Icons.play_arrow,
-                                    color: CustomColors.yellow100,
-                                  ),
-                                  iconSize: 20,
-                                  onPressed: () async {
-                                    if (previouslyStopped == true) {
-                                      setState(() {
-                                        activeAya = activeAya + 1;
-                                        previouslyStopped = false;
-                                      });
-                                    }
-                                    if (firstFlag == false) {
-                                      if (clickedHighlightNum != 0) {
-                                        activeAya = clickedHighlightNum - 1;
-                                      }
-                                      print("FIRST FLAG IS FALSE");
-                                      setState(() {
-                                        if (cameFromMenu == true) {
-                                          currentPage = widget.goToPage;
-                                        }
-                                        currentPlayingPage = currentPage;
-                                        overallid = currentPage;
-                                        showPauseIcon = true;
-                                        getAudioPaths();
-                                      });
-                                      audioPaths.forEach((item) {
-                                        audios.add(Audio.network(item));
-                                      });
-                                      // print(audioPaths);
-                                      assetsAudioPlayer.open(
-                                        Playlist(
-                                            audios: audios,
-                                            startIndex: clickedHighlightNum != 0
-                                                ? clickedHighlightNum
-                                                : 0),
-                                        loopMode: LoopMode.playlist,
-                                      );
-                                      assetsAudioPlayer.playOrPause();
-                                      PlayAudios();
-                                      firstFlag = true;
-                                    }
-                                    //plays from paused position
-                                    else {
-                                      setState(() {
-                                        showPauseIcon = !showPauseIcon;
-                                        play = !play;
-                                      });
-                                      assetsAudioPlayer.playOrPause();
-                                      if (play == true) {
-                                        PlayAudios();
-                                      }
-                                      //
-                                    }
+                        items: listindex.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: 50,
+                                height: 2,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      //  if(tapped==true &&overallid==i-1){
+                                      //  ShowOnlyPageNum=!ShowOnlyPageNum;
+            
+                                      //  }
+            
+                                      // overallid=i-1;
+                                      // fetchSurahName(i);
+            
+                                      surahName = surahNamess[i - 1]!;
+            
+                                      carouselController.animateToPage(i - 1);
+                                      carouselController2
+                                          .animateToPage(i - 1);
+                                      // ShowOnlyPageNum=true;
+                                    });
                                   },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                          shape: BoxShape.rectangle,
+                                          border: Border.all(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.grey200
+                                                : CustomColors.yellow200,
+                                            width: 1,
+                                          ),
+                                          color: Colors.white),
+                                      height: 30,
+                                      width: 40,
+                                      child: Text(
+                                        HelperFunctions
+                                                .convertToArabicNumbers(
+                                                    i.toString())
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.red300
+                                                : CustomColors.grey200,
+                                            fontSize: 18),
+                                        textAlign: TextAlign.center,
+                                      )),
                                 ),
+                              );
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+
+            //====================AUDIOPLAYER=====================
+            : (ShowAudioPlayer == true)
+                ? Container(
+                    // padding: EdgeInsets.only(bottom: 95),
+                    child: Container(
+                      // alignment: Alignment.bottomCenter
+                      margin: EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(15.0)),
+                        border: Border.all(
+                            color: CustomColors.brown700, width: 1),
+                      ),
+                      width: 650,
+                      height: 70,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Material(
+                            color: Colors.transparent,
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                iconSize: 30,
+                                icon: SvgPicture.asset(
+                                    "assets/images/Settings.svg",
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.fitWidth),
+                                onPressed: () {
+                                  // changehighlights();
+                                }),
+                          ),
+                          SizedBox(
+                            width: 30,
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                iconSize: 40,
+                                icon: SvgPicture.asset(
+                                    "assets/images/Seek_right.svg",
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.fitWidth),
+                                //seek forward
+                                onPressed: () {
+                                  assetsAudioPlayer.next();
+                                  PlayAudios();
+                                }),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          CircleAvatar(
+                            backgroundColor: CustomColors.grey200,
+                            maxRadius: 20,
+                            child: Material(
+                              color: Colors.transparent,
+                              shape: CircleBorder(),
+                              clipBehavior: Clip.hardEdge,
+                              child: IconButton(
+                                icon: Icon(
+                                  showPauseIcon
+                                      ? Icons.pause
+                                      : Icons.play_arrow,
+                                  color: CustomColors.yellow100,
+                                ),
+                                iconSize: 20,
+                                onPressed: () async {
+                                  if (previouslyStopped == true) {
+                                    setState(() {
+                                      activeAya = activeAya + 1;
+                                      previouslyStopped = false;
+                                    });
+                                  }
+                                  if (firstFlag == false) {
+                                    if (clickedHighlightNum != 0) {
+                                      activeAya = clickedHighlightNum - 1;
+                                    }
+                                    print("FIRST FLAG IS FALSE");
+                                    setState(() {
+                                      if (cameFromMenu == true) {
+                                        currentPage = widget.goToPage;
+                                      }
+                                      currentPlayingPage = currentPage;
+                                      overallid = currentPage;
+                                      showPauseIcon = true;
+                                      getAudioPaths();
+                                    });
+                                    audioPaths.forEach((item) {
+                                      audios.add(Audio.network(item));
+                                    });
+                                    // print(audioPaths);
+                                    assetsAudioPlayer.open(
+                                      Playlist(
+                                          audios: audios,
+                                          startIndex: clickedHighlightNum != 0
+                                              ? clickedHighlightNum
+                                              : 0),
+                                      loopMode: LoopMode.playlist,
+                                    );
+                                    assetsAudioPlayer.playOrPause();
+                                    PlayAudios();
+                                    firstFlag = true;
+                                  }
+                                  //plays from paused position
+                                  else {
+                                    setState(() {
+                                      showPauseIcon = !showPauseIcon;
+                                      play = !play;
+                                    });
+                                    assetsAudioPlayer.playOrPause();
+                                    if (play == true) {
+                                      PlayAudios();
+                                    }
+                                    //
+                                  }
+                                },
                               ),
                             ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  iconSize: 40,
-                                  icon: SvgPicture.asset(
-                                      "assets/images/Seek_left.svg",
-                                      width: 40,
-                                      height: 40,
-                                      fit: BoxFit.fitWidth),
-                                  //seek forward
-                                  onPressed: () {
-                                    // initializeDuration();
-                                    assetsAudioPlayer.previous();
-                                    setState(() {
-                                      seekBackward = true;
-                                    });
-                                    PlayAudios();
-                                  }),
-                            ),
-                            // SizedBox(
-                            //   width: 80,
-                            // ),
-                            SizedBox(
-                              width: 25,
-                            ),
-                            Material(
-                              color: Colors.transparent,
-                              shape: CircleBorder(),
-                              clipBehavior: Clip.hardEdge,
-                              child: IconButton(
-                                  iconSize: 40,
-                                  icon: SvgPicture.asset(
-                                      "assets/images/exit.svg",
-                                      width: 30,
-                                      height: 30,
-                                      fit: BoxFit.fitWidth),
-                                  //seek forward
-                                  onPressed: () {
-                                    setState(() {
-                                      ShowAudioPlayer = false;
-                                      ShowOnlyPageNum = true;
-                                    });
-                                    print("pressed exit");
-                                  }),
-                            ),
-                            //  SizedBox(
-                            //   width: 20,
-                            // ),
-                          ],
-                        ),
-                      ),
-                    )
-                  //===================PAGE NUMBER====================
-                  : Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 0, 0, 95),
-                      child: GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            if (cameFromMenu == true) {
-                              surahName =
-                                  surahNamess[(widget.goToPage as int) - 1]!;
-                            }
-                            print("========PRESSED");
-
-                            ShowOnlyPageNum = !ShowOnlyPageNum;
-                          });
-                        },
-                        child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                shape: BoxShape.rectangle,
-                                border: Border.all(
-                                  color: CustomColors.yellow200,
-                                  width: 1,
-                                ),
-                                color: Colors.white),
-                            height: 30,
-                            width: 40,
-                            child: Text(
-                              HelperFunctions.convertToArabicNumbers(
-                                      (overallid + 1).toString())
-                                  .toString(),
-                              style: TextStyle(
-                                  color: CustomColors.grey200, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            )),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                iconSize: 40,
+                                icon: SvgPicture.asset(
+                                    "assets/images/Seek_left.svg",
+                                    width: 40,
+                                    height: 40,
+                                    fit: BoxFit.fitWidth),
+                                //seek forward
+                                onPressed: () {
+                                  // initializeDuration();
+                                  assetsAudioPlayer.previous();
+                                  setState(() {
+                                    seekBackward = true;
+                                  });
+                                  PlayAudios();
+                                }),
+                          ),
+                          // SizedBox(
+                          //   width: 80,
+                          // ),
+                          SizedBox(
+                            width: 25,
+                          ),
+                          Material(
+                            color: Colors.transparent,
+                            shape: CircleBorder(),
+                            clipBehavior: Clip.hardEdge,
+                            child: IconButton(
+                                iconSize: 40,
+                                icon: SvgPicture.asset(
+                                    "assets/images/exit.svg",
+                                    width: 30,
+                                    height: 30,
+                                    fit: BoxFit.fitWidth),
+                                //seek forward
+                                onPressed: () {
+                                  setState(() {
+                                    ShowAudioPlayer = false;
+                                    ShowOnlyPageNum = true;
+                                  });
+                                  print("pressed exit");
+                                }),
+                          ),
+                          //  SizedBox(
+                          //   width: 20,
+                          // ),
+                        ],
                       ),
                     ),
-          // SizedBox(height: MediaQuery.of(context).size.height,)
-        ]),
-      ),
+                  )
+                //===================PAGE NUMBER====================
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          if (cameFromMenu == true) {
+                            surahName =
+                                surahNamess[(widget.goToPage as int) - 1]!;
+                          }
+                          print("========PRESSED");
+
+                          ShowOnlyPageNum = !ShowOnlyPageNum;
+                        });
+                      },
+                      child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: CustomColors.yellow200,
+                                width: 1,
+                              ),
+                              color: Colors.white),
+                          height: 30,
+                          width: 40,
+                          child: Text(
+                            HelperFunctions.convertToArabicNumbers(
+                                    (overallid + 1).toString())
+                                .toString(),
+                            style: TextStyle(
+                                color: CustomColors.grey200, fontSize: 18),
+                            textAlign: TextAlign.center,
+                          )),
+                    ),
+                  ),
+        // SizedBox(height: MediaQuery.of(context).size.height,)
+      ]),
     );
   }
 
@@ -659,7 +674,7 @@ class _finalCarouselState extends State<finalCarousel> {
     setState(() {
       audioPaths = paths;
     });
-    print("AAAAAAA PATHS $audioPaths");
+    print(" PATHS $audioPaths");
     print(FlagsAudio);
   }
 
@@ -765,3 +780,4 @@ class _finalCarouselState extends State<finalCarousel> {
     }
   }
 }
+

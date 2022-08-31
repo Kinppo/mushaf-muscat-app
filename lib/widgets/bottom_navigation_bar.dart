@@ -34,7 +34,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
         elevation: 0,
         backgroundColor: Theme.of(context).buttonColor,
         unselectedItemColor: Theme.of(context).secondaryHeaderColor,
-        selectedItemColor: Theme.of(context).textSelectionColor,
+        selectedItemColor: Theme.of(context).hintColor,
         selectedLabelStyle: const TextStyle(fontSize: 12),
         currentIndex: widget.pageIndex,
         onTap: (int index) {
@@ -69,7 +69,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
             icon: Icon(
               MdiIcons.bookOpenPageVariant,
               color: widget.pageIndex == 0
-                  ? Theme.of(context).textSelectionColor
+                  ? Theme.of(context).hintColor
                   : Theme.of(context).accentColor,
             ),
             label: AppLocalizations.of(context)!
@@ -80,7 +80,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
             icon: Icon(
               MdiIcons.bookmark,
               color: widget.pageIndex == 1
-                  ? Theme.of(context).textSelectionColor
+                  ? Theme.of(context).hintColor
                   : Theme.of(context).accentColor,
             ),
             label: AppLocalizations.of(context)!
@@ -91,7 +91,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
             icon: Icon(
               MdiIcons.clipboardList,
               color: widget.pageIndex == 2
-                  ? Theme.of(context).textSelectionColor
+                  ? Theme.of(context).hintColor
                   : Theme.of(context).accentColor,
             ),
             label: AppLocalizations.of(context)!
@@ -102,7 +102,7 @@ class _BNavigationBarState extends State<BNavigationBar> {
             icon: Icon(
               MdiIcons.cog,
               color: widget.pageIndex == 3
-                  ? Theme.of(context).textSelectionColor
+                  ? Theme.of(context).hintColor
                   : Theme.of(context).accentColor,
             ),
             label: AppLocalizations.of(context)!

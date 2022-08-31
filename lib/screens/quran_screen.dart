@@ -10,7 +10,6 @@ import '../resources/colors.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
-import '../widgets/audioplayer.dart';
 
 
 class QuranScreen extends StatefulWidget {
@@ -23,8 +22,8 @@ class QuranScreen extends StatefulWidget {
 class _QuranScreenState extends State<QuranScreen> {
   GlobalKey<_QuranScreenState> myKey = GlobalKey();
 
-  bool _showAppBar = true;
-  bool _showNavBar = true;
+  bool showAppBar = true;
+  bool showNavBar = true;
   int segmentedControlValue = 0;
   bool orientationPotrait = true;
   bool toggleSearch = false;
@@ -55,28 +54,25 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
+  void toggleBars() {
+     setState(() {
+                  showPlayer= !showPlayer;
+                    showAppBar = !showAppBar;
+                    showNavBar = !showNavBar;
+                  });
+  }
+
   @override
   Widget build(BuildContext context) {
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
       goToPage=ModalRoute.of(context)!.settings.arguments as int;  
-      //  });
-      // var arg = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
-                  // print("==========");
-
-            // print(arg['page']);
-
-      // goToPage = int.parse(arg['page']);
-      // if (arg != null) {
-      //   // Map pagearg= arg as Map;
-      //   var pagearg= arg['page'];
-      // print("ARGS IS $pagearg");
-
-      // }
-print("GOOOO TO PAGE $goToPage");
+     
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: _showAppBar
+        resizeToAvoidBottomInset: false, // set it to false
+
+      appBar: showAppBar
           ? appBar(
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
@@ -85,7 +81,7 @@ print("GOOOO TO PAGE $goToPage");
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
             ),
-      bottomNavigationBar: _showNavBar
+      bottomNavigationBar: showNavBar
           ? const BNavigationBar(
               pageIndex: 0,
             )
@@ -98,19 +94,24 @@ print("GOOOO TO PAGE $goToPage");
         child: const MainDrawer(),
       ),
       body: SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
             GestureDetector(
+      
+              // behavior: HitTestBehavior.deferToChild,
                 child: (segmentedControlValue == 0 && toggleSearch == false)
                     ? Container(
                         // padding: const EdgeInsets.all(Dimens.px22),
                         color: Theme.of(context).backgroundColor,
+                                                  height:MediaQuery.of(context).size.height,
+      
                         width: double.infinity,
                         child:  Column(
                           children:  [
                             Padding(
-                              padding: EdgeInsets.only(top: 170),
-                              child: finalCarousel(goToPage: goToPage),
+                              padding: EdgeInsets.only(top: 0),
+                              child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()
@@ -119,7 +120,8 @@ print("GOOOO TO PAGE $goToPage");
                       )
                     : (segmentedControlValue == 1 && toggleSearch == false)
                         ? Container(
-                            padding: const EdgeInsets.all(Dimens.px22),
+                          height:MediaQuery.of(context).size.height,
+                            // padding: const EdgeInsets.all(Dimens.px22),
                             color: Theme.of(context).backgroundColor,
                             width: double.infinity,
                             child: SingleChildScrollView(
@@ -142,11 +144,7 @@ print("GOOOO TO PAGE $goToPage");
                                 color: CustomColors.yellow500,
                               ),
                 onTap: () {
-                  setState(() {
-                  showPlayer= !showPlayer;
-                    _showAppBar = !_showAppBar;
-                    _showNavBar = !_showNavBar;
-                  });
+                 toggleBars();
                 }),
           ],
         ),
