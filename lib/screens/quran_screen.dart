@@ -76,7 +76,8 @@ class _QuranScreenState extends State<QuranScreen> {
           ? appBar(
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
-              toggleSearch: controlSearch)
+              toggleSearch: controlSearch,
+              height_mq: MediaQuery.of(context).size.height)
           : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),

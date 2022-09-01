@@ -46,7 +46,7 @@ class _finalCarouselState extends State<finalCarousel> {
   late bool ShowAudioPlayer;
   bool tapped = false;
   late bool ShowOnlyPageNum;
-
+  // int audioplayerID =0;
   final audios = <Audio>[];
   List<String> highlights = [];
   int ayaIndex = 0;
@@ -60,14 +60,16 @@ class _finalCarouselState extends State<finalCarousel> {
   bool showPauseIcon = false;
   String alltext = '';
   int overallid = 0;
+  bool checkingIfweContinue =false;
 
   int playingAudioID = 0;
   int currentPage = 1;
   int previousPage = 0;
+  int disposalPage=0;
 
   bool stopindex = false;
   bool seekBackward = false;
-  final assetsAudioPlayer = AssetsAudioPlayer();
+   AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
   List<String> FlagsAudio = [];
 
   bool checking = false;
@@ -172,11 +174,14 @@ class _finalCarouselState extends State<finalCarousel> {
   }
 
   void activate() {
-    AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+    assetsAudioPlayer = AssetsAudioPlayer.withId(currentPage.toString());
+        // AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+
   }
 
   void deactivate() {
-    assetsAudioPlayer.dispose();
+
+    // assetsAudioPlayer.dispose();
 
     super.deactivate();
   }
@@ -290,12 +295,13 @@ children: [
                     child: Stack(
                       fit: StackFit.passthrough,
                       children: [
-                        IgnorePointer(
-                          child: Image.asset('assets/quran_images/img_3.jpg',
-                          // height:300,
-                                  fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                            ),
-                        ),
+                        // IgnorePointer(
+                        //   child: 
+                        //    Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
+                        //   // height:300,
+                        //           fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
+                        //     ),
+                        // ),
                             Container(
                                                         width: MediaQuery.of(context).size.width,
                                                         padding: (idx==0 ||idx==1) ? EdgeInsets.only(top: 100) : EdgeInsets.only(top: 0) ,
@@ -534,8 +540,7 @@ children: [
                                           startIndex: clickedHighlightNum != 0
                                               ? clickedHighlightNum
                                               : 0),
-                                      loopMode: LoopMode.playlist,
-                                    );
+loopMode: LoopMode.single                                    );
                                     assetsAudioPlayer.playOrPause();
                                     PlayAudios();
                                     firstFlag = true;
@@ -654,6 +659,50 @@ children: [
     );
   }
 
+
+
+void ContinuePlayingNextPage() {
+    //  print("WE ARE HERE");
+     
+assetsAudioPlayer.playlistAudioFinished.listen((event) {
+
+carouselController.nextPage();
+carouselController2.nextPage();
+// assetsAudioPlayer.playlist?.audios.clear();
+audios.clear();
+ getAudioPaths();
+          // audioPaths.clear();   
+         List<Audio> addaudios =[];              
+audioPaths.forEach((item) {
+    addaudios.add(Audio.network(item));
+                                    });
+                                    assetsAudioPlayer.playlist?.addAll(addaudios);
+// assetsAudioPlayer.playlist?.audios.replaceRange(0, audios.length-1,audios );
+      // assetsAudioPlayer.
+          // assetsAudioPlayer.dispose();
+    print("finished playing the page");
+    // assetsAudioPlayer.pause();
+//     disposalPage= currentPage;
+//     print("disposal page is $disposalPage");
+// deactivate();
+
+
+
+    // ShowAudioPlayer = false;
+    // ShowOnlyPageNum = true;
+    // loadSurahs();
+       
+
+
+      
+   
+}  );
+
+
+
+    }
+
+
   Future<void> getAudioPaths() async {
     FlagsAudio.clear();
     final List<String> paths = [];
@@ -727,6 +776,7 @@ children: [
         previouslyStopped = false;
       });
     }
+
     if (checking == true) {
       assetsAudioPlayer.pause();
       setState(() {
@@ -734,8 +784,8 @@ children: [
         checking = false;
         previouslyStopped = true;
       });
-      // deactivate();
-    } else {
+
+    }  else {
       setState(() {
         if (seekBackward == true) {
           seekBackward = false;
@@ -772,9 +822,25 @@ children: [
           print("THIS IS THE LAST AYA");
           checking = true;
         });
-      } else {
+      }
+      else if (FlagsAudio[activeAya].toString() == "0" && activeAya== FlagsAudio.length-1 ) {
+                  setState(() {
+checkingIfweContinue = true;
+                  });
+
+           
+          print("entered LAST LAST AYA");
+          ContinuePlayingNextPage();
+
+       
+      }
+       else {
         setState(() {
           checking = false;
+          checkingIfweContinue= false;
+          // print("entered checking");
+          // print(activeAya);
+          // print (FlagsAudio.length);
         });
       }
     }

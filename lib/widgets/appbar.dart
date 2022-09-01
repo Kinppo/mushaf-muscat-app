@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:mushafmuscat/widgets/quran_screen_search_bar.dart';
@@ -13,18 +14,20 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
   Function segmentedControlValue;
   bool orientationPotrait;
   Function toggleSearch;
-
+double height_mq;
   appBar({
     Key? key,
     required this.segmentedControlValue,
     required this.orientationPotrait,
     required this.toggleSearch,
+    // this variable is not used yet
+    required this.height_mq,
   }) : super(key: key);
   @override
   State<appBar> createState() => _appBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(147);
+  Size get preferredSize =>  Size.fromHeight(147);
 }
 
 class _appBarState extends State<appBar> {
@@ -49,109 +52,117 @@ class _appBarState extends State<appBar> {
                   height: 1.0,
                 ),
                 preferredSize: Size.fromHeight(1.0)),
-            leading: Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(Icons.menu_rounded),
-                onPressed: () => Scaffold.of(context).openDrawer(),
-              ),
-            ),
-            iconTheme: IconThemeData(color: CustomColors.black200),
-            toolbarHeight:140, 
-            flexibleSpace: SingleChildScrollView(
-              child: Container(
-                color: CustomColors.yellow500,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: MediaQuery.of(context).size.height *0.50,
-                      padding: const EdgeInsets.only(bottom: 210.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          const SizedBox(
-                            width: 70,
+            // leading: Builder(
+            //   builder: (context) => IconButton(
+            //     icon: const Icon(Icons.menu_rounded),
+            //     onPressed: () => Scaffold.of(context).openDrawer(),
+            //   ),
+            // ),
+            // iconTheme: IconThemeData(color: CustomColors.black200),
+            toolbarHeight: 140, // Set this height
+            flexibleSpace: Container(
+              color: CustomColors.yellow500,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(top: 80.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        IconButton(
+                                // iconSize: 20,
+                                icon: SvgPicture.asset(
+                                    "assets/images/Icon.svg",
+                                    width: 27,
+                                    height: 27,
+                                    fit: BoxFit.contain), onPressed:() => Scaffold.of(context).openDrawer(),),
+              //           IconButton(
+              //   icon: const Icon(Icons.menu_rounded),
+              //   onPressed: () => Scaffold.of(context).openDrawer(),
+              // ),
+                        // const SizedBox(
+                        //   width: 30,
+                        // ),
+                        ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            maxWidth: 200,
+                            minWidth: 180,
                           ),
-                          ConstrainedBox(
-                            constraints: const BoxConstraints(
-                              maxWidth: 200,
-                              minWidth: 180,
-                            ),
-                            child: Container(
-                              child: CupertinoSlidingSegmentedControl(
-                                  groupValue: segmentToggle,
-                                  backgroundColor: Theme.of(context).shadowColor,
-                                  children: <int, Widget>{
-                                    0: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('quran_screen_switch_quran')
-                                          .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          ?.copyWith(
-                                            color: CustomColors.brown300,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 17,
-                                          ),
-                                    ),
-                                    1: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate('quran_screen_switch_tafsir')
-                                          .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          ?.copyWith(
-                                            color: CustomColors.brown300,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 17,
-                                          ),
-                                    ),
-                                  },
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      segmentToggle = value as int;
-                                      print("app bar $segmentToggle");
-                                      widget.segmentedControlValue(segmentToggle);
-                                    });
-                                  }),
-                            ),
+                          child: Container(
+                            child: CupertinoSlidingSegmentedControl(
+                                groupValue: segmentToggle,
+                                backgroundColor: Theme.of(context).shadowColor,
+                                children: <int, Widget>{
+                                  0: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('quran_screen_switch_quran')
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        ?.copyWith(
+                                          color: CustomColors.brown300,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 17,
+                                        ),
+                                  ),
+                                  1: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('quran_screen_switch_tafsir')
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        ?.copyWith(
+                                          color: CustomColors.brown300,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 17,
+                                        ),
+                                  ),
+                                },
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    segmentToggle = value as int;
+                                    print("app bar $segmentToggle");
+                                    widget.segmentedControlValue(segmentToggle);
+                                  });
+                                }),
                           ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          IconButton(
-                            iconSize: 28,
-                            onPressed: () {
-                              setState(() {
-                                if (widget.orientationPotrait == true) {
-                                  widget.orientationPotrait =
-                                      !widget.orientationPotrait;
-                          
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.landscapeRight]);
-                                } else {
-                                  widget.orientationPotrait =
-                                      !widget.orientationPotrait;
-                          
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                }
-                              });
-                            },
-                            icon: const Icon(MdiIcons.screenRotation),
-                          ),
-                        ],
-                      ),
+                        ),
+                        // const SizedBox(
+                        //   width: 5,
+                        // ),
+                        IconButton(
+                          iconSize: 28,
+                          onPressed: () {
+                            setState(() {
+                              if (widget.orientationPotrait == true) {
+                                widget.orientationPotrait =
+                                    !widget.orientationPotrait;
+
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.landscapeRight]);
+                              } else {
+                                widget.orientationPotrait =
+                                    !widget.orientationPotrait;
+
+                                SystemChrome.setPreferredOrientations(
+                                    [DeviceOrientation.portraitUp]);
+                              }
+                            });
+                          },
+                          icon: const Icon(MdiIcons.screenRotation),
+                        ),
+                      ],
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
-                      width: double.infinity,
-                      height: 50,
-                      child: QuranSearchBar(searchController: searchController),
-                    ),
-                  ],
-                ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
+                    width: double.infinity,
+                    height: 50,
+                    child: QuranSearchBar(searchController: searchController),
+                  ),
+                ],
               ),
             ),
           )

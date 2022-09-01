@@ -123,7 +123,7 @@ class _pageDetailsState extends State<pageDetails> {
 
     if (highlightFlag == true) {
       arrayOfTextSpan[idx].style?.background!.color =
-          Colors.brown.withOpacity(0.2);
+          Colors.brown.withOpacity(0.25);
 
       arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
     }
@@ -140,7 +140,7 @@ class _pageDetailsState extends State<pageDetails> {
         ///====
 
         arrayOfTextSpan[widget.indexhighlight].style?.background!.color =
-            Color.fromARGB(255, 227, 196, 111).withOpacity(0.2);
+            Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
       }
     });
 
@@ -157,7 +157,7 @@ class _pageDetailsState extends State<pageDetails> {
 
   Container? Page1_and2Container() {
     return Container(
-      padding: EdgeInsets.only(top: 122),
+      padding: EdgeInsets.fromLTRB(0, 70, 22, 0),
       child: Expanded(
         child: RichText(
           textDirection: TextDirection.rtl,
@@ -167,10 +167,10 @@ class _pageDetailsState extends State<pageDetails> {
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
               fontSize: 17,
-              color: Colors.red,
-              wordSpacing: 3,
-              letterSpacing: 10,
-              height: 1.4,
+              color: Colors.brown,
+              wordSpacing: 2,
+              letterSpacing: 1,
+              height: 1.3,
             ),
             children: createTextSpans(),
           ),
@@ -181,7 +181,7 @@ class _pageDetailsState extends State<pageDetails> {
 
   Container? AllOtherPagesContainer() {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 52, 13, 0),
+      padding: EdgeInsets.fromLTRB(12, 53, 6, 0),
       child: Expanded(
         child: RichText(
           textDirection: TextDirection.rtl,
@@ -190,11 +190,11 @@ class _pageDetailsState extends State<pageDetails> {
             style: const TextStyle(
                 fontFamily: 'Amiri',
                 fontWeight: FontWeight.bold,
-                fontSize: 12,
-                color: Colors.red,
-                wordSpacing: 3,
-                letterSpacing: 12,
-                height: 1.7),
+                fontSize: 16,
+                color: Colors.brown,
+                wordSpacing: 2.6,
+                letterSpacing: 1,
+                height: 1.25),
             children: createTextSpans(),
           ),
         ),
