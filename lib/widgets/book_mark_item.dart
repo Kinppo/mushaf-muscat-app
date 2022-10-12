@@ -1,21 +1,30 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mushafmuscat/localization/app_localizations.dart';
+import 'package:mushafmuscat/models/page.dart';
+import 'package:provider/provider.dart';
 
 import '../resources/colors.dart';
+import '../providers/bookMarks_provider.dart';
+import '../screens/quran_screen.dart';
 
 class BookMarkItem extends StatelessWidget {
   final String page;
   final String aya;
   final String type;
   final String id;
+  final int pageNum;
+  final int highlightNum;
 
   BookMarkItem(
       {required this.page,
       required this.aya,
       required this.type,
-      required this.id});
+      required this.id, 
+      required this.pageNum, 
+      required this.highlightNum});
 
   Future<bool?> _showSnackBar(context) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -26,15 +35,18 @@ class BookMarkItem extends StatelessWidget {
       action: SnackBarAction(
         label: AppLocalizations.of(context)!.translate('undo').toString(),
         onPressed: () {
-          print("test");
+
         },
       ),
     ));
     return null;
   }
+late final bookMarkProvider;
 
   @override
   Widget build(BuildContext context) {
+        bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
+
     return Dismissible(
       key: ValueKey(id),
       background: Container(
@@ -53,6 +65,8 @@ class BookMarkItem extends StatelessWidget {
       ),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
+        bookMarkProvider.deleteBookMark(int.parse(id));
+          print("test");
         return _showSnackBar(context);
         // return showDialog(
         //     context: context,
@@ -80,13 +94,24 @@ class BookMarkItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 13),
           child: ListTile(
+            onTap: () {
+                   print("bookmak item: $page");
+              print("bookmak item2: $aya");
+              print("bookmak item: $highlightNum");
+              print("bookmak item2: $pageNum");
+                   Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:pageNum);
+
+            },
             leading: Icon(
               MdiIcons.bookmark,
               color: type == "1"
                   ? CustomColors.yellow400
                   : type == "2"
-                      ? CustomColors.red300
-                      : CustomColors.pink100,
+                      ? CustomColors.pink100 :
+                      type == "3"
+                     ? CustomColors.green200
+                     : 
+                     CustomColors.blue100,
               size: 31,
             ),
             title: Text(page),

@@ -9,7 +9,9 @@ import '../utils/helperFunctions.dart';
 class SurahProvider with ChangeNotifier {
   List<Surah> _surahs = [];
   List<Surah> _undiacritizedSurahList = [];
-
+  List <String?> carouselJSON =[];
+ List<List<int>>  flagsForEndofSurah =[];
+  List<List<String?>>AyaNum=[];
   String user_query;
   late int num_param;
 
@@ -103,4 +105,58 @@ class SurahProvider with ChangeNotifier {
             //print(matches);
             return matches;
   }
-}
+
+
+List<String?>loadSurahs()  {
+  fetchSurahsforCarousel();
+ 
+return carouselJSON;
+   
+ }
+
+  List<List<int>> loadFlags()  {
+          // print(flagsForEndofSurah[4]);
+
+return flagsForEndofSurah;
+   
+ }
+
+List<List<String?>> loadAyaNum()  {
+          // print(flagsForEndofSurah[2]);
+return AyaNum;
+   
+ }
+
+ void fetchSurahsforCarousel() async {
+    
+ var data =
+        await rootBundle.loadString('lib/data/json_files/surahs_pages.json');
+    var jsonResult = jsonDecode(data);
+    // print(jsonResult);
+
+    for (int index = 0; index < jsonResult.length; index++) {
+      carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
+    }
+  for (int i = 1; i <= jsonResult.length; i++) {
+      List<int> tempList = [];
+       List<String?> tempList2 = [];
+      String flgs = await rootBundle
+          .loadString('lib/data/json_files/quran_lines/quran_word_$i.json');
+
+      var jsonResult2 = jsonDecode(flgs);
+
+      for (int index = 0; index < jsonResult2.length; index++) {
+        tempList.add(int.parse(jsonResult2[index]['EndOfSurah']));
+tempList2.add(HelperFunctions.convertToArabicNumbers(jsonResult2[index]['aya']));
+
+      }
+      
+      flagsForEndofSurah.add(tempList);
+      AyaNum.add(tempList2);
+      tempList = [];
+      tempList2 = [];
+
+    }
+    // print(flagsForEndofSurah[603]);
+ }
+ }

@@ -13,11 +13,21 @@ class BookMark extends HiveObject {
   final String aya;
 
   @HiveField(3)
-  final String type;
+  late final String type;
+
+    @HiveField(4)
+  final int pageNum;
+
+    @HiveField(5)
+  final int highlightNum;
+
 
   BookMark(
       {required this.id,
       required this.aya,
       required this.page,
-      required this.type});
+      required this.type,
+      required this.pageNum,
+      required this.highlightNum
+  });
 }

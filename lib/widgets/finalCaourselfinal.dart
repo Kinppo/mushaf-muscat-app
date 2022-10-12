@@ -1,138 +1,149 @@
 // import 'dart:convert';
-// import 'dart:math';
 
 // import 'package:assets_audio_player/assets_audio_player.dart';
 // import 'package:carousel_slider/carousel_slider.dart';
-// import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
+// import 'package:flutter/src/foundation/key.dart';
+// import 'package:flutter/src/widgets/container.dart';
+// import 'package:flutter/src/widgets/framework.dart';
 // import 'package:flutter_svg/svg.dart';
-// import 'package:mushafmuscat/models/AyatLines.dart';
-// import 'package:mushafmuscat/utils/helperFunctions.dart';
-// import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
-// import 'package:mushafmuscat/widgets/pageDetails.dart';
-// import 'package:provider/provider.dart';
-// import '../providers/ayatLines_provider.dart';
-// import '../widgets/aya_clicked_bottom_sheet.dart';
 
+// import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
+// import 'package:mushafmuscat/widgets/pageDetails2.dart';
+// import 'package:mushafmuscat/widgets/pageDetails2.dart';
+// import 'package:provider/provider.dart';
+// import '../providers/bookMarks_provider.dart';
+// import '../models/AyatLines.dart';
 // import '../models/surah.dart';
+// import '../providers/audioplayer_provider.dart';
 // import '../providers/surah_provider.dart';
 // import '../resources/colors.dart';
+// import '../utils/helperFunctions.dart';
+// import 'pageDetails2.dart';
 
-// class finalCarousel extends StatefulWidget {
+// class finalCarousel2 extends StatefulWidget {
 //   int goToPage;
 //   Function toggleBars;
-
-//   finalCarousel({
+//   finalCarousel2({
+//     Key? key,
 //     required this.goToPage,
 //     required this.toggleBars,
-//     Key? key,
 //   }) : super(key: key);
 
 //   @override
-//   State<finalCarousel> createState() => _finalCarouselState();
+//   State<finalCarousel2> createState() => _finalCarousel2();
 // }
 
-// class _finalCarouselState extends State<finalCarousel> {
+// class _finalCarousel2 extends State<finalCarousel2> {
+// // integers
+//   int overallid = 0;
+//   int currentPage = 0;
+//   int activeAya = -1;
+//   int activeIndex = 1;
 //   int clickedHighlightNum = 0;
+//   String? AyaStringNum='';
 
-//   String surahName = 'الفاتحة';
+// // bools and flags
+//   bool cameFromMenu = false;
 //   bool _isInit = true;
 //   bool _isLoading = true;
+//   late bool ShowAudioPlayer;
+//   late bool ShowOnlyPageNum;
+//   bool ayaFlag = false;
+//   bool showPauseIcon = false;
+//   bool firstFlag = false;
+//   bool clickHighlightWhilePlaying = false;
+//   bool moveNextPage = false;
+//   late final bookMarkProvider;
+
+// // strings
+//   String surahName = 'الفاتحة';
+
+// // lists
+//   late final List<String?> _surahNames;
+//   late final List<List<int>> _flagsForEndofSurah;
+//     late final List<List<String?>> _ayaNumbers;
+
+//  List<Audio> audiosList=[];
+//    List<String> FlagsAudio=[];
+// // controllers
 //   CarouselController carouselController = new CarouselController();
 //   CarouselController carouselController2 = new CarouselController();
 
-//   late List<String> audioPaths = [''];
-//   late bool ShowAudioPlayer;
-//   bool tapped = false;
-//   late bool ShowOnlyPageNum;
-//   // int audioplayerID =0;
-//   final audios = <Audio>[];
-//   List<String> highlights = [];
-//   int ayaIndex = 0;
-//   bool play = true;
-//   bool startflag = true;
-//   PlayingAudio? prev;
-//   List<String> splittedText = [];
-//   int pagenumber = 1;
-//   //audioplayer variables
-//   bool firstFlag = false;
-//   bool showPauseIcon = false;
-//   String alltext = '';
-//   int overallid = 0;
-//   bool checkingIfweContinue = false;
-//   bool recievedCheckingifweContinue=false;
+// //new state management
+// // bool pageDetails_loadAudios=false;
+// bool pageDetails_playAudios=false;
 
-//   int playingAudioID = 0;
-//   int currentPage = 1;
-//   int previousPage = 0;
-//   int disposalPage = 0;
-
-//   bool stopindex = false;
-//   bool seekBackward = false;
-//   final assetsAudioPlayer = AssetsAudioPlayer();
-//   List<String> FlagsAudio = [];
-
-//   bool checking = false;
-//   bool previouslyStopped = false;
-//   bool cameFromMenu = false;
-
-//   List<String?> surahNamess = [];
-//   List<List<int>> flagsForEndofSurah = [];
-//   int listenToIndex = 1;
-// // important variables
-//   int currentPlayingPage = 1;
-//   int currentPlayingAya = 1;
+// int savedPage=0;
+// int savedHighlight=0;
 //   @override
 //   void initState() {
-//     setState(() {
-//       if (widget.goToPage != null && widget.goToPage != 0) {
-//         overallid = (widget.goToPage as int) - 1;
-//         cameFromMenu = true;
-//         currentPage = widget.goToPage as int;
-//         print("CAME FROM MENU IS $cameFromMenu");
-//       }
+//     WidgetsBinding.instance.addPostFrameCallback((_) async {
+//       await loadSurahs;
+//       setState(() {
+//         loadSurahs();
+//            bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
+//         // Provider.of<AudioPlayer_Provider>(context, listen: false)
+//         //     .getAudioPaths(1);
+//         // Provider.of<AudioPlayer_Provider>(context, listen: false)
+//         //     .openAudioPlayer();
+
+//         if (widget.goToPage != null && widget.goToPage != 0) {
+//           overallid = (widget.goToPage as int) - 1;
+//           cameFromMenu = true;
+//           currentPage = widget.goToPage as int;
+//           print("CAME FROM MENU IS $cameFromMenu");
+//         }
+//       });
 //     });
-//     getAudioPaths();
+
+//     // getAudioPaths();
 //     // activate();
 //     ShowAudioPlayer = false;
 //     ShowOnlyPageNum = true;
-//     loadSurahs();
 
 //     super.initState();
 //   }
 
-//   void loadSurahs() async {
-//     // var data =
-//     //     await rootBundle.loadString('lib/data/json_files/surahs_pages.json');
-//     // var jsonResult = jsonDecode(data);
-//     // for (int index = 0; index < jsonResult.length; index++) {
-//     //   surahNamess.add(HelperFunctions.normalise(jsonResult[index]['surah']));
-//     // }
-//     surahNamess= SurahProvider(user_query: "").loadSurahs();
-// flagsForEndofSurah=  SurahProvider(user_query: "").flagsForEndofSurah;
-//     // for (int i = 1; i <= surahNamess.length; i++) {
-//     //   List<int> tempList = [];
-//     //   String flgs = await rootBundle
-//     //       .loadString('lib/data/json_files/quran_lines/quran_word_$i.json');
 
-//     //   var jsonResult2 = jsonDecode(flgs);
+  
 
-//     //   for (int index = 0; index < jsonResult2.length; index++) {
-//     //     tempList.add(int.parse(jsonResult2[index]['EndOfSurah']));
-//     //   }
-//     //   flagsForEndofSurah.add(tempList);
-//     //   tempList = [];
-//     // }
+//   void loadSurahs() {
+    
+//     final surahsData = Provider.of<SurahProvider>(context, listen: false);
 
-// // print("LENGTH OF OUTER LIST: "+ flagsForEndofSurah.length.toString());
-// // print(flagsForEndofSurah.toString());
+//     _surahNames = surahsData.loadSurahs();
+//     _flagsForEndofSurah = surahsData.loadFlags();
+//     _ayaNumbers= surahsData.loadAyaNum();
+//     // print("aya number is  " + _surahNames[3].toString());
+//   }
+//   toggleIndex (int playingHighlight) {
+//     setState(() {
+// print("playing $playingHighlight")    ;
+// });
 //   }
 
 //   toggleClickedHighlight(int clickedIdx) {
 //     setState(() {
 //       print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
 //       clickedHighlightNum = clickedIdx - 1;
+//       print( _ayaNumbers[currentPage-1]);
+//       List<String?> listaya=[];
+//       //TODO: find a easier solution for this
+//       for (int i=0; i<_ayaNumbers[currentPage-1].length; i++){
+//         if ( i != _ayaNumbers[currentPage-1].length-1 && _ayaNumbers[currentPage-1][i] != _ayaNumbers[currentPage-1][i+1]) {
+// listaya.add(_ayaNumbers[currentPage-1][i]);
+//         }
+//       }
+//       print(listaya);
+//      AyaStringNum= listaya[clickedIdx- 1] != null ?  listaya[clickedIdx- 1] : listaya.last ;
+// print("AYA STRING NUM IS $AyaStringNum");
+//       if (firstFlag == true) {
+//         clickHighlightWhilePlaying = true;
+//       }
+//       // clickedHighlightNum=-1;
+// // showPauseIcon=!showPauseIcon;
 //       // change this to modal bottom sheet
 //       //  ShowAudioPlayer=true;
 //       showModalBottomSheet<void>(
@@ -145,6 +156,10 @@
 //         builder: (BuildContext context) {
 //           return AyaClickedBottomSheet(
 //             ShowAudioPlayer: togglePlayer,
+//             clickedHighlightNum:AyaStringNum!,
+//             currentPage:currentPage,
+//             surahName: surahName,
+
 //           );
 //         },
 //       );
@@ -155,81 +170,107 @@
 
 //   @override
 //   void didChangeDependencies() {
-//     if (_isInit) {
-//       setState(() {
-//         _isLoading = true;
-//       });
-
-//       Provider.of<SurahProvider>(context).fetchSurahs().then((_) {
-//         setState(() {
-//           _isLoading = false;
-//         });
-//       });
-
-//       setState(() {
-//         _isLoading = false;
-//       });
-
-//       _isInit = false;
-//       super.didChangeDependencies();
-//     }
+//     super.didChangeDependencies();
 //   }
 
-//   // void activate() {
-//   //   assetsAudioPlayer = AssetsAudioPlayer.withId(currentPage.toString());
-//   //       // AssetsAudioPlayer.withId(Random().nextInt(100).toString());
+//   void handleActiveAya(int updatedAya) {
+//     setState(() {
+//       activeAya = updatedAya;
+//     });
 
-//   // }
-
-//   void deactivate() {
-//     assetsAudioPlayer.stop();
-//     assetsAudioPlayer.dispose();
-
-//     super.deactivate();
+//     print("ACTIVEEEE IS $activeAya");
 //   }
 
-//   int activeAya = -1;
-//   bool ayaFlag = false;
+//   void handleAyaFlag() {
+//     setState(() {
+//       if (ayaFlag == false) {
+//         ayaFlag = true;
+//       }
+//     });
+//   }
+
+// moveToNextPage()   {
+
+// //   //  print()
+// //     print("======****************==============");
+// // setState(() {
+// //   activeAya=0;
+// //   clickedHighlightNum=0;
+// //   currentPage=currentPage+1;
+// // });
+// // await Provider.of<AudioPlayer_Provider>(context, listen: false).clearEverything();
+    
+//     print("calling next page");
+//     carouselController.nextPage();
+//     carouselController2.nextPage();
+
+//         Provider.of<AudioPlayer_Provider>(context, listen: false).AudioListener(handleActiveAya, handleAyaFlag, moveToNextPage);
+
+//     // print("hello hello");
+
+//     // clickedHighlightNum = 0;
+//     // moveNextPage = true;
+//   }
 
 //   void togglePlayer() {
 //     setState(() {
-//       widget.toggleBars();
-//       ShowAudioPlayer = true;
+//       if (firstFlag == true &&
+//           clickHighlightWhilePlaying == true &&
+//           ShowAudioPlayer == true) {
+//         if (showPauseIcon == false) {
+//           showPauseIcon = !showPauseIcon;
+//         }
+
+//         Provider.of<AudioPlayer_Provider>(context, listen: false)
+//             .playFromHighlightedText(
+//           clickedHighlightNum,
+//           currentPage,
+//           moveNextPage,
+//         );
+//         Provider.of<AudioPlayer_Provider>(context, listen: false)
+//             .AudioListener(handleActiveAya, handleAyaFlag, moveToNextPage);
+//         clickHighlightWhilePlaying = false;
+//         ShowAudioPlayer = true;
+//       } else {
+//         widget.toggleBars();
+//         ShowAudioPlayer = true;
+//       }
 //     });
+
 //     print("TOGGLED TO $ShowAudioPlayer");
 //   }
 
 //   @override
 //   Widget build(BuildContext context) {
-//     // final surahsData = Provider.of<SurahProvider>(context, listen: false);
-//     // final _surahs = surahsData.surahs;
-//     // final List<Surah> _surahitem = _surahs;
+//     // print(_surahNames);
+//     // print(_ayaNumbers);
 
-//     //TODO: This will be the whole quran later on
-//     // List<int> listindex = [1, 2, 3, 4];
+//     final Audioplayer_Provider =
+//         Provider.of<AudioPlayer_Provider>(context, listen: false);
+
+//     // instantiate pages
+//     // List<AyatLines> listofObjects = [];
+//     // for (int i = 0; i < 604; i++) {
+//     //   listofObjects.add(AyatLines(
+//     //     text: '',
+//     //     pageNumber: i,
+//     //   ));
+//     // }
+//     // print(listofObjects);
 //     List<int> listindex = new List<int>.generate(604, (i) => i + 1);
-
-//     int activeIndex = 1;
-
 //     List<AyatLines> listofObjects = [];
 
 //     listindex.forEach((i) => listofObjects.add(AyatLines(
 //           text: '',
 //           pageNumber: i,
 //         )));
-
 //     return Container(
-//       //change color later based on requirements
 //       color: Colors.white,
 //       height: MediaQuery.of(context).size.height,
-
 //       child: Column(children: [
 //         Container(
 //           padding: EdgeInsets.fromLTRB(0, 155, 0, 0),
-//           // height:  MediaQuery.of(context).size.height,
-//           // height: ,
 //           color: Colors.white,
-
 //           child: CarouselSlider(
 //             options: CarouselOptions(
 
@@ -244,11 +285,17 @@
 //                 scrollDirection: Axis.horizontal,
 //                 onPageChanged: (index, reason) {
 //                   setState(() {
+//                     print("we are in next page");
 //                     overallid = index;
 //                     currentPage = index + 1;
-//                     surahName = surahNamess[index]!;
-//                     getAudioPaths();
-//                     PlayAudios();
+//                     surahName = _surahNames[index]!;
+//                     print("CURRENT PAGE IS $currentPage");
+
+//                     // Audioplayer_Provider.getAudioPaths(currentPage);
+//                     print("got new audio paths");
+
+//                     // Audioplayer_Provider.openAudioPlayer();
+//                     // PlayAudios();
 
 //                     // print("PAGE ID IS $currentPage");
 //                   });
@@ -263,23 +310,6 @@
 //                     onTap: () {
 //                       ShowOnlyPageNum = !ShowOnlyPageNum;
 //                     },
-//                     onDoubleTap: () {
-//                       print(ShowAudioPlayer);
-//                       showModalBottomSheet<void>(
-//                         constraints:
-//                             BoxConstraints(maxWidth: 400, maxHeight: 460),
-//                         clipBehavior: Clip.hardEdge,
-//                         shape: RoundedRectangleBorder(
-//                           borderRadius: BorderRadius.circular(25.0),
-//                         ),
-//                         context: context,
-//                         builder: (BuildContext context) {
-//                           return AyaClickedBottomSheet(
-//                             ShowAudioPlayer: togglePlayer,
-//                           );
-//                         },
-//                       );
-//                     },
 //                     child: Stack(fit: StackFit.passthrough, children: [
 //                       // IgnorePointer(
 //                       //   child:
@@ -288,20 +318,32 @@
 //                       //           fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
 //                       //     ),
 //                       // ),
-//                       Container(
+//                       Consumer<AudioPlayer_Provider>(builder:
+//                           (BuildContext context, value, Widget? child) {
+//                         return Container(
 //                           width: MediaQuery.of(context).size.width,
 //                           padding: (idx == 0 || idx == 1)
 //                               ? EdgeInsets.only(top: 100)
 //                               : EdgeInsets.only(top: 0),
 //                           margin: EdgeInsets.symmetric(horizontal: 5.0),
-//                           child: pageDetails(
+//                           child: pageDetails2(
 //                             id: idx + 1,
-//                             indexhighlight:   activeAya,
-//                             currentpage: currentPlayingPage,
+//                             indexhighlight: activeAya,
+//                             currentpage: idx + 1,
 //                             ayaFlag: ayaFlag,
 //                             toggleClickedHighlight: toggleClickedHighlight,
-//                             clickedHighlightNum: clickedHighlightNum,
-//                           )),
+//                             clickedHighlightNum: clickedHighlightNum - 1,
+//                              ContinueNextPage: moveToNextPage,
+//                              savedPage: savedPage, 
+//                              savedHighlight: savedHighlight,
+//                              audiosList:audiosList,
+//                              FlagsAudio:                             FlagsAudio,
+//                              pageDetails_playAudios:pageDetails_playAudios,
+//                              firstFlag: firstFlag,
+//                              toggleIndex:toggleIndex,
+//                           ),
+//                         );
+//                       }),
 //                     ]),
 //                   );
 //                 },
@@ -310,11 +352,8 @@
 //             carouselController: carouselController,
 //           ),
 //         ),
-//         // SizedBox(
-//         //   height: 9,
-//         // ),
-
 //         //====================PAGE INDICATOR=====================
+
 //         (ShowAudioPlayer != true && ShowOnlyPageNum == false)
 //             ? GestureDetector(
 //                 onTap: () {
@@ -350,7 +389,7 @@
 //                         options: CarouselOptions(
 //                           onPageChanged: (index, reason) {
 //                             // _currentIndex = index;
-//                             print("INDEX IS $index");
+//                             // print("INDEX IS $index");
 //                           },
 //                           height: 34.0,
 //                           viewportFraction: 0.16,
@@ -370,10 +409,9 @@
 //                                 child: GestureDetector(
 //                                   onTap: () {
 //                                     setState(() {
-//                                       surahName = surahNamess[i - 1]!;
-
-//                                       carouselController.animateToPage(i - 1);
+//                                       surahName = _surahNames[i - 1]!;
 //                                       carouselController2.animateToPage(i - 1);
+//                                       carouselController.animateToPage(i - 1);
 //                                       // ShowOnlyPageNum=true;
 //                                     });
 //                                   },
@@ -461,8 +499,7 @@
 //                                     fit: BoxFit.fitWidth),
 //                                 //seek forward
 //                                 onPressed: () {
-//                                   assetsAudioPlayer.next();
-//                                   PlayAudios();
+//                                   Audioplayer_Provider.seekForward();
 //                                 }),
 //                           ),
 //                           const SizedBox(
@@ -483,59 +520,40 @@
 //                                     color: CustomColors.yellow100,
 //                                   ),
 //                                   iconSize: 20,
-//                                   onPressed: () async {
-//                                     openPlayer();
-//                                   }
+//                                   onPressed: () {
+//                                     setState(()    {
+//                                       // pageDetails2().
+//                                       // pageDetails_loadAudios=true;
+     
+//                                         loadAudios(currentPage);
+//                                       // await  pageDetails2.globalKey2.currentState?.loadAudios(currentPage);
+//                                       if (firstFlag == false) {
+//                                       pageDetails_playAudios= true;
 
-// //                                   if (previouslyStopped == true) {
-// //                                     setState(() {
-// //                                       activeAya = activeAya + 1;
-// //                                       previouslyStopped = false;
-// //                                     });
-// //                                   }
-// //                                   if (firstFlag == false) {
-// //                                     if (clickedHighlightNum != 0) {
-// //                                       activeAya = clickedHighlightNum - 1;
-// //                                     }
-// //                                     print("FIRST FLAG IS FALSE");
-// //                                     setState(() {
-// //                                       if (cameFromMenu == true) {
-// //                                         currentPage = widget.goToPage;
-// //                                       }
-// //                                       currentPlayingPage = currentPage;
-// //                                       overallid = currentPage;
-// //                                       showPauseIcon = true;
-// //                                       getAudioPaths();
-// //                                     });
-// //                                     audioPaths.forEach((item) {
-// //                                       audios.add(Audio.network(item));
-// //                                     });
-// //                                     // print(audioPaths);
-// //                                     assetsAudioPlayer.open(
-// //                                       Playlist(
-// //                                           audios: audios,
-// //                                           startIndex: clickedHighlightNum != 0
-// //                                               ? clickedHighlightNum
-// //                                               : 0),
-// // loopMode: LoopMode.none                                    );
-// //                                     assetsAudioPlayer.playOrPause();
-// //                                     PlayAudios();
-// //                                     firstFlag = true;
-// //                                   }
-// //                                   //plays from paused position
-// //                                   else {
-// //                                     setState(() {
-// //                                       showPauseIcon = !showPauseIcon;
-// //                                       play = !play;
-// //                                     });
-// //                                     assetsAudioPlayer.playOrPause();
-// //                                     if (play == true) {
-// //                                       PlayAudios();
+//                                         savedPage=currentPage;
+//                                       //  pageDetails2.globalKey2.currentState?.playFromHighlightedText();
 
-//                                   //
-//                                   // }
-//                                   // },
-//                                   ),
+//                                         // Audioplayer_Provider
+//                                         //     .playFromHighlightedText(
+//                                         //   clickedHighlightNum,
+//                                         //   currentPage,
+//                                         //   moveNextPage,
+//                                         // );
+//                                         showPauseIcon = !showPauseIcon;
+//                                         // Audioplayer_Provider.AudioListener(
+//                                         //     handleActiveAya,
+//                                         //     handleAyaFlag,
+//                                         //     moveToNextPage);
+//                                         // firstFlag = true;
+//                                         showPauseIcon = true;
+//                                         clickedHighlightNum = 0;
+//                                       } else if (firstFlag == true) {
+//                                         showPauseIcon = !showPauseIcon;
+
+//                                         // Audioplayer_Provider.pauseOrPlay();
+//                                       }
+//                                     });
+//                                   }),
 //                             ),
 //                           ),
 //                           const SizedBox(
@@ -555,11 +573,11 @@
 //                                 //seek forward
 //                                 onPressed: () {
 //                                   // initializeDuration();
-//                                   assetsAudioPlayer.previous();
 //                                   setState(() {
-//                                     seekBackward = true;
+//                                     // seekBackward = true;
+//                                     Audioplayer_Provider.seekBackward();
 //                                   });
-//                                   PlayAudios();
+//                                   // PlayAudios();
 //                                 }),
 //                           ),
 //                           // SizedBox(
@@ -602,7 +620,7 @@
 //                         setState(() {
 //                           if (cameFromMenu == true) {
 //                             surahName =
-//                                 surahNamess[(widget.goToPage as int) - 1]!;
+//                                 surahName[(widget.goToPage as int) - 1]!;
 //                           }
 //                           print("========PRESSED");
 
@@ -622,7 +640,7 @@
 //                           width: 40,
 //                           child: Text(
 //                             HelperFunctions.convertToArabicNumbers(
-//                                     (overallid + 1).toString())
+//                                           (overallid + 1).toString())
 //                                 .toString(),
 //                             style: TextStyle(
 //                                 color: CustomColors.grey200, fontSize: 18),
@@ -630,260 +648,33 @@
 //                           )),
 //                     ),
 //                   ),
-//         // SizedBox(height: MediaQuery.of(context).size.height,)
 //       ]),
 //     );
+
+    
 //   }
-
-//   void openPlayer() async {
-//     if (previouslyStopped == true) {
-//       setState(() {
-//         activeAya = activeAya + 1;
-//         previouslyStopped = false;
-//       });
-//     }
-//     if (firstFlag == false) {
-//       if (clickedHighlightNum != 0) {
-//         activeAya = clickedHighlightNum - 1;
-//       }
-//       print("FIRST FLAG IS FALSE");
-//       setState(() {
-//         if (cameFromMenu == true) {
-//           currentPage = widget.goToPage;
-//         }
-//         currentPlayingPage = currentPage;
-//         overallid = currentPage;
-//         showPauseIcon = true;
-//         getAudioPaths();
-//       });
-//       audioPaths.forEach((item) {
-//         audios.add(Audio.network(item));
-//       });
-//       // print(audioPaths);
-//       assetsAudioPlayer.open(
-//           Playlist(
-//               audios: audios,
-//               startIndex: clickedHighlightNum != 0 ? clickedHighlightNum : 0),
-//           loopMode: LoopMode.none);
-//       assetsAudioPlayer.playOrPause();
-//       PlayAudios();
-//       firstFlag = true;
-//     }
-//     //plays from paused position
-//     else {
-//       setState(() {
-//         showPauseIcon = !showPauseIcon;
-//         play = !play;
-//       });
-//       assetsAudioPlayer.playOrPause();
-//       if (play == true) {
-//         PlayAudios();
-//       }
-//     }
-//   }
-
-//   void restartPlayer() {
-// //todo: 1. dispose player
-
+//   Future<void> loadAudios(int page)  async {
 //     setState(() {
-//       assetsAudioPlayer.stop();
-// //todo: 2.1 update playlist
-//       audios.clear();
-//       if (checkingIfweContinue == true) {
-//         audioPaths.forEach((item) {
-//           audios.add(Audio.network(item));
-//         });
-//       }
+//    Provider.of<AudioPlayer_Provider>(context, listen: false)
+//           .getAudioPaths(currentPage);
 
-//       assetsAudioPlayer.open(Playlist(audios: audios, startIndex: 0),
-//           loopMode: LoopMode.none);
-//       assetsAudioPlayer.playOrPause();
-//       activeAya=-1;
-//       // firstFlag = true;
-
-//       PlayAudios();
-
-//       //todo: 2. open new player
-//       //todo: 3. update indices
-// //index aya and active aya
-//       currentPlayingPage = currentPage;
-//       //todo 4. update buttons states
-// //pause and play buttons
-//     });
-//   }
-
-//   Future<void> getAudioPaths() async {
-//     FlagsAudio.clear();
-//     final List<String> paths = [];
-
-//     //TODO: CONDITIONS FOR END OF SURAH
-
-//     print("CURRENT PAGE IS: " + currentPage.toString());
-
-//     String AudioData = await rootBundle.loadString(
-//         'lib/data/json_files/audio_page/quran_audio_$currentPage.json');
-//     var jsonAudioResult = jsonDecode(AudioData);
-//     print("AUDIO DATA IS: " + currentPage.toString());
-
-//     for (int index = 0; index < jsonAudioResult.length; index++) {
-//       paths.add(jsonAudioResult[index]['audio']);
-//       FlagsAudio.add(jsonAudioResult[index]['EndOfSurah']);
-//     }
-//     setState(() {
-//       audioPaths = paths;
-//     });
-//     print(" PATHS $audioPaths");
-//     if (checkingIfweContinue == true) {
-//       recievedCheckingifweContinue=true;
-//       restartPlayer();
-
-//     }
+          
+// audiosList =  Provider.of<AudioPlayer_Provider>(context, listen: false).aud;
+//       FlagsAudio=  Provider.of<AudioPlayer_Provider>(context, listen: false).FlagsAudio;         
+   
+//    pageDetails_playAudios=true;
+//    });
+// print(audiosList);
+// print(FlagsAudio);
 //     // setState(() {
-//     //       audios.clear();
-//     // if(checkingIfweContinue==true) {
-//     //     audioPaths.forEach((item) {
-//     //                   audios.add(Audio.network(item));
-//     //                 });
-//     // print("@@@@ ");
+//     //   widget.pageDetails_loadAudios=false;
+//     // });
+//     // setState(() {
+//     //       widget.savedPage= page;
 
-// // assetsAudioPlayer.stop(); //or dispose
-// // assetsAudioPlayer.open(Playlist(audios: audios));
-// // clickedHighlightNum=0;
-// // activeAya=playingAudioID - 2;
-// // ayaIndex=0;
-// // currentPlayingPage=currentPage;
-// // PlayAudios();
-//     // }
-//     // }
-//     // );
-//     print(FlagsAudio);
-//   }
+//     // });
+    
+// print("done");
+// }
 
-//   Future<void> PlayAudios() async {
-// // restartPlayer(2, 4);
-//     print("active aya is $activeAya");
-//     print("indexhighlight is $activeAya");
-//     print("current page is $currentPlayingPage");
-//     print("aya flag  is $ayaFlag");
-//     print("STILL PLAYING");
-//     print(assetsAudioPlayer.isPlaying.value);
-
-//     int previousAudioId = 0;
-//     assetsAudioPlayer.current.listen((playingAudio) {
-//       final asset = playingAudio!.audio;
-// // if (assetsAudioPlayer.isPlaying.value)  {
-
-// // }    //finally works
-// // if (checkingIfweContinue==true) {
-  
-// //   print("CHECKING IF WE CONTINUE");
-// // }
-
-//       if (prev != asset && seekBackward == false) {
-//         changeText();
-
-//         setState(() {
-//           prev = asset;
-//         });
-//       } else if (seekBackward == true) {
-//         changeText();
-
-//         print("ASSET");
-//         print(asset);
-//         setState(() {
-//           prev = asset;
-//         });
-//       }
-//     });
-//   }
-
-//   changeStop() {
-//     setState(() {
-//       stopindex = true;
-//     });
-//   }
-
-//   changeText() {
-//     if (previouslyStopped) {
-//       setState(() {
-//         activeAya = activeAya + 1;
-
-//         previouslyStopped = false;
-//       });
-//     }
-
-//     if (checking == true) {
-//       assetsAudioPlayer.pause();
-//       setState(() {
-//         showPauseIcon = false;
-//         checking = false;
-//         previouslyStopped = true;
-//       });
-//     } else {
-//       setState(() {
-//         if (seekBackward == true) {
-//           seekBackward = false;
-
-// //condition for first aya
-//           if (ayaIndex == 0) {
-//             activeAya = 0;
-//             ayaFlag = true;
-//           } else {
-//             ayaIndex = ayaIndex - 2;
-//             activeAya = activeAya - 2;
-//             ayaFlag = true;
-
-//             print("AYA INDEX SEEK BACK: $ayaIndex");
-//           }
-//         }
-//         // //TODO: condition for last aya
-
-//         else {
-//           activeAya = activeAya + 1;
-//           ayaFlag = true;
-//         }
-
-//         playingAudioID = playingAudioID+1;
-//       });
-
-//       print("ACTUAL ID IS $playingAudioID");
-//       print("FLAGGG IS " + FlagsAudio[playingAudioID - 1]);
-
-//       print("IDDDD " + (playingAudioID - 1).toString());
-
-//       if (FlagsAudio[activeAya].toString() == "1") {
-//         setState(() {
-//           print("THIS IS THE LAST AYA");
-//           checking = true;
-//         });
-//       } else if (FlagsAudio[activeAya].toString() == "0" &&
-//           activeAya == FlagsAudio.length - 1) {
-//         setState(() {
-//           checkingIfweContinue = true;
-//         });
-//         //  assetsAudioPlayer.stop();
-//         print("entered LAST LAST AYA");
-
-//         // ContinuePlayingNextPage();
-//         checking = false;
-//         assetsAudioPlayer.playlistFinished.listen((finished) {
-//           if (finished == true) {
-//             print("finished finsihed");
-//             carouselController.nextPage();
-//             carouselController2.nextPage();
-//             playingAudioID=0;
-//             print("####### $audios");
-//           }
-//         });
-//       } else {
-//         setState(() {
-//           checking = false;
-//           checkingIfweContinue = false;
-//           // print("entered checking");
-//           // print(activeAya);
-//           // print (FlagsAudio.length);
-//         });
-//       }
-//     }
-//   }
 // }

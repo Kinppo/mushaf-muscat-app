@@ -131,6 +131,11 @@ flutter:
     - family: Amiri
       fonts:
         - asset: assets/fonts/amiri-regular.ttf
+    - family: OmanTypeface
+      fonts:
+        - asset: assets/fonts/omanfont/OmanTypeface-Regular.ttf
+        - asset: assets/fonts/omanfont/OmanTypeface-Bold.ttf
+        - asset: assets/fonts/omanfont/OmanTypeface-Light.ttf
         
 
   #

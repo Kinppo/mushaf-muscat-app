@@ -74,6 +74,8 @@ class BookMarksGrid extends StatelessWidget {
                   page: bookMarksData[i].page,
                   aya: bookMarksData[i].aya,
                   type: bookMarksData[i].type,
+                   pageNum: bookMarksData[i].pageNum,
+                    highlightNum: bookMarksData[i].highlightNum
                 ),
               )),
       ],

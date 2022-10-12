@@ -5,17 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:provider/provider.dart';
+import '../providers/bookMarks_provider.dart';
+
 import 'package:mushafmuscat/localization/app_localizations.dart';
 
 import '../resources/colors.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
    Function ShowAudioPlayer;
-   
-AyaClickedBottomSheet({
+   int clickedHighlightNum;
+    int currentPage;
+   String surahName;
+   String ayaNum;
+  AyaClickedBottomSheet({
     Key? key,
     required this.ShowAudioPlayer,
-   
+    required this.clickedHighlightNum,
+    required this.currentPage,
+    required this.surahName,
+    required this.ayaNum,
   }) : super(key: key);
 
   @override
@@ -24,17 +33,38 @@ AyaClickedBottomSheet({
 
 class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
 
+// Icon bookmarkIcon =Icon(Icons.bookmark_border_outlined);
+ List<IconData> bkIconsList =[Icons.bookmark_border_outlined, Icons.bookmark_border_outlined, Icons.bookmark_border_outlined, Icons.bookmark_border_outlined];
+
+
+
   void viewAudioPlayerController() {
     setState(() {
       widget.ShowAudioPlayer();
     });
   }
 
+
+//bookmark vars
+
   @override
   Widget build(BuildContext context) {
+             final   bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
     // return grid item container
+void getIcon (int type) {
+  setState(() {
+    if (bookMarkProvider.checkBookmark(type.toString())==true) {
+    bkIconsList[type-1]= Icons.bookmark;
+    }
 
-    Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText) {
+  else  {
+     bkIconsList[type-1]= Icons.bookmark_border_outlined;
+  }
+  });}
+
+
+
+    Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText, int type,) {
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -47,11 +77,28 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 iconSize: 32,
                 alignment: Alignment.topRight,
                 onPressed: () {
-                  //todo: change text next to iconbutton
-                  //todo: fill icon           
-                },
+                  print("SURAAAH NAME: " + widget.surahName);
+                  print("SURAAAH aya: " + widget.clickedHighlightNum.toString());
+print(bkIconsList.toList().toString());
 
-                icon: const Icon(Icons.bookmark_border_outlined),
+                  bookMarkProvider.addBookMark(id: type.toString(), aya: widget.ayaNum, page: widget.surahName, type: type.toString(),  pageNum: widget.currentPage, highlightNum: widget.clickedHighlightNum);
+                  //todo: change text next to iconbutton
+                  //todo: fill icon   
+                  // setState(() {
+                  //   var bk=getIcon(type);
+                  // }); 
+                  // getIcon(type);
+                setState(() {
+                  getIcon(type);
+
+                });
+                  print(bookMarkProvider.getFullAccount().toString())       ;
+                  // if  (bookMarkProvider.bookmarks[1] != null ) {
+                  //   print("already there is a bookmark");
+                  // }
+                },
+icon:(bookMarkProvider.checkBookmark(type.toString())== true) ? Icon(Icons.bookmark) :Icon(Icons.bookmark_border_outlined),
+                // icon: Icon(bkIconsList[type-1]),
                 color: bkColor),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -138,13 +185,14 @@ viewAudioPlayerController();
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk1')
                               .toString(),
+                              1, 
                         ),
                         returnGridItem(
                           const BorderRadius.only(topLeft: Radius.circular(20)),
                           CustomColors.pink100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk2')
-                              .toString(),
+                              .toString(), 2,
                         ),
                         
                         returnGridItem(
@@ -153,7 +201,7 @@ viewAudioPlayerController();
                           CustomColors.green200,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk3')
-                              .toString(),
+                              .toString(),3, 
                         ),
                         returnGridItem(
                           const BorderRadius.only(
@@ -161,7 +209,7 @@ viewAudioPlayerController();
                           CustomColors.blue100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk4')
-                              .toString(),
+                              .toString(),4,
                         ),
                       ]),
                 ),

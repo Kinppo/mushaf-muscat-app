@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:mushafmuscat/providers/audioplayer_provider.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 // import 'package:sizer/sizer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
@@ -27,7 +27,6 @@ import 'dart:async';
 import 'models/book_mark.dart';
 
 Future<void> main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
   // Initialize hive
   await Hive.initFlutter();
@@ -45,21 +44,28 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context, ) {
-
-    
+  Widget build(
+    BuildContext context,
+  ) {
     return MultiProvider(
-      providers: [ ChangeNotifierProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (ctx) => AudioPlayer_Provider(),
+        ),
+        ChangeNotifierProvider(
           create: (ctx) => ayatLines_provider(),
         ),
-     ChangeNotifierProvider(
+        ChangeNotifierProvider(
           create: (ctx) => PageText_provider(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => BookMarks(),
         ),
         ChangeNotifierProvider(
-          create: (ctx, ) => SurahProvider(user_query: ''),
+          create: (
+            ctx,
+          ) =>
+              SurahProvider(user_query: ''),
         ),
         ChangeNotifierProvider(
           create: (ctx) => QuarterProvider(),
@@ -69,11 +75,9 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer<ThemeProvider>(
-        
         builder: (context, themeProvider, child) {
-
           return MaterialApp(
-             title: 'Flutter Demo',
+            title: 'Flutter Demo',
             onGenerateRoute: AppRoutes.onGenerateRoute,
             onUnknownRoute: AppRoutes.onUnkownRoute,
             supportedLocales: AppLocalizationsSetup.supportedLocales,
@@ -85,10 +89,10 @@ class MyApp extends StatelessWidget {
             themeMode: themeProvider.themeMode,
             //home: const SplashScreen(),
             home: QuranScreen(),
-     
-          // background: Container(color: Color(0xFFF5F5F5))),
-    // initialRoute: "/",
-    );
+
+            // background: Container(color: Color(0xFFF5F5F5))),
+            // initialRoute: "/",
+          );
         },
       ),
     );

@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mushafmuscat/models/pageText.dart';
-
+import '../widgets/finalCarousel2.dart';
 import '../models/AyatLines.dart';
 import '../providers/audioplayer_provider.dart';
 import '../providers/ayatLines_provider.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 
-class pageDetails extends StatefulWidget {
-  static final GlobalKey<_pageDetailsState> globalKey = GlobalKey();
+class pageDetails2 extends StatefulWidget {
+  static final GlobalKey<_pageDetails2State> globalKey2 = GlobalKey();
 
   int id;
   int indexhighlight;
@@ -22,11 +22,19 @@ class pageDetails extends StatefulWidget {
   Function toggleClickedHighlight;
   int clickedHighlightNum;
   Function ContinueNextPage;
+  int savedPage;
+  int savedHighlight;
+  List<Audio> audiosList;
+  List<String> FlagsAudio;
+  bool pageDetails_playAudios;
+    bool firstFlag;
+    Function toggleIndex;
 
+  // bool pageDetails_loadAudios;
 
 // Function togg;
 
-  pageDetails({
+  pageDetails2({
     Key? key,
     required this.id,
     required this.indexhighlight,
@@ -35,13 +43,20 @@ class pageDetails extends StatefulWidget {
     required this.toggleClickedHighlight,
     required this.clickedHighlightNum,
     required  this.ContinueNextPage,
-  }) : super(key: globalKey);
+    required this.savedPage, 
+    required this.savedHighlight,
+    required this.audiosList, 
+    required this.FlagsAudio,
+    required this.pageDetails_playAudios,
+    required this.firstFlag,
+    required this.toggleIndex,
+  }) : super(key: key);
 
   @override
-  State<pageDetails> createState() => _pageDetailsState();
+  State<pageDetails2> createState() => _pageDetails2State();
 }
 
-class _pageDetailsState extends State<pageDetails> {
+class _pageDetails2State extends State<pageDetails2> {
   String? fulltext;
   bool flag = false;
   List<String> splittedList = [''];
@@ -55,7 +70,7 @@ class _pageDetailsState extends State<pageDetails> {
   List<String> audioPaths = [];
   List<Audio> audioList = [];
   final assetsAudioPlayer = AssetsAudioPlayer();
-  int clickedHighlightNum = 0;
+  // int clickedHighlightNum = 0;
   bool firstFlag = false;
   bool clickHighlightWhilePlaying = false;
   int indexhighlighted=0;
@@ -66,9 +81,11 @@ class _pageDetailsState extends State<pageDetails> {
   @override
   initState() {
     if (isLoaded == false) {
-    loadTextandAudios(widget.id);
+    loadTextandAudios(widget.currentpage);
       // print("audio list for page $widget.id is $audioList");
       // print(audioList.toString());
+     
+
       //todo:fix this
       isLoaded = true;
     }
@@ -76,24 +93,34 @@ class _pageDetailsState extends State<pageDetails> {
     super.initState();
   }
 
-  void loadTextandAudios(int page) {
+   void loadTextandAudios(int page) {
       textlist = Provider.of<ayatLines_provider>(context, listen: false)
           .getLines(page);
-   
-      // Provider.of<AudioPlayer_Provider>(context, listen: false)
-      //     .getAudioPaths(widget.id);
-      // audioList = Provider.of<AudioPlayer_Provider>(context, listen: false).aud;
-      // FlagsAudio=  Provider.of<AudioPlayer_Provider>(context, listen: false).FlagsAudio;
-   
+
+
+  
+     
   }
 
+didChangeDependencies () {
+  
+  super.didChangeDependencies();
+}
 
 Future<void> loadAudios(int page) async {
   await Provider.of<AudioPlayer_Provider>(context, listen: false)
           .getAudioPaths(widget.id);
       // audioList = await Provider.of<AudioPlayer_Provider>(context, listen: false).aud;
-      FlagsAudio= await Provider.of<AudioPlayer_Provider>(context, listen: false).FlagsAudio;
+      // FlagsAudio= await Provider.of<AudioPlayer_Provider>(context, listen: false).FlagsAudio;
+    
+    // setState(() {
+    //   widget.pageDetails_loadAudios=false;
+    // });
+    // setState(() {
+    //       widget.savedPage= page;
 
+    // });
+    
 print("done");
 }
 
@@ -106,16 +133,23 @@ void gotonextpage() {
 }
 
   void playFromHighlightedText() {
-    print("ENTEREDDDDDDDD HIGHLIGHTED");
+
+    print("ENTERED HIGHLIGHTED");
 //           storeCurrentPage=widget.id;
 // print("Current page is $storeCurrentPage");
     assetsAudioPlayer.open(
-        Playlist(audios: audioList, startIndex: idx),
+        Playlist(audios: widget.audiosList, startIndex: idx),
         loopMode: LoopMode.none);
  assetsAudioPlayer.current.listen((playingAudio) {
       final asset = playingAudio!.audio;
-
+print("---------saved page is " + widget.savedPage.toString());
  print("flag is $FlagsAudio");
+ setState(() {
+    indexhighlighted= playingAudio.index;
+      widget.toggleIndex(indexhighlighted);
+    print("INDEX HIGHLIGHT IS $indexhighlighted");
+
+ });
       if (playingAudio.index != 0 &&
           FlagsAudio.length > 0 &&
           FlagsAudio[playingAudio.index - 1] == '1') {
@@ -141,7 +175,6 @@ void gotonextpage() {
             // moveToNextPage();
           // }
           } });}
-        
 setState(() {
   indexhighlighted= playingAudio.index;
   widget.ayaFlag=true;
@@ -154,24 +187,15 @@ setState(() {
     assetsAudioPlayer.play();
  });}
 
-  // void toggleClickedHighlight(int clickedIdx) {
-  //   setState(() {
-  //     print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
-  //     clickedHighlightNum = clickedIdx - 1;
-
-  //     if (firstFlag == true) {
-  //       clickHighlightWhilePlaying = true;
-  //     }
-
-  //     // playFromHighlightedText();
-  //   });
-  // }
-
  
   List<TextSpan> createTextSpans() {
+
+
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = 0;
+                // widget.pageDetails_loadAudios=false;
+
       });
     }
     //=======
@@ -215,13 +239,12 @@ setState(() {
                     .indexWhere((element) => element.text == text);
 
                 print("highlighted line number  $idx");
-                widget.clickedHighlightNum = idx + 1;
+                // widget.clickedHighlightNum = idx + 1;
 
-      if (firstFlag == true) {
-        clickHighlightWhilePlaying = true;
-      }
-
-              // toggleClickedHighlight(idx + 1);
+      // if (firstFlag == true) {
+      //   clickHighlightWhilePlaying = true;
+      // }
+              widget.toggleClickedHighlight(idx + 1);
               });
 
               // print("The word touched is $text");
@@ -241,9 +264,16 @@ setState(() {
       print("widget.id: " + widget.id.toString());
       // print(arrayStrings);
 
-      if (widget.currentpage == widget.id &&
-          widget.ayaFlag != false &&
-          arrayStrings[0] != "") {
+      if (
+          
+          arrayStrings[0] != "" && widget.audiosList.length != 0 && widget.firstFlag==false)  {
+
+           
+
+           setState(() {
+             widget.firstFlag=true;
+           });
+       
         print("Entered condition");
         // /====temp and may be disposed later based on the use case
         if (highlightFlag == true) {
@@ -253,8 +283,12 @@ setState(() {
 
         // /====
 
-        arrayOfTextSpan[indexhighlighted].style?.background!.color =
+       
+
+ arrayOfTextSpan[3].style?.background!.color =
             Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
+                                                    playFromHighlightedText();
+
       }
     });
 
@@ -289,23 +323,24 @@ setState(() {
     return Container(
       padding: EdgeInsets.fromLTRB(12, 53, 6, 0),
       child: Expanded(
-        child: RichText(
-          textDirection: TextDirection.rtl,
-          textAlign: TextAlign.justify,
-          text: new TextSpan(
-            style: const TextStyle(
-                fontFamily: 'Amiri',
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-                color: Colors.brown,
-                wordSpacing: 2.6,
-                letterSpacing: 1,
-                height: 1.25),
-            children: createTextSpans(),
-          ),
-        ),
-      ),
-    );
+        child:    RichText(
+            textDirection: TextDirection.rtl,
+            textAlign: TextAlign.justify,
+            text: new TextSpan(
+              style: const TextStyle(
+                  fontFamily: 'Amiri',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.brown,
+                  wordSpacing: 2.6,
+                  letterSpacing: 1,
+                  height: 1.25),
+              children: createTextSpans(),
+            ),))
+          );     
+
+
+  
   }
 
   @override

@@ -21,13 +21,15 @@ class BookMarkAdapter extends TypeAdapter<BookMark> {
       aya: fields[2] as String,
       page: fields[1] as String,
       type: fields[3] as String,
+      pageNum: fields[4] as int,
+      highlightNum: fields[5] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, BookMark obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -35,7 +37,11 @@ class BookMarkAdapter extends TypeAdapter<BookMark> {
       ..writeByte(2)
       ..write(obj.aya)
       ..writeByte(3)
-      ..write(obj.type);
+      ..write(obj.type)
+      ..writeByte(4)
+      ..write(obj.pageNum)
+      ..writeByte(5)
+      ..write(obj.highlightNum);
   }
 
   @override

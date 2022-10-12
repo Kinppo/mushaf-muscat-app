@@ -277,7 +277,7 @@ s='';
           style: TextStyle(
               color: CustomColors.brown600,
               fontSize: 19,
-              fontFamily: "IBMPlexSansArabic"),
+              fontFamily: "OmanTypeface"),
         ),
         selectedColor: Colors.white,
         selected: true,

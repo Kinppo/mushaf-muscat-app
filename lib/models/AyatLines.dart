@@ -6,11 +6,13 @@ class AyatLines {
   String? endOfSurah;
   String? surahName;
   int? pageNumber;
+  String? aya;
 
   AyatLines({
     this.text,
     this.pageNumber,
     this.endOfSurah,
-    this.surahName
+    this.surahName,
+    this.aya
   });
 }

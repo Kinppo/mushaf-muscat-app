@@ -37,6 +37,8 @@ class ayatLines_provider with ChangeNotifier {
         endOfSurah: jsonResult[index]['EndOfSurah'],
         surahName: jsonResult[index]['SurahName'],
         pageNumber: pageNum,
+        aya: jsonResult[index]['aya'],
+
       ));
     }
 
@@ -48,6 +50,10 @@ class ayatLines_provider with ChangeNotifier {
   }
 
   List<AyatLines> get text {
+    return [...ayat_lines];
+  }
+
+   List<AyatLines> get numbers {
     return [...ayat_lines];
   }
 }

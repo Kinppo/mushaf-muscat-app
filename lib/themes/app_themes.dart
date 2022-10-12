@@ -13,17 +13,17 @@ class AppThemes {
       secondaryHeaderColor: HexColor('#948779'),
       indicatorColor: HexColor('#e6ded6'),
       shadowColor: HexColor('#e6dfd8'),
-      fontFamily: "IBMPlexSansArabic",
+      fontFamily: "OmanTypeface",
       backgroundColor: HexColor('#f5efe9'),
       textTheme:  const TextTheme(
         headline1: TextStyle(
             fontSize: 18,
-            fontFamily: "IBMPlexSansArabic",
+            fontFamily: "OmanTypeface",
             fontWeight: FontWeight.w200,
             ),
         headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
-        bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'IBMPlexSansArabic'),
-        labelMedium: TextStyle(fontSize: 16.0, fontFamily: 'IBMPlexSansArabic', color: Colors.black,fontWeight: FontWeight.bold),
+        bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'OmanTypeface'),
+        labelMedium: TextStyle(fontSize: 16.0, fontFamily: 'OmanTypeface', color: Colors.black,fontWeight: FontWeight.bold),
       ),);
 
   static final ThemeData darkTheme = ThemeData();

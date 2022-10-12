@@ -10,6 +10,8 @@ import '../resources/colors.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
+import '../widgets/finalCarousel2.dart';
+import '../widgets/finalCarouselTesting.dart';
 
 
 class QuranScreen extends StatefulWidget {
@@ -20,7 +22,6 @@ class QuranScreen extends StatefulWidget {
 }
 
 class _QuranScreenState extends State<QuranScreen> {
-  GlobalKey<_QuranScreenState> myKey = GlobalKey();
 
   bool showAppBar = true;
   bool showNavBar = true;
@@ -112,7 +113,8 @@ class _QuranScreenState extends State<QuranScreen> {
                           children:  [
                             Padding(
                               padding: EdgeInsets.only(top: 0),
-                              child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
+                              // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
+                            child: finalCarousel2(goToPage: goToPage, toggleBars:toggleBars),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()

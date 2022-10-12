@@ -13,7 +13,7 @@ class AyahScreen extends StatelessWidget {
       ayah:
           '﴿ كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنتُمْ أَمْوَاتًا فَأَحْيَاكُمْ ۖ ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ﴾',
       content:
-          'قال ابن عطية : وهذا القول هو المراد بالآية ، وهو الذي لا محيد للكفار عنه لإقرارهم بهما ، وإذا أذعنت نفوس الكفار لكونهم أمواتا معدومين ، ثم للإحياء في الدنيا ، ثم للإماتة فيها قوي عليهم لزوم الإحياء الآخر وجاء جحدهم له دعوى لا حجة عليها . قال غيره : والحياة التي تكون في القبر على هذا التأويل في حكم حياة الدنيا .',
+          ' قال ابن عطية : وهذا القول هو المراد بالآية ، وهو الذي لا محيد للكفار عنه لإقرارهم بهما ، وإذا أذعنت نفوس الكفار لكونهم أمواتا معدومين ، ثم للإحياء في الدنيا ، ثم للإماتة فيها قوي عليهم لزوم الإحياء الآخر وجاء جحدهم له دعوى لا حجة عليها . قال غيره : والحياة التي تكون في القبر على هذا التأويل في حكم حياة الدنيا .\n\n Ibn Attia said: This saying is what is meant by the verse, and it is the one that the infidels have no inevitable about because they acknowledge them, and if the souls of the infidels submit to the fact that they are dead, then there is no justification for them to revive in this world, then to die in it. Others said: And the life that is in the grave, according to this interpretation, is the ruling on the life of this world. \n 0 1 2 3 4 5 6 7 8 9 ',
       surah: 'سورة البقرة');
 
   @override
@@ -28,7 +28,7 @@ class AyahScreen extends StatelessWidget {
             width: MediaQuery.of(context).size.width,
             color: Theme.of(context).backgroundColor,
             height: MediaQuery.of(context).size.height,
-            padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+            padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -62,8 +62,8 @@ class AyahScreen extends StatelessWidget {
                             child: Text(
                               _ayah.surah,
                               style: TextStyle(
-                                  fontFamily: 'IBMPlexSansArabic',
-                                  fontSize: 16,
+                                  fontFamily: 'OmanTypeface',
+                                  fontSize: 19,
                                   fontWeight: FontWeight.w600,
                                   color: CustomColors.brown400),
                             ),
@@ -76,8 +76,8 @@ class AyahScreen extends StatelessWidget {
                             child: Text(
                               _ayah.content,
                               style: TextStyle(
-                                  fontFamily: 'IBMPlexSansArabic',
-                                  fontSize: 16,
+                                  fontFamily: 'OmanTypeface',
+                                  fontSize: 19,
                                   fontWeight: FontWeight.w400,
                                   color: CustomColors.brown100),
                             ),
