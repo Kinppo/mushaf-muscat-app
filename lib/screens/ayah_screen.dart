@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mushafmuscat/models/ayah.dart';
 import 'package:mushafmuscat/resources/colors.dart';
-
+import 'package:provider/provider.dart';
+import '../providers/dailyAya_provider.dart';
 import '../localization/app_localizations.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
 class AyahScreen extends StatelessWidget {
+
   AyahScreen({Key? key}) : super(key: key);
   static const routeName = '/ayah';
   Ayah _ayah = Ayah(
@@ -18,6 +20,10 @@ class AyahScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+      // DailyAya? txt= Provider.of<dailyAyaProvider>(context, listen: false ).dataModel;
+       Provider.of<dailyAyaProvider>(context, listen: false ).getPostData(context);
+dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
+// print(txt);
     final _isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
@@ -49,7 +55,9 @@ class AyahScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10)),
                       child: Column(
                         children: [
-                          Text(_ayah.ayah,
+                          Text(
+                            aya.Tafsir,
+                            // _ayah.ayah,
                               style: TextStyle(
                                   fontFamily: 'ScheherazadeNew',
                                   fontWeight: FontWeight.w700,

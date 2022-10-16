@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mushafmuscat/providers/audioplayer_provider.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
+import 'package:mushafmuscat/providers/dailyAya_provider.dart';
 import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 // import 'package:sizer/sizer.dart';
@@ -48,7 +49,9 @@ class MyApp extends StatelessWidget {
     BuildContext context,
   ) {
     return MultiProvider(
-      providers: [
+      providers: [ ChangeNotifierProvider(
+          create: (ctx) => dailyAyaProvider(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => AudioPlayer_Provider(),
         ),
