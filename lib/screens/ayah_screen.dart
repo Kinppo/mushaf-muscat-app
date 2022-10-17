@@ -56,8 +56,8 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                       child: Column(
                         children: [
                           Text(
-                            aya.Tafsir,
-                            // _ayah.ayah,
+                            // aya.Tafsir,
+                            _ayah.ayah,
                               style: TextStyle(
                                   fontFamily: 'ScheherazadeNew',
                                   fontWeight: FontWeight.w700,

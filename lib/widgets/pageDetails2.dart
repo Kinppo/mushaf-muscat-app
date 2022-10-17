@@ -118,18 +118,6 @@ var bookmarks;
     textlist =
         Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
 
-        // bookmarks=  Provider.of<BookMarks>(context, listen: false).getFullAccount();
-// List<BookMark> bk = Provider.of<BookMarks>(context, listen: false).bookmarks;
-
-// bk.forEach((element) {
-  
-//   if (element.pageNum== page){
-//     bkSamePage=true;
-//     bkColor = pickColor(element.type);
-//     bkIndex= element.highlightNum;
-//     print("we are in the same page");
-//   }
-// });
   }
 
 
@@ -229,15 +217,7 @@ bk.forEach((element) {
 
      }
 
-//       arrayOfTextSpan[idx].style?.b ackground!.strokeWidth = 8.9;
-//  print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
-//          if (highlightFlag == true) {
-//           print("enetered hihglight condition");
-//           // changestyle();
-//        arrayOfTextSpan[idx].style?.background!.color =
-//           Colors.brown.withOpacity(0.25);
-//       arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
-//     }
+
 
     setState(() {
       if (widget.currentpage == widget.prev &&

@@ -58,9 +58,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
   late final audioProvider;
   bool isPlaying = false;
   bool closedBottomSheet = false;
+  bool seekRight = false;
 // strings
   String surahName = 'الفاتحة';
-int navigatedFromBK=0;
+  int navigatedFromBK = 0;
 // lists
   late final List<String?> _surahNames;
   late final List<List<int>> _flagsForEndofSurah;
@@ -70,8 +71,8 @@ int navigatedFromBK=0;
   List<Audio> audiosList = [];
   List<String> FlagsAudio = [];
 // controllers
-   CarouselController carouselController = new CarouselController();
-   CarouselController carouselController2 = new CarouselController();
+  CarouselController carouselController = new CarouselController();
+  CarouselController carouselController2 = new CarouselController();
 
 //new state management
 // bool pageDetails_loadAudios=false;
@@ -80,30 +81,24 @@ int navigatedFromBK=0;
   void initState() {
     print("building......");
     if (widget.goToPage != null && widget.goToPage != 0) {
-          overallid = (widget.goToPage as int) - 1;
-          currentPage=(widget.goToPage as int) - 1;
-          cameFromMenu = true;
-          setState(() {
-            navigatedFromBK=(widget.goToPage as int)- 1;
-                        
+      overallid = (widget.goToPage as int) - 1;
+      currentPage = (widget.goToPage as int) - 1;
+      cameFromMenu = true;
+      setState(() {
+        navigatedFromBK = (widget.goToPage as int) - 1;
 
-            // carouselController.animateToPage(navigatedFromBK-1,);
+        // carouselController.animateToPage(navigatedFromBK-1,);
+      });
+      // // currentPage = widget.goToPage as int;
+      //           print("CAME FROM MENU IS "  + overallid.toString());
+      //           // carouselController.animateToPage(overallid);
 
-
-          });
-          // // currentPage = widget.goToPage as int;
-          //           print("CAME FROM MENU IS "  + overallid.toString());
-          //           // carouselController.animateToPage(overallid);
-
-          // print("CAME FROM MENU IS $cameFromMenu");
-        }
+      // print("CAME FROM MENU IS $cameFromMenu");
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadSurahs;
-      setState(()  {
+      setState(() {
         loadSurahs();
-
-
-        
       });
     });
 
@@ -125,7 +120,7 @@ int navigatedFromBK=0;
 
   toggleClickedHighlight(int clickedIdx, String ayaS) {
     setState(() async {
-print(ayaS);
+      print(ayaS);
       print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
       clickedHighlightNum = clickedIdx - 1;
       // print("currently playing....." + ayaNUMBER.toString());
@@ -162,7 +157,7 @@ print(ayaS);
         builder: (BuildContext context) {
           return AyaClickedBottomSheet(
             ShowAudioPlayer: togglePlayer,
-            ayaNum:  HelperFunctions.convertToArabicNumbers(ayaS)!,
+            ayaNum: HelperFunctions.convertToArabicNumbers(ayaS)!,
             clickedHighlightNum: clickedHighlightNum,
             currentPage: currentPage,
             surahName: surahName,
@@ -202,15 +197,6 @@ print(ayaS);
   }
 
   moveToNextPage() {
-//   //  print()
-//     print("======****************==============");
-// setState(() {
-//   activeAya=0;
-//   clickedHighlightNum=0;
-//   currentPage=currentPage+1;
-// });
-// await Provider.of<AudioPlayer_Provider>(context, listen: false).clearEverything();
-
     print("calling next page");
     carouselController.nextPage();
     carouselController2.nextPage();
@@ -232,17 +218,6 @@ print(ayaS);
         if (showPauseIcon == false) {
           showPauseIcon = !showPauseIcon;
         }
-
-        // Provider.of<AudioPlayer_Provider>(context, listen: false)
-        //     .playFromHighlightedText(
-        //   clickedHighlightNum,
-        //   currentPage,
-        //   moveNextPage,
-        // );
-        // Provider.of<AudioPlayer_Provider>(context, listen: false)
-        //     .AudioListener(handleActiveAya, handleAyaFlag, moveToNextPage);
-        // clickHighlightWhilePlaying = false;
-        // ShowAudioPlayer = true;
       } else {
         widget.toggleBars();
         ShowAudioPlayer = true;
@@ -282,9 +257,9 @@ print(ayaS);
                 reverse: false,
                 viewportFraction: 1,
                 enableInfiniteScroll: true,
-                initialPage:navigatedFromBK,
-                    //if infinite scroll is false, then initial page has to be -1 not 0
-                    // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
+                initialPage: navigatedFromBK,
+                //if infinite scroll is false, then initial page has to be -1 not 0
+                // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
                 scrollDirection: Axis.horizontal,
                 onPageChanged: (index, reason) {
                   setState(() {
@@ -293,7 +268,8 @@ print(ayaS);
                     currentPage = index + 1;
                     surahName = _surahNames[index]!;
                     print("CURRENT PAGE IS $currentPage");
-                    print("the value of go to page is ....." +  widget.goToPage.toString());
+                    print("the value of go to page is ....." +
+                        widget.goToPage.toString());
                   });
                 }),
             items: listofObjects.map((i) {
@@ -489,8 +465,22 @@ print(ayaS);
                                     height: 40,
                                     fit: BoxFit.fitWidth),
                                 //seek forward
-                                onPressed: () {
-                                  assetsAudioPlayer.next();
+                                onPressed: () async {
+                                  if (activeAya != 0 &&
+                                      FlagsAudio.length > 0 &&
+                                      FlagsAudio[activeAya - 1].toString() ==
+                                          "0" &&
+                                      activeAya == FlagsAudio.length - 1) {
+                                    carouselController.nextPage();
+                                    carouselController2.nextPage();
+                                    audiosList.clear();
+                                    FlagsAudio.clear();
+                                    await loadAudios(currentPage + 1);
+                                    clickedHighlightNum = 0;
+                                    OpenPlayer();
+                                  } else {
+                                    assetsAudioPlayer.next();
+                                  }
                                 }),
                           ),
                           const SizedBox(
@@ -537,13 +527,26 @@ print(ayaS);
                                     height: 40,
                                     fit: BoxFit.fitWidth),
                                 //seek forward
-                                onPressed: () {
-                                  // initializeDuration();
-                                  setState(() {
+                                onPressed: () async {
+                                  if (FlagsAudio.length > 0 && activeAya == 0) {
+                                    carouselController.previousPage();
+                                    carouselController2.previousPage();
+                                    audiosList.clear();
+                                    FlagsAudio.clear();
+                                    await loadAudios(currentPage - 1);
+                                    clickedHighlightNum = FlagsAudio.length - 1;
+
+                                    OpenPlayer();
+                                  } else {
                                     assetsAudioPlayer.previous();
-                                    // seekBackward = true;
-                                    // Audioplayer_Provider.seekBackward();
-                                  });
+                                  }
+
+                                  // initializeDuration();
+
+                                  // assetsAudioPlayer.previous();
+                                  // seekBackward = true;
+                                  // Audioplayer_Provider.seekBackward();
+
                                   // PlayAudios();
                                 }),
                           ),
@@ -681,6 +684,18 @@ print(ayaS);
             FlagsAudio[playingAudio.index - 1].toString() == "0" &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
+            // if (seekRight==true){
+
+            //     seekRight=false;
+            //     carouselController.nextPage();
+            //   carouselController2.nextPage();
+            //   audiosList.clear();
+            //   FlagsAudio.clear();
+            //   await loadAudios(currentPage + 1);
+            //   clickedHighlightNum = 0;
+            //   OpenPlayer();
+
+            // }
             if (finished == true) {
               print("finished finsihed");
               carouselController.nextPage();
