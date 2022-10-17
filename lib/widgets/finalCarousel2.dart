@@ -87,13 +87,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
 
-        // carouselController.animateToPage(navigatedFromBK-1,);
       });
-      // // currentPage = widget.goToPage as int;
-      //           print("CAME FROM MENU IS "  + overallid.toString());
-      //           // carouselController.animateToPage(overallid);
-
-      // print("CAME FROM MENU IS $cameFromMenu");
+ 
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadSurahs;
@@ -102,8 +97,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
       });
     });
 
-    // getAudioPaths();
-    // activate();
+
     ShowAudioPlayer = false;
     ShowOnlyPageNum = true;
 
@@ -115,7 +109,6 @@ class _finalCarousel2 extends State<finalCarousel2> {
     _surahNames = surahsData.loadSurahs();
     _flagsForEndofSurah = surahsData.loadFlags();
     _ayaNumbers = surahsData.loadAyaNum();
-    // print("aya number is  " + _surahNames[3].toString());
   }
 
   toggleClickedHighlight(int clickedIdx, String ayaS) {
@@ -123,7 +116,6 @@ class _finalCarousel2 extends State<finalCarousel2> {
       print(ayaS);
       print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
       clickedHighlightNum = clickedIdx - 1;
-      // print("currently playing....." + ayaNUMBER.toString());
 
       if (firstFlag == true) {
         clickHighlightWhilePlaying = true;
@@ -135,18 +127,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
           OpenPlayer();
         } else {
           assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-          //                                                 AudioListener();
         }
         print("audio playing is $prev");
         print("currently in page $currentPage");
-        // assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-        //       ayaFlag = true;
-        //                                                 AudioListener();
+                                                    AudioListener();
       }
-      // clickedHighlightNum=-1;
-// showPauseIcon=!showPauseIcon;
-      // change this to modal bottom sheet
-      //  ShowAudioPlayer=true;
+    
       showModalBottomSheet<void>(
         constraints: BoxConstraints(maxWidth: 400, maxHeight: 460),
         clipBehavior: Clip.hardEdge,
@@ -502,24 +488,20 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                   ),
                                   iconSize: 20,
                                   onPressed: () {
-                                                                          if (firstFlag == true) {
-
-                                    setState(() {
+                                    if (firstFlag == true) {
+                                      setState(() {
                                         showPauseIcon = !showPauseIcon;
                                         assetsAudioPlayer.playOrPause();
-                                      
-                                    });
-} else if (firstFlag == false)  {
-                                    setState(() async {
-                                    
+                                      });
+                                    } else if (firstFlag == false) {
+                                      setState(() async {
                                         await loadAudios(currentPage);
                                         print(audiosList);
                                         OpenPlayer();
                                         firstFlag = true;
                                         showPauseIcon = true;
-                                     
-                                    });
-}
+                                      });
+                                    }
                                     print("CLICKED PLAY");
                                   }),
                             ),
@@ -652,12 +634,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     var flagsss =
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
-// audioProvider.getAudioPaths(currentPage);
     setState(() {
-      // if (FlagsAudio.isNotEmpty) {
-      //   // FlagsAudio.clear();
-      //   audiosList.clear();
-      // }
 
       FlagsAudio = flagsss;
       prev = page;
@@ -696,18 +673,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
             FlagsAudio[playingAudio.index - 1].toString() == "0" &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
-            // if (seekRight==true){
-
-            //     seekRight=false;
-            //     carouselController.nextPage();
-            //   carouselController2.nextPage();
-            //   audiosList.clear();
-            //   FlagsAudio.clear();
-            //   await loadAudios(currentPage + 1);
-            //   clickedHighlightNum = 0;
-            //   OpenPlayer();
-
-            // }
+          
             if (finished == true) {
               print("finished finsihed");
               carouselController.nextPage();
@@ -718,7 +684,6 @@ class _finalCarousel2 extends State<finalCarousel2> {
               clickedHighlightNum = 0;
               OpenPlayer();
 
-              // moveToNextPage();
             }
           });
         }

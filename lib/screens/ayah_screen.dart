@@ -7,22 +7,37 @@ import '../providers/dailyAya_provider.dart';
 import '../localization/app_localizations.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
-class AyahScreen extends StatelessWidget {
+class AyahScreen extends StatefulWidget {
 
   AyahScreen({Key? key}) : super(key: key);
   static const routeName = '/ayah';
-  Ayah _ayah = Ayah(
-      ayah:
-          '﴿ كَيْفَ تَكْفُرُونَ بِاللَّهِ وَكُنتُمْ أَمْوَاتًا فَأَحْيَاكُمْ ۖ ثُمَّ يُمِيتُكُمْ ثُمَّ يُحْيِيكُمْ ثُمَّ إِلَيْهِ تُرْجَعُونَ﴾',
-      content:
-          ' قال ابن عطية : وهذا القول هو المراد بالآية ، وهو الذي لا محيد للكفار عنه لإقرارهم بهما ، وإذا أذعنت نفوس الكفار لكونهم أمواتا معدومين ، ثم للإحياء في الدنيا ، ثم للإماتة فيها قوي عليهم لزوم الإحياء الآخر وجاء جحدهم له دعوى لا حجة عليها . قال غيره : والحياة التي تكون في القبر على هذا التأويل في حكم حياة الدنيا .\n\n Ibn Attia said: This saying is what is meant by the verse, and it is the one that the infidels have no inevitable about because they acknowledge them, and if the souls of the infidels submit to the fact that they are dead, then there is no justification for them to revive in this world, then to die in it. Others said: And the life that is in the grave, according to this interpretation, is the ruling on the life of this world. \n 0 1 2 3 4 5 6 7 8 9 ',
-      surah: 'سورة البقرة');
 
+  @override
+  State<AyahScreen> createState() => _AyahScreenState();
+}
+
+late final dailyAya aya;
+bool loading= false;
+
+class _AyahScreenState extends State<AyahScreen> {
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await            Provider.of<dailyAyaProvider>(context, listen: false ).getPostData(context);
+;
+      setState(() {
+ aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
+ loading=true;
+      });
+    });
+
+    super.initState();
+  }
+  // Ayah _ayah = Ayah(
   @override
   Widget build(BuildContext context) {
       // DailyAya? txt= Provider.of<dailyAyaProvider>(context, listen: false ).dataModel;
-       Provider.of<dailyAyaProvider>(context, listen: false ).getPostData(context);
-dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
 // print(txt);
     final _isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
@@ -46,7 +61,7 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                         fontSize: 22, fontWeight: FontWeight.w600),
                     textAlign: TextAlign.center,
                   ),
-                  Container(
+                  (loading==true)? Container(
                       margin: const EdgeInsets.only(top: 30),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 22, vertical: 33),
@@ -56,8 +71,8 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                       child: Column(
                         children: [
                           Text(
-                            // aya.Tafsir,
-                            _ayah.ayah,
+                            aya.Aya,
+                            // _ayah.ayah,
                               style: TextStyle(
                                   fontFamily: 'ScheherazadeNew',
                                   fontWeight: FontWeight.w700,
@@ -68,7 +83,8 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                           ),
                           Align(
                             child: Text(
-                              _ayah.surah,
+                              aya.Surah,
+                              // _ayah.surah,
                               style: TextStyle(
                                   fontFamily: 'OmanTypeface',
                                   fontSize: 19,
@@ -82,7 +98,8 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                           ),
                           Align(
                             child: Text(
-                              _ayah.content,
+                               aya.Tafsir,
+                              // _ayah.content,
                               style: TextStyle(
                                   fontFamily: 'OmanTypeface',
                                   fontSize: 19,
@@ -107,7 +124,7 @@ dailyAya aya= Provider.of<dailyAyaProvider>(context, listen: false ).post;
                             ),
                           )
                         ],
-                      )),
+                      )): CircularProgressIndicator(color: CustomColors.yellow200,),
                 ],
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,

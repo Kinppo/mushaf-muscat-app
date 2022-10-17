@@ -11,7 +11,7 @@ Future<dailyAya> getSinglePostData(context) async {
   late dailyAya result;
   try {
     final response = await http
-        .get(Uri.parse('https://dummyjson.com/products/1'),headers: {
+        .get(Uri.parse('https://api.omanfont.om/'),headers: {
         HttpHeaders.contentTypeHeader: "application/json",
       });
     if (response.statusCode == 200) {
@@ -37,9 +37,9 @@ class dailyAya {
   factory dailyAya.fromJson(Map<String, dynamic> json) {
     return dailyAya(
       id: json['id'],
-      Aya: json['title'],
-      Surah: json['description'] ?? "",
-      Tafsir: json['brand'] ?? "",
+      Aya: json['Aya'],
+      Surah: json['Surah'] ?? "",
+      Tafsir: json['Tafsir'] ?? "",
     );
   }
 }
