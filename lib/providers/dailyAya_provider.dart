@@ -58,7 +58,7 @@ class dailyAya {
 }
 
 class dailyAyaProvider with ChangeNotifier {
-  dailyAya post = dailyAya(id: 0, Aya: '', Surah: '', Tafsir: '');
+  late dailyAya post;
   bool loading = false;
 
   getPostData(context) async {
