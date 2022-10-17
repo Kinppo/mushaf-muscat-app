@@ -502,12 +502,24 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                   ),
                                   iconSize: 20,
                                   onPressed: () {
-                                    setState(() async {
-                                      await loadAudios(currentPage);
-                                      print(audiosList);
-                                      OpenPlayer();
-                                    });
+                                                                          if (firstFlag == true) {
 
+                                    setState(() {
+                                        showPauseIcon = !showPauseIcon;
+                                        assetsAudioPlayer.playOrPause();
+                                      
+                                    });
+} else if (firstFlag == false)  {
+                                    setState(() async {
+                                    
+                                        await loadAudios(currentPage);
+                                        print(audiosList);
+                                        OpenPlayer();
+                                        firstFlag = true;
+                                        showPauseIcon = true;
+                                     
+                                    });
+}
                                     print("CLICKED PLAY");
                                   }),
                             ),
