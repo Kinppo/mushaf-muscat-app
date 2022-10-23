@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+
 import 'package:mushafmuscat/widgets/appbar.dart';
 import 'package:mushafmuscat/widgets/finalCarousel.dart';
 
@@ -126,7 +129,8 @@ class _QuranScreenState extends State<QuranScreen> {
                             color: Theme.of(context).backgroundColor,
                             width: double.infinity,
                             child: SingleChildScrollView(
-                              child: Text(AppLocalizations.of(context)!
+                              child:                     
+                              Text(AppLocalizations.of(context)!
                                   .translate('tafsir_text')
                                   .toString()),
                             ),

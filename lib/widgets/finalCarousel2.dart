@@ -182,19 +182,6 @@ class _finalCarousel2 extends State<finalCarousel2> {
     });
   }
 
-  moveToNextPage() {
-    print("calling next page");
-    carouselController.nextPage();
-    carouselController2.nextPage();
-
-    // Provider.of<AudioPlayer_Provider>(context, listen: false)
-    //     .AudioListener(handleActiveAya, handleAyaFlag, moveToNextPage);
-
-    // print("hello hello");
-
-    // clickedHighlightNum = 0;
-    // moveNextPage = true;
-  }
 
   void togglePlayer() {
     setState(() {
@@ -268,14 +255,27 @@ class _finalCarousel2 extends State<finalCarousel2> {
                     onTap: () {
                       ShowOnlyPageNum = !ShowOnlyPageNum;
                     },
-                    child: Stack(fit: StackFit.passthrough, children: [
-                      // IgnorePointer(
-                      //   child:
-                      //    Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
-                      //   // height:300,
-                      //           fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                      //     ),
-                      // ),
+                    child:
+                    
+                     Stack(fit: StackFit.passthrough, children: [
+                       
+              IgnorePointer(
+                     child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
+                        // height:200,
+                                fit: BoxFit.fitWidth,      
+                                                        width: MediaQuery.of(context).size.width,
+                                ): 
+                                     Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : 
+                                   'assets/quran_images/img_3.jpg',
+                        height:300,
+                                fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
+                          ),
+                      ),
+                      // //   //  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
+                      // //   // height:300,
+                      // //     //       fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
+                      // //     // ),
+                      // // ),
                       Consumer<AudioPlayer_Provider>(builder:
                           (BuildContext context, value, Widget? child) {
                         return Container(
@@ -305,6 +305,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
             carouselController: carouselController,
           ),
         ),
+
+        
         //====================PAGE INDICATOR=====================
 
         (ShowAudioPlayer != true && ShowOnlyPageNum == false)
