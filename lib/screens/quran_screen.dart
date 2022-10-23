@@ -5,7 +5,6 @@ import 'package:flutter_svg/svg.dart';
 
 
 import 'package:mushafmuscat/widgets/appbar.dart';
-import 'package:mushafmuscat/widgets/finalCarousel.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
@@ -14,7 +13,6 @@ import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
 import '../widgets/finalCarousel2.dart';
-import '../widgets/finalCarouselTesting.dart';
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
