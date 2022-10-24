@@ -18,7 +18,6 @@ import './providers/theme_provider.dart';
 import '../providers/bookMarks_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/quarter_provider.dart';
-import '../providers/quran_display_provider.dart';
 
 //temp
 import './screens/quran_screen.dart';
@@ -48,7 +47,8 @@ class MyApp extends StatelessWidget {
     BuildContext context,
   ) {
     return MultiProvider(
-      providers: [ ChangeNotifierProvider(
+      providers: [
+        ChangeNotifierProvider(
           create: (ctx) => dailyAyaProvider(),
         ),
         ChangeNotifierProvider(
@@ -57,7 +57,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => ayatLines_provider(),
         ),
-       
         ChangeNotifierProvider(
           create: (ctx) => BookMarks(),
         ),
@@ -69,9 +68,6 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => QuarterProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (ctx) => QuranDisplay(),
         ),
       ],
       child: Consumer<ThemeProvider>(

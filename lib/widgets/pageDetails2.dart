@@ -153,7 +153,12 @@ bk.forEach((element) {
 
     textlist.then((value) {
       value.forEach((item) {
-        textl.add(item.text!);
+           if (item.endOfSurah =='1') {
+ textl.add("endd");
+}
+else { textl.add(item.text!);}     
+       
+     
         fulltext = textl.join('\n\n');
       });
     });

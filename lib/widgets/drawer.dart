@@ -14,7 +14,6 @@ import '../screens/quran_screen.dart';
 import '../widgets/drawer_screen_search_bar.dart';
 import '../widgets/surahs_list.dart';
 import '../widgets/quarters_list.dart';
-import '../widgets/sample_data.dart';
 import '../models/quarter.dart';
 import '../models/surah.dart';
 
