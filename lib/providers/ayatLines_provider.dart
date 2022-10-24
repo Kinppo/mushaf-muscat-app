@@ -26,7 +26,7 @@ class ayatLines_provider with ChangeNotifier {
     final List<AyatLines> lines = [];
 
     String data = await rootBundle
-        .loadString('lib/data/json_files/quran_lines/quran_word_$pageNum.json');
+        .loadString('lib/data/json_files/quran_lines/surahs_word_$pageNum.json');
 
     // .loadString('lib/data/json_files/Ayat_pages/$pageNum.json');
 

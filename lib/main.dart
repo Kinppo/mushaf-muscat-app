@@ -3,7 +3,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mushafmuscat/providers/audioplayer_provider.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/dailyAya_provider.dart';
-import 'package:mushafmuscat/providers/pageText_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 // import 'package:sizer/sizer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -58,9 +57,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => ayatLines_provider(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => PageText_provider(),
-        ),
+       
         ChangeNotifierProvider(
           create: (ctx) => BookMarks(),
         ),

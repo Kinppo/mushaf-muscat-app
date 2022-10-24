@@ -141,7 +141,7 @@ return AyaNum;
       List<int> tempList = [];
        List<String?> tempList2 = [];
       String flgs = await rootBundle
-          .loadString('lib/data/json_files/quran_lines/quran_word_$i.json');
+          .loadString('lib/data/json_files/quran_lines/surahs_word_$i.json');
 
       var jsonResult2 = jsonDecode(flgs);
 

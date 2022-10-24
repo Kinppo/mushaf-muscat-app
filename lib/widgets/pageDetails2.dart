@@ -277,7 +277,7 @@ bk.forEach((element) {
             style: const TextStyle(
                 fontFamily: 'Amiri',
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 13,
                 color: Colors.brown,
                 wordSpacing: 2.6,
                 letterSpacing: 1,
