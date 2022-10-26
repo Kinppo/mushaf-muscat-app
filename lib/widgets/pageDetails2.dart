@@ -152,15 +152,31 @@ bk.forEach((element) {
     List<String> textl = [];
 
     textlist.then((value) {
-      value.forEach((item) {
-           if (item.endOfSurah =='1') {
- textl.add("endd");
+
+      for (int i=0; i<value.length; i++) {
+        // print(value[value.length-1].text.toString());
+        if (value[i].endOfSurah =='1' && i!= value.length-1 ) {
+ textl.add(value[i].text!+'\n\n\n\n');
 }
-else { textl.add(item.text!);}     
+else { 
+ textl.add(value[i].text!);
+}    
+// print(value[i].text.toString() + '....' +(value[i].text.length.toString()));
+        // print(value[i].text.length.toString());
+        fulltext = textl.join('\n\n');
+
+      }
+//       value.forEach((item) {
+//            if (item.endOfSurah =='1' ) {
+//  textl.add(item.text!+'\n\n\n\n\n');
+// }
+// else { r
+//  textl.add(item.text!);
+// }     
        
      
-        fulltext = textl.join('\n\n');
-      });
+        // fulltext = textl.join('\n\n');
+      // });
     });
     // print(fulltext);
     if (fulltext == null) {
@@ -183,12 +199,18 @@ else { textl.add(item.text!);}
       final text = arrayStrings[index] + "";
       final span = TextSpan(
           text: text,
+
           style: TextStyle(
-            background: Paint()..color = Colors.transparent,
+            background: Paint()..color = Colors.transparent
+        
+
+
+            
           ),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
+                
                 highlightFlag = true;
                 idx = arrayOfTextSpan
                     .indexWhere((element) => element.text == text);
@@ -205,6 +227,7 @@ else { textl.add(item.text!);}
       arrayOfTextSpan.add(span);
     }
     setState(() {
+
       print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
       if (highlightFlag == true) {
         arrayOfTextSpan[idx].style?.background!.color =
@@ -259,7 +282,7 @@ else { textl.add(item.text!);}
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
               fontSize: 17,
-              color: Colors.brown,
+              color: Colors.transparent,
               wordSpacing: 2,
               letterSpacing: 1,
               height: 1.3,
@@ -273,24 +296,54 @@ else { textl.add(item.text!);}
 
   Container? AllOtherPagesContainer() {
     return Container(
-        padding: EdgeInsets.fromLTRB(12, 53, 6, 0),
+        padding: EdgeInsets.fromLTRB(7, 55, 6, 0),
         child: Expanded(
             child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.justify,
+          overflow:TextOverflow.fade,
+          textWidthBasis:TextWidthBasis.longestLine,
+
           text: new TextSpan(
             style: const TextStyle(
                 fontFamily: 'Amiri',
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
-                color: Colors.brown,
-                wordSpacing: 2.6,
-                letterSpacing: 1,
-                height: 1.25),
+                color: Colors.transparent,
+                wordSpacing: 2.2,
+                letterSpacing: 1.1,
+                                height: 1.4,
+
+                // height: 1.68,
+        
+
+                ),
             children: createTextSpans(),
           ),
         )));
   }
+
+  // Container? AllOtherPagesContainer() {
+  //   return Container(
+  //       padding: EdgeInsets.fromLTRB(12, 53, 6, 0),
+  //       child: Expanded(
+  //           child: RichText(
+  //         textDirection: TextDirection.rtl,
+  //         textAlign: TextAlign.justify,
+  //         text: new TextSpan(
+  //           style: const TextStyle(
+  //               fontFamily: 'Amiri',
+  //               fontWeight: FontWeight.bold,
+  //               fontSize: 13,
+  //               color: Colors.brown,
+  //               wordSpacing: 2.6,
+  //               letterSpacing: 1,
+  //               height: 1.25),
+  //           children: createTextSpans(),
+  //         ),
+  //       )));
+  // }
+
 
   @override
   Widget build(BuildContext context) {

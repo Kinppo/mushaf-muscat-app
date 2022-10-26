@@ -259,12 +259,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
                     
                      Stack(fit: StackFit.passthrough, children: [
                        
-              // IgnorePointer(
-              //   child:(idx==0) ? Image.asset(  'assets/quran_images/img_1.jpg',   height:300,
-              //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) : SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.fitWidth,      
-              //                                           width: MediaQuery.of(context).size.width)
+              IgnorePointer(
+                child:(idx==0) ? Image.asset(  'assets/quran_images/img_1.jpg',   height:300,
+                                fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) : SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.fitWidth,      
+                                                        width: MediaQuery.of(context).size.width)
                     
-              //         ),
+                      ),
 
                       //             ): )
                     //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
