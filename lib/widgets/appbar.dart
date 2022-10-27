@@ -14,20 +14,22 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
   Function segmentedControlValue;
   bool orientationPotrait;
   Function toggleSearch;
-double height_mq;
+  double h;
   appBar({
     Key? key,
     required this.segmentedControlValue,
     required this.orientationPotrait,
     required this.toggleSearch,
+    required this.h,
     // this variable is not used yet
-    required this.height_mq,
   }) : super(key: key);
   @override
   State<appBar> createState() => _appBarState();
 
   @override
-  Size get preferredSize =>  Size.fromHeight(147);
+  Size get preferredSize =>  Size.fromHeight(h);
+
+
 }
 
 class _appBarState extends State<appBar> {
@@ -44,6 +46,7 @@ class _appBarState extends State<appBar> {
   }
 
   Widget build(BuildContext context) {
+
     return (searchToggle == false)
         ? AppBar(
             bottom: PreferredSize(
@@ -62,6 +65,8 @@ class _appBarState extends State<appBar> {
             toolbarHeight: 140, // Set this height
             flexibleSpace: Container(
               color: CustomColors.yellow500,
+                            // color:Colors.blue,
+
               child: Column(
                 children: <Widget>[
                   Container(

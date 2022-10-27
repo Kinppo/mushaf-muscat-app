@@ -63,6 +63,8 @@ class _QuranScreenState extends State<QuranScreen> {
 
   @override
   Widget build(BuildContext context) {
+            var isLandscape=  MediaQuery.of(context).orientation == Orientation.landscape;
+
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
     goToPage = ModalRoute.of(context)!.settings.arguments as int;
@@ -76,7 +78,8 @@ class _QuranScreenState extends State<QuranScreen> {
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
               toggleSearch: controlSearch,
-              height_mq: MediaQuery.of(context).size.height)
+              h:(isLandscape==false) ? 147 : 200,
+    )
           : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
