@@ -150,7 +150,8 @@ bk.forEach((element) {
     textlist = Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
-
+Size s = (context.findRenderObject() as RenderBox)?.size ?? Size.zero;
+print("SIZE IS $s");
     textlist.then((value) {
 
       for (int i=0; i<value.length; i++) {
@@ -158,9 +159,45 @@ bk.forEach((element) {
         if (value[i].endOfSurah =='1' && i!= value.length-1 ) {
  textl.add(value[i].text!+'\n\n\n\n');
 }
-else { 
- textl.add(value[i].text!);
-}    
+// else { 
+// print(value[i].text.length);
+
+// bool containsChars = value[i].text.contains('ۖ ')  || (value[i].text.contains('ۚ ')) || value[i].text.contains('۞')|| (value[i].text.contains(' ۛ'));
+
+// if(value[i].text.length<85 && !containsChars) {
+
+
+
+// if () {
+// print("CONTAINSSSS");
+// // int diff= 75 - value[i].text.length as int;
+// var list = new List<String>.generate(8, (i) => ',');
+// String added=list.join('');
+// textl.add(value[i].text!+added);
+// }
+
+// else  {
+// int diff= 85 - value[i].text.length as int;
+// var list = new List<String>.generate(diff, (i) => ',');
+// String added=list.join('');
+// textl.add(value[i].text!+added);
+// }
+// }
+//  textl.add(value[i].text!+"----------");
+//  }
+// else if(value[i].text.length<78) {
+//  textl.add(value[i].text!+"------");
+//  }
+
+//  else if(value[i].text.length<88) {
+//  textl.add(value[i].text!+"---");
+//  }
+
+
+ else  textl.add(value[i].text!);
+
+// }
+// }    
 // print(value[i].text.toString() + '....' +(value[i].text.length.toString()));
         // print(value[i].text.length.toString());
         fulltext = textl.join('\n\n');
@@ -251,6 +288,7 @@ else {
       if (widget.currentpage == widget.prev &&
           widget.ayaFlag != false &&
           arrayStrings[0] != "") {
+            
         ///====temp and may be disposed later based on the use case
         if (widget.closedBottomSheet == true ) {
           // highlightFlag = false;
@@ -282,7 +320,7 @@ else {
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
               fontSize: 17,
-              color: Colors.transparent,
+              color: Colors.brown,
               wordSpacing: 2,
               letterSpacing: 1,
               height: 1.3,
@@ -296,11 +334,11 @@ else {
 
   Container? AllOtherPagesContainer() {
     return Container(
-        padding: EdgeInsets.fromLTRB(7, 55, 6, 0),
+        padding: EdgeInsets.fromLTRB(0, 55, 6, 0),
         child: Expanded(
             child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.justify,
+          textAlign: TextAlign.start,
           overflow:TextOverflow.fade,
           textWidthBasis:TextWidthBasis.longestLine,
 
@@ -309,7 +347,7 @@ else {
                 fontFamily: 'Amiri',
                 fontWeight: FontWeight.bold,
                 fontSize: 13,
-                color: Colors.transparent,
+                color: Colors.brown,
                 wordSpacing: 2.2,
                 letterSpacing: 1.1,
                                 height: 1.4,

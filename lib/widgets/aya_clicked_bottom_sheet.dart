@@ -11,13 +11,14 @@ import '../providers/bookMarks_provider.dart';
 import 'package:mushafmuscat/localization/app_localizations.dart';
 
 import '../resources/colors.dart';
+import 'package:share_plus/share_plus.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
-   Function ShowAudioPlayer;
-   int clickedHighlightNum;
-    int currentPage;
-   String surahName;
-   String ayaNum;
+  Function ShowAudioPlayer;
+  int clickedHighlightNum;
+  int currentPage;
+  String surahName;
+  String ayaNum;
   AyaClickedBottomSheet({
     Key? key,
     required this.ShowAudioPlayer,
@@ -32,11 +33,13 @@ class AyaClickedBottomSheet extends StatefulWidget {
 }
 
 class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
-
 // Icon bookmarkIcon =Icon(Icons.bookmark_border_outlined);
- List<IconData> bkIconsList =[Icons.bookmark_border_outlined, Icons.bookmark_border_outlined, Icons.bookmark_border_outlined, Icons.bookmark_border_outlined];
-
-
+  List<IconData> bkIconsList = [
+    Icons.bookmark_border_outlined,
+    Icons.bookmark_border_outlined,
+    Icons.bookmark_border_outlined,
+    Icons.bookmark_border_outlined
+  ];
 
   void viewAudioPlayerController() {
     setState(() {
@@ -44,27 +47,38 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
     });
   }
 
+  Future shareController() async {
+          await Share.share("helloooo");
+
+
+
+    print("sharing");
+  }
 
 //bookmark vars
 
   @override
   Widget build(BuildContext context) {
-             final   bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
+    final box = context.findRenderObject() as RenderBox?;
+
+    final bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
     // return grid item container
-void getIcon (int type) {
-  setState(() {
-    if (bookMarkProvider.checkBookmark(type.toString())==true) {
-    bkIconsList[type-1]= Icons.bookmark;
+    void getIcon(int type) {
+      setState(() {
+        if (bookMarkProvider.checkBookmark(type.toString()) == true) {
+          bkIconsList[type - 1] = Icons.bookmark;
+        } else {
+          bkIconsList[type - 1] = Icons.bookmark_border_outlined;
+        }
+      });
     }
 
-  else  {
-     bkIconsList[type-1]= Icons.bookmark_border_outlined;
-  }
-  });}
-
-
-
-    Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText, int type,) {
+    Widget returnGridItem(
+      BorderRadius rad,
+      Color bkColor,
+      String bkText,
+      int type,
+    ) {
       return Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -78,26 +92,34 @@ void getIcon (int type) {
                 alignment: Alignment.topRight,
                 onPressed: () {
                   print("SURAAAH NAME: " + widget.surahName);
-                  print("SURAAAH aya: " + widget.clickedHighlightNum.toString());
-print(bkIconsList.toList().toString());
+                  print(
+                      "SURAAAH aya: " + widget.clickedHighlightNum.toString());
+                  print(bkIconsList.toList().toString());
 
-                  bookMarkProvider.addBookMark(id: type.toString(), aya: widget.ayaNum, page: widget.surahName, type: type.toString(),  pageNum: widget.currentPage, highlightNum: widget.clickedHighlightNum);
+                  bookMarkProvider.addBookMark(
+                      id: type.toString(),
+                      aya: widget.ayaNum,
+                      page: widget.surahName,
+                      type: type.toString(),
+                      pageNum: widget.currentPage,
+                      highlightNum: widget.clickedHighlightNum);
                   //todo: change text next to iconbutton
-                  //todo: fill icon   
+                  //todo: fill icon
                   // setState(() {
                   //   var bk=getIcon(type);
-                  // }); 
+                  // });
                   // getIcon(type);
-                setState(() {
-                  getIcon(type);
-
-                });
-                  print(bookMarkProvider.getFullAccount().toString())       ;
+                  setState(() {
+                    getIcon(type);
+                  });
+                  print(bookMarkProvider.getFullAccount().toString());
                   // if  (bookMarkProvider.bookmarks[1] != null ) {
                   //   print("already there is a bookmark");
                   // }
                 },
-icon:(bookMarkProvider.checkBookmark(type.toString())== true) ? Icon(Icons.bookmark) :Icon(Icons.bookmark_border_outlined),
+                icon: (bookMarkProvider.checkBookmark(type.toString()) == true)
+                    ? Icon(Icons.bookmark)
+                    : Icon(Icons.bookmark_border_outlined),
                 // icon: Icon(bkIconsList[type-1]),
                 color: bkColor),
             Column(
@@ -125,14 +147,14 @@ icon:(bookMarkProvider.checkBookmark(type.toString())== true) ? Icon(Icons.bookm
       );
     }
 
-
-    Widget returnListItem(String listText, bool transform, String path, Function handler) {
+    Widget returnListItem(
+        String listText, bool transform, String path, Function handler) {
       return Material(
-        child: ListTile(      
+        child: ListTile(
           enableFeedback: true,
-          onTap: (){
-viewAudioPlayerController();
-          Navigator.pop(context);
+          onTap: () {
+            handler();
+            Navigator.pop(context);
           },
           leading: (transform == true)
               ? Transform(
@@ -143,7 +165,8 @@ viewAudioPlayerController();
               // child: Icon(listIcon))
               : SvgPicture.asset("assets/images/$path.svg",
                   width: 30, height: 30, fit: BoxFit.fitWidth),
-          title: Text(listText, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
+          title: Text(listText,
+              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
         ),
       );
     }
@@ -166,8 +189,8 @@ viewAudioPlayerController();
                     color: CustomColors.yellow100,
                   ),
                   child: GridView(
-                    padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                              physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                      physics: NeverScrollableScrollPhysics(),
                       clipBehavior: Clip.hardEdge,
                       shrinkWrap: true,
                       gridDelegate:
@@ -185,23 +208,24 @@ viewAudioPlayerController();
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk1')
                               .toString(),
-                              1, 
+                          1,
                         ),
                         returnGridItem(
                           const BorderRadius.only(topLeft: Radius.circular(20)),
                           CustomColors.pink100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk2')
-                              .toString(), 2,
+                              .toString(),
+                          2,
                         ),
-                        
                         returnGridItem(
                           const BorderRadius.only(
                               bottomRight: Radius.circular(20)),
                           CustomColors.green200,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk3')
-                              .toString(),3, 
+                              .toString(),
+                          3,
                         ),
                         returnGridItem(
                           const BorderRadius.only(
@@ -209,7 +233,8 @@ viewAudioPlayerController();
                           CustomColors.blue100,
                           AppLocalizations.of(context)!
                               .translate('onclick_aya_modalsheet_bk4')
-                              .toString(),4,
+                              .toString(),
+                          4,
                         ),
                       ]),
                 ),
@@ -228,7 +253,8 @@ viewAudioPlayerController();
                           .translate('onclick_aya_modalsheet_list1')
                           .toString(),
                       false,
-                      'listPlay',viewAudioPlayerController),
+                      'listPlay',
+                      viewAudioPlayerController),
                   Divider(
                     color: CustomColors.yellow200,
                     indent: 58,
@@ -239,11 +265,12 @@ viewAudioPlayerController();
                           .translate('onclick_aya_modalsheet_list2')
                           .toString(),
                       false,
-                      'listPlay', (){}),
+                      'listPlay',
+                      () {}),
                 ]),
               ),
             ),
-            SizedBox(height:6),
+            SizedBox(height: 6),
             ListTile(
               title: Container(
                 decoration: BoxDecoration(
@@ -256,7 +283,8 @@ viewAudioPlayerController();
                           .translate('onclick_aya_modalsheet_list3')
                           .toString(),
                       true,
-                      'listShare',(){} ),
+                      'listShare',
+                      shareController),
                   Divider(
                     color: CustomColors.yellow200,
                     indent: 58,
@@ -267,11 +295,12 @@ viewAudioPlayerController();
                           .translate('onclick_aya_modalsheet_list4')
                           .toString(),
                       true,
-                      'listCopy', (){}),
+                      'listCopy',
+                      () {}),
                 ]),
               ),
-            ),            SizedBox(height:8),
-
+            ),
+            SizedBox(height: 8),
 
             // ElevatedButton(
             //   child: const Text('Close BottomSheet'),
