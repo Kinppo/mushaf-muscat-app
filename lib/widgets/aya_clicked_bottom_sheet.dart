@@ -19,6 +19,7 @@ class AyaClickedBottomSheet extends StatefulWidget {
   int currentPage;
   String surahName;
   String ayaNum;
+  String highlightedAyaText;
   AyaClickedBottomSheet({
     Key? key,
     required this.ShowAudioPlayer,
@@ -26,6 +27,7 @@ class AyaClickedBottomSheet extends StatefulWidget {
     required this.currentPage,
     required this.surahName,
     required this.ayaNum,
+    required this.highlightedAyaText,
   }) : super(key: key);
 
   @override
@@ -47,8 +49,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
     });
   }
 
-  Future shareController() async {
-          await Share.share("helloooo");
+  void shareController() async {
+          await Share.share(widget.highlightedAyaText);
 
 
 

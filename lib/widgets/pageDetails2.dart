@@ -247,7 +247,9 @@ print("SIZE IS $s");
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
-                
+                // widget.highlightedAyaText= text;
+                              // print("The word touched is " + widget.highlightedAyaText.toString());
+
                 highlightFlag = true;
                 idx = arrayOfTextSpan
                     .indexWhere((element) => element.text == text);
@@ -256,10 +258,9 @@ print("SIZE IS $s");
 
                 print("highlighted TEXT IS  " + intValue.toString());
                 widget.clickedHighlightNum = idx + 1;
-                widget.toggleClickedHighlight(idx + 1, intValue.toString());
+                widget.toggleClickedHighlight(idx + 1, intValue.toString(), text);
               });
 
-              // print("The word touched is $text");
             });
       arrayOfTextSpan.add(span);
     }

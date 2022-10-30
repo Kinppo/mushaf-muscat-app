@@ -111,7 +111,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
     _ayaNumbers = surahsData.loadAyaNum();
   }
 
-  toggleClickedHighlight(int clickedIdx, String ayaS) {
+
+// void updateHighligh
+
+  toggleClickedHighlight(int clickedIdx, String ayaS, String ayaString) {
     setState(() async {
       print(ayaS);
       print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
@@ -132,6 +135,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
         print("currently in page $currentPage");
                                                     AudioListener();
       }
+
     
       showModalBottomSheet<void>(
         constraints: BoxConstraints(maxWidth: 400, maxHeight: 460),
@@ -147,6 +151,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
             clickedHighlightNum: clickedHighlightNum,
             currentPage: currentPage,
             surahName: surahName,
+            highlightedAyaText:ayaString,
           );
         },
       ).whenComplete(_onBottomSheetClosed);
