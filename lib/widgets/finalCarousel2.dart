@@ -20,6 +20,7 @@ import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 import 'pageDetails2.dart';
+import '../widgets/chooseWhereToPlay.dart';
 
 class finalCarousel2 extends StatefulWidget {
   int goToPage;
@@ -185,17 +186,14 @@ morePlayOptions()  {
      setState(() {
       moreplay=false;
        showModalBottomSheet<void>(
-        constraints: BoxConstraints(maxWidth: 400, maxHeight: 460),
+        constraints: BoxConstraints(maxWidth: 400, maxHeight: 660),
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25.0),
         ),
         context: context,
         builder: (BuildContext context) {
-          return Container(
-            color: Colors.red,
-
-          );
+          return whereToPlay();
         },
       ).whenComplete(_onBottomSheetClosed);
      });
