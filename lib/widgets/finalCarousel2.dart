@@ -59,6 +59,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
   bool isPlaying = false;
   bool closedBottomSheet = false;
   bool seekRight = false;
+  bool moreplay=false;
 // strings
   String surahName = 'الفاتحة';
   int navigatedFromBK = 0;
@@ -111,6 +112,16 @@ class _finalCarousel2 extends State<finalCarousel2> {
     _ayaNumbers = surahsData.loadAyaNum();
   }
 
+morePlayOptions()  {
+     setState(() {
+       moreplay=true;
+     });
+
+     print("more play is $moreplay");
+  }
+
+
+  
 
 // void updateHighligh
 
@@ -152,6 +163,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
             currentPage: currentPage,
             surahName: surahName,
             highlightedAyaText:ayaString,
+            playMoreOptions: morePlayOptions,
           );
         },
       ).whenComplete(_onBottomSheetClosed);
@@ -163,7 +175,31 @@ class _finalCarousel2 extends State<finalCarousel2> {
   void _onBottomSheetClosed() {
     setState(() {
       closedBottomSheet = true;
+      if(moreplay==true) {
+        bottomsheet2();
+      }
     });
+  }
+
+   bottomsheet2() {
+     setState(() {
+      moreplay=false;
+       showModalBottomSheet<void>(
+        constraints: BoxConstraints(maxWidth: 400, maxHeight: 460),
+        clipBehavior: Clip.hardEdge,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25.0),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            color: Colors.red,
+
+          );
+        },
+      ).whenComplete(_onBottomSheetClosed);
+     });
+      
   }
 
   @override

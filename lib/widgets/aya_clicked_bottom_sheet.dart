@@ -12,6 +12,7 @@ import 'package:mushafmuscat/localization/app_localizations.dart';
 
 import '../resources/colors.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
   Function ShowAudioPlayer;
@@ -20,6 +21,7 @@ class AyaClickedBottomSheet extends StatefulWidget {
   String surahName;
   String ayaNum;
   String highlightedAyaText;
+  Function playMoreOptions;
   AyaClickedBottomSheet({
     Key? key,
     required this.ShowAudioPlayer,
@@ -28,6 +30,7 @@ class AyaClickedBottomSheet extends StatefulWidget {
     required this.surahName,
     required this.ayaNum,
     required this.highlightedAyaText,
+    required this.playMoreOptions,
   }) : super(key: key);
 
   @override
@@ -50,13 +53,19 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
   }
 
   void shareController() async {
-          await Share.share(widget.highlightedAyaText);
-
-
-
-    print("sharing");
+    await Share.share(widget.highlightedAyaText);
   }
 
+  void copyClipboard() async {
+    await Clipboard.setData(ClipboardData(text: widget.highlightedAyaText))
+        .then((_) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text("تم نسخ الآية!")));
+    });
+  }
+
+
+   
 //bookmark vars
 
   @override
@@ -268,7 +277,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                           .toString(),
                       false,
                       'listPlay',
-                      () {}),
+                     widget.playMoreOptions),
                 ]),
               ),
             ),
@@ -298,7 +307,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                           .toString(),
                       true,
                       'listCopy',
-                      () {}),
+                      copyClipboard),
                 ]),
               ),
             ),
