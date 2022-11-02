@@ -54,9 +54,9 @@ class SurahProvider with ChangeNotifier {
     _surahs = loadedSurahs;
     _undiacritizedSurahList = loadedSurahs;
 
-    _undiacritizedSurahList.forEach((surah) {
-      surah.surahTitle == HelperFunctions.removeAllDiacritics(surah.surahTitle);
-    });
+    // _undiacritizedSurahList.forEach((surah) {
+    //   surah.surahTitle == HelperFunctions.removeAllDiacritics(surah.surahTitle);
+    // });
 
     //   print("UNDIAC");
     

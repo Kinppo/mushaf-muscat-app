@@ -4,6 +4,7 @@ import 'package:mushafmuscat/providers/audioplayer_provider.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/dailyAya_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
+import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
 // import 'package:sizer/sizer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,6 +51,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => dailyAyaProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => tilawaOptions(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => AudioPlayer_Provider(),
