@@ -26,16 +26,16 @@ int indexSelectedAya1 = 8;
 int indexSelectedAya2 = 1;
 
 String Surah1 = 'الفاتحة';
-String Surah2 = 'البقرة';
+String Surah2 = 'الناس';
 
 String Aya1 = '1';
-String Aya2 = '2';
+String Aya2 = '6';
 
 List<String> surahTitles1=[];
 List<String> surahTitles2=[];
 
-List<String> numbers1 = ['0', '1', '2', '3', '4', '5', '6', '7'];
-List<String> numbers2 = ['0', '1', '2', '3', '4', '5', '6', '7'];
+List<String> numbers1 = ['1', '2', '3', '4', '5', '6', '7'];
+List<String> numbers2 = ['1', '2', '3', '4', '5', '6'];
 
 var items2 = [
   '1',
@@ -124,9 +124,9 @@ class _whereToPlayState extends State<whereToPlay> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            // getAyaDropDown(0, numbers1.sublist(0, indexSelectedAya1), Aya1),
-            // getAyaDropDown(
-            //     1, numbers2.sublist(indexSelectedAya2, numbers2.length), Aya2),
+            getAyaDropDown(0, numbers1, Aya1),
+            getAyaDropDown(
+                1, numbers2, Aya2),
           ],
         ),
         SizedBox(
@@ -230,26 +230,28 @@ class _whereToPlayState extends State<whereToPlay> {
           // dropdownvalue = newValue!;
 
           if (tofrom == 0) {
+           
             indexSelectedSurah1 = SurahTitles.indexOf(newValue);
-
+            
             Surah1 = newValue;
-            // numbers1 = surahsData.getAyaList(indexSelectedSurah2);
-            Surah2 = newValue;
+
+            numbers1 = surahsData.getAyaList(indexSelectedSurah1);
 
             surahTitles2= SurahTitles.sublist(indexSelectedSurah1, SurahTitles.length);
-            // numbers2 = surahsData.getAyaList(indexSelectedSurah2);
-            // print("done1" + numbers2.length.toString());
-            // Aya2 = (numbers2.length - 1).toString();
+            
+            // numbers2 = surahsData.getAyaList(SurahTitles.indexOf(Surah2));
+            Aya1=numbers1.first;
+           
           } else {
-            Surah2 = newValue;
-            // Aya1 = (numbers1[1]).toString();
-            indexSelectedSurah2 = SurahTitles.indexOf(newValue);
-            surahTitles1= SurahTitles.sublist(0, indexSelectedSurah2+1);
 
-            // numbers2 = surahsData.getAyaList(indexSelectedSurah2);
-            // indexSelectedAya1 = numbers2.length;
-            // numbers1 = numbers2;
-            // Surah1 = SurahTitles[indexSelectedSurah2];
+            Surah2 = newValue;
+
+            indexSelectedSurah2 = SurahTitles.indexOf(newValue);
+
+            surahTitles1= SurahTitles.sublist(0, indexSelectedSurah2+1);
+        numbers2 = surahsData.getAyaList(indexSelectedSurah2);
+                    Aya2=numbers2.last;
+           
           }
           // handleIndices(tofrom, newValue, indexSelectedSurah1);
           check('Surah');
@@ -294,10 +296,10 @@ class _whereToPlayState extends State<whereToPlay> {
         setState(() {
           if (tofrom == 0) {
             Aya1 = newValue!;
-            indexSelectedAya2 = numbers2.indexOf(newValue) + 1;
+            // indexSelectedAya2 = numbers2.indexOf(newValue) + 1;
           } else {
             Aya2 = newValue!;
-            indexSelectedAya1 = numbers1.indexOf(newValue);
+            // indexSelectedAya1 = numbers1.indexOf(newValue);
           }
         });
       },

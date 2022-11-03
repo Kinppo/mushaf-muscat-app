@@ -84,7 +84,7 @@ return surahList;
 // print("i am in provider");
   List<String> listNum=[];
   int num= int.parse(_surahs[index].numOfAyas!) ;
-  listNum = new List<String>.generate(num, (i) => '$i');
+  listNum = new List<String>.generate(num, (i) =>(i+1).toString());
   
   return listNum;
  }
