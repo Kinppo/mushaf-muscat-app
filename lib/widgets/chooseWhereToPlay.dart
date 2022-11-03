@@ -19,24 +19,25 @@ class whereToPlay extends StatefulWidget {
 List<String> SurahTitles = [];
 List<String> AyaNumbers = [];
 
-int indexSelectedSurah1 = 114;
-int indexSelectedSurah2 = 1;
+int indexSelectedSurahFrom = 114;
+int indexSelectedSurahTo = 1;
 
-String Surah1 = 'الفاتحة';
-String Surah2 = 'الناس';
+String SurahFrom = 'الفاتحة';
+String SurahTo = 'الناس';
 
-String Aya1 = '1';
-String Aya2 = '6';
+String AyaFrom = '1';
+String AyaTo = '6';
 
-List<String> surahTitles1 = [];
-List<String> surahTitles2 = [];
+List<String> surahTitlesFrom = [];
+List<String> surahTitlesTo = [];
 
-List<String> numbers1 = ['1', '2', '3', '4', '5', '6', '7'];
-List<String> numbers2 = ['1', '2', '3', '4', '5', '6'];
-List<String> ayanumbers1 = ['1', '2', '3', '4', '5', '6', '7'];
-List<String> ayanumbers2 = ['1', '2', '3', '4', '5', '6'];
+List<String> numbersFrom = ['1', '2', '3', '4', '5', '6', '7'];
+List<String> numbersTo = ['1', '2', '3', '4', '5', '6'];
+List<String> ayaNumbersFrom = numbersFrom;
+List<String> ayaNumbersTo = numbersTo;
 
-var items2 = [
+var repititions
+ = [
   '1',
   '2',
   '3',
@@ -55,8 +56,9 @@ class _whereToPlayState extends State<whereToPlay> {
             Provider.of<tilawaOptions>(context, listen: false).SurahsList;
         AyaNumbers =
             Provider.of<tilawaOptions>(context, listen: false).AyasList;
-        surahTitles1 = SurahTitles;
-        surahTitles2 = SurahTitles;
+        surahTitlesFrom
+       = SurahTitles;
+        surahTitlesTo = SurahTitles;
       });
     });
     super.initState();
@@ -116,15 +118,16 @@ class _whereToPlayState extends State<whereToPlay> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            getSurahDropDown(0, surahTitles1),
-            getSurahDropDown(1, surahTitles2),
+            getSurahDropDown(0, surahTitlesFrom
+          ),
+            getSurahDropDown(1, surahTitlesTo),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            getAyaDropDown(0, numbers1, Aya1),
-            getAyaDropDown(1, numbers2, Aya2),
+            getAyaDropDown(0, numbersFrom, AyaFrom),
+            getAyaDropDown(1, numbersTo, AyaTo),
           ],
         ),
         SizedBox(
@@ -147,7 +150,8 @@ class _whereToPlayState extends State<whereToPlay> {
           children: [
             Text("التكرار للآية",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            getDropDown(items2, "1"),
+            getDropDown(repititions
+            , "1"),
           ],
         ),
         SizedBox(
@@ -181,7 +185,7 @@ class _whereToPlayState extends State<whereToPlay> {
 
   DropdownButton getSurahDropDown(int tofrom, List<String> items) {
     return DropdownButton(
-      value: (tofrom == 0) ? Surah1 : Surah2,
+      value: (tofrom == 0) ? SurahFrom : SurahTo,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -196,27 +200,32 @@ class _whereToPlayState extends State<whereToPlay> {
           // dropdownvalue = newValue!;
 
           if (tofrom == 0) {
-            indexSelectedSurah1 = SurahTitles.indexOf(newValue);
+            
+            indexSelectedSurahFrom = SurahTitles.indexOf(newValue);
 
-            Surah1 = newValue;
+            SurahFrom = newValue;
 
-            ayanumbers1 = surahsData.getAyaList(indexSelectedSurah1);
-            numbers1 = ayanumbers1;
 
-            surahTitles2 =
-                SurahTitles.sublist(indexSelectedSurah1, SurahTitles.length);
+            ayaNumbersFrom = surahsData.getAyaList(indexSelectedSurahFrom);
+            numbersFrom = ayaNumbersFrom;
 
-            // numbers2 = surahsData.getAyaList(SurahTitles.indexOf(Surah2));
-            Aya1 = numbers1.first;
+            surahTitlesTo =
+                SurahTitles.sublist(indexSelectedSurahFrom, SurahTitles.length);
+
+            // numbersTo = surahsData.getAyaList(SurahTitles.indexOf(SurahTo));
+            AyaFrom = numbersFrom.first;
           } else {
-            Surah2 = newValue;
+            SurahTo = newValue;
 
-            indexSelectedSurah2 = SurahTitles.indexOf(newValue);
+            indexSelectedSurahTo = SurahTitles.indexOf(newValue);
 
-            surahTitles1 = SurahTitles.sublist(0, indexSelectedSurah2 + 1);
-            ayanumbers2 = surahsData.getAyaList(indexSelectedSurah2);
-            numbers2 = ayanumbers2;
-            Aya2 = numbers2.last;
+            surahTitlesFrom
+           = SurahTitles.sublist(0, indexSelectedSurahTo + 1);
+            ayaNumbersTo
+           = surahsData.getAyaList(indexSelectedSurahTo);
+            numbersTo = ayaNumbersTo
+          ;
+            AyaTo = numbersTo.last;
           }
         });
       },
@@ -247,7 +256,7 @@ class _whereToPlayState extends State<whereToPlay> {
     String dropdownvalue,
   ) {
     return DropdownButton(
-      value: (tofrom == 0) ? Aya1 : Aya2,
+      value: (tofrom == 0) ? AyaFrom : AyaTo,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -258,14 +267,16 @@ class _whereToPlayState extends State<whereToPlay> {
       onChanged: (newValue) {
         setState(() {
           if (tofrom == 0) {
-            Aya1 = newValue!;
+            AyaFrom = newValue!;
           } else {
-            Aya2 = newValue!;
+            AyaTo = newValue!;
           }
-          if (Surah1 == Surah2) {
-            numbers1 = ayanumbers1.sublist(0, ayanumbers1.indexOf(Aya2) + 1);
-            numbers2 = ayanumbers2.sublist(
-                ayanumbers1.indexOf(Aya1), ayanumbers2.length);
+          if (SurahFrom == SurahTo) {
+            numbersFrom = ayaNumbersFrom.sublist(0, ayaNumbersFrom.indexOf(AyaTo) + 1);
+            numbersTo = ayaNumbersTo
+          .sublist(
+                ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo
+              .length);
           }
         });
       },
