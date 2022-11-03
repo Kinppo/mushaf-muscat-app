@@ -18,15 +18,22 @@ class whereToPlay extends StatefulWidget {
 
 List<String> SurahTitles = [];
 List<String> AyaNumbers = [];
+
 int indexSelectedSurah1 = 114;
 int indexSelectedSurah2 = 1;
+
 int indexSelectedAya1 = 8;
 int indexSelectedAya2 = 1;
 
 String Surah1 = 'الفاتحة';
 String Surah2 = 'البقرة';
+
 String Aya1 = '1';
 String Aya2 = '2';
+
+List<String> surahTitles1=[];
+List<String> surahTitles2=[];
+
 List<String> numbers1 = ['0', '1', '2', '3', '4', '5', '6', '7'];
 List<String> numbers2 = ['0', '1', '2', '3', '4', '5', '6', '7'];
 
@@ -49,6 +56,8 @@ class _whereToPlayState extends State<whereToPlay> {
             Provider.of<tilawaOptions>(context, listen: false).SurahsList;
         AyaNumbers =
             Provider.of<tilawaOptions>(context, listen: false).AyasList;
+            surahTitles1=SurahTitles;
+            surahTitles2=SurahTitles;
       });
     });
     super.initState();
@@ -108,16 +117,16 @@ class _whereToPlayState extends State<whereToPlay> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            getSurahDropDown(0, SurahTitles.sublist(0, 114)),
-            getSurahDropDown(1, SurahTitles.sublist(indexSelectedSurah2, 114)),
+            getSurahDropDown(0, surahTitles1),
+            getSurahDropDown(1, surahTitles2),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            getAyaDropDown(0, numbers1.sublist(0, indexSelectedAya1), Aya1),
-            getAyaDropDown(
-                1, numbers2.sublist(indexSelectedAya2, numbers2.length), Aya2),
+            // getAyaDropDown(0, numbers1.sublist(0, indexSelectedAya1), Aya1),
+            // getAyaDropDown(
+            //     1, numbers2.sublist(indexSelectedAya2, numbers2.length), Aya2),
           ],
         ),
         SizedBox(
@@ -206,7 +215,7 @@ class _whereToPlayState extends State<whereToPlay> {
 
   DropdownButton getSurahDropDown(int tofrom, List<String> items) {
     return DropdownButton(
-      value: (tofrom == 0) ? Surah1 : SurahTitles[indexSelectedSurah2],
+      value: (tofrom == 0) ? Surah1 : Surah2,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -221,21 +230,25 @@ class _whereToPlayState extends State<whereToPlay> {
           // dropdownvalue = newValue!;
 
           if (tofrom == 0) {
-            indexSelectedSurah2 = SurahTitles.indexOf(newValue);
+            indexSelectedSurah1 = SurahTitles.indexOf(newValue);
 
             Surah1 = newValue;
-            numbers1 = surahsData.getAyaList(indexSelectedSurah2);
+            // numbers1 = surahsData.getAyaList(indexSelectedSurah2);
             Surah2 = newValue;
-            numbers2 = surahsData.getAyaList(indexSelectedSurah2);
+
+            surahTitles2= SurahTitles.sublist(indexSelectedSurah1, SurahTitles.length);
+            // numbers2 = surahsData.getAyaList(indexSelectedSurah2);
             // print("done1" + numbers2.length.toString());
-            Aya2 = (numbers2.length - 1).toString();
+            // Aya2 = (numbers2.length - 1).toString();
           } else {
             Surah2 = newValue;
             // Aya1 = (numbers1[1]).toString();
             indexSelectedSurah2 = SurahTitles.indexOf(newValue);
-            numbers2 = surahsData.getAyaList(indexSelectedSurah2);
-            indexSelectedAya1 = numbers2.length;
-            numbers1 = numbers2;
+            surahTitles1= SurahTitles.sublist(0, indexSelectedSurah2+1);
+
+            // numbers2 = surahsData.getAyaList(indexSelectedSurah2);
+            // indexSelectedAya1 = numbers2.length;
+            // numbers1 = numbers2;
             // Surah1 = SurahTitles[indexSelectedSurah2];
           }
           // handleIndices(tofrom, newValue, indexSelectedSurah1);
