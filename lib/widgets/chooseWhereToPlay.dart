@@ -3,6 +3,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
+import 'package:mushafmuscat/screens/quran_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -94,17 +95,22 @@ class _whereToPlayState extends State<whereToPlay> {
 // ayaNumbersFrom = numbersFrom;
 // ayaNumbersTo = numbersTo;
 
-        print("Surah from: $SurahFrom");
-        print("Surah to: $SurahTo");
-        print("SurahS FROM: $surahTitlesFrom");
-        print("SurahS TO: $surahTitlesTo");
+        // print("Surah from: $SurahFrom");
+        // print("Surah to: $SurahTo");
+        // print("SurahS FROM: $surahTitlesFrom");
+        // print("SurahS TO: $surahTitlesTo");
       });
     });
     super.initState();
   }
 
-  void setSurahs() async {}
-
+Future<int?> getInt(key) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    int? _res = prefs.getInt("$key");
+    return _res;
+    // print("SHARED PREF " + _res.toString());
+}
   dynamic saveSharedPref(key, val) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -215,7 +221,13 @@ class _whereToPlayState extends State<whereToPlay> {
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        //navigate to selected page
+                        // Future<int?> page =  getInt("surahFrom");
+                        
+                            //  Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments: page);
+
+                      },
                       child: Container(
                           width: 110,
                           height: 25,
@@ -328,8 +340,12 @@ class _whereToPlayState extends State<whereToPlay> {
         setState(() {
           if (tofrom == 0) {
             AyaFrom = newValue!;
+          saveSharedPref('ayaFrom', int.parse(AyaFrom));
+
           } else {
             AyaTo = newValue!;
+            saveSharedPref('ayaTo', int.parse(AyaTo));
+
           }
           if (SurahFrom == SurahTo) {
             numbersFrom =
