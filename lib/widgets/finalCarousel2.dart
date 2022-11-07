@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
 import 'package:mushafmuscat/widgets/pageDetails2.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/bookMarks_provider.dart';
 import '../models/AyatLines.dart';
 import '../models/surah.dart';
@@ -193,11 +194,11 @@ morePlayOptions()  {
         ),
         context: context,
         builder: (BuildContext context) {
-          return whereToPlay();
+return whereToPlay();
         },
       ).whenComplete(_onBottomSheetClosed);
      });
-      
+ 
   }
 
   @override
@@ -241,6 +242,7 @@ morePlayOptions()  {
 
   @override
   Widget build(BuildContext context) {
+    getInt("surahFrom");
     var isLandscape=  MediaQuery.of(context).orientation == Orientation.landscape;
 print("orientation is $isLandscape");
     // print(_surahNames);
@@ -702,7 +704,12 @@ print("orientation is $isLandscape");
       audiosList = audddd;
     });
   }
-
+dynamic getInt(key) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    int? _res = prefs.getInt("$key");
+    print("SHARED PREF " + _res.toString());
+}
   void AudioListener() {
 // if (assetsAudioPlayer.isPlaying== false){
 //   return;

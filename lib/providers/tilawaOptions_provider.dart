@@ -18,6 +18,7 @@ class tilawaOptions with ChangeNotifier {
 
 
   Future<void> fetchSurahs() async {
+    if (SurahsList.isEmpty) {
     String data = await rootBundle.loadString('lib/data/json_files/surah.json');
 
     //String convertedData = convertToArabicNumbers(data);
@@ -58,7 +59,7 @@ _surahs.forEach((element) {
     AyasList.add(element.numOfAyas.toString());
 }
 );
-
+    }
 
     
     notifyListeners();

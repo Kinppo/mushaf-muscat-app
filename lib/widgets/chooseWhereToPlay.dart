@@ -4,6 +4,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/surah.dart';
 import '../providers/surah_provider.dart';
@@ -16,14 +17,13 @@ class whereToPlay extends StatefulWidget {
   State<whereToPlay> createState() => _whereToPlayState();
 }
 
-List<String> SurahTitles = [];
-List<String> AyaNumbers = [];
+ List<String> SurahTitles = [];
 
 int indexSelectedSurahFrom = 114;
 int indexSelectedSurahTo = 1;
 
-String SurahFrom = 'الفاتحة';
-String SurahTo = 'الناس';
+String SurahFrom = "الفاتحة";
+String SurahTo = "الناس";
 
 String AyaFrom = '1';
 String AyaTo = '6';
@@ -32,12 +32,21 @@ List<String> surahTitlesFrom = [];
 List<String> surahTitlesTo = [];
 
 List<String> numbersFrom = ['1', '2', '3', '4', '5', '6', '7'];
-List<String> numbersTo = ['1', '2', '3', '4', '5', '6'];
+List<String> numbersTo = [
+  '1',
+  '2',
+  '3',
+  '4',
+  '5',
+  '6',
+];
 List<String> ayaNumbersFrom = numbersFrom;
 List<String> ayaNumbersTo = numbersTo;
 
-var repititions
- = [
+bool Loaded = false;
+final Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
+final repititions = [
   '1',
   '2',
   '3',
@@ -49,143 +58,197 @@ String dropdownvalue = '1';
 class _whereToPlayState extends State<whereToPlay> {
   @override
   void initState() {
+    print('REBUILDING SHEET');
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await Provider.of<tilawaOptions>(context, listen: false).fetchSurahs();
       setState(() {
-        Provider.of<tilawaOptions>(context, listen: false).fetchSurahs();
         SurahTitles =
             Provider.of<tilawaOptions>(context, listen: false).SurahsList;
-        AyaNumbers =
-            Provider.of<tilawaOptions>(context, listen: false).AyasList;
-        surahTitlesFrom
-       = SurahTitles;
+        
+        if (surahTitlesFrom.isEmpty &&surahTitlesTo.isEmpty)
+        {
+        surahTitlesFrom = SurahTitles;
         surahTitlesTo = SurahTitles;
+        }
+// SurahFrom = "الفاتحة";
+//  SurahTo = "الناس";
+
+//  indexSelectedSurahFrom = 114;
+//  indexSelectedSurahTo = 1;
+
+
+
+//  AyaFrom = '1';
+//  AyaTo = '6';
+
+
+// numbersFrom = ['1', '2', '3', '4', '5', '6', '7'];
+// numbersTo = [
+//   '1',
+//   '2',
+//   '3',
+//   '4',
+//   '5',
+//   '6',
+// ];
+// ayaNumbersFrom = numbersFrom;
+// ayaNumbersTo = numbersTo;
+
+        print("Surah from: $SurahFrom");
+        print("Surah to: $SurahTo");
+        print("SurahS FROM: $surahTitlesFrom");
+        print("SurahS TO: $surahTitlesTo");
       });
     });
     super.initState();
   }
 
+  void setSurahs() async {}
+
+  dynamic saveSharedPref(key, val) async {
+    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+    final SharedPreferences prefs = await _prefs;
+    prefs.setInt("$key", val);
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final surahsData =  Provider.of<tilawaOptions>(context, listen: false);
+    bool isEmpty = surahTitlesFrom.isEmpty && surahTitlesTo.isEmpty;
+    print(surahTitlesFrom.length);
+    print(surahTitlesTo.length);
 
+    print("the value of condition $isEmpty");
+    // final surahsData =   Provider.of<tilawaOptions>(context, listen: false);
     return Container(
-      width: 400,
-      height: 480,
-      color: Colors.white,
-      child: Column(children: [
-        Row(
-          children: [
-            Expanded(
-              child: Container(
-                color: CustomColors.yellow100,
-                padding: EdgeInsets.all(20),
-                child: Text(
-                  "خيارات التلاوة",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        width: 400,
+        height: 480,
+        color: Colors.white,
+        child: (!isEmpty)
+            ? Column(children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        color: CustomColors.yellow100,
+                        padding: EdgeInsets.all(20),
+                        child: Text(
+                          "خيارات التلاوة",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-              ),
-            )
-          ],
-        ),
-        Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(17),
-              child: Text(
-                "تحديد البدء و الانتهاء",
-                textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "من",
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            Text(
-              "إلى",
-              textAlign: TextAlign.right,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            getSurahDropDown(0, surahTitlesFrom
-          ),
-            getSurahDropDown(1, surahTitlesTo),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            getAyaDropDown(0, numbersFrom, AyaFrom),
-            getAyaDropDown(1, numbersTo, AyaTo),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(24),
-              child: Text(
-                "التكرار",
-                textAlign: TextAlign.right,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-            )
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text("التكرار للآية",
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            getDropDown(repititions
-            , "1"),
-          ],
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-          ElevatedButton(
-              onPressed: () {},
-              child: Container(
-                  width: 110,
-                  height: 25,
-                  child: Text(
-                    'تشغيل',
-                    textAlign: TextAlign.center,
-                    style:
-                        TextStyle(color: CustomColors.black200, fontSize: 17),
-                  )),
-              style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(CustomColors.yellow100),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: BorderSide(
-                              color: Color.fromARGB(255, 87, 60, 50),
-                              width: 0.5)))))
-        ]),
-      ]),
-    );
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(17),
+                      child: Text(
+                        "تحديد البدء و الانتهاء",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      "من",
+                      textAlign: TextAlign.right,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "إلى",
+                      textAlign: TextAlign.right,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    getSurahDropDown(0, surahTitlesFrom),
+                    getSurahDropDown(1, surahTitlesTo),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    getAyaDropDown(0, numbersFrom, AyaFrom),
+                    getAyaDropDown(1, numbersTo, AyaTo),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(24),
+                      child: Text(
+                        "التكرار",
+                        textAlign: TextAlign.right,
+                        style: TextStyle(
+                            fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text("التكرار للآية",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    getDropDown(repititions, "1"),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                  ElevatedButton(
+                      onPressed: () {},
+                      child: Container(
+                          width: 110,
+                          height: 25,
+                          child: Text(
+                            'تشغيل',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: CustomColors.black200, fontSize: 17),
+                          )),
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all<Color>(
+                              CustomColors.yellow100),
+                          shape:
+                              MaterialStateProperty.all<RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                      side: BorderSide(
+                                          color:
+                                              Color.fromARGB(255, 87, 60, 50),
+                                          width: 0.5)))))
+                ]),
+              ])
+            : CircularProgressIndicator(
+                color: CustomColors.yellow200,
+              ));
   }
 
   DropdownButton getSurahDropDown(int tofrom, List<String> items) {
+    // print(items);
     return DropdownButton(
+      // value: (tofrom == 0) ? SurahFrom : SurahTo,
       value: (tofrom == 0) ? SurahFrom : SurahTo,
+
       icon: const Icon(Icons.keyboard_arrow_down),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -200,17 +263,16 @@ class _whereToPlayState extends State<whereToPlay> {
           // dropdownvalue = newValue!;
 
           if (tofrom == 0) {
-            
             indexSelectedSurahFrom = SurahTitles.indexOf(newValue);
 
             SurahFrom = newValue;
-
 
             ayaNumbersFrom = surahsData.getAyaList(indexSelectedSurahFrom);
             numbersFrom = ayaNumbersFrom;
 
             surahTitlesTo =
                 SurahTitles.sublist(indexSelectedSurahFrom, SurahTitles.length);
+            saveSharedPref('surahFrom', indexSelectedSurahFrom);
 
             // numbersTo = surahsData.getAyaList(SurahTitles.indexOf(SurahTo));
             AyaFrom = numbersFrom.first;
@@ -219,13 +281,11 @@ class _whereToPlayState extends State<whereToPlay> {
 
             indexSelectedSurahTo = SurahTitles.indexOf(newValue);
 
-            surahTitlesFrom
-           = SurahTitles.sublist(0, indexSelectedSurahTo + 1);
-            ayaNumbersTo
-           = surahsData.getAyaList(indexSelectedSurahTo);
-            numbersTo = ayaNumbersTo
-          ;
+            surahTitlesFrom = SurahTitles.sublist(0, indexSelectedSurahTo + 1);
+            ayaNumbersTo = surahsData.getAyaList(indexSelectedSurahTo);
+            numbersTo = ayaNumbersTo;
             AyaTo = numbersTo.last;
+            saveSharedPref('surahTo', indexSelectedSurahTo);
           }
         });
       },
@@ -272,11 +332,10 @@ class _whereToPlayState extends State<whereToPlay> {
             AyaTo = newValue!;
           }
           if (SurahFrom == SurahTo) {
-            numbersFrom = ayaNumbersFrom.sublist(0, ayaNumbersFrom.indexOf(AyaTo) + 1);
-            numbersTo = ayaNumbersTo
-          .sublist(
-                ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo
-              .length);
+            numbersFrom =
+                ayaNumbersFrom.sublist(0, ayaNumbersFrom.indexOf(AyaTo) + 1);
+            numbersTo = ayaNumbersTo.sublist(
+                ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo.length);
           }
         });
       },
