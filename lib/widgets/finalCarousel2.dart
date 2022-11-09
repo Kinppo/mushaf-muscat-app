@@ -64,6 +64,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
   bool closedBottomSheet = false;
   bool seekRight = false;
   bool moreplay=false;
+  bool loopFlag=false;
 // strings
   String surahName = 'الفاتحة';
   int navigatedFromBK = 0;
@@ -85,15 +86,16 @@ class _finalCarousel2 extends State<finalCarousel2> {
   @override
   void initState() {
     print("building......");
-     if (widget.loop ==1 ){
-      print("LOOOOOOP");
-     }
+    
     if (widget.goToPage != null && widget.goToPage != 0) {
+      
       overallid = (widget.goToPage as int) - 1;
       currentPage = (widget.goToPage as int) - 1;
       cameFromMenu = true;
+
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
+    
 
       });
  
@@ -219,6 +221,15 @@ return whereToPlay();
     print("ACTIVEEEE IS $activeAya");
   }
 
+handlePlayButton() async {
+  carouselController.nextPage();
+                                      carouselController2.nextPage();
+                                      audiosList.clear();
+                                      FlagsAudio.clear();
+                                      await loadAudios(currentPage + 1);
+                                      clickedHighlightNum = 0;
+                                      OpenPlayer();
+}
   void handleAyaFlag() {
     setState(() {
       if (ayaFlag == false) {
@@ -245,8 +256,23 @@ return whereToPlay();
     print("TOGGLED TO $ShowAudioPlayer");
   }
 
+void loopFunction() {
+  setState(() {
+    loopFlag=true;
+    ShowAudioPlayer=true;
+    handlePlayButton();
+    print(audiosList);
+
+    
+  });
+}
   @override
   Widget build(BuildContext context) {
+    if (widget.loop==1 && loopFlag==false){
+      loopFunction();
+
+    }
+
     getInt("surahFrom");
     var isLandscape=  MediaQuery.of(context).orientation == Orientation.landscape;
 print("orientation is $isLandscape");
@@ -523,13 +549,7 @@ print("orientation is $isLandscape");
                                         FlagsAudio[activeAya - 1].toString() ==
                                             "0" &&
                                         activeAya == FlagsAudio.length - 1) {
-                                      carouselController.nextPage();
-                                      carouselController2.nextPage();
-                                      audiosList.clear();
-                                      FlagsAudio.clear();
-                                      await loadAudios(currentPage + 1);
-                                      clickedHighlightNum = 0;
-                                      OpenPlayer();
+                                      handlePlayButton();
                                     } else {
                                       assetsAudioPlayer.next();
                                     }
