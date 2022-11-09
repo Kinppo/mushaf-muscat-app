@@ -678,6 +678,21 @@ print("orientation is $isLandscape");
     );
   }
 
+
+
+  void OpenPlayerLoop(int va) async {
+    setState(() {
+      assetsAudioPlayer.open(
+          Playlist(audios: audiosList, startIndex: clickedHighlightNum),
+          loopMode: LoopMode.none);
+          // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
+
+      activeAya = clickedHighlightNum;
+      ayaFlag = true;
+    });
+    AudioListener();
+  }
+
   void OpenPlayer() async {
     setState(() {
       assetsAudioPlayer.open(

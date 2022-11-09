@@ -18,7 +18,7 @@ class whereToPlay extends StatefulWidget {
   State<whereToPlay> createState() => _whereToPlayState();
 }
 
- List<String> SurahTitles = [];
+List<String> SurahTitles = [];
 
 int indexSelectedSurahFrom = 114;
 int indexSelectedSurahTo = 1;
@@ -65,11 +65,11 @@ class _whereToPlayState extends State<whereToPlay> {
       setState(() {
         SurahTitles =
             Provider.of<tilawaOptions>(context, listen: false).SurahsList;
-        
-        if (surahTitlesFrom.isEmpty &&surahTitlesTo.isEmpty)
-        {
-        surahTitlesFrom = SurahTitles;
-        surahTitlesTo = SurahTitles;
+
+        if (surahTitlesFrom.isEmpty && surahTitlesTo.isEmpty) {
+          surahTitlesFrom = SurahTitles;
+          surahTitlesTo = SurahTitles;
+          //  saveSharedPref(SurahTo temp);
         }
 // SurahFrom = "الفاتحة";
 //  SurahTo = "الناس";
@@ -77,11 +77,8 @@ class _whereToPlayState extends State<whereToPlay> {
 //  indexSelectedSurahFrom = 114;
 //  indexSelectedSurahTo = 1;
 
-
-
 //  AyaFrom = '1';
 //  AyaTo = '6';
-
 
 // numbersFrom = ['1', '2', '3', '4', '5', '6', '7'];
 // numbersTo = [
@@ -100,17 +97,27 @@ class _whereToPlayState extends State<whereToPlay> {
         // print("SurahS FROM: $surahTitlesFrom");
         // print("SurahS TO: $surahTitlesTo");
       });
+      saveSharedPref(
+          'surahFrom',
+          await Provider.of<tilawaOptions>(context, listen: false)
+              .getPageNumber(SurahFrom, AyaFrom));
+      saveSharedPref(
+          'surahTo',
+          await Provider.of<tilawaOptions>(context, listen: false)
+              .getPageNumber(SurahTo, AyaTo));
     });
     super.initState();
   }
 
-Future<int?> getInt(key) async {
+  dynamic getInt(key) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
-    int? _res = prefs.getInt("$key");
+    dynamic _res = prefs.getInt("$key");
+    print("+++++++++" + _res.toString());
     return _res;
     // print("SHARED PREF " + _res.toString());
-}
+  }
+
   dynamic saveSharedPref(key, val) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
@@ -124,7 +131,8 @@ Future<int?> getInt(key) async {
     print(surahTitlesTo.length);
 
     print("the value of condition $isEmpty");
-    // final surahsData =   Provider.of<tilawaOptions>(context, listen: false);
+    final surahsData = Provider.of<tilawaOptions>(context, listen: false);
+
     return Container(
         width: 400,
         height: 480,
@@ -221,12 +229,14 @@ Future<int?> getInt(key) async {
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         //navigate to selected page
-                        // Future<int?> page =  getInt("surahFrom");
-                        
-                            //  Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments: page);
-
+                        dynamic page =
+                            await getInt("surahFrom").then((value) => value);
+                        // print("-------- "+ page.toString());
+                        Navigator.of(context).popAndPushNamed(
+                            QuranScreen.routeName,
+                            arguments: page as int);
                       },
                       child: Container(
                           width: 110,
@@ -268,7 +278,7 @@ Future<int?> getInt(key) async {
           child: Text(items),
         );
       }).toList(),
-      onChanged: (newValue) {
+      onChanged: (newValue) async {
         setState(() {
           final surahsData = Provider.of<tilawaOptions>(context, listen: false);
 
@@ -284,7 +294,7 @@ Future<int?> getInt(key) async {
 
             surahTitlesTo =
                 SurahTitles.sublist(indexSelectedSurahFrom, SurahTitles.length);
-            saveSharedPref('surahFrom', indexSelectedSurahFrom);
+            // saveSharedPref('surahFrom', indexSelectedSurahFrom);
 
             // numbersTo = surahsData.getAyaList(SurahTitles.indexOf(SurahTo));
             AyaFrom = numbersFrom.first;
@@ -297,9 +307,13 @@ Future<int?> getInt(key) async {
             ayaNumbersTo = surahsData.getAyaList(indexSelectedSurahTo);
             numbersTo = ayaNumbersTo;
             AyaTo = numbersTo.last;
-            saveSharedPref('surahTo', indexSelectedSurahTo);
+            // saveSharedPref('surahTo', indexSelectedSurahTo);
           }
         });
+        saveSharedPref(
+            (tofrom == 0) ? 'surahFrom' : 'surahTo',
+            await Provider.of<tilawaOptions>(context, listen: false)
+                .getPageNumber(SurahFrom, (tofrom == 0) ? AyaFrom : AyaTo));
       },
     );
   }
@@ -317,6 +331,7 @@ Future<int?> getInt(key) async {
       onChanged: (newValue) {
         setState(() {
           dropdownvalue = newValue!;
+          saveSharedPref("repNum", int.parse(dropdownvalue));
         });
       },
     );
@@ -327,6 +342,8 @@ Future<int?> getInt(key) async {
     List<String> items,
     String dropdownvalue,
   ) {
+    final surahsData = Provider.of<tilawaOptions>(context, listen: false);
+
     return DropdownButton(
       value: (tofrom == 0) ? AyaFrom : AyaTo,
       icon: const Icon(Icons.keyboard_arrow_down),
@@ -336,17 +353,14 @@ Future<int?> getInt(key) async {
           child: Text(items),
         );
       }).toList(),
-      onChanged: (newValue) {
+      onChanged: (newValue) async {
         setState(() {
           if (tofrom == 0) {
             AyaFrom = newValue!;
-          saveSharedPref('ayaFrom', int.parse(AyaFrom));
-
           } else {
             AyaTo = newValue!;
-            saveSharedPref('ayaTo', int.parse(AyaTo));
-
           }
+
           if (SurahFrom == SurahTo) {
             numbersFrom =
                 ayaNumbersFrom.sublist(0, ayaNumbersFrom.indexOf(AyaTo) + 1);
@@ -354,6 +368,11 @@ Future<int?> getInt(key) async {
                 ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo.length);
           }
         });
+        int temp = await surahsData.getPageNumber(
+            (tofrom == 0) ? SurahFrom : SurahTo,
+            (tofrom == 0) ? AyaFrom : AyaTo);
+
+        saveSharedPref((tofrom == 0) ? 'surahFrom' : 'surahTo', temp);
       },
     );
   }

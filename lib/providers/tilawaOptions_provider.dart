@@ -60,8 +60,6 @@ _surahs.forEach((element) {
 }
 );
     }
-
-    
     notifyListeners();
   }
 
@@ -90,5 +88,36 @@ return surahList;
   return listNum;
  }
   
+Future<int> getPageNumber(String name,String aya ) async {
+
+String result='';
+for(int i=1; i<=604; i++){
+      String data = await rootBundle.loadString('lib/data/json_files/quran_lines/surahs_word_$i.json');
+      var jsonResult = jsonDecode(data);
+
+     jsonResult.forEach((data) {
+      if (HelperFunctions.normalise(data['SurahName'])  == HelperFunctions.normalise(name)) {
+
+        if (data['aya']== aya) {
+          result=data['page'];
+        }
+      }
+     });
+}
+
+// var index;
+// dataList.forEach((element) {
+
+//   element.forEach((data) {
+//   print(data['surahName']);
+//   });
+
+// });
+
+     print("RESULTSSSSS ARE : " +result);
+
+return int.parse(result);
+ }
+
   
  }
