@@ -29,6 +29,7 @@ class _QuranScreenState extends State<QuranScreen> {
   bool toggleSearch = false;
   bool showPlayer = true;
   int goToPage = 0;
+  int loop =0;
 
   @override
   // void initState() {
@@ -67,8 +68,36 @@ class _QuranScreenState extends State<QuranScreen> {
 
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
-    goToPage = ModalRoute.of(context)!.settings.arguments as int;
+    // goToPage = ModalRoute.of(context)!.settings.arguments?[0] as int;
+    // loop = ModalRoute.of(context)!.settings.arguments[1];
+//  List<dynamic> args = [goToPage, 0];
+// args=  ModalRoute.of(context)!.settings.arguments as List<dynamic>;
+final arg = ModalRoute.of(context)!.settings.arguments as Map;
+if (arg!=null){
+  goToPage = arg['v1'] as int;
+  loop= arg['v2'] as int;
+print("ARGSSSS: " +arg.toString());
 
+}
+//  goToPage = arg['v1'] as int;
+// int randomVar2 = arg['v2'];
+// print("argsssssss1: "+ randomVar1.toString());
+// print("argsssssss2: "+ randomVar2.toString());
+
+// if (args.length!= null){
+// print((args.length>1)? "this is null": args[1].toString());
+// }
+//   setState(() {
+
+// if (!args.first.isEmpty) {
+
+//       goToPage=args. as int;
+// }
+// if (!argRs.last.isEmpty) {
+
+// loop=args[1] as int;
+// }
+//   });
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false, // set it to false
@@ -116,7 +145,7 @@ class _QuranScreenState extends State<QuranScreen> {
                               padding: EdgeInsets.only(top: 0),
                               // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
                               child: finalCarousel2(
-                                  goToPage: goToPage, toggleBars: toggleBars),
+                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()

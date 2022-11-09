@@ -61,23 +61,18 @@ class _pageDetails2State extends State<pageDetails2> {
   List<String> audioPaths = [];
   List<Audio> audioList = [];
   final assetsAudioPlayer = AssetsAudioPlayer();
-var bookmarks;
+  var bookmarks;
 
   // int clickedHighlightNum = 0;
   bool firstFlag = false;
   bool clickHighlightWhilePlaying = false;
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
-  
 
   //bookmark variables
-  bool bkSamePage= false;
-   late Color bkColor;
-   late int bkIndex;
-
-
- 
-
+  bool bkSamePage = false;
+  late Color bkColor;
+  late int bkIndex;
 
   @override
   initState() {
@@ -93,52 +88,47 @@ var bookmarks;
     super.initState();
   }
 
-
- Color pickColor (String type) {
-    
+  Color pickColor(String type) {
     switch (type) {
       case '1':
-      return CustomColors.yellow400;
-        
+        return CustomColors.yellow400;
+
       case '2':
-      return CustomColors.pink100;
+        return CustomColors.pink100;
 
       case '3':
-      return CustomColors.green200;
+        return CustomColors.green200;
 
       case '4':
-      return CustomColors.blue100;
+        return CustomColors.blue100;
 
-      default:  return Colors.transparent;
+      default:
+        return Colors.transparent;
     }
   }
-
 
   void loadTextandBookmarks(int page) {
     textlist =
         Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
-
   }
-
 
   didChangeDependencies() {
-    final List<BookMark> bk = Provider.of<BookMarks>(context, listen: true).bookmarks;
+    final List<BookMark> bk =
+        Provider.of<BookMarks>(context, listen: true).bookmarks;
 
-bk.forEach((element) {
-  setState(() {
-     if (element.pageNum== widget.currentpage){
-    bkSamePage=true;
-    bkColor = pickColor(element.type);
-    bkIndex= element.highlightNum;
-    print("we are in the same page");
-  }});
-  });
- 
+    bk.forEach((element) {
+      setState(() {
+        if (element.pageNum == widget.currentpage) {
+          bkSamePage = true;
+          bkColor = pickColor(element.type);
+          bkIndex = element.highlightNum;
+          print("we are in the same page");
+        }
+      });
+    });
+
     super.didChangeDependencies();
   }
-
-
-
 
   List<TextSpan> createTextSpans() {
     if (widget.currentpage != widget.id) {
@@ -150,23 +140,20 @@ bk.forEach((element) {
     textlist = Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
-Size s = (context.findRenderObject() as RenderBox)?.size ?? Size.zero;
-print("SIZE IS $s");
+    Size s = (context.findRenderObject() as RenderBox)?.size ?? Size.zero;
+    print("SIZE IS $s");
     textlist.then((value) {
-
-      for (int i=0; i<value.length; i++) {
+      for (int i = 0; i < value.length; i++) {
         // print(value[value.length-1].text.toString());
-        if (value[i].endOfSurah =='1' && i!= value.length-1 ) {
- textl.add(value[i].text!+'\n\n\n\n');
-}
-// else { 
+        if (value[i].endOfSurah == '1' && i != value.length - 1) {
+          textl.add(value[i].text! + '\n\n\n\n');
+        }
+// else {
 // print(value[i].text.length);
 
 // bool containsChars = value[i].text.contains('ۖ ')  || (value[i].text.contains('ۚ ')) || value[i].text.contains('۞')|| (value[i].text.contains(' ۛ'));
 
 // if(value[i].text.length<85 && !containsChars) {
-
-
 
 // if () {
 // print("CONTAINSSSS");
@@ -193,15 +180,14 @@ print("SIZE IS $s");
 //  textl.add(value[i].text!+"---");
 //  }
 
-
- else  textl.add(value[i].text!);
+        else
+          textl.add(value[i].text!);
 
 // }
-// }    
+// }
 // print(value[i].text.toString() + '....' +(value[i].text.length.toString()));
         // print(value[i].text.length.toString());
         fulltext = textl.join('\n\n');
-
       }
 //       value.forEach((item) {
 //            if (item.endOfSurah =='1' ) {
@@ -209,10 +195,9 @@ print("SIZE IS $s");
 // }
 // else { r
 //  textl.add(item.text!);
-// }     
-       
-     
-        // fulltext = textl.join('\n\n');
+// }
+
+      // fulltext = textl.join('\n\n');
       // });
     });
     // print(fulltext);
@@ -236,19 +221,12 @@ print("SIZE IS $s");
       final text = arrayStrings[index] + "";
       final span = TextSpan(
           text: text,
-
-          style: TextStyle(
-            background: Paint()..color = Colors.transparent
-        
-
-
-            
-          ),
+          style: TextStyle(background: Paint()..color = Colors.transparent),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
                 // widget.highlightedAyaText= text;
-                              // print("The word touched is " + widget.highlightedAyaText.toString());
+                // print("The word touched is " + widget.highlightedAyaText.toString());
 
                 highlightFlag = true;
                 idx = arrayOfTextSpan
@@ -258,42 +236,36 @@ print("SIZE IS $s");
 
                 print("highlighted TEXT IS  " + intValue.toString());
                 widget.clickedHighlightNum = idx + 1;
-                widget.toggleClickedHighlight(idx + 1, intValue.toString(), text);
+                widget.toggleClickedHighlight(
+                    idx + 1, intValue.toString(), text);
               });
-
             });
       arrayOfTextSpan.add(span);
     }
     setState(() {
-
       print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
       if (highlightFlag == true) {
         arrayOfTextSpan[idx].style?.background!.color =
             Colors.brown.withOpacity(0.25);
         arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
-      highlightFlag=false;
-      
+        highlightFlag = false;
       }
     });
 
-     if (bkSamePage == true) { 
+    if (bkSamePage == true) {
       arrayOfTextSpan[bkIndex].style?.background!.color =
-    bkColor.withOpacity(0.25);
-        arrayOfTextSpan[bkIndex].style?.background!.strokeWidth = 8.9;
-
-     }
-
-
+          bkColor.withOpacity(0.25);
+      arrayOfTextSpan[bkIndex].style?.background!.strokeWidth = 8.9;
+    }
 
     setState(() {
       if (widget.currentpage == widget.prev &&
           widget.ayaFlag != false &&
           arrayStrings[0] != "") {
-            
         ///====temp and may be disposed later based on the use case
-        if (widget.closedBottomSheet == true ) {
+        if (widget.closedBottomSheet == true) {
           // highlightFlag = false;
-                    widget.closedBottomSheet= false;
+          widget.closedBottomSheet = false;
 
           arrayOfTextSpan[idx].style?.background!.color = Colors.transparent;
         }
@@ -301,8 +273,6 @@ print("SIZE IS $s");
         ///====
         arrayOfTextSpan[widget.indexhighlight].style?.background!.color =
             Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
-
-    
       }
     });
 
@@ -340,23 +310,20 @@ print("SIZE IS $s");
             child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.start,
-          overflow:TextOverflow.fade,
-          textWidthBasis:TextWidthBasis.longestLine,
-
+          overflow: TextOverflow.fade,
+          textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
             style: const TextStyle(
-                fontFamily: 'Amiri',
-                fontWeight: FontWeight.bold,
-                fontSize: 13,
-                color: Colors.brown,
-                wordSpacing: 2.2,
-                letterSpacing: 1.1,
-                                height: 1.4,
+              fontFamily: 'Amiri',
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+              color: Colors.brown,
+              wordSpacing: 2.2,
+              letterSpacing: 1.1,
+              height: 1.4,
 
-                // height: 1.68,
-        
-
-                ),
+              // height: 1.68,
+            ),
             children: createTextSpans(),
           ),
         )));
@@ -382,7 +349,6 @@ print("SIZE IS $s");
   //         ),
   //       )));
   // }
-
 
   @override
   Widget build(BuildContext context) {

@@ -236,7 +236,11 @@ class _whereToPlayState extends State<whereToPlay> {
                         // print("-------- "+ page.toString());
                         Navigator.of(context).popAndPushNamed(
                             QuranScreen.routeName,
-                            arguments: page as int);
+                          arguments:{
+      'v1': page as int,
+      'v2': 1,
+      
+   });
                       },
                       child: Container(
                           width: 110,

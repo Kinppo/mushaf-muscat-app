@@ -89,7 +89,11 @@ class _MainDrawerState extends State<MainDrawer> {
     setState(() {
     goToPage= int.parse(page);});
     print("go to page $page");
-     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments: goToPage);
+     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:{
+      'v1': goToPage,
+      'v2': 0,
+      
+   },);
     // });
   }
 

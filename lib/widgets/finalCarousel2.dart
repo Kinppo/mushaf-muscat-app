@@ -25,11 +25,13 @@ import '../widgets/chooseWhereToPlay.dart';
 
 class finalCarousel2 extends StatefulWidget {
   int goToPage;
+  int? loop;
   Function toggleBars;
   finalCarousel2({
     Key? key,
     required this.goToPage,
-    required this.toggleBars,
+     this.loop,
+    required this.toggleBars, 
   }) : super(key: key);
 
   @override
@@ -83,6 +85,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
   @override
   void initState() {
     print("building......");
+     if (widget.loop ==1 ){
+      print("LOOOOOOP");
+     }
     if (widget.goToPage != null && widget.goToPage != 0) {
       overallid = (widget.goToPage as int) - 1;
       currentPage = (widget.goToPage as int) - 1;

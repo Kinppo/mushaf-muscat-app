@@ -99,7 +99,11 @@ late final bookMarkProvider;
               print("bookmak item2: $aya");
               print("bookmak item: $highlightNum");
               print("bookmak item2: $pageNum");
-                   Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:pageNum);
+                   Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:{
+      'v1': pageNum,
+      'v2': 0,
+      
+   },);
 
             },
             leading: Icon(
