@@ -8,6 +8,7 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 
 import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
 import 'package:mushafmuscat/widgets/pageDetails2.dart';
@@ -27,11 +28,13 @@ class finalCarousel2 extends StatefulWidget {
   int goToPage;
   int? loop;
   Function toggleBars;
+  int? loophighlight;
   finalCarousel2({
     Key? key,
     required this.goToPage,
-     this.loop,
-    required this.toggleBars, 
+    this.loop,
+    required this.toggleBars,
+    this.loophighlight,
   }) : super(key: key);
 
   @override
@@ -47,6 +50,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
   int clickedHighlightNum = 0;
   String? AyaStringNum = '';
   int prev = 0;
+  //  int ayaFrom;
 // bools and flags
   bool cameFromMenu = false;
   bool _isInit = true;
@@ -63,8 +67,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
   bool isPlaying = false;
   bool closedBottomSheet = false;
   bool seekRight = false;
-  bool moreplay=false;
-  bool loopFlag=false;
+  bool moreplay = false;
+  bool loopFlag = false;
+  bool loopFirstPage = false;
 // strings
   String surahName = 'الفاتحة';
   int navigatedFromBK = 0;
@@ -76,6 +81,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   List<Audio> audiosList = [];
   List<String> FlagsAudio = [];
+  List<int> LoopIndices = [];
+
 // controllers
   CarouselController carouselController = new CarouselController();
   CarouselController carouselController2 = new CarouselController();
@@ -86,27 +93,37 @@ class _finalCarousel2 extends State<finalCarousel2> {
   @override
   void initState() {
     print("building......");
-    
+
     if (widget.goToPage != null && widget.goToPage != 0) {
-      
       overallid = (widget.goToPage as int) - 1;
       currentPage = (widget.goToPage as int) - 1;
       cameFromMenu = true;
 
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
-    
-
       });
- 
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await loadSurahs;
+// var temp;
+// int highlight=0;
+      // var temp = await getInt('ayaFrom');
+      //  highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(await getInt("ayaFrom"));
+
       setState(() {
         loadSurahs();
+
+        //   if ( widget.loophighlight!= null){
+
+        //   print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
+        //         clickedHighlightNum= widget.loophighlight! as int;
+
+        //   }
+        //   else {
+        // clickedHighlightNum=highlight;}
+        // ayaFrom= temp;
       });
     });
-
 
     ShowAudioPlayer = false;
     ShowOnlyPageNum = true;
@@ -121,16 +138,13 @@ class _finalCarousel2 extends State<finalCarousel2> {
     _ayaNumbers = surahsData.loadAyaNum();
   }
 
-morePlayOptions()  {
-     setState(() {
-       moreplay=true;
-     });
+  morePlayOptions() {
+    setState(() {
+      moreplay = true;
+    });
 
-     print("more play is $moreplay");
+    print("more play is $moreplay");
   }
-
-
-  
 
 // void updateHighligh
 
@@ -147,16 +161,17 @@ morePlayOptions()  {
       if (isPlaying == true) {
         if (prev != currentPage) {
           await loadAudios(currentPage);
-          OpenPlayer();
+         
+            OpenPlayer();
+          
         } else {
           assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
         }
         print("audio playing is $prev");
         print("currently in page $currentPage");
-                                                    AudioListener();
+        AudioListener();
       }
 
-    
       showModalBottomSheet<void>(
         constraints: BoxConstraints(maxWidth: 400, maxHeight: 460),
         clipBehavior: Clip.hardEdge,
@@ -171,7 +186,7 @@ morePlayOptions()  {
             clickedHighlightNum: clickedHighlightNum,
             currentPage: currentPage,
             surahName: surahName,
-            highlightedAyaText:ayaString,
+            highlightedAyaText: ayaString,
             playMoreOptions: morePlayOptions,
           );
         },
@@ -184,16 +199,16 @@ morePlayOptions()  {
   void _onBottomSheetClosed() {
     setState(() {
       closedBottomSheet = true;
-      if(moreplay==true) {
+      if (moreplay == true) {
         bottomsheet2();
       }
     });
   }
 
-   bottomsheet2() {
-     setState(() {
-      moreplay=false;
-       showModalBottomSheet<void>(
+  bottomsheet2() {
+    setState(() {
+      moreplay = false;
+      showModalBottomSheet<void>(
         constraints: BoxConstraints(maxWidth: 400, maxHeight: 660),
         clipBehavior: Clip.hardEdge,
         shape: RoundedRectangleBorder(
@@ -201,11 +216,10 @@ morePlayOptions()  {
         ),
         context: context,
         builder: (BuildContext context) {
-return whereToPlay();
+          return whereToPlay();
         },
       ).whenComplete(_onBottomSheetClosed);
-     });
- 
+    });
   }
 
   @override
@@ -221,15 +235,21 @@ return whereToPlay();
     print("ACTIVEEEE IS $activeAya");
   }
 
-handlePlayButton() async {
-  carouselController.nextPage();
-                                      carouselController2.nextPage();
-                                      audiosList.clear();
-                                      FlagsAudio.clear();
-                                      await loadAudios(currentPage + 1);
-                                      clickedHighlightNum = 0;
-                                      OpenPlayer();
-}
+  handlePlayButton() async {
+    carouselController.nextPage();
+    carouselController2.nextPage();
+    audiosList.clear();
+    FlagsAudio.clear();
+    await loadAudios(currentPage + 1);
+    clickedHighlightNum = 0;
+    //                        if (loopFlag==true) {
+    //  OpenPlayerLoop();
+    // }
+    // else {
+    OpenPlayer();
+  }
+
+// }
   void handleAyaFlag() {
     setState(() {
       if (ayaFlag == false) {
@@ -237,7 +257,6 @@ handlePlayButton() async {
       }
     });
   }
-
 
   void togglePlayer() {
     setState(() {
@@ -256,26 +275,51 @@ handlePlayButton() async {
     print("TOGGLED TO $ShowAudioPlayer");
   }
 
-void loopFunction() {
-  setState(() {
-    loopFlag=true;
-    ShowAudioPlayer=true;
-    handlePlayButton();
-    print(audiosList);
+  void loopFunction() async {
+    //  var temp= await getInt('ayaFrom');
+        int rep = await getInt("repNum") as int;
 
-    
-  });
-}
+          await loadAudiosLoop(currentPage + 1, rep);
+
+    setState(() {
+      loopFlag = true;
+      ShowAudioPlayer = true;
+// clickedHighlightNum= 2;
+      // handlePlayButton();
+
+      OpenPlayerLoop();
+      print(audiosList);
+    });
+  }
+
+// findWhichHighlight () async{
+//   //chosen aya number from the dropdown is not the same as the highlight number
+//   //so we need to find it
+//  int highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(currentPage, await getInt("ayaFrom"));
+
+// setState(() {
+//   clickedHighlightNum=highlight;
+// });
+
+// }
   @override
   Widget build(BuildContext context) {
-    if (widget.loop==1 && loopFlag==false){
-      loopFunction();
+    if (widget.loop == 1 && loopFlag == false) {
+      // if ( widget.loophighlight!= null){
+      //   setState(() {
+      //     print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
+      //           clickedHighlightNum= widget.loophighlight!;
 
+      //   });
+      // }
+      // findWhichHighlight();
+      loopFunction();
     }
 
-    getInt("surahFrom");
-    var isLandscape=  MediaQuery.of(context).orientation == Orientation.landscape;
-print("orientation is $isLandscape");
+    // getInt("surahFrom");
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+    print("orientation is $isLandscape");
     // print(_surahNames);
     // print(_ayaNumbers);
 
@@ -293,19 +337,21 @@ print("orientation is $isLandscape");
       color: Colors.white,
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
-                physics: (isLandscape==false)? NeverScrollableScrollPhysics() : AlwaysScrollableScrollPhysics() ,
-
+        physics: (isLandscape == false)
+            ? NeverScrollableScrollPhysics()
+            : AlwaysScrollableScrollPhysics(),
         child: Column(children: [
           Container(
-                  width: MediaQuery.of(context).size.width ,
-
-            padding:(isLandscape==false) ?  EdgeInsets.fromLTRB(0, 155, 0, 0) : EdgeInsets.fromLTRB(10, 155, 10, 50),
+            width: MediaQuery.of(context).size.width,
+            padding: (isLandscape == false)
+                ? EdgeInsets.fromLTRB(0, 155, 0, 0)
+                : EdgeInsets.fromLTRB(10, 155, 10, 50),
             color: Colors.white,
             child: CarouselSlider(
               options: CarouselOptions(
-          
+
                   // height: MediaQuery.of(context).size.height,
-                  height:(isLandscape==false) ? 672 :1400,
+                  height: (isLandscape == false) ? 672 : 1400,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -327,40 +373,37 @@ print("orientation is $isLandscape");
               items: listofObjects.map((i) {
                 int idx = listofObjects.indexOf(i);
                 // print("building... $idx")
-          
+
                 return Builder(
                   builder: (BuildContext context) {
                     return GestureDetector(
                       onTap: () {
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       },
-                      child:
-                      
-                       Stack(fit: StackFit.passthrough, children: [
-                         
-                // IgnorePointer(
-                //   child:(idx==0) ? Image.asset(  'assets/quran_images/img_1.jpg',   height:300,
-                //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) : 
-                //                   Image.asset(  'assets/quran_images/img_3.jpg',   height:900,
-                //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) 
-                                  
-                //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,      
-                //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
-                //                   //                        )
-                      
-                //         ),
-          
+                      child: Stack(fit: StackFit.passthrough, children: [
+                        // IgnorePointer(
+                        //   child:(idx==0) ? Image.asset(  'assets/quran_images/img_1.jpg',   height:300,
+                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) :
+                        //                   Image.asset(  'assets/quran_images/img_3.jpg',   height:900,
+                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    )
+
+                        //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
+                        //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
+                        //                   //                        )
+
+                        //         ),
+
                         //             ): )
-                      //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
-                      //     // height:200,
-                      //             fit: BoxFit.fitWidth,      
-                      //                                     width: MediaQuery.of(context).size.width,
-                      //             ): 
-                      //                  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : 
-                      //                'assets/quran_images/img_3.jpg',
-                      //     height:300,
-                      //             fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                      //       ),
+                        //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
+                        //     // height:200,
+                        //             fit: BoxFit.fitWidth,
+                        //                                     width: MediaQuery.of(context).size.width,
+                        //             ):
+                        //                  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' :
+                        //                'assets/quran_images/img_3.jpg',
+                        //     height:300,
+                        //             fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
+                        //       ),
                         // //   //  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
                         // //   // height:300,
                         // //     //       fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
@@ -381,6 +424,8 @@ print("orientation is $isLandscape");
                               ayaFlag: ayaFlag,
                               toggleClickedHighlight: toggleClickedHighlight,
                               clickedHighlightNum: clickedHighlightNum - 1,
+                              // clickedHighlightNum: 1,
+
                               firstFlag: firstFlag,
                               prev: prev,
                               closedBottomSheet: closedBottomSheet,
@@ -395,10 +440,9 @@ print("orientation is $isLandscape");
               carouselController: carouselController,
             ),
           ),
-      
-          
+
           //====================PAGE INDICATOR=====================
-      
+
           (ShowAudioPlayer != true && ShowOnlyPageNum == false)
               ? GestureDetector(
                   onTap: () {
@@ -439,8 +483,9 @@ print("orientation is $isLandscape");
                             height: 34.0,
                             viewportFraction: 0.16,
                             reverse: false,
-                            initialPage:
-                                (cameFromMenu == true) ? widget.goToPage - 1 : 0,
+                            initialPage: (cameFromMenu == true)
+                                ? widget.goToPage - 1
+                                : 0,
                             scrollDirection: Axis.horizontal,
                             pageSnapping: true,
                             enableInfiniteScroll: true,
@@ -455,7 +500,8 @@ print("orientation is $isLandscape");
                                     onTap: () {
                                       setState(() {
                                         surahName = _surahNames[i - 1]!;
-                                        carouselController2.animateToPage(i - 1);
+                                        carouselController2
+                                            .animateToPage(i - 1);
                                         carouselController.animateToPage(i - 1);
                                         // ShowOnlyPageNum=true;
                                       });
@@ -475,8 +521,9 @@ print("orientation is $isLandscape");
                                         height: 30,
                                         width: 40,
                                         child: Text(
-                                          HelperFunctions.convertToArabicNumbers(
-                                                  i.toString())
+                                          HelperFunctions
+                                                  .convertToArabicNumbers(
+                                                      i.toString())
                                               .toString(),
                                           style: TextStyle(
                                               color: (i - 1 == overallid)
@@ -495,7 +542,7 @@ print("orientation is $isLandscape");
                     ),
                   ),
                 )
-      
+
               //====================AUDIOPLAYER=====================
               : (ShowAudioPlayer == true)
                   ? Container(
@@ -506,8 +553,8 @@ print("orientation is $isLandscape");
                         decoration: BoxDecoration(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(15.0)),
-                          border:
-                              Border.all(color: CustomColors.brown700, width: 1),
+                          border: Border.all(
+                              color: CustomColors.brown700, width: 1),
                         ),
                         width: 650,
                         height: 70,
@@ -583,7 +630,10 @@ print("orientation is $isLandscape");
                                         setState(() async {
                                           await loadAudios(currentPage);
                                           print(audiosList);
+                                          //                            if (loopFlag==true) {
+                                          //  OpenPlayerLoop();
                                           OpenPlayer();
+                                          // }
                                           firstFlag = true;
                                           showPauseIcon = true;
                                         });
@@ -608,25 +658,28 @@ print("orientation is $isLandscape");
                                       fit: BoxFit.fitWidth),
                                   //seek forward
                                   onPressed: () async {
-                                    if (FlagsAudio.length > 0 && activeAya == 0) {
+                                    if (FlagsAudio.length > 0 &&
+                                        activeAya == 0) {
                                       carouselController.previousPage();
                                       carouselController2.previousPage();
                                       audiosList.clear();
                                       FlagsAudio.clear();
                                       await loadAudios(currentPage - 1);
-                                      clickedHighlightNum = FlagsAudio.length - 1;
-      
-                                      OpenPlayer();
+                                      clickedHighlightNum =
+                                          FlagsAudio.length - 1;
+                                     
+                                        OpenPlayer();
+                                      
                                     } else {
                                       assetsAudioPlayer.previous();
                                     }
-      
+
                                     // initializeDuration();
-      
+
                                     // assetsAudioPlayer.previous();
                                     // seekBackward = true;
                                     // Audioplayer_Provider.seekBackward();
-      
+
                                     // PlayAudios();
                                   }),
                             ),
@@ -642,7 +695,8 @@ print("orientation is $isLandscape");
                               clipBehavior: Clip.hardEdge,
                               child: IconButton(
                                   iconSize: 40,
-                                  icon: SvgPicture.asset("assets/images/exit.svg",
+                                  icon: SvgPicture.asset(
+                                      "assets/images/exit.svg",
                                       width: 30,
                                       height: 30,
                                       fit: BoxFit.fitWidth),
@@ -673,7 +727,7 @@ print("orientation is $isLandscape");
                                   surahName[(widget.goToPage as int) - 1]!;
                             }
                             print("========PRESSED");
-      
+
                             ShowOnlyPageNum = !ShowOnlyPageNum;
                           });
                         },
@@ -703,20 +757,171 @@ print("orientation is $isLandscape");
     );
   }
 
+//=========================LOOP====================
+  void OpenPlayerLoop() async {
+    int rep = await getInt("repNum") as int;
+    int surahToLoop = await getInt("surahTo") as int;
+    int ayaToLoop = await getInt("ayaTo") as int;
 
+    // await loadAudiosLoop(currentPage + 1, rep);
+    print("highlight number AND CURRENT PAGE..... " + currentPage.toString());
 
-  void OpenPlayerLoop(int va) async {
+    print("highlight number of chosen aya is..... " +
+        widget.loophighlight.toString());
+    print("page number of chosen aya is..... " + currentPage.toString());
+    // print("NUMBER OF REPS ..... " + rep.toString());
+
+// print(audiosList);
+
+// print(loopPlaylist);
     setState(() {
       assetsAudioPlayer.open(
-          Playlist(audios: audiosList, startIndex: clickedHighlightNum),
+          Playlist(
+            audios: audiosList,
+            startIndex:
+                (loopFirstPage == false) ? widget.loophighlight! * rep : 0,
+          ),
           loopMode: LoopMode.none);
-          // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
-
+      // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
+      print(LoopIndices.toString());
+      clickedHighlightNum = (loopFirstPage == false) ? widget.loophighlight!  : 0;
       activeAya = clickedHighlightNum;
       ayaFlag = true;
+      loopFirstPage = true;
     });
-    AudioListener();
+    AudioListenerLoop(surahToLoop, ayaToLoop, rep);
   }
+
+  void AudioListenerLoop(surahToLoop, ayaToLoop, rep) {
+// if (assetsAudioPlayer.isPlaying== false){
+//   return;
+// }
+    assetsAudioPlayer.current.listen((playingAudio) {
+      final asset = playingAudio!.audio;
+
+      setState(() {
+        if (asset != null) {
+          isPlaying = true;
+        }
+        print("========highlight: $clickedHighlightNum");
+        print("========playing id: " + playingAudio.index.toString());
+        print("========loop indice: " +
+            LoopIndices[playingAudio.index].toString());
+
+        // handleActiveAya(LoopIndices[playingAudio.index]-1);
+        activeAya = LoopIndices[playingAudio.index];
+        // handleAyaFlag();
+
+        // handleActiveAya(LoopIndices[playingAudio.index]);
+        print("flag is $FlagsAudio");
+        // if (playingAudio.index != 0 &&
+        //     FlagsAudio.length > 0 &&
+        //     FlagsAudio[playingAudio.index - 1] == '1') {
+        //   print("THIS IS THE LAST LAST AYA");
+        //   assetsAudioPlayer.pause();
+        // }
+
+        if (playingAudio.index != 0 &&
+            FlagsAudio.length > 0 &&
+            playingAudio.index == FlagsAudio.length - 1) {
+          assetsAudioPlayer.playlistFinished.listen((finished) async {
+
+            //todo: condition if surahTo = surahFrom
+            if (finished == true) {
+              if ((currentPage + 1) == surahToLoop) {
+                print("FINAL PAGE OF THE LOOOP");
+               }
+
+              if ((currentPage + 1) != surahToLoop) {
+                print("finished finsihed");
+                 carouselController.nextPage();
+                //  carouselController2.nextPage();
+                LoopIndices.clear();
+
+                audiosList.clear();
+                FlagsAudio.clear();
+  
+clickedHighlightNum=0;
+                await loadAudiosLoop(currentPage+2,rep);
+                print( "NEXT PAGEEEEE " + audiosList.toString());
+
+    
+     
+    // AudioListenerLoop(surahToLoop, ayaToLoop, rep);
+                 OpenPlayerLoop();
+              }
+              //       carouselController.nextPage();
+              //       carouselController2.nextPage();
+              //       audiosList.clear();
+              //       FlagsAudio.clear();
+              //       await loadAudios(currentPage + 1);
+              //       clickedHighlightNum = 0;
+              //       if (loopFlag==true) {
+              //          OpenPlayerLoop();
+              //       }
+              //       else {OpenPlayer();}
+            }
+          });
+        }
+      });
+      return;
+    });
+  }
+
+  Future<void> loadAudiosLoop(page, rep) async {
+    int pageFrom = await getInt("surahFrom") as int;
+    int pageTo = await getInt("surahTo") as int;
+
+    var audddd = await Provider.of<AudioPlayer_Provider>(context, listen: false)
+        .getAudioPaths(page);
+
+    var flagsss =
+        await Provider.of<AudioPlayer_Provider>(context, listen: false)
+            .FlagsAudio;
+
+    List<Audio> loopPlaylist = [];
+    List<String> loopFlags = [];
+    List<int> loopIndices = [];
+
+//todo: check if this is the first page
+    if (page == pageFrom) {
+      print('THIS IS THE FIRST PAGE');
+// audddd =audddd.sublist(widget.loophighlight!);
+      print(audddd);
+    }
+
+// if (page==pageTo){
+//   print('THIS IS THE LAST PAGE');
+// audddd =audddd.sublist(0,widget.loophighlight!);
+// print(audddd);
+// }
+// print(audios2);
+    int temp = 0;
+
+    for (int i = 0; i < audddd.length; i++) {
+      for (int j = 0; j < rep; j++) {
+        // print(audddd[i]);
+        loopFlags.add('0');
+        loopPlaylist.add(audddd[i]);
+        loopIndices.add(temp);
+      }
+      temp = temp + 1;
+    }
+    print(FlagsAudio.length.toString() + " ==== " + FlagsAudio.toString());
+    print(loopIndices.length.toString() + " ==== " + loopIndices.toString());
+    print(loopPlaylist.length.toString() + " ==== " + loopPlaylist.toString());
+
+    setState(() {
+      clickedHighlightNum=0;
+      activeAya=0;
+      FlagsAudio = loopFlags;
+      prev = page;
+      LoopIndices = loopIndices;
+      audiosList = loopPlaylist;
+    });
+  }
+
+//==================================
 
   void OpenPlayer() async {
     setState(() {
@@ -737,19 +942,21 @@ print("orientation is $isLandscape");
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
     setState(() {
-
       FlagsAudio = flagsss;
       prev = page;
 
       audiosList = audddd;
     });
   }
-dynamic getInt(key) async {
+
+  dynamic getInt(key) async {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     int? _res = prefs.getInt("$key");
     print("SHARED PREF " + _res.toString());
-}
+    return _res;
+  }
+
   void AudioListener() {
 // if (assetsAudioPlayer.isPlaying== false){
 //   return;
@@ -780,7 +987,6 @@ dynamic getInt(key) async {
             FlagsAudio[playingAudio.index - 1].toString() == "0" &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
-          
             if (finished == true) {
               print("finished finsihed");
               carouselController.nextPage();
@@ -789,8 +995,10 @@ dynamic getInt(key) async {
               FlagsAudio.clear();
               await loadAudios(currentPage + 1);
               clickedHighlightNum = 0;
-              OpenPlayer();
-
+              
+     
+                OpenPlayer();
+              
             }
           });
         }

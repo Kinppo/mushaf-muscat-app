@@ -140,8 +140,6 @@ class _pageDetails2State extends State<pageDetails2> {
     textlist = Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
-    Size s = (context.findRenderObject() as RenderBox)?.size ?? Size.zero;
-    print("SIZE IS $s");
     textlist.then((value) {
       for (int i = 0; i < value.length; i++) {
         // print(value[value.length-1].text.toString());

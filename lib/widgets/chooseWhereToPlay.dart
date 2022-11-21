@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/surah.dart';
+import '../providers/ayatLines_provider.dart';
 import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 
@@ -54,7 +55,7 @@ final repititions = [
   '4',
   '5',
 ];
-String dropdownvalue = '1';
+String Loopdropdownvalue = '1';
 
 class _whereToPlayState extends State<whereToPlay> {
   @override
@@ -221,7 +222,7 @@ class _whereToPlayState extends State<whereToPlay> {
                     Text("التكرار للآية",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold)),
-                    getDropDown(repititions, "1"),
+                    getDropDown(repititions),
                   ],
                 ),
                 SizedBox(
@@ -233,13 +234,18 @@ class _whereToPlayState extends State<whereToPlay> {
                         //navigate to selected page
                         dynamic page =
                             await getInt("surahFrom").then((value) => value);
-                        // print("-------- "+ page.toString());
+                        
+                         dynamic ayafrom =
+                            await getInt("ayaFrom").then((value) => value);
+                              int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page, ayafrom as int);
+
+                        print("-------- "+ highlight.toString());
                         Navigator.of(context).popAndPushNamed(
                             QuranScreen.routeName,
                           arguments:{
       'v1': page as int,
       'v2': 1,
-      
+    'v3':highlight,
    });
                       },
                       child: Container(
@@ -314,6 +320,8 @@ class _whereToPlayState extends State<whereToPlay> {
             // saveSharedPref('surahTo', indexSelectedSurahTo);
           }
         });
+                  saveSharedPref("repNum", int.parse(Loopdropdownvalue));
+
         saveSharedPref(
             (tofrom == 0) ? 'surahFrom' : 'surahTo',
             await Provider.of<tilawaOptions>(context, listen: false)
@@ -322,9 +330,9 @@ class _whereToPlayState extends State<whereToPlay> {
     );
   }
 
-  DropdownButton getDropDown(List<String> items, String dropdownvalue) {
+  DropdownButton getDropDown(List<String> items) {
     return DropdownButton(
-      value: dropdownvalue,
+      value: Loopdropdownvalue,
       icon: const Icon(Icons.keyboard_arrow_down),
       items: items.map((String items) {
         return DropdownMenuItem(
@@ -334,8 +342,8 @@ class _whereToPlayState extends State<whereToPlay> {
       }).toList(),
       onChanged: (newValue) {
         setState(() {
-          dropdownvalue = newValue!;
-          saveSharedPref("repNum", int.parse(dropdownvalue));
+          Loopdropdownvalue = newValue!;
+          saveSharedPref("repNum", int.parse(Loopdropdownvalue));
         });
       },
     );
@@ -371,12 +379,16 @@ class _whereToPlayState extends State<whereToPlay> {
             numbersTo = ayaNumbersTo.sublist(
                 ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo.length);
           }
+
+
+          print("CHANGED DROPDOWN AYA TO $newValue");
         });
         int temp = await surahsData.getPageNumber(
             (tofrom == 0) ? SurahFrom : SurahTo,
             (tofrom == 0) ? AyaFrom : AyaTo);
 
         saveSharedPref((tofrom == 0) ? 'surahFrom' : 'surahTo', temp);
+        saveSharedPref((tofrom == 0) ? 'ayaFrom' : 'ayaTo',int.parse(newValue));
       },
     );
   }

@@ -13,6 +13,8 @@ class tilawaOptions with ChangeNotifier {
   List<List<String?>>AyaNum=[];
    List<String>AyasList=[];
    List<String>SurahsList=[];
+   var loadedjson2;
+   bool loaded=false;
 
   late int num_param;
 
@@ -79,6 +81,13 @@ return surahList;
 
  }
 
+ void loadJson() async{
+  if (loaded== false) {
+    loadedjson2=jsonDecode( await rootBundle.loadString('lib/data/json_files/allayapages.json'));
+loaded= true;}
+notifyListeners();
+ }
+
  List<String> getAyaList(int index) {
 // print("i am in provider");
   List<String> listNum=[];
@@ -89,34 +98,45 @@ return surahList;
  }
   
 Future<int> getPageNumber(String name,String aya ) async {
+  loadJson();
 
-String result='';
-for(int i=1; i<=604; i++){
-      String data = await rootBundle.loadString('lib/data/json_files/quran_lines/surahs_word_$i.json');
-      var jsonResult = jsonDecode(data);
+  var val = loadedjson2.firstWhere((item) => HelperFunctions.normalise(item['surah'])==HelperFunctions.normalise(name)  && item['aya']==aya, orElse: () => null);
+  // if val is null, then the if statement is executed
+  print("VAAALLLLL IS $val");
+  
+  
+  if ( null == val ) {
+    print('Aya not found');
+  }
+// var p = loadedjson2.firstWhere((item) {
+//   item['aya'
+//    });
 
-     jsonResult.forEach((data) {
-      if (HelperFunctions.normalise(data['SurahName'])  == HelperFunctions.normalise(name)) {
+// int result=1;
+// for(int i=1; i<=604; i++){
+//       String data = await rootBundle.loadString('lib/data/json_files/quran_lines/surahs_word_$i.json');
+//       var jsonResult = jsonDecode(data);
 
-        if (data['aya']== aya) {
-          result=data['page'];
-        }
-      }
-     });
-}
+//      jsonResult.forEach((data) {
+//       if (HelperFunctions.normalise(data['SurahName'])  == HelperFunctions.normalise(name) && data['aya'].toString()== aya.toString()) {
+//                   print("********* "+name + "======= " +data['SurahName'].toString());
 
-// var index;
-// dataList.forEach((element) {
+//         // if (data['aya'].toString()== aya.toString()) {
+//                   // print("********* "+aya + "======= " +data['aya'].toString());
+//               print("ssssssssss " + i.toString());
+//                     result= i;
+//           // result=int.parse(data['page']) ;
+//         // }
+//       }
+//      });
+// }
+//      print("RESULTSSSSS ARE : " +result.toString());
 
-//   element.forEach((data) {
-//   print(data['surahName']);
-//   });
 
-// });
+return int.parse(val['page']) ;
 
-     print("RESULTSSSSS ARE : " +result);
 
-return int.parse(result);
+
  }
 
   

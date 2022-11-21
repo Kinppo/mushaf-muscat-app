@@ -30,6 +30,7 @@ class _QuranScreenState extends State<QuranScreen> {
   bool showPlayer = true;
   int goToPage = 0;
   int loop =0;
+  int highlighNum=0;
 
   @override
   // void initState() {
@@ -76,6 +77,7 @@ final arg = ModalRoute.of(context)!.settings.arguments as Map;
 if (arg!=null){
   goToPage = arg['v1'] as int;
   loop= arg['v2'] as int;
+  highlighNum= arg['v3'] as int;
 print("ARGSSSS: " +arg.toString());
 
 }
@@ -145,7 +147,7 @@ print("ARGSSSS: " +arg.toString());
                               padding: EdgeInsets.only(top: 0),
                               // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
                               child: finalCarousel2(
-                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars),
+                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars, loophighlight:highlighNum),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()
