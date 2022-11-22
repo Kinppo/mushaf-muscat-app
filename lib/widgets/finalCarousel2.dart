@@ -770,6 +770,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
         widget.loophighlight.toString());
     print("page number of chosen aya is..... " + currentPage.toString());
     // print("NUMBER OF REPS ..... " + rep.toString());
+     int? ayaToHighlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(surahToLoop, ayaToLoop as int);
 
 // print(audiosList);
 
@@ -789,10 +790,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
       ayaFlag = true;
       loopFirstPage = true;
     });
-    AudioListenerLoop(surahToLoop, ayaToLoop, rep);
+    AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight);
   }
 
-  void AudioListenerLoop(surahToLoop, ayaToLoop, rep) {
+  void AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight) {
 // if (assetsAudioPlayer.isPlaying== false){
 //   return;
 // }
@@ -820,17 +821,22 @@ class _finalCarousel2 extends State<finalCarousel2> {
         //   print("THIS IS THE LAST LAST AYA");
         //   assetsAudioPlayer.pause();
         // }
-
+             if (playingAudio.index!=0 && (currentPage + 1) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
+             && ayaToHighlight!=LoopIndices[playingAudio.index]) {
+              
+            //todo: condition if surahTo = surahFrom
+print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
+assetsAudioPlayer.pause();
+clickedHighlightNum=LoopIndices[playingAudio.index-1];
+             }
+             
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
-
             //todo: condition if surahTo = surahFrom
             if (finished == true) {
-              if ((currentPage + 1) == surahToLoop) {
-                print("FINAL PAGE OF THE LOOOP");
-               }
+         
 
               if ((currentPage + 1) != surahToLoop) {
                 print("finished finsihed");
