@@ -773,7 +773,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
      int? ayaToHighlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(surahToLoop, ayaToLoop as int);
 
 // print(audiosList);
-
+ 
 // print(loopPlaylist);
     setState(() {
       assetsAudioPlayer.open(
@@ -821,12 +821,27 @@ class _finalCarousel2 extends State<finalCarousel2> {
         //   print("THIS IS THE LAST LAST AYA");
         //   assetsAudioPlayer.pause();
         // }
-             if (playingAudio.index!=0 && (currentPage + 1) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
+        print("condition 1: playing.index= " +playingAudio.index.toString());
+        print("condition 2: currentPage= " +(currentPage+1).toString()+ " == surahToLoop: " + surahToLoop.toString());
+        print("condition 3: ayaToHighlight= " +ayaToHighlight.toString()+" == LoopIndices[playingAudio.index-1]: " + LoopIndices[playingAudio.index-1].toString());
+        print("condition 4: ayaToHighlight= " +ayaToHighlight.toString()+" != LoopIndices[playingAudio.index]: " + LoopIndices[playingAudio.index].toString());
+
+             if (playingAudio.index!=0 && (currentPage) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
              && ayaToHighlight!=LoopIndices[playingAudio.index]) {
               
             //todo: condition if surahTo = surahFrom
 print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
 assetsAudioPlayer.pause();
+activeAya=LoopIndices[playingAudio.index] -1;
+
+             }
+              if (playingAudio.index!=0 && (currentPage+1) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
+             && ayaToHighlight!=LoopIndices[playingAudio.index]) {
+              
+            //todo: condition if surahTo = surahFrom
+print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
+assetsAudioPlayer.pause();
+activeAya=LoopIndices[playingAudio.index] -1;
 
              }
              
