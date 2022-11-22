@@ -827,7 +827,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
             //todo: condition if surahTo = surahFrom
 print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
 assetsAudioPlayer.pause();
-clickedHighlightNum=LoopIndices[playingAudio.index-1];
+
              }
              
         if (playingAudio.index != 0 &&

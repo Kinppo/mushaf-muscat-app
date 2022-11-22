@@ -99,7 +99,7 @@ notifyListeners();
   
 Future<int> getPageNumber(String name,String aya ) async {
   loadJson();
-
+//  
   var val = loadedjson2.firstWhere((item) => HelperFunctions.normalise(item['surah'])==HelperFunctions.normalise(name)  && item['aya']==aya, orElse: () => null);
   // if val is null, then the if statement is executed
   print("VAAALLLLL IS $val");
