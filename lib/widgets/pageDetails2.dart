@@ -24,7 +24,7 @@ class pageDetails2 extends StatefulWidget {
   bool firstFlag;
   int prev;
   bool closedBottomSheet;
-
+List<String> ayaNumsforThePage;
   // bool pageDetails_loadAudios;
 
 // Function togg;
@@ -40,6 +40,7 @@ class pageDetails2 extends StatefulWidget {
     required this.firstFlag,
     required this.prev,
     required this.closedBottomSheet,
+    required this.ayaNumsforThePage,
   }) : super(key: key);
 
   @override
@@ -78,6 +79,7 @@ class _pageDetails2State extends State<pageDetails2> {
   initState() {
     if (isLoaded == false) {
       loadTextandBookmarks(widget.currentpage);
+     
       // print("audio list for page $widget.id is $audioList");
       // print(audioList.toString());
 
@@ -108,11 +110,12 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   void loadTextandBookmarks(int page) {
+
     textlist =
         Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
   }
-
   didChangeDependencies() {
+
     final List<BookMark> bk =
         Provider.of<BookMarks>(context, listen: true).bookmarks;
 
@@ -205,6 +208,8 @@ class _pageDetails2State extends State<pageDetails2> {
     fulltext = fulltext!.replaceAll(')', ').');
 
     splittedList = fulltext!.split(".");
+
+    
     // splittedList = fulltext!.replaceAll('.', ')');
 
     // splittedList = (HelperFunctions.splitLinesintoList(fulltext!));
@@ -217,6 +222,8 @@ class _pageDetails2State extends State<pageDetails2> {
     bool tapped = false;
     for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
+      var intValue =  text.replaceAll(RegExp('[^0-9]'), '');
+
       final span = TextSpan(
           text: text,
           style: TextStyle(background: Paint()..color = Colors.transparent),
@@ -230,14 +237,19 @@ class _pageDetails2State extends State<pageDetails2> {
                 idx = arrayOfTextSpan
                     .indexWhere((element) => element.text == text);
                 print("highlighted line number  $idx");
-                var intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
-
+                //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
                 print("highlighted TEXT IS  " + intValue.toString());
                 widget.clickedHighlightNum = idx + 1;
                 widget.toggleClickedHighlight(
                     idx + 1, intValue.toString(), text);
               });
             });
+
+            if (index==0) {
+             widget.ayaNumsforThePage.clear();
+            }
+                            widget.ayaNumsforThePage.add(intValue);
+
       arrayOfTextSpan.add(span);
     }
     setState(() {

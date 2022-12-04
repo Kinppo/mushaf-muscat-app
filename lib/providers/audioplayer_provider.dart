@@ -15,6 +15,8 @@ class AudioPlayer_Provider with ChangeNotifier {
   List<String> audioPaths = [];
   List<Audio> audios = [];
   List<String> FlagsAudio = [];
+  List<String> StartFlagAudio = [];
+
   int ActiveAya = 0;
   bool callListener = false;
   List<Audio> audioList = [];
@@ -30,6 +32,7 @@ class AudioPlayer_Provider with ChangeNotifier {
 
   Future<List<Audio>> getAudioPaths(int currentPage) async {
     FlagsAudio.clear();
+    StartFlagAudio.clear();
     // audioList.clear();
     // if (checkifsent==true){
     //   aud.clear();
@@ -54,6 +57,8 @@ class AudioPlayer_Provider with ChangeNotifier {
     for (int index = 0; index < jsonAudioResult.length; index++) {
       paths.add(jsonAudioResult[index]['audio']);
       FlagsAudio.add(jsonAudioResult[index]['EndOfSurah']);
+      StartFlagAudio.add(jsonAudioResult[index]['StartOfSurah']);
+
     }
     // audioPaths = paths;
     paths.forEach((item) {

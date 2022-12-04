@@ -42,9 +42,6 @@ class ayatLines_provider with ChangeNotifier {
 
     ayat_lines = lines;
 
-
-
-
     notifyListeners();
 
     return ayat_lines;
@@ -58,57 +55,53 @@ class ayatLines_provider with ChangeNotifier {
     return [...ayat_lines];
   }
 
-
-Future<int?> getSplit (int chosenAya, List<AyatLines> ayats)async  {
-  int idx=0;
-  List<String> textl = [];
+  Future<int?> getSplit(int chosenAya, List<AyatLines> ayats) async {
+    int idx = 0;
+    List<String> textl = [];
     String fulltext;
-     List<String>  splittedList=[];
+    List<String> splittedList = [];
 
-   ayats.forEach((element) {
-    textl.add(element.text!);
-   });
-  fulltext = textl.join('\n\n');
-   fulltext = fulltext.replaceAll(')', ').');
-List <int> ayaNums=[];
+    ayats.forEach((element) {
+      textl.add(element.text!);
+    });
+    fulltext = textl.join('\n\n');
+    fulltext = fulltext.replaceAll(')', ').');
+    List<int> ayaNums = [];
     splittedList = fulltext.split(".");
     print(splittedList);
-     for (int index = 0; index < splittedList.length; index++) {
-     String t= splittedList[index] + "";
+    for (int index = 0; index < splittedList.length; index++) {
+      String t = splittedList[index] + "";
       var intValue = t.replaceAll(RegExp('[^0-9]'), '');
       print("VALUE IS $intValue and chosen is $chosenAya");
-      if (intValue ==chosenAya.toString()) {
+      if (intValue == chosenAya.toString()) {
         print("WE ARE IN $intValue");
-          idx=index;
+        idx = index;
       }
 // ayaNums.add(int.parse(intValue));
 //     //  int idx = splittedList
 //     //                 .indexWhere((element) => element.text == text);
 //     //  }
-}
+    }
 // // int idx= ayaNums.indexWhere((element) => element. == 2);
-      print("INTVALUE IS $idx");
-return idx;
+    print("INTVALUE IS $idx");
+    return idx;
 // print("INDEXXXXXXXX IS " +ayaNums.toString() );
-}
+  }
+
   Future<int?> getAya(int page, int chosenAya) async {
-    
-
-
     // print("CHOSEN AYA is $chosenAya");
     String data2 = await rootBundle
         .loadString('lib/data/json_files/quran_lines/surahs_word_$page.json');
- List<AyatLines> ayats=[];
+    List<AyatLines> ayats = [];
 
 //     bool first = false;
     var jsonResult2 = jsonDecode(data2);
     for (int index = 0; index < jsonResult2.length; index++) {
-      ayats.add(AyatLines( 
-         text: jsonResult2[index]['text'] ));
+      ayats.add(AyatLines(text: jsonResult2[index]['text']));
     }
 
-    int? ind= await getSplit(chosenAya, ayats);
-        return ind!= null ? ind : 0;
+    int? ind = await getSplit(chosenAya, ayats);
+    return ind != null ? ind : 0;
 
 // print("-------CHOSEN AYA----- $chosenAya");
 // print("-------CHOSEN PAGE---- $page");
@@ -122,6 +115,5 @@ return idx;
 //       }
 //     }
 //     return 0;
-
   }
 }

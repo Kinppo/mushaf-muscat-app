@@ -52,6 +52,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
   int prev = 0;
   //  int ayaFrom;
 // bools and flags
+  bool BasmalaFlag = false;
   bool cameFromMenu = false;
   bool _isInit = true;
   bool _isLoading = true;
@@ -78,14 +79,18 @@ class _finalCarousel2 extends State<finalCarousel2> {
   late final List<List<int>> _flagsForEndofSurah;
   late final List<List<String?>> _ayaNumbers;
   final assetsAudioPlayer = AssetsAudioPlayer();
-
+  
+  List<String> ayaNumsforThePage =[];
   List<Audio> audiosList = [];
   List<String> FlagsAudio = [];
+    List<String> StartFlagAudio= [];
+
   List<int> LoopIndices = [];
 
 // controllers
   CarouselController carouselController = new CarouselController();
   CarouselController carouselController2 = new CarouselController();
+  final assetsAudioPlayerBasmala = AssetsAudioPlayer();
 
 //new state management
 // bool pageDetails_loadAudios=false;
@@ -150,6 +155,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   toggleClickedHighlight(int clickedIdx, String ayaS, String ayaString) {
     setState(() async {
+      AyaStringNum = ayaS;
+
       print(ayaS);
       print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
       clickedHighlightNum = clickedIdx - 1;
@@ -161,11 +168,28 @@ class _finalCarousel2 extends State<finalCarousel2> {
       if (isPlaying == true) {
         if (prev != currentPage) {
           await loadAudios(currentPage);
-         
-            OpenPlayer();
-          
+
+          OpenPlayer();
         } else {
-          assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+
+          if (ayaS == '1') {
+            assetsAudioPlayer.pause();
+                      await playBasmala();
+            assetsAudioPlayerBasmala.current.listen((event) {
+              assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+                print("BASMALAAAA IS NULL $event2");
+                if (event2 == false) {
+                  setState(() {
+                    assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+                  });
+                }
+              });
+            });
+
+            // BasmalaFlag=true;
+          } else {
+            assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+          }
         }
         print("audio playing is $prev");
         print("currently in page $currentPage");
@@ -240,6 +264,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     carouselController2.nextPage();
     audiosList.clear();
     FlagsAudio.clear();
+    StartFlagAudio.clear();
     await loadAudios(currentPage + 1);
     clickedHighlightNum = 0;
     //                        if (loopFlag==true) {
@@ -277,9 +302,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   void loopFunction() async {
     //  var temp= await getInt('ayaFrom');
-        int rep = await getInt("repNum") as int;
+    int rep = await getInt("repNum") as int;
 
-          await loadAudiosLoop(currentPage + 1, rep);
+    await loadAudiosLoop(currentPage + 1, rep);
 
     setState(() {
       loopFlag = true;
@@ -361,6 +386,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) {
                     setState(() {
+                              // ayaNumsforThePage.clear();
+
                       print("we are in next page");
                       overallid = index;
                       currentPage = index + 1;
@@ -368,7 +395,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
                           widget.goToPage.toString());
+
                     });
+
                   }),
               items: listofObjects.map((i) {
                 int idx = listofObjects.indexOf(i);
@@ -429,6 +458,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                               firstFlag: firstFlag,
                               prev: prev,
                               closedBottomSheet: closedBottomSheet,
+                              ayaNumsforThePage:ayaNumsforThePage,
                             ),
                           );
                         }),
@@ -628,14 +658,33 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                         });
                                       } else if (firstFlag == false) {
                                         setState(() async {
-                                          await loadAudios(currentPage);
+                                          print(
+                                              "CURRENT UPDATED PAGE IS $currentPage");
+                                          if (cameFromMenu == true) {
+                                            await loadAudios(currentPage + 1);
+                                          } else {
+                                            await loadAudios(currentPage);
+                                          }
+
                                           print(audiosList);
                                           //                            if (loopFlag==true) {
                                           //  OpenPlayerLoop();
+
+                                          if (AyaStringNum == '1' &&
+                                                  (cameFromMenu == false &&
+                                                      currentPage != 1 &&
+                                                      currentPage != 187) ||
+                                              (cameFromMenu == true &&
+                                                  currentPage != 0 &&
+                                                  currentPage != 186)) {
+                                            BasmalaFlag = true;
+                                            await playBasmala();
+                                          }
+
+                                          // firstFlag = true;
+                                          showPauseIcon = true;
                                           OpenPlayer();
                                           // }
-                                          firstFlag = true;
-                                          showPauseIcon = true;
                                         });
                                       }
                                       print("CLICKED PLAY");
@@ -664,12 +713,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                       carouselController2.previousPage();
                                       audiosList.clear();
                                       FlagsAudio.clear();
+                                      StartFlagAudio.clear();
                                       await loadAudios(currentPage - 1);
                                       clickedHighlightNum =
                                           FlagsAudio.length - 1;
-                                     
-                                        OpenPlayer();
-                                      
+
+                                      OpenPlayer();
                                     } else {
                                       assetsAudioPlayer.previous();
                                     }
@@ -757,6 +806,28 @@ class _finalCarousel2 extends State<finalCarousel2> {
     );
   }
 
+  Future<void> playBasmala() async {
+// print("PLAYING BASMALAAAAA");
+
+    await assetsAudioPlayerBasmala.open(
+        Playlist(audios: [
+          Audio.network(
+              "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+        ], startIndex: 0),
+        loopMode: LoopMode.none);
+
+    //   assetsAudioPlayerBasmala.open(
+    //     Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3"),
+
+    // );
+
+// assetsAudioPlayer.dispose();
+
+// final bool playing = assetsAudioPlayer.isPlaying.value;
+    //mp3 unreachable
+    print("fffff");
+  }
+
 //=========================LOOP====================
   void OpenPlayerLoop() async {
     int rep = await getInt("repNum") as int;
@@ -770,10 +841,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
         widget.loophighlight.toString());
     print("page number of chosen aya is..... " + currentPage.toString());
     // print("NUMBER OF REPS ..... " + rep.toString());
-     int? ayaToHighlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(surahToLoop, ayaToLoop as int);
+    int? ayaToHighlight =
+        await Provider.of<ayatLines_provider>(context, listen: false)
+            .getAya(surahToLoop, ayaToLoop as int);
 
 // print(audiosList);
- 
+
 // print(loopPlaylist);
     setState(() {
       assetsAudioPlayer.open(
@@ -785,12 +858,18 @@ class _finalCarousel2 extends State<finalCarousel2> {
           loopMode: LoopMode.none);
       // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
       print(LoopIndices.toString());
-      clickedHighlightNum = (loopFirstPage == false) ? widget.loophighlight!  : 0;
+      clickedHighlightNum =
+          (loopFirstPage == false) ? widget.loophighlight! : 0;
       activeAya = clickedHighlightNum;
       ayaFlag = true;
       loopFirstPage = true;
     });
+// print("nums + " + ayaNumsforThePage.length.toString());
+// print("aaaa + "+ audiosList.length.toString());
+
+    // if (ayaNumsforThePage.length==audiosList.length){
     AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight);
+    // }
   }
 
   void AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight) {
@@ -800,7 +879,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     assetsAudioPlayer.current.listen((playingAudio) {
       final asset = playingAudio!.audio;
 
-      setState(() {
+      setState(()  {
         if (asset != null) {
           isPlaying = true;
         }
@@ -821,55 +900,133 @@ class _finalCarousel2 extends State<finalCarousel2> {
         //   print("THIS IS THE LAST LAST AYA");
         //   assetsAudioPlayer.pause();
         // }
-        print("condition 1: playing.index= " +playingAudio.index.toString());
-        print("condition 2: currentPage= " +(currentPage+1).toString()+ " == surahToLoop: " + surahToLoop.toString());
-        print("condition 3: ayaToHighlight= " +ayaToHighlight.toString()+" == LoopIndices[playingAudio.index-1]: " + LoopIndices[playingAudio.index-1].toString());
-        print("condition 4: ayaToHighlight= " +ayaToHighlight.toString()+" != LoopIndices[playingAudio.index]: " + LoopIndices[playingAudio.index].toString());
 
-             if (playingAudio.index!=0 && (currentPage) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
-             && ayaToHighlight!=LoopIndices[playingAudio.index]) {
+        // if (FlagsAudio)
+
+
+
+        
+        // print("condition 1: playing.index= " + playingAudio.index.toString());
+        // print("condition 2: currentPage= " +
+        //     (currentPage + 1).toString() +
+        //     " == surahToLoop: " +
+        //     surahToLoop.toString());
+        // print("condition 3: ayaToHighlight= " +
+        //     ayaToHighlight.toString() +
+        //     " == LoopIndices[playingAudio.index-1]: " +
+        //     LoopIndices[playingAudio.index - 1].toString());
+        // print("condition 4: ayaToHighlight= " +
+        //     ayaToHighlight.toString() +
+        //     " != LoopIndices[playingAudio.index]: " +
+        //     LoopIndices[playingAudio.index].toString());
+
+//  if (playingAudio.index != 0 &&
+//             FlagsAudio.length > 0 &&
+//             FlagsAudio[playingAudio.index+1] == '1') {
+//           print("THIS IS THE LAST LAST AYA");
+//           assetsAudioPlayer.pause();
+//         }
+//finally works but need to add condition
+
+//todo: add condition to check beginning of surah.
+      //  print(">>>>>>>>> "+ayaNumsforThePage.toString());
+
+// if (ayaNumsforThePage[playingAudio.index] ) {
+
+//   print(playingAudio.index.toString() + " ---- a");
+//  print(ayaNumsforThePage[1].toString() + " ---- b");
+// // }
+
+// if (ayaNumsforThePage[playingAudio.index].toString() =="1") {
+//   print("THIS IS THE FIRST AYA");
+// }
+// print("-tttttt=== "+ StartFlagAudio.toString());
+if(StartFlagAudio[playingAudio.index]=="1"){
+  // assetsAudioPlayer.playlistAudioFinished.listen((event) {
+  //   if (event.) {
+
+         assetsAudioPlayer.pause();
+
+//          assetsAudioPlayerBasmala.open(
+//         Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+// );
+  assetsAudioPlayerBasmala.open(
+        Playlist(audios: [
+          Audio.network(
+              "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+        ], startIndex: 0),
+        loopMode: LoopMode.none);
+
+        assetsAudioPlayerBasmala.playlistFinished.listen((event) {
+          if (event==true) {
+         assetsAudioPlayer.play();
+
+          }
+        });
+
+// assetsAudioPlayerBasmala.current.listen((event) { 
+//   var asset= event!.audio;
+//               assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+//                 print("BASMALAAAA IS NULL $event2");
+//                 if (event2 == true) {
+//                 }});});
+
+
+        print("TIHS IS THE FIRST AYA");
+    }
+  // });
+            //           await playBasmala();
+            // assetsAudioPlayerBasmala.current.listen((event) {
+            //   assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+            //     print("BASMALAAAA IS NULL $event2");
+            //     if (event2 == false) {
+                
+            //         assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
               
-            //todo: condition if surahTo = surahFrom
-print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
-assetsAudioPlayer.pause();
-activeAya=LoopIndices[playingAudio.index] -1;
+//  } });});
+                // }
 
-             }
-              if (playingAudio.index!=0 && (currentPage+1) == surahToLoop  && ayaToHighlight==LoopIndices[playingAudio.index-1]
-             && ayaToHighlight!=LoopIndices[playingAudio.index]) {
-              
-            //todo: condition if surahTo = surahFrom
-print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
-assetsAudioPlayer.pause();
-activeAya=LoopIndices[playingAudio.index] -1;
+        if (playingAudio.index != 0 &&
+            (currentPage) == surahToLoop &&
+            ayaToHighlight == LoopIndices[playingAudio.index - 1] &&
+            ayaToHighlight != LoopIndices[playingAudio.index]) {
+          //todo: condition if surahTo = surahFrom
+          print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
+          assetsAudioPlayer.pause();
+          activeAya = LoopIndices[playingAudio.index] - 1;
+        }
+        if (playingAudio.index != 0 &&
+            (currentPage + 1) == surahToLoop &&
+            ayaToHighlight == LoopIndices[playingAudio.index - 1] &&
+            ayaToHighlight != LoopIndices[playingAudio.index]) {
+          //todo: condition if surahTo = surahFrom
+          print("^^^^^^^PLAYER SHOUDL STOP NOWWWWW^^^^^^^");
+          assetsAudioPlayer.pause();
+          activeAya = LoopIndices[playingAudio.index] - 1;
+        }
 
-             }
-             
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
             //todo: condition if surahTo = surahFrom
             if (finished == true) {
-         
-
               if ((currentPage + 1) != surahToLoop) {
                 print("finished finsihed");
-                 carouselController.nextPage();
+                carouselController.nextPage();
                 //  carouselController2.nextPage();
                 LoopIndices.clear();
 
                 audiosList.clear();
                 FlagsAudio.clear();
-  
-clickedHighlightNum=0;
-                await loadAudiosLoop(currentPage+2,rep);
-                print( "NEXT PAGEEEEE " + audiosList.toString());
+                StartFlagAudio.clear();
 
-    
-     
-    // AudioListenerLoop(surahToLoop, ayaToLoop, rep);
-                 OpenPlayerLoop();
+                clickedHighlightNum = 0;
+                await loadAudiosLoop(currentPage + 2, rep);
+                print("NEXT PAGEEEEE " + audiosList.toString());
+
+                // AudioListenerLoop(surahToLoop, ayaToLoop, rep);
+                OpenPlayerLoop();
               }
               //       carouselController.nextPage();
               //       carouselController2.nextPage();
@@ -899,9 +1056,14 @@ clickedHighlightNum=0;
     var flagsss =
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
+    // _ayaNumbers = surahsData.loadAyaNum();
+ var startflags =
+        await Provider.of<AudioPlayer_Provider>(context, listen: false).StartFlagAudio;
 
     List<Audio> loopPlaylist = [];
     List<String> loopFlags = [];
+        List<String> loopStartFlags = [];
+
     List<int> loopIndices = [];
 
 //todo: check if this is the first page
@@ -922,7 +1084,9 @@ clickedHighlightNum=0;
     for (int i = 0; i < audddd.length; i++) {
       for (int j = 0; j < rep; j++) {
         // print(audddd[i]);
-        loopFlags.add('0');
+        loopFlags.add(flagsss[i]);
+        loopStartFlags.add(startflags[i]);
+
         loopPlaylist.add(audddd[i]);
         loopIndices.add(temp);
       }
@@ -933,26 +1097,61 @@ clickedHighlightNum=0;
     print(loopPlaylist.length.toString() + " ==== " + loopPlaylist.toString());
 
     setState(() {
-      clickedHighlightNum=0;
-      activeAya=0;
+      clickedHighlightNum = 0;
+      activeAya = 0;
       FlagsAudio = loopFlags;
+      StartFlagAudio=loopStartFlags;
       prev = page;
       LoopIndices = loopIndices;
       audiosList = loopPlaylist;
     });
+
   }
 
 //==================================
 
   void OpenPlayer() async {
-    setState(() {
-      assetsAudioPlayer.open(
-          Playlist(audios: audiosList, startIndex: clickedHighlightNum),
-          loopMode: LoopMode.none);
-      activeAya = clickedHighlightNum;
-      ayaFlag = true;
-    });
-    AudioListener();
+// if (AyaStringNum=='1' ) {
+//   setState(() {
+//     returning=false;
+//   });
+    // await  playBasmala();
+// }
+    print("AYAAAAAA STRING NUMBERRRRRRR: " + AyaStringNum.toString());
+
+    // if (AyaStringNum == '1' &&
+    //         (cameFromMenu == false && currentPage != 1 && currentPage != 187) ||
+    //     (cameFromMenu == true && currentPage != 0 && currentPage != 186)) {
+    if (BasmalaFlag == true) {
+      assetsAudioPlayerBasmala.current.listen((event) {
+        assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+          print("BASMALAAAA IS NULL $event2");
+          if (event2 == false) {
+            setState(() {
+              assetsAudioPlayer.open(
+                  Playlist(audios: audiosList, startIndex: clickedHighlightNum),
+                  loopMode: LoopMode.none);
+              activeAya = clickedHighlightNum;
+              ayaFlag = true;
+              BasmalaFlag = false;
+            });
+            AudioListener();
+          }
+        });
+      });
+    } else {
+      setState(() {
+        assetsAudioPlayer.open(
+            Playlist(audios: audiosList, startIndex: clickedHighlightNum),
+            loopMode: LoopMode.none);
+        activeAya = clickedHighlightNum;
+        ayaFlag = true;
+      });
+      AudioListener();
+    }
+//  if (assetsAudioPlayerBasmala.isPlaying ==true) {
+//   print("BASMALAAAA IS NULL");
+//  }
   }
 
   Future<void> loadAudios(page) async {
@@ -962,8 +1161,12 @@ clickedHighlightNum=0;
     var flagsss =
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
+            var startflags =
+        await Provider.of<AudioPlayer_Provider>(context, listen: false).StartFlagAudio;
+
     setState(() {
       FlagsAudio = flagsss;
+      StartFlagAudio=startflags;
       prev = page;
 
       audiosList = audddd;
@@ -998,14 +1201,17 @@ clickedHighlightNum=0;
         print("flag is $FlagsAudio");
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
-            FlagsAudio[playingAudio.index - 1] == '1') {
+            FlagsAudio[playingAudio.index-1 ] == '1') {
           print("THIS IS THE LAST LAST AYA");
+//     assetsAudioPlayer.playlistAudioFinished.listen((Playing playing){
+// print(">>>>>>>>>>>>>>>> " + playing.toString());
+// });
           assetsAudioPlayer.pause();
         }
 
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
-            FlagsAudio[playingAudio.index - 1].toString() == "0" &&
+            FlagsAudio[playingAudio.index ].toString() == "0" &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
             if (finished == true) {
@@ -1016,10 +1222,8 @@ clickedHighlightNum=0;
               FlagsAudio.clear();
               await loadAudios(currentPage + 1);
               clickedHighlightNum = 0;
-              
-     
-                OpenPlayer();
-              
+
+              OpenPlayer();
             }
           });
         }
