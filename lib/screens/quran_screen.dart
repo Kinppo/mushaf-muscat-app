@@ -13,6 +13,8 @@ import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
 import '../widgets/finalCarousel2.dart';
+import '../widgets/TafsirCarousel.dart';
+
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -161,10 +163,11 @@ print("ARGSSSS: " +arg.toString());
                             color: Theme.of(context).backgroundColor,
                             width: double.infinity,
                             child: SingleChildScrollView(
-                              child:                     
-                              Text(AppLocalizations.of(context)!
-                                  .translate('tafsir_text')
-                                  .toString()),
+                              child:          TafsirCarousel(                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars, loophighlight:highlighNum),
+   
+                              // Text(AppLocalizations.of(context)!
+                              //     .translate('tafsir_text')
+                              //     .toString()),
                             ),
                           )
 
