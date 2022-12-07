@@ -361,20 +361,94 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                 ? EdgeInsets.only(top: 100)
                                 : EdgeInsets.only(top: 0),
                             margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            child: pageDetails2(
-                              id: idx + 1,
-                              indexhighlight: activeAya,
-                              currentpage: idx + 1,
-                              ayaFlag: ayaFlag,
-                              toggleClickedHighlight: toggleClickedHighlight,
-                              clickedHighlightNum: clickedHighlightNum - 1,
-                              // clickedHighlightNum: 1,
-
-                              firstFlag: firstFlag,
-                              prev: prev,
-                              closedBottomSheet: closedBottomSheet,
-                              ayaNumsforThePage: ayaNumsforThePage,
+                            child: ListView.builder(
+                padding: const EdgeInsets.only(top: 2),
+                itemCount: 7,
+                itemBuilder: (ctx, i) {
+                  return Column(
+                   children:[ 
+                    
+          //           Container(
+          //   alignment: Alignment.topRight,
+          //   padding: const EdgeInsets.fromLTRB(15, 15, 21, 15),
+          //   child: Text(
+          //     "الجزء ",
+          //     style: Theme.of(context).textTheme.headline1?.copyWith(
+          //         color: CustomColors.black200,
+          //         fontWeight: FontWeight.w500,
+          //         fontSize: 23),
+          //   ),
+          // ),
+           Container(
+                      margin: const EdgeInsets.only(top: 30),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 22, vertical: 33),
+                      decoration: BoxDecoration(
+                          color: CustomColors.yellow150,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        children: [
+                          Text(
+                            "aya",
+                            // _ayah.ayah,
+                              style: TextStyle(
+                                  fontFamily: 'ScheherazadeNew',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 24,
+                                  color: CustomColors.black200)),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Align(
+                            child: Text(
+                              "surah",
+                              // _ayah.surah,
+                              style: TextStyle(
+                                  fontFamily: 'OmanTypeface',
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w600,
+                                  color: CustomColors.brown400),
                             ),
+                            alignment: Alignment.topRight,
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Align(
+                            child: Text(
+                              "tafsir",
+                              // _ayah.content,
+                              style: TextStyle(
+                                  fontFamily: 'OmanTypeface',
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w400,
+                                  color: CustomColors.brown100),
+                            ),
+                            alignment: Alignment.topRight,
+                          ),
+                          ])),
+                      const Divider(
+                        height: 20,
+                      ),
+                    ],
+                  );
+                },
+              ),
+                            
+                            // pageDetails2(
+                            //   id: idx + 1,
+                            //   indexhighlight: activeAya,
+                            //   currentpage: idx + 1,
+                            //   ayaFlag: ayaFlag,
+                            //   toggleClickedHighlight: toggleClickedHighlight,
+                            //   clickedHighlightNum: clickedHighlightNum - 1,
+                            //   // clickedHighlightNum: 1,
+
+                            //   firstFlag: firstFlag,
+                            //   prev: prev,
+                            //   closedBottomSheet: closedBottomSheet,
+                            //   ayaNumsforThePage: ayaNumsforThePage,
+                            
                           );
                         }),
                       ]),
