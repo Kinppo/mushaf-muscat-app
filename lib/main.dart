@@ -25,6 +25,7 @@ import './screens/quran_screen.dart';
 import 'dart:async';
 
 import 'models/book_mark.dart';
+import 'providers/tafsir_provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,6 +50,9 @@ class MyApp extends StatelessWidget {
   ) {
     return MultiProvider(
       providers: [
+         ChangeNotifierProvider(
+          create: (ctx) => TafsirProvider(),
+        ),
         ChangeNotifierProvider(
           create: (ctx) => dailyAyaProvider(),
         ),

@@ -12,13 +12,14 @@ class TafsirProvider with ChangeNotifier {
   List <String?> carouselJSON =[];
  List<List<int>>  flagsForEndofSurah =[];
   List<List<String?>>AyaNum=[];
-  String user_query;
   late int num_param;
+  List <String?> ayats =[];
+    List <String?> tafsirs =[];
 
-  TafsirProvider({required this.user_query});
+
 
   Future<void> fetchSurahs() async {
-    String data = await rootBundle.loadString('lib/data/json_files/surah.json');
+    String data = await rootBundle.loadString('lib/data/json_files/tafsir_files/tafsir1.json');
 
     //String convertedData = convertToArabicNumbers(data);
 // String convertedData = HelperFunctions.convertToArabicNumbers(data);
@@ -36,19 +37,22 @@ class TafsirProvider with ChangeNotifier {
     final List<Surah> loadedSurahs = [];
     // print("reached here");
 
-    jsonResult['data'].forEach((data) =>
+    jsonResult.forEach((data) {
             //convert data to product objects
+            // print(data)
+          ayats.add(data['text']);
+           tafsirs.add(data['tafsir']);
 
-            //  print(data['name'])
-            loadedSurahs.add(Surah(
-              surahNum: data['number'],
-              surahPageNum: data['first_page_num'],
-              surahTitle: HelperFunctions.normalise(data['name']),
-              surahType: data['revelationType'],
-              numOfAyas: data['numberOfAyahs'],
-            ))
+            // //  print(data['name'])
+            // loadedSurahs.add(Surah(
+            //   surahNum: data['number'],
+            //   surahPageNum: data['first_page_num'],
+            //   surahTitle: HelperFunctions.normalise(data['name']),
+            //   surahType: data['revelationType'],
+            //   numOfAyas: data['numberOfAyahs'],
+            
         // );
-
+    }
         );
 
     _surahs = loadedSurahs;

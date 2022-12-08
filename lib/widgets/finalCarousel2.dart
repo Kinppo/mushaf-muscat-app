@@ -29,12 +29,17 @@ class finalCarousel2 extends StatefulWidget {
   int? loop;
   Function toggleBars;
   int? loophighlight;
+  int? GlobalCurrentPage;
+  Function changeGlobal;
+  
   finalCarousel2({
     Key? key,
     required this.goToPage,
     this.loop,
     required this.toggleBars,
-    this.loophighlight,
+    this.loophighlight, required int GlobalCurrentPage,
+        required this.changeGlobal,
+
   }) : super(key: key);
 
   @override
@@ -106,6 +111,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
+                        // widget.changeGlobal(currentPage);
+
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -116,8 +123,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
       //  highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(await getInt("ayaFrom"));
 
       setState(() {
-        loadSurahs();
 
+        
+        loadSurahs();
+   if (widget.goToPage != null && widget.goToPage != 0) {
+    widget.changeGlobal(currentPage);
+   }
         //   if ( widget.loophighlight!= null){
 
         //   print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
@@ -391,6 +402,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
                       print("we are in next page");
                       overallid = index;
                       currentPage = index + 1;
+                        widget.changeGlobal(currentPage);
+
                       surahName = _surahNames[index]!;
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
@@ -773,7 +786,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                           setState(() {
                             if (cameFromMenu == true) {
                               surahName =
-                                  surahName[(widget.goToPage as int) - 1]!;
+                                  _surahNames[(widget.goToPage as int) - 1]!;
                             }
                             print("========PRESSED");
 

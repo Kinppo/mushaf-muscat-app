@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-
 import 'package:mushafmuscat/widgets/appbar.dart';
 
 import '../localization/app_localizations.dart';
@@ -15,7 +14,6 @@ import '../widgets/appbar.dart';
 import '../widgets/finalCarousel2.dart';
 import '../widgets/TafsirCarousel.dart';
 
-
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
 
@@ -26,27 +24,31 @@ class QuranScreen extends StatefulWidget {
 class _QuranScreenState extends State<QuranScreen> {
   bool showAppBar = true;
   bool showNavBar = true;
-  int segmentedControlValue = 0;
+  late int segmentedControlValue;
   bool orientationPotrait = true;
   bool toggleSearch = false;
   bool showPlayer = true;
   int goToPage = 0;
-  int loop =0;
-  int highlighNum=0;
+  int loop = 0;
+  int highlighNum = 0;
+  late int GlobalCurrentPage;
 
   @override
-  // void initState() {
-
-  //     // _detailListBloc = DetailListBloc(widget.apiUrl);
-
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  void initState() {
+    print("133333333333333333333");
+    // _detailListBloc = DetailListBloc(widget.apiUrl);
+    setState(() {
+      segmentedControlValue = 0;
+      GlobalCurrentPage=1;
+    });
+    // TODO: implement initState
+    super.initState();
+  }
 
   void controlSegment(segment) {
     setState(() {
       segmentedControlValue = segment;
-      //print("segmentedControlValue $segmentedControlValue");
+      print("segmentedControlValue $segmentedControlValue");
     });
   }
 
@@ -67,7 +69,10 @@ class _QuranScreenState extends State<QuranScreen> {
 
   @override
   Widget build(BuildContext context) {
-            var isLandscape=  MediaQuery.of(context).orientation == Orientation.landscape;
+
+print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
+    var isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
 
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
@@ -75,14 +80,13 @@ class _QuranScreenState extends State<QuranScreen> {
     // loop = ModalRoute.of(context)!.settings.arguments[1];
 //  List<dynamic> args = [goToPage, 0];
 // args=  ModalRoute.of(context)!.settings.arguments as List<dynamic>;
-final arg = ModalRoute.of(context)!.settings.arguments as Map;
-if (arg!=null){
-  goToPage = arg['v1'] as int;
-  loop= arg['v2'] as int;
-  highlighNum= arg['v3'] as int;
-print("ARGSSSS: " +arg.toString());
-
-}
+    final arg = ModalRoute.of(context)!.settings.arguments as Map;
+    if (arg != null) {
+      goToPage = arg['v1'] as int;
+      loop = arg['v2'] as int;
+      highlighNum = arg['v3'] as int;
+      print("ARGSSSS: " + arg.toString());
+    }
 //  goToPage = arg['v1'] as int;
 // int randomVar2 = arg['v2'];
 // print("argsssssss1: "+ randomVar1.toString());
@@ -102,6 +106,12 @@ print("ARGSSSS: " +arg.toString());
 // loop=args[1] as int;
 // }R
 //   });
+
+void changeGlobal(int currpage){
+setState(() {
+  GlobalCurrentPage=currpage;
+});
+}
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false, // set it to false
@@ -111,8 +121,9 @@ print("ARGSSSS: " +arg.toString());
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
               toggleSearch: controlSearch,
-              h:(isLandscape==false) ? 147 : 200,
-    )
+              h: (isLandscape == false) ? 147 : 200,
+              segmentToggle: segmentedControlValue,
+            )
           : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
@@ -149,7 +160,12 @@ print("ARGSSSS: " +arg.toString());
                               padding: EdgeInsets.only(top: 0),
                               // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
                               child: finalCarousel2(
-                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars, loophighlight:highlighNum),
+                                  goToPage: (goToPage!=0 &&GlobalCurrentPage==1)? goToPage :GlobalCurrentPage,
+                                  loop: loop,
+                                  toggleBars: toggleBars,
+                                  loophighlight: highlighNum,
+                                  GlobalCurrentPage: GlobalCurrentPage,
+                                  changeGlobal:changeGlobal),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()
@@ -163,8 +179,14 @@ print("ARGSSSS: " +arg.toString());
                             color: Theme.of(context).backgroundColor,
                             width: double.infinity,
                             child: SingleChildScrollView(
-                              child:          TafsirCarousel(                                  goToPage: goToPage, loop:loop , toggleBars: toggleBars, loophighlight:highlighNum),
-   
+                              child: TafsirCarousel(
+                                goToPage: GlobalCurrentPage,
+                                loop: loop,
+                                toggleBars: toggleBars,
+                                loophighlight: highlighNum,
+                                GlobalCurrentPage: GlobalCurrentPage,
+                                 changeGlobal:changeGlobal,
+                              ),
                               // Text(AppLocalizations.of(context)!
                               //     .translate('tafsir_text')
                               //     .toString()),

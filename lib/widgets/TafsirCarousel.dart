@@ -9,6 +9,7 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mushafmuscat/providers/ayatLines_provider.dart';
+import 'package:mushafmuscat/providers/tafsir_provider.dart';
 
 import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
 import 'package:mushafmuscat/widgets/pageDetails2.dart';
@@ -29,12 +30,14 @@ class TafsirCarousel extends StatefulWidget {
   int? loop;
   Function toggleBars;
   int? loophighlight;
+  int? GlobalCurrentPage;
+Function changeGlobal;
   TafsirCarousel({
     Key? key,
     required this.goToPage,
     this.loop,
     required this.toggleBars,
-    this.loophighlight,
+    this.loophighlight, required this.GlobalCurrentPage, required this.changeGlobal,
   }) : super(key: key);
 
   @override
@@ -78,7 +81,8 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   late final List<String?> _surahNames;
   late final List<List<int>> _flagsForEndofSurah;
   late final List<List<String?>> _ayaNumbers;
-
+  List<String?> ayaStrings = [];
+  List<String?> ayaTafsirs = [];
   List<String> ayaNumsforThePage = [];
   List<Audio> audiosList = [];
   List<String> FlagsAudio = [];
@@ -120,7 +124,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
         //   print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
         //         clickedHighlightNum= widget.loophighlight! as int;
-
         //   }
         //   else {
         // clickedHighlightNum=highlight;}
@@ -134,118 +137,32 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     super.initState();
   }
 
-  void loadSurahs() {
+  Future<void> loadSurahs() async {
+
+    final tafsirData =
+        await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs();
+    ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
+    ayaTafsirs = Provider.of<TafsirProvider>(context, listen: false).tafsirs;
+
+    print(ayaStrings);
+    print(ayaTafsirs);
+
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     _surahNames = surahsData.loadSurahs();
     _flagsForEndofSurah = surahsData.loadFlags();
     _ayaNumbers = surahsData.loadAyaNum();
   }
 
-  morePlayOptions() {
-    setState(() {
-      moreplay = true;
-    });
-
-    print("more play is $moreplay");
-  }
-
 // void updateHighligh
-
-  toggleClickedHighlight(int clickedIdx, String ayaS, String ayaString) {
-    setState(() async {
-      AyaStringNum = ayaS;
-
-      print(ayaS);
-      print("CLICKED HIGHLIGHT NUM IS $clickedIdx");
-      clickedHighlightNum = clickedIdx - 1;
-
-      if (firstFlag == true) {
-        clickHighlightWhilePlaying = true;
-      }
-
-    
-        print("audio playing is $prev");
-        print("currently in page $currentPage");
-      
-    }
-    );
-    // getAudioPaths();
-  }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
   }
 
-  void handleActiveAya(int updatedAya) {
-    setState(() {
-      activeAya = updatedAya;
-    });
-
-    print("ACTIVEEEE IS $activeAya");
-  }
-
-  handlePlayButton() async {
-    carouselController.nextPage();
-    carouselController2.nextPage();
-    audiosList.clear();
-    FlagsAudio.clear();
-    StartFlagAudio.clear();
-    clickedHighlightNum = 0;
-   
-  }
-
-  void handleAyaFlag() {
-    setState(() {
-      if (ayaFlag == false) {
-        ayaFlag = true;
-      }
-    });
-  }
-
-  void togglePlayer() {
-    setState(() {
-      if (firstFlag == true &&
-          clickHighlightWhilePlaying == true &&
-          ShowAudioPlayer == true) {
-        if (showPauseIcon == false) {
-          showPauseIcon = !showPauseIcon;
-        }
-      } else {
-        widget.toggleBars();
-        ShowAudioPlayer = true;
-      }
-    });
-
-    print("TOGGLED TO $ShowAudioPlayer");
-  }
-
-  void loopFunction() async {
-    //  var temp= await getInt('ayaFrom');
-    int rep = await getInt("repNum") as int;
-
-    setState(() {
-      loopFlag = true;
-      ShowAudioPlayer = true;
-// clickedHighlightNum= 2;
-      // handlePlayButton();
-
-      print(audiosList);
-    });
-  }
-
-// findWhichHighlight () async{
-//   //chosen aya number from the dropdown is not the same as the highlight number
-//   //so we need to find it
-//  int highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(currentPage, await getInt("ayaFrom"));
-
-// setState(() {
-//   clickedHighlightNum=highlight;
-// });
-
-// }
   @override
   Widget build(BuildContext context) {
+    print("RRRRRRRRRRRR PAGE IS "+widget.GlobalCurrentPage.toString());
     if (widget.loop == 1 && loopFlag == false) {
       // if ( widget.loophighlight!= null){
       //   setState(() {
@@ -255,7 +172,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
       //   });
       // }
       // findWhichHighlight();
-      loopFunction();
     }
 
     // getInt("surahFrom");
@@ -265,8 +181,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     // print(_surahNames);
     // print(_ayaNumbers);
 
-    final Audioplayer_Provider =
-        Provider.of<AudioPlayer_Provider>(context, listen: false);
 
     List<int> listindex = new List<int>.generate(604, (i) => i + 1);
     List<AyatLines> listofObjects = [];
@@ -276,24 +190,27 @@ class _TafsirCarousel extends State<TafsirCarousel> {
           pageNumber: i,
         )));
     return Container(
-      color: Colors.white,
+      color: CustomColors.yellow100,
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
-        physics: (isLandscape == false)
-            ? NeverScrollableScrollPhysics()
-            : AlwaysScrollableScrollPhysics(),
+        physics: 
+             AlwaysScrollableScrollPhysics(),
         child: Column(children: [
           Container(
             width: MediaQuery.of(context).size.width,
             padding: (isLandscape == false)
                 ? EdgeInsets.fromLTRB(0, 155, 0, 0)
                 : EdgeInsets.fromLTRB(10, 155, 10, 50),
-            color: Colors.white,
+            color: CustomColors.yellow100,
             child: CarouselSlider(
               options: CarouselOptions(
 
                   // height: MediaQuery.of(context).size.height,
-                  height: (isLandscape == false) ? 672 : 1400,
+                  height: (isLandscape == false && ShowOnlyPageNum == false)
+                      ? 672
+                      : (isLandscape == false && ShowOnlyPageNum == true)
+                          ? 800
+                          : 1400,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -309,6 +226,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                       overallid = index;
                       currentPage = index + 1;
                       surahName = _surahNames[index]!;
+                      widget.changeGlobal(currentPage);
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
                           widget.goToPage.toString());
@@ -325,132 +243,76 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
-                        // IgnorePointer(
-                        //   child:(idx==0) ? Image.asset(  'assets/quran_images/img_1.jpg',   height:300,
-                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) :
-                        //                   Image.asset(  'assets/quran_images/img_3.jpg',   height:900,
-                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    )
-
-                        //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
-                        //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
-                        //                   //                        )
-
-                        //         ),
-
-                        //             ): )
-                        //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
-                        //     // height:200,
-                        //             fit: BoxFit.fitWidth,
-                        //                                     width: MediaQuery.of(context).size.width,
-                        //             ):
-                        //                  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' :
-                        //                'assets/quran_images/img_3.jpg',
-                        //     height:300,
-                        //             fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                        //       ),
-                        // //   //  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
-                        // //   // height:300,
-                        // //     //       fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                        // //     // ),
-                        // // ),
-                        Consumer<AudioPlayer_Provider>(builder:
-                            (BuildContext context, value, Widget? child) {
-                          return Container(
-                            width: MediaQuery.of(context).size.width,
-                            padding: (idx == 0 || idx == 1)
-                                ? EdgeInsets.only(top: 100)
-                                : EdgeInsets.only(top: 0),
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        // IgnorePointer()
+                     
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                          margin: EdgeInsets.all(2),
+                          child: Expanded(
                             child: ListView.builder(
-                padding: const EdgeInsets.only(top: 2),
-                itemCount: 7,
-                itemBuilder: (ctx, i) {
-                  return Column(
-                   children:[ 
-                    
-          //           Container(
-          //   alignment: Alignment.topRight,
-          //   padding: const EdgeInsets.fromLTRB(15, 15, 21, 15),
-          //   child: Text(
-          //     "الجزء ",
-          //     style: Theme.of(context).textTheme.headline1?.copyWith(
-          //         color: CustomColors.black200,
-          //         fontWeight: FontWeight.w500,
-          //         fontSize: 23),
-          //   ),
-          // ),
-           Container(
-                      margin: const EdgeInsets.only(top: 30),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 22, vertical: 33),
-                      decoration: BoxDecoration(
-                          color: CustomColors.yellow150,
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Column(
-                        children: [
-                          Text(
-                            "aya",
-                            // _ayah.ayah,
-                              style: TextStyle(
-                                  fontFamily: 'ScheherazadeNew',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 24,
-                                  color: CustomColors.black200)),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Align(
-                            child: Text(
-                              "surah",
-                              // _ayah.surah,
-                              style: TextStyle(
-                                  fontFamily: 'OmanTypeface',
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w600,
-                                  color: CustomColors.brown400),
-                            ),
-                            alignment: Alignment.topRight,
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Align(
-                            child: Text(
-                              "tafsir",
-                              // _ayah.content,
-                              style: TextStyle(
-                                  fontFamily: 'OmanTypeface',
-                                  fontSize: 19,
-                                  fontWeight: FontWeight.w400,
-                                  color: CustomColors.brown100),
-                            ),
-                            alignment: Alignment.topRight,
-                          ),
-                          ])),
-                      const Divider(
-                        height: 20,
-                      ),
-                    ],
-                  );
-                },
-              ),
-                            
-                            // pageDetails2(
-                            //   id: idx + 1,
-                            //   indexhighlight: activeAya,
-                            //   currentpage: idx + 1,
-                            //   ayaFlag: ayaFlag,
-                            //   toggleClickedHighlight: toggleClickedHighlight,
-                            //   clickedHighlightNum: clickedHighlightNum - 1,
-                            //   // clickedHighlightNum: 1,
+                                        // shrinkWrap: true,
 
-                            //   firstFlag: firstFlag,
-                            //   prev: prev,
-                            //   closedBottomSheet: closedBottomSheet,
-                            //   ayaNumsforThePage: ayaNumsforThePage,
-                            
-                          );
-                        }),
+                              padding: const EdgeInsets.fromLTRB(0,2,0,0),
+                              itemCount: ayaStrings.length,
+                              itemBuilder: (ctx, i) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                        margin:                           EdgeInsets.only(top: 17),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 22, vertical: 33),
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Column(children: [
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                            child: Text(ayaStrings[i].toString(),
+                                                textAlign: TextAlign.right,
+                                                // _ayah.ayah,
+                                                style: TextStyle(
+                                                    fontFamily: 'ScheherazadeNew',
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 22,
+                                                    color:
+                                                        CustomColors.black200)),
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Divider(
+                                              color: CustomColors.yellow200,
+                                              thickness: 1.3,
+                                              endIndent: 18),
+                                          Align(
+                                            alignment: Alignment.topRight,
+                                          ),
+                                          const SizedBox(
+                                            height: 5,
+                                          ),
+                                          Align(
+                                            child: Text(
+                                              ayaTafsirs[i].toString(),
+                                              // _ayah.content,
+                                              style: TextStyle(
+                                                  fontFamily: 'IBMPlexSansArabic',
+                                                  fontSize: 19,
+                                                  // fontWeight: FontWeight.w400,
+                                                  color: CustomColors.brown100),
+                                            ),
+                                            alignment: Alignment.topRight,
+                                          ),
+                                        ])),
+                          
+                                        (i==ayaStrings.length-1) ? Container(padding: EdgeInsets.only(bottom: 60), color: CustomColors.yellow100, height:(ShowOnlyPageNum==false)? 30 : 100) :Container(),
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        )
                       ]),
                     );
                   },
@@ -462,7 +324,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
           //====================PAGE INDICATOR=====================
 
-          (ShowAudioPlayer != true && ShowOnlyPageNum == false)
+          (ShowOnlyPageNum == false)
               ? GestureDetector(
                   onTap: () {
                     setState(() {
@@ -563,38 +425,23 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                 )
 
               //===================PAGE NUMBER====================
-              : Padding(
+              : Container(
+                  // color: CustomColors.yellow100,
+                  // color: Colors.red,
+
                   padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
                         if (cameFromMenu == true) {
-                          surahName = surahName[(widget.goToPage as int) - 1]!;
+                          print(surahName);
+                          surahName = _surahNames[(widget.goToPage as int)-1]!;
                         }
                         print("========PRESSED");
 
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       });
                     },
-                    child: Container(
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(7),
-                            shape: BoxShape.rectangle,
-                            border: Border.all(
-                              color: CustomColors.yellow200,
-                              width: 1,
-                            ),
-                            color: Colors.white),
-                        height: 30,
-                        width: 40,
-                        child: Text(
-                          HelperFunctions.convertToArabicNumbers(
-                                  (overallid + 1).toString())
-                              .toString(),
-                          style: TextStyle(
-                              color: CustomColors.grey200, fontSize: 18),
-                          textAlign: TextAlign.center,
-                        )),
                   ),
                 ),
         ]),

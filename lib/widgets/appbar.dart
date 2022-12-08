@@ -15,12 +15,14 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
   bool orientationPotrait;
   Function toggleSearch;
   double h;
+  int segmentToggle;
   appBar({
     Key? key,
     required this.segmentedControlValue,
     required this.orientationPotrait,
     required this.toggleSearch,
     required this.h,
+    required this.segmentToggle,
     // this variable is not used yet
   }) : super(key: key);
   @override
@@ -33,7 +35,7 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _appBarState extends State<appBar> {
-  int segmentToggle = 0;
+  // int segmentToggle = 0;
   bool searchToggle = false;
 
   // search controller
@@ -95,7 +97,7 @@ class _appBarState extends State<appBar> {
                           ),
                           child: Container(
                             child: CupertinoSlidingSegmentedControl(
-                                groupValue: segmentToggle,
+                                groupValue: widget.segmentToggle,
                                 backgroundColor: Theme.of(context).shadowColor,
                                 children: <int, Widget>{
                                   0: Text(
@@ -127,9 +129,9 @@ class _appBarState extends State<appBar> {
                                 },
                                 onValueChanged: (value) {
                                   setState(() {
-                                    segmentToggle = value as int;
-                                    print("app bar $segmentToggle");
-                                    widget.segmentedControlValue(segmentToggle);
+                                    widget.segmentToggle = value as int;
+                                    print("app bar $widget.segmentToggle");
+                                    widget.segmentedControlValue(widget.segmentToggle);
                                   });
                                 }),
                           ),
