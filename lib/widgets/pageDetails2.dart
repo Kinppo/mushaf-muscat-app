@@ -291,7 +291,8 @@ class _pageDetails2State extends State<pageDetails2> {
 
   Container? Page1_and2Container() {
     return Container(
-      padding: EdgeInsets.fromLTRB(0, 70, 22, 0),
+      margin: EdgeInsets.fromLTRB(65, 0, 65, 0),
+      padding: EdgeInsets.fromLTRB(0, 126, 0, 0),
       child: Expanded(
         child: RichText(
           textDirection: TextDirection.rtl,
@@ -300,11 +301,11 @@ class _pageDetails2State extends State<pageDetails2> {
             style: const TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: 17,
+              fontSize: 12,
               color: Colors.brown,
-              wordSpacing: 2,
-              letterSpacing: 1,
-              height: 1.3,
+              wordSpacing: 1,
+              letterSpacing: 0.6,
+              height: 1.6,
             ),
             children: createTextSpans(),
           ),
