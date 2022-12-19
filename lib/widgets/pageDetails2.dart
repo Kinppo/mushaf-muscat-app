@@ -58,6 +58,8 @@ class _pageDetails2State extends State<pageDetails2> {
   int idx = 0;
   bool clickedListen = false;
 
+  int textsize = 0;
+
 //new vars
   List<String> audioPaths = [];
   List<Audio> audioList = [];
@@ -133,7 +135,7 @@ class _pageDetails2State extends State<pageDetails2> {
     super.didChangeDependencies();
   }
 
-  List<TextSpan> createTextSpans() {
+ List<TextSpan> createTextSpans()   {
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
@@ -145,6 +147,8 @@ class _pageDetails2State extends State<pageDetails2> {
     List<String> textl = [];
     textlist.then((value) {
       for (int i = 0; i < value.length; i++) {
+            print("TEXT LENGTH: "+ value[i].text!.length.toString());
+
         // print(value[value.length-1].text.toString());
         if (value[i].endOfSurah == '1' && i != value.length - 1) {
           textl.add(value[i].text! + '\n\n\n\n');
@@ -152,25 +156,44 @@ class _pageDetails2State extends State<pageDetails2> {
 // else {
 // print(value[i].text.length);
 
-// bool containsChars = value[i].text.contains('ۖ ')  || (value[i].text.contains('ۚ ')) || value[i].text.contains('۞')|| (value[i].text.contains(' ۛ'));
+bool containsChars = value[i].text.contains('ۖ ')  || 
+(value[i].text.contains('ۚ ')) || value[i].text.contains('۞')|| 
+(value[i].text.contains(' ۛ')
 
-// if(value[i].text.length<85 && !containsChars) {
+);
 
-// if () {
-// print("CONTAINSSSS");
+if(value[i].text.length<60 && !containsChars) {
+
+print("CONTAINSSSS");
 // // int diff= 75 - value[i].text.length as int;
-// var list = new List<String>.generate(8, (i) => ',');
-// String added=list.join('');
-// textl.add(value[i].text!+added);
-// }
+var list = new List<String>.generate(12, (i) => '!');
+String added=list.join('');
+textl.add(value[i].text!+added);
+}
 
-// else  {
-// int diff= 85 - value[i].text.length as int;
-// var list = new List<String>.generate(diff, (i) => ',');
-// String added=list.join('');
-// textl.add(value[i].text!+added);
-// }
-// }
+else if (value[i].text.length>89 && containsChars){
+String sub=  value[i].text.substring(0, value[i].text.length - 10);
+print("SUB: $sub");
+textl.add(sub);
+}
+else if (value[i].text.length>70){
+String sub=  value[i].text.substring(0, value[i].text.length - 10);
+print("SUB: $sub");
+textl.add(sub);
+}
+else  {
+int diff= 80 - value[i].text.length as int;
+if (diff >0) {
+var list = new List<String>.generate(5, (i) => ',');
+String added=list.join(''); 
+textl.add(value[i].text!+added);}
+
+else {
+  textl.add(value[i].text!);
+
+}
+
+}
 //  textl.add(value[i].text!+"----------");
 //  }
 // else if(value[i].text.length<78) {
@@ -181,8 +204,8 @@ class _pageDetails2State extends State<pageDetails2> {
 //  textl.add(value[i].text!+"---");
 //  }
 
-        else
-          textl.add(value[i].text!);
+        // else
+        //   textl.add(value[i].text!);
 
 // }
 // }
@@ -220,13 +243,18 @@ class _pageDetails2State extends State<pageDetails2> {
     // final string = """Text seems like it should be so simple, but it really isn't.""";
     // final arrayStrings = string.split(" ");
     bool tapped = false;
-    for (int index = 0; index < arrayStrings.length; index++) {
+
+    // arrayOfTextSpan= await AddAyas(arrayStrings);
+ for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
       var intValue =  text.replaceAll(RegExp('[^0-9]'), '');
-
+      
+    // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
-          style: TextStyle(background: Paint()..color = Colors.transparent),
+          style: TextStyle(
+            // wordSpacing:text.length/90,
+             background: Paint()..color = Colors.transparent),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -252,9 +280,13 @@ class _pageDetails2State extends State<pageDetails2> {
 
       arrayOfTextSpan.add(span);
     }
+    
+    
     setState(() {
       print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
-      if (highlightFlag == true) {
+            print("HIGHLIGHT ERRORRRRR $idx and length is :"+arrayOfTextSpan.length.toString());
+
+      if (highlightFlag == true && arrayOfTextSpan.length==arrayStrings.length) {
         arrayOfTextSpan[idx].style?.background!.color =
             Colors.brown.withOpacity(0.25);
         arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
@@ -286,6 +318,50 @@ class _pageDetails2State extends State<pageDetails2> {
       }
     });
 
+    return arrayOfTextSpan as List<TextSpan>;
+  }
+
+
+
+
+  Future<List<TextSpan> > AddAyas( arrayStrings) async {
+List<TextSpan>  arrayOfTextSpan=[];
+    for (int index = 0; index < arrayStrings.length; index++) {
+      final text = arrayStrings[index] + "";
+      var intValue =  text.replaceAll(RegExp('[^0-9]'), '');
+      
+    // print("TEXT LENGTH: "+ text.length.toString());
+      final span = TextSpan(
+          text: text,
+          style: TextStyle(
+            // wordSpacing:text.length/90,
+             background: Paint()..color = Colors.transparent),
+          recognizer: TapGestureRecognizer()
+            ..onTap = () {
+              setState(() {
+                // widget.highlightedAyaText= text;
+                // print("The word touched is " + widget.highlightedAyaText.toString());
+
+                highlightFlag = true;
+                idx = arrayOfTextSpan
+                    .indexWhere((element) => element.text == text);
+                print("highlighted line number  $idx");
+                //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
+                print("highlighted TEXT IS  " + intValue.toString());
+                widget.clickedHighlightNum = idx + 1;
+                widget.toggleClickedHighlight(
+                    idx + 1, intValue.toString(), text);
+              });
+            });
+
+            if (index==0) {
+             widget.ayaNumsforThePage.clear();
+            }
+                            widget.ayaNumsforThePage.add(intValue);
+
+      arrayOfTextSpan.add(span);
+    }
+    
     return arrayOfTextSpan;
   }
 
@@ -316,22 +392,23 @@ class _pageDetails2State extends State<pageDetails2> {
 
   Container? AllOtherPagesContainer() {
     return Container(
-        padding: EdgeInsets.fromLTRB(0, 55, 6, 0),
+      margin:EdgeInsets.fromLTRB(0, 5, 6, 0),
+        padding: EdgeInsets.fromLTRB(0, 44, 6, 0),
         child: Expanded(
             child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.start,
+          textAlign: TextAlign.right,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
             style: const TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: 13,
-              color: Colors.brown,
-              wordSpacing: 2.2,
-              letterSpacing: 1.1,
-              height: 1.4,
+              fontSize: 10,
+              color: Colors.red,
+              wordSpacing:2.9,
+              letterSpacing: 1.5,
+              height: 1.8,
 
               // height: 1.68,
             ),

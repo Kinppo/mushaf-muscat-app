@@ -45,7 +45,7 @@ Function changeGlobal;
 }
 
 class _TafsirCarousel extends State<TafsirCarousel> {
-// integers
+  // integers
   int overallid = 0;
   int currentPage = 1;
   int activeAya = -1;
@@ -100,7 +100,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   @override
   void initState() {
     print("building......");
-
+   final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
     if (widget.goToPage != null && widget.goToPage != 0) {
       overallid = (widget.goToPage as int) - 1;
       currentPage = (widget.goToPage as int) - 1;
@@ -108,26 +108,17 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
+            _surahNames = tafsirProv.loadSurahs();
+
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      
       await loadSurahs;
-// var temp;
-// int highlight=0;
-      // var temp = await getInt('ayaFrom');
-      //  highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(await getInt("ayaFrom"));
 
       setState(() {
         loadSurahs();
 
-        //   if ( widget.loophighlight!= null){
-
-        //   print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
-        //         clickedHighlightNum= widget.loophighlight! as int;
-        //   }
-        //   else {
-        // clickedHighlightNum=highlight;}
-        // ayaFrom= temp;
       });
     });
 
@@ -137,21 +128,23 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     super.initState();
   }
 
+
   Future<void> loadSurahs() async {
 
-    final tafsirData =
-        await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs();
-    ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
+ var tafsirData =
+        await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs(widget.GlobalCurrentPage!);
+    
+
+setState(() {
+  ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
     ayaTafsirs = Provider.of<TafsirProvider>(context, listen: false).tafsirs;
 
     print(ayaStrings);
     print(ayaTafsirs);
 
-    final surahsData = Provider.of<SurahProvider>(context, listen: false);
-    _surahNames = surahsData.loadSurahs();
-    _flagsForEndofSurah = surahsData.loadFlags();
-    _ayaNumbers = surahsData.loadAyaNum();
-  }
+ 
+    // _ayaNumbers = surahsData.loadAyaNum();});
+  });}
 
 // void updateHighligh
 
@@ -218,10 +211,15 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                   //if infinite scroll is false, then initial page has to be -1 not 0
                   // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
                   scrollDirection: Axis.horizontal,
-                  onPageChanged: (index, reason) {
+                  onPageChanged: (index, reason) async {
+                    await loadSurahs();
+ await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs(widget.GlobalCurrentPage!);
+    
+
                     setState(() {
                       // ayaNumsforThePage.clear();
-
+                      ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
+    ayaTafsirs = Provider.of<TafsirProvider>(context, listen: false).tafsirs;
                       print("we are in next page");
                       overallid = index;
                       currentPage = index + 1;
@@ -434,7 +432,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                     onTap: () {
                       setState(() {
                         if (cameFromMenu == true) {
-                          print(surahName);
+                          // print(surahName);
                           surahName = _surahNames[(widget.goToPage as int)-1]!;
                         }
                         print("========PRESSED");
@@ -456,4 +454,5 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     print("SHARED PREF " + _res.toString());
     return _res;
   }
-}
+
+  }

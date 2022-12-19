@@ -380,14 +380,14 @@ class _finalCarousel2 extends State<finalCarousel2> {
           Container(
             width: MediaQuery.of(context).size.width,
             padding: (isLandscape == false)
-                ? EdgeInsets.fromLTRB(0, 155, 0, 0)
-                : EdgeInsets.fromLTRB(10, 155, 10, 50),
+                ? EdgeInsets.fromLTRB(0, 130, 0, 0)
+                : EdgeInsets.fromLTRB(10, 130, 10, 50),
             color: Colors.white,
             child: CarouselSlider(
               options: CarouselOptions(
 
                   // height: MediaQuery.of(context).size.height,
-                  height: (isLandscape == false) ? 672 : 1400,
+                  height: (isLandscape == false) ? 615 : 1400,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -423,17 +423,17 @@ class _finalCarousel2 extends State<finalCarousel2> {
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
-                        IgnorePointer(
-                          child:(idx==0 || idx==1 ) ? Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:300,
-                                          fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) :
-                                          Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:900,
-                                          fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    )
+                        // IgnorePointer(
+                        //   child:(idx==0 || idx==1 ) ? Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:300,
+                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) :
+                        //                   Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:900,
+                        //                   fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    )
 
-                        //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
-                        //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
-                        //                   //                        )
+                        // //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
+                        // //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
+                        // //                   //                        )
 
-                                ),
+                        //         ),
 
                         //             ): )
                         //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',

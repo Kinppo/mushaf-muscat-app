@@ -51,6 +51,9 @@ class _appBarState extends State<appBar> {
 
     return (searchToggle == false)
         ? AppBar(
+               automaticallyImplyLeading:
+                false, // this will hide Drawer hamburger icon
+                  actions: <Widget>[Container()], 
             bottom: PreferredSize(
                 child: Container(
                   color: CustomColors.yellow200,
@@ -177,6 +180,8 @@ class _appBarState extends State<appBar> {
           elevation: 0,
             automaticallyImplyLeading:
                 false, // this will hide Drawer hamburger icon
+                  actions: <Widget>[Container()],   // this will hide endDrawer hamburger icon
+
             bottom: PreferredSize(
                 child: Container(
                   color: CustomColors.yellow200,
