@@ -6,6 +6,20 @@ import 'package:mushafmuscat/models/surah.dart';
 
 import '../utils/helperFunctions.dart';
 
+class TafsirLines {
+  String? text;
+  String? ayaNumber;
+  String? pageNumber;
+  String? tafsir;
+
+  TafsirLines({
+    this.text,
+    this.ayaNumber,
+    this.pageNumber,
+    this.tafsir,
+  });
+}
+
 class TafsirProvider with ChangeNotifier {
     List <String?> surahs =[];
 
@@ -13,37 +27,71 @@ class TafsirProvider with ChangeNotifier {
     List <String?> tafsirs =[];
   List <String?> carouselJSON =[];
 
+  List<TafsirLines>tafsir_lines = [];
+
+  int pageNumber = 0;
+
+  Future<List<TafsirLines>> getLines(pageNum) async {
+// print(pageNum);
 
 
-  Future<void> fetchSurahs(int page) async {
- ayats =[];
-     tafsirs =[];
-    String data = await rootBundle.loadString('lib/data/json_files/tafsir_files/surahs_tafsir_$page.json');
+    final List<TafsirLines> lines = [];
+
+    String data = await rootBundle.loadString(
+        'lib/data/json_files/tafsir_files/surahs_tafsir_$pageNum.json');
+
+    // .loadString('lib/data/json_files/Ayat_pages/$pageNum.json');
 
     var jsonResult = jsonDecode(data);
-
-    //print (jsonResult['data']);
-
-    if (jsonResult == null) {
-      print("result is null");
-      return;
+    for (int index = 0; index < jsonResult.length; index++) {
+      lines.add(TafsirLines(
+        text: jsonResult[index]['text'],
+        ayaNumber: jsonResult[index]['aya'],
+        pageNumber: jsonResult[index]['page'],
+        tafsir: jsonResult[index]['tafsir'],
+      ));
     }
 
-    final List<Surah> loadedSurahs = [];
-    // print("reached here");
+    tafsir_lines = lines;
 
-    jsonResult.forEach((data) {
-            //convert data to product objects
-            // print(data)
-          ayats.add(data['text']);
-           tafsirs.add(data['tafsir']);
+    notifyListeners();
 
-    }
-        );
+    return tafsir_lines;
+  }
+
+ 
+//   Future<void> fetchSurahs(int page) async {
+//  ayats.clear();
+//      tafsirs.clear();
+//     String data = await rootBundle.loadString('lib/data/json_files/tafsir_files/surahs_tafsir_$page.json');
+
+//     var jsonResult = jsonDecode(data);
+// print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+// print(jsonResult);
+// print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
+
+//     if (jsonResult == null) {
+//       print("result is null");
+//       return;
+//     }
+
+//     final List<Surah> loadedSurahs = [];
+
+//     jsonResult.forEach((data) {
+//           ayats.add(data['text']);
+//            tafsirs.add(data['tafsir']);
+
+//     }
+//         );
+
+
+//         // print(ayats);
+//         //         print(tafsirs);
+
 
     
-    notifyListeners();
-  }
+//     notifyListeners();
+//   }
 
   void fetchSurahsforCarousel() async {
     
@@ -55,22 +103,7 @@ class TafsirProvider with ChangeNotifier {
     for (int index = 0; index < jsonResult.length; index++) {
       carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
     }
-//   for (int i = 1; i <= jsonResult.length; i++) {
-//       List<int> tempList = [];
-//        List<String?> tempList2 = [];
-//       String flgs = await rootBundle
-//           .loadString('lib/data/json_files/quran_lines/surahs_word_$i.json');
 
-//       var jsonResult2 = jsonDecode(flgs);
-
-//       for (int index = 0; index < jsonResult2.length; index++) {
-// tempList2.add(HelperFunctions.convertToArabicNumbers(jsonResult2[index]['aya']));
-
-//       }
-      
-//       tempList2 = [];
-
-    // }
  }
 
  List<String?>loadSurahs()  {

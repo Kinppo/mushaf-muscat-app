@@ -86,7 +86,7 @@ class _AyahScreenState extends State<AyahScreen> {
                               aya.Surah,
                               // _ayah.surah,
                               style: TextStyle(
-                                  fontFamily: 'OmanTypeface',
+                                  fontFamily: 'IBMPlexSansArabic',
                                   fontSize: 19,
                                   fontWeight: FontWeight.w600,
                                   color: CustomColors.brown400),
@@ -101,7 +101,7 @@ class _AyahScreenState extends State<AyahScreen> {
                                aya.Tafsir,
                               // _ayah.content,
                               style: TextStyle(
-                                  fontFamily: 'OmanTypeface',
+                                  fontFamily: 'IBMPlexSansArabic',
                                   fontSize: 19,
                                   fontWeight: FontWeight.w400,
                                   color: CustomColors.brown100),

@@ -147,7 +147,7 @@ class _pageDetails2State extends State<pageDetails2> {
     List<String> textl = [];
     textlist.then((value) {
       for (int i = 0; i < value.length; i++) {
-            print("TEXT LENGTH: "+ value[i].text!.length.toString());
+            // print("TEXT LENGTH: "+ value[i].text!.length.toString());
 
         // print(value[value.length-1].text.toString());
         if (value[i].endOfSurah == '1' && i != value.length - 1) {
@@ -164,7 +164,7 @@ bool containsChars = value[i].text.contains('ۖ ')  ||
 
 if(value[i].text.length<60 && !containsChars) {
 
-print("CONTAINSSSS");
+// print("CONTAINSSSS");
 // // int diff= 75 - value[i].text.length as int;
 var list = new List<String>.generate(12, (i) => '!');
 String added=list.join('');
@@ -173,12 +173,12 @@ textl.add(value[i].text!+added);
 
 else if (value[i].text.length>89 && containsChars){
 String sub=  value[i].text.substring(0, value[i].text.length - 10);
-print("SUB: $sub");
+// print("SUB: $sub");
 textl.add(sub);
 }
 else if (value[i].text.length>70){
 String sub=  value[i].text.substring(0, value[i].text.length - 10);
-print("SUB: $sub");
+// print("SUB: $sub");
 textl.add(sub);
 }
 else  {

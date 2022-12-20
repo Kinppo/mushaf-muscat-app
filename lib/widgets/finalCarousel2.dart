@@ -19,6 +19,7 @@ import '../models/AyatLines.dart';
 import '../models/surah.dart';
 import '../providers/audioplayer_provider.dart';
 import '../providers/surah_provider.dart';
+import '../providers/tafsir_provider.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 import 'pageDetails2.dart';
@@ -127,7 +128,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
         
         loadSurahs();
    if (widget.goToPage != null && widget.goToPage != 0) {
-    widget.changeGlobal(currentPage);
+    widget.changeGlobal(currentPage+1);
    }
         //   if ( widget.loophighlight!= null){
 
@@ -328,27 +329,11 @@ class _finalCarousel2 extends State<finalCarousel2> {
     });
   }
 
-// findWhichHighlight () async{
-//   //chosen aya number from the dropdown is not the same as the highlight number
-//   //so we need to find it
-//  int highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(currentPage, await getInt("ayaFrom"));
 
-// setState(() {
-//   clickedHighlightNum=highlight;
-// });
-
-// }
   @override
   Widget build(BuildContext context) {
-    if (widget.loop == 1 && loopFlag == false) {
-      // if ( widget.loophighlight!= null){
-      //   setState(() {
-      //     print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
-      //           clickedHighlightNum= widget.loophighlight!;
 
-      //   });
-      // }
-      // findWhichHighlight();
+    if (widget.loop == 1 && loopFlag == false) {
       loopFunction();
     }
 
@@ -526,7 +511,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
                             height: 34.0,
                             viewportFraction: 0.16,
                             reverse: false,
-                            initialPage: (cameFromMenu == true)
+                            initialPage: 
+                            (cameFromMenu == true)
                                 ? widget.goToPage - 1
                                 : 0,
                             scrollDirection: Axis.horizontal,

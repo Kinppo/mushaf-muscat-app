@@ -1,29 +1,13 @@
-import 'dart:convert';
-
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/src/foundation/key.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/tafsir_provider.dart';
 
-import 'package:mushafmuscat/widgets/aya_clicked_bottom_sheet.dart';
-import 'package:mushafmuscat/widgets/pageDetails2.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/bookMarks_provider.dart';
 import '../models/AyatLines.dart';
-import '../models/surah.dart';
-import '../providers/audioplayer_provider.dart';
-import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
-import 'pageDetails2.dart';
-import '../widgets/chooseWhereToPlay.dart';
 
 class TafsirCarousel extends StatefulWidget {
   int goToPage;
@@ -31,13 +15,15 @@ class TafsirCarousel extends StatefulWidget {
   Function toggleBars;
   int? loophighlight;
   int? GlobalCurrentPage;
-Function changeGlobal;
+  Function changeGlobal;
   TafsirCarousel({
     Key? key,
     required this.goToPage,
     this.loop,
     required this.toggleBars,
-    this.loophighlight, required this.GlobalCurrentPage, required this.changeGlobal,
+    this.loophighlight,
+    required this.GlobalCurrentPage,
+    required this.changeGlobal,
   }) : super(key: key);
 
   @override
@@ -45,6 +31,7 @@ Function changeGlobal;
 }
 
 class _TafsirCarousel extends State<TafsirCarousel> {
+  var textlist;
   // integers
   int overallid = 0;
   int currentPage = 1;
@@ -62,18 +49,10 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   late bool ShowAudioPlayer;
   late bool ShowOnlyPageNum;
   bool ayaFlag = false;
-  bool showPauseIcon = false;
   bool firstFlag = false;
-  bool clickHighlightWhilePlaying = false;
   bool moveNextPage = false;
-  late final bookMarkProvider;
-  late final audioProvider;
-  bool isPlaying = false;
   bool closedBottomSheet = false;
-  bool seekRight = false;
-  bool moreplay = false;
   bool loopFlag = false;
-  bool loopFirstPage = false;
 // strings
   String surahName = 'الفاتحة';
   int navigatedFromBK = 0;
@@ -84,11 +63,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   List<String?> ayaStrings = [];
   List<String?> ayaTafsirs = [];
   List<String> ayaNumsforThePage = [];
-  List<Audio> audiosList = [];
-  List<String> FlagsAudio = [];
-  List<String> StartFlagAudio = [];
 
-  List<int> LoopIndices = [];
 
 // controllers
   CarouselController carouselController = new CarouselController();
@@ -99,8 +74,8 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
   @override
   void initState() {
-    print("building......");
-   final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
+    print("building......" + widget.GlobalCurrentPage.toString());
+    final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
     if (widget.goToPage != null && widget.goToPage != 0) {
       overallid = (widget.goToPage as int) - 1;
       currentPage = (widget.goToPage as int) - 1;
@@ -108,45 +83,54 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
-            _surahNames = tafsirProv.loadSurahs();
 
+        _surahNames = tafsirProv.loadSurahs();
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      
-      await loadSurahs;
+      //initialize first tafsir page
+          if (widget.goToPage != null && widget.goToPage != 0) {
+    widget.changeGlobal(currentPage);
 
-      setState(() {
-        loadSurahs();
+          await loadTafisrs(widget.GlobalCurrentPage!);
 
-      });
+   }
+   else {
+              await loadTafisrs(1);
+
+   }
+         print("%%%%%%NAVIGATED FROM BK: $navigatedFromBK");
+        print("%%%%%GLOBALLLL: " +widget.GlobalCurrentPage!.toString());
+
+    
     });
 
-    ShowAudioPlayer = false;
+    
+
+   
     ShowOnlyPageNum = true;
 
     super.initState();
   }
 
+  Future<void> loadTafisrs(int page) async {
+    final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
 
-  Future<void> loadSurahs() async {
+     textlist = await tafsirProv.getLines(page);
+      // print(textlist);
+      setState(() {
+ayaStrings.clear();
+ayaTafsirs.clear();
+        for (int i = 0; i < textlist.length; i++) {
+          ayaStrings.add(textlist[i].text);
+          ayaTafsirs.add(textlist[i].tafsir);
+        }
 
- var tafsirData =
-        await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs(widget.GlobalCurrentPage!);
-    
+        print("vvvvvvvvvvvvvvvv $ayaStrings");
+        print("vvvvvvvvvvvvvvvv $ayaTafsirs");
+      });
 
-setState(() {
-  ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
-    ayaTafsirs = Provider.of<TafsirProvider>(context, listen: false).tafsirs;
-
-    print(ayaStrings);
-    print(ayaTafsirs);
-
- 
-    // _ayaNumbers = surahsData.loadAyaNum();});
-  });}
-
-// void updateHighligh
+  }
 
   @override
   void didChangeDependencies() {
@@ -155,25 +139,11 @@ setState(() {
 
   @override
   Widget build(BuildContext context) {
-    print("RRRRRRRRRRRR PAGE IS "+widget.GlobalCurrentPage.toString());
-    if (widget.loop == 1 && loopFlag == false) {
-      // if ( widget.loophighlight!= null){
-      //   setState(() {
-      //     print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
-      //           clickedHighlightNum= widget.loophighlight!;
+    print("RRRRRRRRRRRR PAGE IS " + widget.GlobalCurrentPage.toString());
 
-      //   });
-      // }
-      // findWhichHighlight();
-    }
-
-    // getInt("surahFrom");
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     print("orientation is $isLandscape");
-    // print(_surahNames);
-    // print(_ayaNumbers);
-
 
     List<int> listindex = new List<int>.generate(604, (i) => i + 1);
     List<AyatLines> listofObjects = [];
@@ -186,8 +156,7 @@ setState(() {
       color: CustomColors.yellow100,
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
-        physics: 
-             AlwaysScrollableScrollPhysics(),
+        physics: AlwaysScrollableScrollPhysics(),
         child: Column(children: [
           Container(
             width: MediaQuery.of(context).size.width,
@@ -207,28 +176,30 @@ setState(() {
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
-                  initialPage: navigatedFromBK,
+                  initialPage: (cameFromMenu == true)
+                                ? widget.GlobalCurrentPage!
+                                : 0,
                   //if infinite scroll is false, then initial page has to be -1 not 0
                   // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) async {
-                    await loadSurahs();
- await Provider.of<TafsirProvider>(context, listen: false).fetchSurahs(widget.GlobalCurrentPage!);
-    
+                    // await loadTafisrs();
 
-                    setState(() {
+                    setState(()  {
                       // ayaNumsforThePage.clear();
-                      ayaStrings = Provider.of<TafsirProvider>(context, listen: false).ayats;
-    ayaTafsirs = Provider.of<TafsirProvider>(context, listen: false).tafsirs;
+
                       print("we are in next page");
                       overallid = index;
                       currentPage = index + 1;
-                      surahName = _surahNames[index]!;
+                      // surahName = _surahNames[index]!;
                       widget.changeGlobal(currentPage);
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
                           widget.goToPage.toString());
                     });
+                    await loadTafisrs(currentPage);
+
+
                   }),
               items: listofObjects.map((i) {
                 int idx = listofObjects.indexOf(i);
@@ -242,22 +213,22 @@ setState(() {
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
                         // IgnorePointer()
-                     
+
                         Container(
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                           margin: EdgeInsets.all(2),
                           child: Expanded(
                             child: ListView.builder(
-                                        // shrinkWrap: true,
+                              // shrinkWrap: true,
 
-                              padding: const EdgeInsets.fromLTRB(0,2,0,0),
+                              padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                               itemCount: ayaStrings.length,
                               itemBuilder: (ctx, i) {
                                 return Column(
                                   children: [
                                     Container(
-                                        margin:                           EdgeInsets.only(top: 17),
+                                        margin: EdgeInsets.only(top: 17),
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 22, vertical: 33),
                                         decoration: BoxDecoration(
@@ -267,11 +238,13 @@ setState(() {
                                         child: Column(children: [
                                           Align(
                                             alignment: Alignment.topRight,
-                                            child: Text(ayaStrings[i].toString(),
+                                            child: Text(
+                                                ayaStrings[i].toString(),
                                                 textAlign: TextAlign.right,
                                                 // _ayah.ayah,
                                                 style: TextStyle(
-                                                    fontFamily: 'ScheherazadeNew',
+                                                    fontFamily:
+                                                        'ScheherazadeNew',
                                                     fontWeight: FontWeight.w700,
                                                     fontSize: 22,
                                                     color:
@@ -295,7 +268,8 @@ setState(() {
                                               ayaTafsirs[i].toString(),
                                               // _ayah.content,
                                               style: TextStyle(
-                                                  fontFamily: 'IBMPlexSansArabic',
+                                                  fontFamily:
+                                                      'IBMPlexSansArabic',
                                                   fontSize: 19,
                                                   // fontWeight: FontWeight.w400,
                                                   color: CustomColors.brown100),
@@ -303,8 +277,15 @@ setState(() {
                                             alignment: Alignment.topRight,
                                           ),
                                         ])),
-                          
-                                        (i==ayaStrings.length-1) ? Container(padding: EdgeInsets.only(bottom: 60), color: CustomColors.yellow100, height:(ShowOnlyPageNum==false)? 30 : 100) :Container(),
+                                    (i == ayaStrings.length - 1)
+                                        ? Container(
+                                            padding:
+                                                EdgeInsets.only(bottom: 60),
+                                            color: CustomColors.yellow100,
+                                            height: (ShowOnlyPageNum == false)
+                                                ? 30
+                                                : 100)
+                                        : Container(),
                                   ],
                                 );
                               },
@@ -363,12 +344,12 @@ setState(() {
                             viewportFraction: 0.16,
                             reverse: false,
                             initialPage: (cameFromMenu == true)
-                                ? widget.goToPage - 1
+                                ? widget.GlobalCurrentPage!
                                 : 0,
                             scrollDirection: Axis.horizontal,
                             pageSnapping: true,
                             enableInfiniteScroll: true,
-                          ),
+                    ),
                           items: listindex.map((i) {
                             return Builder(
                               builder: (BuildContext context) {
@@ -433,7 +414,8 @@ setState(() {
                       setState(() {
                         if (cameFromMenu == true) {
                           // print(surahName);
-                          surahName = _surahNames[(widget.goToPage as int)-1]!;
+                          surahName =
+                              _surahNames[(widget.goToPage as int) - 1]!;
                         }
                         print("========PRESSED");
 
@@ -446,13 +428,4 @@ setState(() {
       ),
     );
   }
-
-  dynamic getInt(key) async {
-    Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-    final SharedPreferences prefs = await _prefs;
-    int? _res = prefs.getInt("$key");
-    print("SHARED PREF " + _res.toString());
-    return _res;
-  }
-
-  }
+}
