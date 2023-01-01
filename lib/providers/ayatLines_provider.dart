@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:core';
 import 'package:collection/collection.dart';
-import 'package:flutter/gestures.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,35 +9,12 @@ import 'package:mushafmuscat/models/AyatLines.dart';
 import '../utils/helperFunctions.dart';
 
 class ayatLines_provider with ChangeNotifier {
-  ayatLines_provider() : super();
-
-  bool firstlist = false;
+  bool firstlist = true;
   List<AyatLines> ayat_lines = [];
   List<String> surahnames = [];
   List<int> listofnum = [];
 
   int pageNumber = 0;
-  ayatLines_provider.instance();
-
-//new variables
-  List<TextSpan> text_spans = [];
-  bool highlightFlag = false;
-  int idx = -1;
-
-  bool _listenableValue2 = false;
-  bool get listenableValue2 => _listenableValue2;
-  List<TextSpan> _listenableValue = [];
-  List<TextSpan> get listenableValue => _listenableValue;
-  String intVAL='';
-  String ayaText='';
-  List<String> ProvsplittedList = [];
-  //  void setValue(){
-  //     _listenableValue =  getSpans(1) as List<TextSpan>;
-  //     notifyListeners();
-  //  }
-  void toggHighlight() {
-    highlightFlag = false;
-  }
 
   Future<List<AyatLines>> getLines(pageNum) async {
 // print(pageNum);
@@ -65,108 +41,11 @@ class ayatLines_provider with ChangeNotifier {
     }
 
     ayat_lines = lines;
-    // print(ayat_lines);
 
-    firstlist = true;
-
-    await getSplittedList(pageNum);
     notifyListeners();
 
     return ayat_lines;
   }
-
-//==============================
-  Future<void> getSplittedList(pageNum) async {
-    String fulltext = '';
-    List<String> splittedList = [];
-
-    if (firstlist == true) {
-      List<String> textl = [];
-
-      for (int i = 0; i < ayat_lines.length; i++) {
-        if (ayat_lines[i].endOfSurah == '1' && i != ayat_lines.length - 1) {
-          textl.add(ayat_lines[i].text! + '\n\n\n\n');
-        } else {
-          textl.add(ayat_lines[i].text!);
-        }
-      }
-
-      fulltext = textl.join('\n\n');
-
-      // print(ayat_lines);
-    }
-// if (fulltext == null) {
-//       return [TextSpan(text: '')];
-//     }
-    fulltext = fulltext!.replaceAll(')', ').');
-
-    splittedList = fulltext!.split(".");
-
-    ProvsplittedList = splittedList;
-  }
-
-  // Future<List<TextSpan>> getSpans(pageNum) async {
-  Future<void> setValue() async {
-// ayat_lines = await getLines(1);
-
-    final arrayStrings = ProvsplittedList;
-    final List<TextSpan> arrayOfTextSpan = [];
-
-    for (int index = 0; index < arrayStrings.length; index++) {
-      final text = arrayStrings[index] + "";
-      var intValue = text.replaceAll(RegExp('[^0-9]'), '');
-      intVAL=intValue.toString();
-      // print("TEXT LENGTH: "+ text.length.toString());
-      final span = TextSpan(
-          text: text,
-          style: TextStyle(
-              // wordSpacing:text.length/90,
-              background: Paint()..color = Colors.transparent),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              print("touched");
-              // setState(() {
-              // widget.highlightedAyaText= text;
-              // print("The word touched is " + widget.highlightedAyaText.toString());
-
-              highlightFlag = true;
-              idx =
-                  arrayOfTextSpan.indexWhere((element) => element.text == text);
-              print("highlighted line number  $idx");
-              notifyListeners();
-ayaText=text;
-
-              //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
-              // print("highlighted TEXT IS  " + intValue.toString());
-              // widget.clickedHighlightNum = idx + 1;
-              // widget.toggleClickedHighlight(
-              // idx + 1, intValue.toString(), text);
-              // });
-              setValue();
-            });
-
-      // if (index==0) {
-      //  widget.ayaNumsforThePage.clear();
-      // }
-      // widget.ayaNumsforThePage.add(intValue);
-
-      arrayOfTextSpan.add(span);
-    }
-
-    if (highlightFlag == true) {
-      arrayOfTextSpan[idx].style?.background!.color =
-          Colors.brown.withOpacity(0.25);
-      arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
-    }
-    print("TRUE TRUE TRUE");
-    print(ProvsplittedList);
-    _listenableValue = arrayOfTextSpan;
-    notifyListeners();
-
-    // return arrayOfTextSpan;
-  }
-
-//==============================
 
   List<AyatLines> get text {
     return [...ayat_lines];

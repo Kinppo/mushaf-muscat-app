@@ -86,6 +86,7 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void tapHandlerFunc(String page) {
+    print(page);
     setState(() {
     goToPage= int.parse(page);});
     print("go to page $page");
@@ -135,6 +136,8 @@ class _MainDrawerState extends State<MainDrawer> {
       juzz: juzz,
       quarterAyaNum: quarterAyaNum,
       quarterPageNum: quarterPageNum,
+      tapHandler: tapHandler,
+
     );
   }
 
@@ -290,7 +293,7 @@ class _MainDrawerState extends State<MainDrawer> {
                         _quarteritem[i].juzz,
                         _quarteritem[i].quarterAyaNum,
                         _quarteritem[i].quarterPageNum,
-                        () {},
+                        tapHandlerFunc,
                       ),
                       const Divider(
                         height: 20,

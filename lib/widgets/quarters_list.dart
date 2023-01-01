@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:mushafmuscat/utils/helperFunctions.dart';
 import '../resources/colors.dart';
 
 class QuartersList extends StatelessWidget {
@@ -12,18 +13,19 @@ class QuartersList extends StatelessWidget {
   String? juzz;
   String? quarterAyaNum;
   String? quarterPageNum;
-
+  Function? tapHandler;
   QuartersList({
     Key? key,
-     this.startingJuzzIndex,
-     this.startingHizbIndex,
-     this.quarter,
-     this.hizbNum,
-     this.surahTitle,
-     this.startingAya,
-     this.juzz,
-     this.quarterAyaNum,
-     this.quarterPageNum,
+    this.startingJuzzIndex,
+    this.startingHizbIndex,
+    this.quarter,
+    this.hizbNum,
+    this.surahTitle,
+    this.startingAya,
+    this.juzz,
+    this.quarterAyaNum,
+    this.quarterPageNum,
+    this.tapHandler,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class QuartersList extends StatelessWidget {
 
     return Column(
       children: [
-        if (startingJuzzIndex== true) ...[
+        if (startingJuzzIndex == true) ...[
           Container(
             alignment: Alignment.topRight,
             padding: const EdgeInsets.fromLTRB(15, 15, 21, 15),
@@ -54,17 +56,15 @@ class QuartersList extends StatelessWidget {
           ),
         ],
         ListTile(
-           contentPadding: const EdgeInsets.fromLTRB(60, 0, 15, 0),
+            contentPadding: const EdgeInsets.fromLTRB(60, 0, 15, 0),
             leading: (quarter == 1)
                 ? CircleAvatar(
                     child: Text(
                       hizbNum!,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                        fontWeight: FontWeight.w800,
-                                          color: CustomColors.black200,
-
-                        fontSize: 18
-                      ),
+                          fontWeight: FontWeight.w800,
+                          color: CustomColors.black200,
+                          fontSize: 18),
                     ),
                     radius: 20,
                     backgroundColor: Theme.of(context).shadowColor,
@@ -79,9 +79,10 @@ class QuartersList extends StatelessWidget {
                     ),
                   ),
             title: Text(
-              startingAya!, overflow: TextOverflow.ellipsis,
-    maxLines: 1,
-    softWrap: false,
+              startingAya!,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              softWrap: false,
               style: Theme.of(context).textTheme.headline1?.copyWith(
                   color: CustomColors.black200,
                   fontWeight: FontWeight.normal,
@@ -91,7 +92,13 @@ class QuartersList extends StatelessWidget {
               "$surahTitle $quarterAyaNum  .  الصفحة $quarterPageNum ",
               style: TextStyle(color: CustomColors.grey200),
             ),
-            onTap: () {}),
+            onTap: () {
+                              String? n= 
+ HelperFunctions.convertToEnglishNumbers(quarterPageNum!);
+              tapHandler!(n
+);
+            }
+            ),
       ],
     );
   }
