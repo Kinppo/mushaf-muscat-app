@@ -24,7 +24,7 @@ class pageDetails2 extends StatefulWidget {
   bool firstFlag;
   int prev;
   bool closedBottomSheet;
-List<String> ayaNumsforThePage;
+  List<String> ayaNumsforThePage;
   // bool pageDetails_loadAudios;
 
 // Function togg;
@@ -81,7 +81,7 @@ class _pageDetails2State extends State<pageDetails2> {
   initState() {
     if (isLoaded == false) {
       loadTextandBookmarks(widget.currentpage);
-     
+
       // print("audio list for page $widget.id is $audioList");
       // print(audioList.toString());
 
@@ -112,12 +112,11 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   void loadTextandBookmarks(int page) {
-
     textlist =
         Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
   }
-  didChangeDependencies() {
 
+  didChangeDependencies() {
     final List<BookMark> bk =
         Provider.of<BookMarks>(context, listen: true).bookmarks;
 
@@ -135,7 +134,7 @@ class _pageDetails2State extends State<pageDetails2> {
     super.didChangeDependencies();
   }
 
- List<TextSpan> createTextSpans()   {
+  List<TextSpan> createTextSpans() {
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
@@ -146,84 +145,16 @@ class _pageDetails2State extends State<pageDetails2> {
         .getLines(widget.id);
     List<String> textl = [];
     textlist.then((value) {
-      for (int i = 0; i < value.length; i++) {
-            // print("TEXT LENGTH: "+ value[i].text!.length.toString());
-
-        // print(value[value.length-1].text.toString());
-        if (value[i].endOfSurah == '1' && i != value.length - 1) {
-          textl.add(value[i].text! + '\n\n\n\n');
+      value.forEach((item) {
+        if (item.endOfSurah == '1') {
+          textl.add(item.text! + '\n\n\n\n\n');
+        } else {
+          textl.add(item.text!);
         }
-// else {
-// print(value[i].text.length);
-
-bool containsChars = value[i].text.contains('ۖ ')  || 
-(value[i].text.contains('ۚ ')) || value[i].text.contains('۞')|| 
-(value[i].text.contains(' ۛ')
-
-);
-
-if(value[i].text.length<60 && !containsChars) {
-
-// print("CONTAINSSSS");
-// // int diff= 75 - value[i].text.length as int;
-var list = new List<String>.generate(12, (i) => '!');
-String added=list.join('');
-textl.add(value[i].text!+added);
-}
-
-else if (value[i].text.length>89 && containsChars){
-String sub=  value[i].text.substring(0, value[i].text.length - 10);
-// print("SUB: $sub");
-textl.add(sub);
-}
-else if (value[i].text.length>70){
-String sub=  value[i].text.substring(0, value[i].text.length - 10);
-// print("SUB: $sub");
-textl.add(sub);
-}
-else  {
-int diff= 80 - value[i].text.length as int;
-if (diff >0) {
-var list = new List<String>.generate(5, (i) => ',');
-String added=list.join(''); 
-textl.add(value[i].text!+added);}
-
-else {
-  textl.add(value[i].text!);
-
-}
-
-}
-//  textl.add(value[i].text!+"----------");
-//  }
-// else if(value[i].text.length<78) {
-//  textl.add(value[i].text!+"------");
-//  }
-
-//  else if(value[i].text.length<88) {
-//  textl.add(value[i].text!+"---");
-//  }
-
-        // else
-        //   textl.add(value[i].text!);
-
-// }
-// }
-// print(value[i].text.toString() + '....' +(value[i].text.length.toString()));
-        // print(value[i].text.length.toString());
-        fulltext = textl.join('\n\n');
-      }
-//       value.forEach((item) {
-//            if (item.endOfSurah =='1' ) {
-//  textl.add(item.text!+'\n\n\n\n\n');
-// }
-// else { r
-//  textl.add(item.text!);
-// }
-
-      // fulltext = textl.join('\n\n');
-      // });
+      });
+      fulltext = textl.join('\n\n');
     });
+
     // print(fulltext);
     if (fulltext == null) {
       return [TextSpan(text: '')];
@@ -232,29 +163,28 @@ else {
 
     splittedList = fulltext!.split(".");
 
-    
     // splittedList = fulltext!.replaceAll('.', ')');
 
     // splittedList = (HelperFunctions.splitLinesintoList(fulltext!));
     //=======
-    final arrayStrings = splittedList;
-    final List<TextSpan> arrayOfTextSpan = [];
+    List<String> arrayStrings = splittedList;
+    List<TextSpan> arrayOfTextSpan = [];
 
     // final string = """Text seems like it should be so simple, but it really isn't.""";
     // final arrayStrings = string.split(" ");
     bool tapped = false;
 
     // arrayOfTextSpan= await AddAyas(arrayStrings);
- for (int index = 0; index < arrayStrings.length; index++) {
+    for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
-      var intValue =  text.replaceAll(RegExp('[^0-9]'), '');
-      
-    // print("TEXT LENGTH: "+ text.length.toString());
+      var intValue = text.replaceAll(RegExp('[^0-9]'), '');
+
+      // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
           style: TextStyle(
-            // wordSpacing:text.length/90,
-             background: Paint()..color = Colors.transparent),
+              // wordSpacing:text.length/90,
+              background: Paint()..color = Colors.transparent),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -262,8 +192,24 @@ else {
                 // print("The word touched is " + widget.highlightedAyaText.toString());
 
                 highlightFlag = true;
-                idx = arrayOfTextSpan
-                    .indexWhere((element) => element.text == text);
+                // print(arrayOfTextSpan);
+                int counter = 0;
+                arrayOfTextSpan.forEach((element) {
+                  if (element.text != null &&
+                      element.text != "" &&
+                      element.text != '\n') {
+                    // String dummy = element.text!;
+                    // print("counter=$counter and element is $dummy");
+                    if (element.text == text) {
+                      idx = counter;
+                      // counter = counter + 1;
+                    }
+                    counter = counter + 1;
+                  }
+                });
+
+                // idx = arrayStrings
+                //     .indexWhere((element) => text ==  element );
                 print("highlighted line number  $idx");
                 //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
                 print("highlighted TEXT IS  " + intValue.toString());
@@ -273,20 +219,21 @@ else {
               });
             });
 
-            if (index==0) {
-             widget.ayaNumsforThePage.clear();
-            }
-                            widget.ayaNumsforThePage.add(intValue);
+      if (index == 0) {
+        widget.ayaNumsforThePage.clear();
+      }
+      widget.ayaNumsforThePage.add(intValue);
 
       arrayOfTextSpan.add(span);
     }
-    
-    
+
     setState(() {
       print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
-            print("HIGHLIGHT ERRORRRRR $idx and length is :"+arrayOfTextSpan.length.toString());
+      print("HIGHLIGHT ERRORRRRR $idx and length is :" +
+          arrayOfTextSpan.length.toString());
 
-      if (highlightFlag == true && arrayOfTextSpan.length==arrayStrings.length) {
+      if (highlightFlag == true &&
+          arrayOfTextSpan.length == arrayStrings.length) {
         arrayOfTextSpan[idx].style?.background!.color =
             Colors.brown.withOpacity(0.25);
         arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
@@ -321,21 +268,18 @@ else {
     return arrayOfTextSpan as List<TextSpan>;
   }
 
-
-
-
-  Future<List<TextSpan> > AddAyas( arrayStrings) async {
-List<TextSpan>  arrayOfTextSpan=[];
+  Future<List<TextSpan>> AddAyas(arrayStrings) async {
+    List<TextSpan> arrayOfTextSpan = [];
     for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
-      var intValue =  text.replaceAll(RegExp('[^0-9]'), '');
-      
-    // print("TEXT LENGTH: "+ text.length.toString());
+      var intValue = text.replaceAll(RegExp('[^0-9]'), '');
+
+      // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
           style: TextStyle(
-            // wordSpacing:text.length/90,
-             background: Paint()..color = Colors.transparent),
+              // wordSpacing:text.length/90,
+              background: Paint()..color = Colors.transparent),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -354,14 +298,14 @@ List<TextSpan>  arrayOfTextSpan=[];
               });
             });
 
-            if (index==0) {
-             widget.ayaNumsforThePage.clear();
-            }
-                            widget.ayaNumsforThePage.add(intValue);
+      if (index == 0) {
+        widget.ayaNumsforThePage.clear();
+      }
+      widget.ayaNumsforThePage.add(intValue);
 
       arrayOfTextSpan.add(span);
     }
-    
+
     return arrayOfTextSpan;
   }
 
@@ -392,7 +336,7 @@ List<TextSpan>  arrayOfTextSpan=[];
 
   Container? AllOtherPagesContainer() {
     return Container(
-      margin:EdgeInsets.fromLTRB(0, 5, 6, 0),
+        margin: EdgeInsets.fromLTRB(0, 5, 6, 0),
         padding: EdgeInsets.fromLTRB(0, 44, 6, 0),
         child: Expanded(
             child: RichText(
@@ -406,7 +350,7 @@ List<TextSpan>  arrayOfTextSpan=[];
               fontWeight: FontWeight.bold,
               fontSize: 10,
               color: Colors.red,
-              wordSpacing:2.9,
+              wordSpacing: 2.9,
               letterSpacing: 1.5,
               height: 1.8,
 
