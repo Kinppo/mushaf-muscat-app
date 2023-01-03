@@ -64,8 +64,6 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
     });
   }
 
-
-   
 //bookmark vars
 
   @override
@@ -84,14 +82,11 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       });
     }
 
+    String? bkAya(String type) {
+      String? l = bookMarkProvider.bkAyaText(type);
 
-    String? bkAya (String type) {
-String? l= bookMarkProvider.bkAyaText(type);
-
- 
-    return l;
+      return l;
     }
-
 
     Widget returnGridItem(
       BorderRadius rad,
@@ -99,7 +94,6 @@ String? l= bookMarkProvider.bkAyaText(type);
       String bkText,
       int type,
       String bkAya,
-
     ) {
       return Container(
         decoration: BoxDecoration(
@@ -138,7 +132,6 @@ String? l= bookMarkProvider.bkAyaText(type);
                   // if  (bookMarkProvider.bookmarks[1] != null ) {
                   //   print("already there is a bookmark");
                   // }
-
                 },
                 icon: (bookMarkProvider.checkBookmark(type.toString()) == true)
                     ? Icon(Icons.bookmark)
@@ -158,8 +151,8 @@ String? l= bookMarkProvider.bkAyaText(type);
                 ),
 
                 //todo: only show this when button is pressed
-                Text((bkAya!='' && bkAya!=null)?
-                  "الآية: $bkAya" : "",
+                Text(
+                  (bkAya != '' && bkAya != null) ? "الآية: $bkAya" : "",
                   style: TextStyle(fontSize: 14, color: CustomColors.grey200),
                   textAlign: TextAlign.right,
                 ),
@@ -225,44 +218,41 @@ String? l= bookMarkProvider.bkAyaText(type);
                       ),
                       children: <Widget>[
                         returnGridItem(
-                          const BorderRadius.only(
-                              topRight: Radius.circular(20)),
-                          CustomColors.yellow400,
-                          AppLocalizations.of(context)!
-                              .translate('onclick_aya_modalsheet_bk1')
-                              .toString(),
-                          1,
-                          bkAya("1")!
-                        ),
+                            const BorderRadius.only(
+                                topRight: Radius.circular(20)),
+                            CustomColors.yellow400,
+                            AppLocalizations.of(context)!
+                                .translate('onclick_aya_modalsheet_bk1')
+                                .toString(),
+                            1,
+                            bkAya("1")!),
                         returnGridItem(
-                          const BorderRadius.only(topLeft: Radius.circular(20)),
-                          CustomColors.pink100,
-                          AppLocalizations.of(context)!
-                              .translate('onclick_aya_modalsheet_bk2')
-                              .toString(),
-                          2,
-                          bkAya("2")!
-                        ),
+                            const BorderRadius.only(
+                                topLeft: Radius.circular(20)),
+                            CustomColors.pink100,
+                            AppLocalizations.of(context)!
+                                .translate('onclick_aya_modalsheet_bk2')
+                                .toString(),
+                            2,
+                            bkAya("2")!),
                         returnGridItem(
-                          const BorderRadius.only(
-                              bottomRight: Radius.circular(20)),
-                          CustomColors.green200,
-                          AppLocalizations.of(context)!
-                              .translate('onclick_aya_modalsheet_bk3')
-                              .toString(),
-                          3,
-                          bkAya("3")!
-                        ),
+                            const BorderRadius.only(
+                                bottomRight: Radius.circular(20)),
+                            CustomColors.green200,
+                            AppLocalizations.of(context)!
+                                .translate('onclick_aya_modalsheet_bk3')
+                                .toString(),
+                            3,
+                            bkAya("3")!),
                         returnGridItem(
-                          const BorderRadius.only(
-                              bottomLeft: Radius.circular(20)),
-                          CustomColors.blue100,
-                          AppLocalizations.of(context)!
-                              .translate('onclick_aya_modalsheet_bk4')
-                              .toString(),
-                          4,
-                          bkAya("4")!
-                        ),
+                            const BorderRadius.only(
+                                bottomLeft: Radius.circular(20)),
+                            CustomColors.blue100,
+                            AppLocalizations.of(context)!
+                                .translate('onclick_aya_modalsheet_bk4')
+                                .toString(),
+                            4,
+                            bkAya("4")!),
                       ]),
                 ),
               ),
@@ -293,7 +283,7 @@ String? l= bookMarkProvider.bkAyaText(type);
                           .toString(),
                       false,
                       'listPlay',
-                     widget.playMoreOptions),
+                      widget.playMoreOptions),
                 ]),
               ),
             ),
