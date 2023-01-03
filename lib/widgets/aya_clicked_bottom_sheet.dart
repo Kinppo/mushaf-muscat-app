@@ -84,11 +84,22 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       });
     }
 
+
+    String? bkAya (String type) {
+String? l= bookMarkProvider.bkAyaText(type);
+
+ 
+    return l;
+    }
+
+
     Widget returnGridItem(
       BorderRadius rad,
       Color bkColor,
       String bkText,
       int type,
+      String bkAya,
+
     ) {
       return Container(
         decoration: BoxDecoration(
@@ -127,6 +138,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                   // if  (bookMarkProvider.bookmarks[1] != null ) {
                   //   print("already there is a bookmark");
                   // }
+
                 },
                 icon: (bookMarkProvider.checkBookmark(type.toString()) == true)
                     ? Icon(Icons.bookmark)
@@ -146,8 +158,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 ),
 
                 //todo: only show this when button is pressed
-                Text(
-                  "الآية: ١٣٦",
+                Text((bkAya!='' && bkAya!=null)?
+                  "الآية: $bkAya" : "",
                   style: TextStyle(fontSize: 14, color: CustomColors.grey200),
                   textAlign: TextAlign.right,
                 ),
@@ -220,6 +232,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                               .translate('onclick_aya_modalsheet_bk1')
                               .toString(),
                           1,
+                          bkAya("1")!
                         ),
                         returnGridItem(
                           const BorderRadius.only(topLeft: Radius.circular(20)),
@@ -228,6 +241,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                               .translate('onclick_aya_modalsheet_bk2')
                               .toString(),
                           2,
+                          bkAya("2")!
                         ),
                         returnGridItem(
                           const BorderRadius.only(
@@ -237,6 +251,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                               .translate('onclick_aya_modalsheet_bk3')
                               .toString(),
                           3,
+                          bkAya("3")!
                         ),
                         returnGridItem(
                           const BorderRadius.only(
@@ -246,6 +261,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                               .translate('onclick_aya_modalsheet_bk4')
                               .toString(),
                           4,
+                          bkAya("4")!
                         ),
                       ]),
                 ),

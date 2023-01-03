@@ -92,4 +92,19 @@ bool checkBookmark(String type)  {
       
       }
 
+
+      String? bkAyaText(String type)  {
+   final box = Boxes.getBookMarks();
+ var bookmarksss = box.values
+          .where((box) => box.id == type)
+          .toList();
+    String bkTxt='';
+        bookmarksss.forEach((element) {
+         bkTxt= element.aya.toString();
+         }); 
+
+         return bkTxt;
+
+      }
+
 }

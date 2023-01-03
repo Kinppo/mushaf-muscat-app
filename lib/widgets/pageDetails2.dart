@@ -80,7 +80,17 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   initState() {
     if (isLoaded == false) {
-      loadTextandBookmarks(widget.currentpage);
+
+       WidgetsBinding.instance.addPostFrameCallback((_) async {
+   await  loadTextandBookmarks(widget.currentpage);
+
+     setState(() {
+              loadTextandBookmarks(widget.currentpage);
+
+     });
+
+        
+    } );
 
       // print("audio list for page $widget.id is $audioList");
       // print(audioList.toString());
@@ -111,13 +121,29 @@ class _pageDetails2State extends State<pageDetails2> {
     }
   }
 
-  void loadTextandBookmarks(int page) {
-    textlist =
+  Future<void> loadTextandBookmarks(int page) async {
+    textlist =await 
         Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
+  
+  final List<BookMark> bk = await
+        Provider.of<BookMarks>(context, listen: false).bookmarks; 
+        print("bookmarks are: $bk");
+ bk.forEach((element) {
+      setState(() {
+        if (element.pageNum == widget.currentpage) {
+          bkSamePage = true;
+          bkColor = pickColor(element.type);
+          bkIndex = element.highlightNum;
+          print("we are in the same page");
+        }
+      });
+    });
+
+  
   }
 
-  didChangeDependencies() {
-    final List<BookMark> bk =
+  didChangeDependencies()  {
+    final List<BookMark> bk = 
         Provider.of<BookMarks>(context, listen: true).bookmarks;
 
     bk.forEach((element) {
@@ -179,6 +205,7 @@ class _pageDetails2State extends State<pageDetails2> {
       final text = arrayStrings[index] + "";
       var intValue = text.replaceAll(RegExp('[^0-9]'), '');
 
+ 
       // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
@@ -190,7 +217,7 @@ class _pageDetails2State extends State<pageDetails2> {
               setState(() {
                 // widget.highlightedAyaText= text;
                 // print("The word touched is " + widget.highlightedAyaText.toString());
-
+  
                 highlightFlag = true;
                 // print(arrayOfTextSpan);
                 int counter = 0;
@@ -384,6 +411,7 @@ class _pageDetails2State extends State<pageDetails2> {
 
   @override
   Widget build(BuildContext context) {
+  
     return isLoaded
         ? Center(
             child: Column(
