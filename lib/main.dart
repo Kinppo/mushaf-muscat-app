@@ -1,3 +1,4 @@
+//@dart=2.9
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:mushafmuscat/providers/audioplayer_provider.dart';
@@ -81,7 +82,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeProvider>(
         builder: (context, themeProvider, child) {
           return MaterialApp(
-            title: 'Flutter Demo',
+            title: 'Mushaf Muscat',
             onGenerateRoute: AppRoutes.onGenerateRoute,
             onUnknownRoute: AppRoutes.onUnkownRoute,
             supportedLocales: AppLocalizationsSetup.supportedLocales,

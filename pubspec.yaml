@@ -91,7 +91,6 @@ flutter:
     - assets/images/
     - lang/
     - assets/quran_images/    
-    - assets/quran_images/images/
     - lib/data/json_files/
     - lib/data/json_files/audio_page/
     - lib/data/json_files/quran_lines/

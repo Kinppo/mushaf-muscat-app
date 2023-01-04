@@ -340,22 +340,20 @@ class _pageDetails2State extends State<pageDetails2> {
     return Container(
       margin: EdgeInsets.fromLTRB(65, 0, 65, 0),
       padding: EdgeInsets.fromLTRB(0, 126, 0, 0),
-      child: Expanded(
-        child: RichText(
-          textDirection: TextDirection.rtl,
-          textAlign: TextAlign.justify,
-          text: new TextSpan(
-            style: const TextStyle(
-              fontFamily: 'Amiri',
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: Colors.brown,
-              wordSpacing: 1,
-              letterSpacing: 0.6,
-              height: 1.6,
-            ),
-            children: createTextSpans(),
+      child: RichText(
+        textDirection: TextDirection.rtl,
+        textAlign: TextAlign.justify,
+        text: new TextSpan(
+          style: const TextStyle(
+            fontFamily: 'Amiri',
+            fontWeight: FontWeight.bold,
+            fontSize: 10,
+            color: Colors.brown,
+            wordSpacing: 1,
+            letterSpacing: 0.6,
+            height: 1.6,
           ),
+          children: createTextSpans(),
         ),
       ),
     );
@@ -365,27 +363,26 @@ class _pageDetails2State extends State<pageDetails2> {
     return Container(
         margin: EdgeInsets.fromLTRB(0, 5, 6, 0),
         padding: EdgeInsets.fromLTRB(0, 44, 6, 0),
-        child: Expanded(
-            child: RichText(
+        child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.right,
+          textAlign: TextAlign.justify,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
-            style: const TextStyle(
-              fontFamily: 'Amiri',
-              fontWeight: FontWeight.bold,
-              fontSize: 10,
-              color: Colors.red,
-              wordSpacing: 2.9,
-              letterSpacing: 1.5,
-              height: 1.8,
+        style: const TextStyle(
+          fontFamily: 'Amiri',
+          fontWeight: FontWeight.bold,
+          fontSize: 10,
+          color: Colors.red,
+          wordSpacing: 2.9,
+          letterSpacing: 1.5,
+          height: 1.8,
 
-              // height: 1.68,
-            ),
-            children: createTextSpans(),
+          // height: 1.68,
+        ),
+        children: createTextSpans(),
           ),
-        )));
+        ));
   }
 
   // Container? AllOtherPagesContainer() {

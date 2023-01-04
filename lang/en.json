@@ -1,57 +1,56 @@
 {
     "head_title": "test",
-    "app_bar_title": "test",
-    "undo": "test",
-    "app_version": "test",
-
-
-    "quran_screen_title": "test",
-    "quran_screen_navigation_bar_item1":"test",
-    "quran_screen_navigation_bar_item2":"test",
-    "quran_screen_navigation_bar_item3":"test",
-    "quran_screen_navigation_bar_item4":"test",
-
-    "book_marks_title": "test",
-    "book_marks_description":"test",
-    "book_marks_aya":"test",
-    "book_marks_delete_msg": "test",
-
-    "ayah_screen_title":"test",
-
-    "setting_screen_title":"test",
-    "setting_screen_appearance":"test",
-    "setting_screen_appearance_light":"test",
-    "setting_screen_appearance_system":"test",
-    "setting_screen_appearance_dark":"test",
-
-    "setting_screen_quran":"test",
-    "setting_screen_quran_fullscreen":"test",
-    "setting_screen_quran_view_book":"test",
-
-    "setting_screen_storage":"test",
-    "setting_screen_storage_size":"test",
-    "setting_screen_about":"test",
-    "setting_screen_feedback":"test",
-
-    "about_screen_details":"test",
-     
-     
-    "drawer_screen_switch_surahs": "test",
-    "drawer_screen_switch_quarters": "test",
-    "drawer_screen_search_hint_surahs": "test",
-
+    "app_bar_title":  "test",
+    "undo":  "test",
+    "app_version":  "test",
+  
+    "quran_screen_switch_quran": "test",
+    "quran_screen_switch_tafsir":  "test",
+    "quran_screen_title":  "test",
+    "quran_screen_navigation_bar_item1":  "test",
+    "quran_screen_navigation_bar_item2":  "test",
+    "quran_screen_navigation_bar_item3":  "test",
+    "quran_screen_navigation_bar_item4":  "test",
+  
+    "book_marks_title":  "test",
+    "book_marks_description":  "test",
+    "book_marks_aya":  "test",
+    "book_marks_delete_msg":  "test",
+  
+    "ayah_screen_title": "آية اليوم",
+  
+    "setting_screen_title":  "test",
+    "setting_screen_appearance":  "test",
+    "setting_screen_appearance_light":  "test",
+    "setting_screen_appearance_system":  "test",
+    "setting_screen_appearance_dark":  "test",
+  
+    "setting_screen_quran":  "test",
+    "setting_screen_quran_fullscreen":  "test",
+    "setting_screen_quran_book":  "test",
+  
+    "setting_screen_storage":  "test",
+    "setting_screen_storage_size":  "test",
+    "setting_screen_about": "test",
+    "setting_screen_feedback":  "test",
+  
+    "about_screen_details":  "test",
+  
+    "drawer_screen_switch_surahs":  "test",
+    "drawer_screen_switch_quarters":  "test",
+    "drawer_screen_search_hint_surahs":  "test",
+  
     "search_screen_search": "test",
-    "search_screen_cancel": "test",
-    
-    "onclick_aya_modalsheet_bk1": "",
-    "onclick_aya_modalsheet_bk2": "",
-    "onclick_aya_modalsheet_bk3": "",
-    "onclick_aya_modalsheet_bk4": "",
-    "onclick_aya_modalsheet_list1": "",
-    "onclick_aya_modalsheet_list2": "",
-    "onclick_aya_modalsheet_list3": "",
-    "onclick_aya_modalsheet_list4": "",
-    
-    "tafsir_text": "Test",
-    "dummy_text": "test"
-}
+    "search_screen_cancel":  "test",
+  
+    "onclick_aya_modalsheet_bk1":  "test",
+    "onclick_aya_modalsheet_bk2":  "test",
+    "onclick_aya_modalsheet_bk3":  "test",
+    "onclick_aya_modalsheet_bk4":  "test",
+    "onclick_aya_modalsheet_list1":  "test",
+    "onclick_aya_modalsheet_list2":  "test",
+    "onclick_aya_modalsheet_list3":  "test",
+    "onclick_aya_modalsheet_list4": "test"
+  
+  }
+  
