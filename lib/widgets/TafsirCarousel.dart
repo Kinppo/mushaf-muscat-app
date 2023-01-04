@@ -218,78 +218,76 @@ ayaTafsirs.clear();
                           width: MediaQuery.of(context).size.width,
                           padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                           margin: EdgeInsets.all(2),
-                          child: Expanded(
-                            child: ListView.builder(
-                              // shrinkWrap: true,
+                          child: ListView.builder(
+                            // shrinkWrap: true,
 
-                              padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                              itemCount: ayaStrings.length,
-                              itemBuilder: (ctx, i) {
-                                return Column(
-                                  children: [
-                                    Container(
-                                        margin: EdgeInsets.only(top: 17),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 22, vertical: 33),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10)),
-                                        child: Column(children: [
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                            child: Text(
-                                                ayaStrings[i].toString(),
-                                                textAlign: TextAlign.right,
-                                                // _ayah.ayah,
-                                                style: TextStyle(
-                                                    fontFamily:
-                                                        'ScheherazadeNew',
-                                                    fontWeight: FontWeight.w700,
-                                                    fontSize: 22,
-                                                    color:
-                                                        CustomColors.black200)),
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Divider(
-                                              color: CustomColors.yellow200,
-                                              thickness: 1.3,
-                                              endIndent: 18),
-                                          Align(
-                                            alignment: Alignment.topRight,
-                                          ),
-                                          const SizedBox(
-                                            height: 5,
-                                          ),
-                                          Align(
-                                            child: Text(
-                                              ayaTafsirs[i].toString(),
-                                              // _ayah.content,
+                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                            itemCount: ayaStrings.length,
+                            itemBuilder: (ctx, i) {
+                              return Column(
+                                children: [
+                                  Container(
+                                      margin: EdgeInsets.only(top: 17),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 22, vertical: 33),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      child: Column(children: [
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                              ayaStrings[i].toString(),
+                                              textAlign: TextAlign.right,
+                                              // _ayah.ayah,
                                               style: TextStyle(
                                                   fontFamily:
-                                                      'IBMPlexSansArabic',
-                                                  fontSize: 19,
-                                                  // fontWeight: FontWeight.w400,
-                                                  color: CustomColors.brown100),
-                                            ),
-                                            alignment: Alignment.topRight,
+                                                      'ScheherazadeNew',
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 22,
+                                                  color:
+                                                      CustomColors.black200)),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Divider(
+                                            color: CustomColors.yellow200,
+                                            thickness: 1.3,
+                                            endIndent: 18),
+                                        Align(
+                                          alignment: Alignment.topRight,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Align(
+                                          child: Text(
+                                            ayaTafsirs[i].toString(),
+                                            // _ayah.content,
+                                            style: TextStyle(
+                                                fontFamily:
+                                                    'IBMPlexSansArabic',
+                                                fontSize: 19,
+                                                // fontWeight: FontWeight.w400,
+                                                color: CustomColors.brown100),
                                           ),
-                                        ])),
-                                    (i == ayaStrings.length - 1)
-                                        ? Container(
-                                            padding:
-                                                EdgeInsets.only(bottom: 60),
-                                            color: CustomColors.yellow100,
-                                            height: (ShowOnlyPageNum == false)
-                                                ? 30
-                                                : 100)
-                                        : Container(),
-                                  ],
-                                );
-                              },
-                            ),
+                                          alignment: Alignment.topRight,
+                                        ),
+                                      ])),
+                                  (i == ayaStrings.length - 1)
+                                      ? Container(
+                                          padding:
+                                              EdgeInsets.only(bottom: 60),
+                                          color: CustomColors.yellow100,
+                                          height: (ShowOnlyPageNum == false)
+                                              ? 30
+                                              : 100)
+                                      : Container(),
+                                ],
+                              );
+                            },
                           ),
                         )
                       ]),
