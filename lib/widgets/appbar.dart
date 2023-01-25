@@ -60,12 +60,12 @@ class _appBarState extends State<appBar> {
                   actions: <Widget>[Container()], 
 
                   
-            bottom: PreferredSize(
-                child: Container(
-                  color: CustomColors.yellow200,
-                  height: 1.0,
-                ),
-                preferredSize: Size.fromHeight(1.0)),
+            // bottom: PreferredSize(
+            //     child: Container(
+            //       color: CustomColors.yellow200,
+            //       height: 1.0,
+            //     ),
+            //     preferredSize: Size.fromHeight(1.0)),
             // leading: Builder(
             //   builder: (context) => IconButton(
             //     icon: const Icon(Icons.menu_rounded),
@@ -73,7 +73,7 @@ class _appBarState extends State<appBar> {
             //   ),
             // ),
             // iconTheme: IconThemeData(color: CustomColors.black200),
-            toolbarHeight: 140, // Set this height
+            // toolbarHeight: 50, // Set this height
             flexibleSpace: Container(
               color: CustomColors.yellow500,
                             // color:Colors.blue,

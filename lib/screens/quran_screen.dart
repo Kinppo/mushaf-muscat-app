@@ -73,6 +73,8 @@ class _QuranScreenState extends State<QuranScreen> {
 print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+   var Screenheight=
+        MediaQuery.of(context).size.height;
 
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
@@ -121,7 +123,7 @@ setState(() {
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
               toggleSearch: controlSearch,
-              h: (isLandscape == false) ? 150 : 200,
+              h: (isLandscape == false) ? Screenheight*0.125 : 200,
               segmentToggle: segmentedControlValue,
             )
           : PreferredSize(

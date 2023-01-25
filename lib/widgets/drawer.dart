@@ -220,8 +220,10 @@ class _MainDrawerState extends State<MainDrawer> {
                 IconButton(
                   iconSize: 28,
                   onPressed: () {
-                    Navigator.of(context)
-                        .popAndPushNamed(QuranScreen.routeName);
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuranScreen(),), (route) => false);
+
+                    // Navigator.of(context)
+                    //     .popAndPushNamed(QuranScreen.routeName);
                   },
                   icon: const Icon(Icons.cancel),
                 ),

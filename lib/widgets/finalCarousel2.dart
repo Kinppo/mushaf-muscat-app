@@ -84,7 +84,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
   late final List<String?> _surahNames;
   late final List<List<int>> _flagsForEndofSurah;
   late final List<List<String?>> _ayaNumbers;
-  final assetsAudioPlayer = AssetsAudioPlayer();
+  final assetsAudioPlayer = AssetsAudioPlayer.withId("5");
   
   List<String> ayaNumsforThePage =[];
   List<Audio> audiosList = [];
@@ -103,7 +103,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   @override
   void initState() {
-    print("building......");
+    AssetsAudioPlayer.withId("5").stop();
+
+    print("=======================building......1");
 
     if (widget.goToPage != null && widget.goToPage != 0) {
       overallid = (widget.goToPage as int) - 1;
@@ -146,6 +148,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
     ShowOnlyPageNum = true;
 
     super.initState();
+        print("======================building......2");
+
   }
 
   void loadSurahs() {
@@ -199,9 +203,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
             });
 
             // BasmalaFlag=true;
-          } else {
-            assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-          }
+          } 
+          // else {
+          //   assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+          // }
         }
         print("audio playing is $prev");
         print("currently in page $currentPage");
