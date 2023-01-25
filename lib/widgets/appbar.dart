@@ -51,9 +51,15 @@ class _appBarState extends State<appBar> {
 
     return (searchToggle == false)
         ? AppBar(
+      //        shape: RoundedRectangleBorder(
+      // borderRadius: new BorderRadius.vertical(
+      //   bottom: new Radius.elliptical(400, 56.0),
+      // ),),
                automaticallyImplyLeading:
                 false, // this will hide Drawer hamburger icon
                   actions: <Widget>[Container()], 
+
+                  
             bottom: PreferredSize(
                 child: Container(
                   color: CustomColors.yellow200,
@@ -75,7 +81,7 @@ class _appBarState extends State<appBar> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: const EdgeInsets.only(top: 80.0),
+                    padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -166,12 +172,12 @@ class _appBarState extends State<appBar> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
-                    width: double.infinity,
-                    height: 50,
-                    child: QuranSearchBar(searchController: searchController),
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
+                  //   width: double.infinity,
+                  //   height: 50,
+                  //   child: QuranSearchBar(searchController: searchController),
+                  // ),
                 ],
               ),
             ),
@@ -242,12 +248,12 @@ class _appBarState extends State<appBar> {
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(34, 13, 34, 0),
-                    width: double.infinity,
-                    height: 50,
-                    child: QuranSearchBar(searchController: searchController),
-                  ),
+                  // Container(
+                  //   padding: const EdgeInsets.fromLTRB(34, 13, 34, 0),
+                  //   width: double.infinity,
+                  //   height: 50,
+                  //   child: QuranSearchBar(searchController: searchController),
+                  // ),
                 ],
               ),
             ),

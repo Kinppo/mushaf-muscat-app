@@ -9,6 +9,7 @@ import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
 // import 'package:sizer/sizer.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sizer/sizer.dart';
 
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
@@ -80,8 +81,16 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: Consumer<ThemeProvider>(
+
+
+   
+
         builder: (context, themeProvider, child) {
-          return MaterialApp(
+          return Sizer(
+      builder: (context, orientation, deviceType) {
+          
+          return
+           MaterialApp(
             title: 'Mushaf Muscat',
             onGenerateRoute: AppRoutes.onGenerateRoute,
             onUnknownRoute: AppRoutes.onUnkownRoute,
@@ -97,7 +106,7 @@ class MyApp extends StatelessWidget {
 
             // background: Container(color: Color(0xFFF5F5F5))),
             // initialRoute: "/",
-          );
+          );});
         },
       ),
     );

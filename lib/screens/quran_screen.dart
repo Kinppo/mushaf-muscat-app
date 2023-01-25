@@ -121,7 +121,7 @@ setState(() {
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
               toggleSearch: controlSearch,
-              h: (isLandscape == false) ? 147 : 200,
+              h: (isLandscape == false) ? 150 : 200,
               segmentToggle: segmentedControlValue,
             )
           : PreferredSize(
