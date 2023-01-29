@@ -35,6 +35,7 @@ class tilawaOptions with ChangeNotifier {
       print("result is null");
       return;
     }
+    loadedjson2=jsonDecode( await rootBundle.loadString('lib/data/json_files/allayapages.json'));
 
     final List<Surah> loadedSurahs = [];
     // print("reached here");
@@ -81,12 +82,7 @@ return surahList;
 
  }
 
- void loadJson() async{
-  if (loaded== false) {
-    loadedjson2=jsonDecode( await rootBundle.loadString('lib/data/json_files/allayapages.json'));
-loaded= true;}
-notifyListeners();
- }
+
 
  List<String> getAyaList(int index) {
 // print("i am in provider");
@@ -98,16 +94,16 @@ notifyListeners();
  }
   
 Future<int> getPageNumber(String name,String aya ) async {
-  loadJson();
+  // await loadJson;
 //  
-  var val = loadedjson2.firstWhere((item) => HelperFunctions.normalise(item['surah'])==HelperFunctions.normalise(name)  && item['aya']==aya, orElse: () => null);
+  var val = loadedjson2.firstWhere((item) => HelperFunctions.normalise(item['surah'])==HelperFunctions.normalise(name)  && item['aya']==aya, orElse: () => 1);
   // if val is null, then the if statement is executed
   print("VAAALLLLL IS $val");
   
   
-  if ( null == val ) {
-    print('Aya not found');
-  }
+  // if ( null == val ) {
+  //   print('Aya not found');
+  // }
 // var p = loadedjson2.firstWhere((item) {
 //   item['aya'
 //    });
