@@ -32,15 +32,15 @@ class finalCarousel2 extends StatefulWidget {
   int? loophighlight;
   int? GlobalCurrentPage;
   Function changeGlobal;
-  
+
   finalCarousel2({
     Key? key,
     required this.goToPage,
     this.loop,
     required this.toggleBars,
-    this.loophighlight, required int GlobalCurrentPage,
-        required this.changeGlobal,
-
+    this.loophighlight,
+    required int GlobalCurrentPage,
+    required this.changeGlobal,
   }) : super(key: key);
 
   @override
@@ -85,11 +85,11 @@ class _finalCarousel2 extends State<finalCarousel2> {
   late final List<List<int>> _flagsForEndofSurah;
   late final List<List<String?>> _ayaNumbers;
   final assetsAudioPlayer = AssetsAudioPlayer.withId("main");
-  
-  List<String> ayaNumsforThePage =[];
+
+  List<String> ayaNumsforThePage = [];
   List<Audio> audiosList = [];
   List<String> FlagsAudio = [];
-    List<String> StartFlagAudio= [];
+  List<String> StartFlagAudio = [];
 
   List<int> LoopIndices = [];
 
@@ -114,8 +114,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
       setState(() {
         navigatedFromBK = (widget.goToPage as int) - 1;
-                        // widget.changeGlobal(currentPage);
-
+        // widget.changeGlobal(currentPage);
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -126,12 +125,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
       //  highlight= await Provider.of<ayatLines_provider>(context, listen: false).getAya(await getInt("ayaFrom"));
 
       setState(() {
-
-        
         loadSurahs();
-   if (widget.goToPage != null && widget.goToPage != 0) {
-    widget.changeGlobal(currentPage+1);
-   }
+        if (widget.goToPage != null && widget.goToPage != 0) {
+          widget.changeGlobal(currentPage + 1);
+        }
         //   if ( widget.loophighlight!= null){
 
         //   print("VALUE OF LOOP HIGHLIGHT IS .." +widget.loophighlight.toString());
@@ -148,8 +145,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     ShowOnlyPageNum = true;
 
     super.initState();
-        print("======================building......2");
-
+    print("======================building......2");
   }
 
   void loadSurahs() {
@@ -170,7 +166,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 // void updateHighligh
 
   toggleClickedHighlight(int clickedIdx, String ayaS, String ayaString) {
-    setState(()  {
+    setState(() {
       AyaStringNum = ayaS;
 
       print(ayaS);
@@ -183,35 +179,35 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
       // if (isPlaying == true) {
       //   togglePlayer();
-        // if (prev != currentPage) {
-        //   await loadAudios(currentPage);
+      // if (prev != currentPage) {
+      //   await loadAudios(currentPage);
 
-        //   OpenPlayer();
-        // } else {
+      //   OpenPlayer();
+      // } else {
 
-        //   if (ayaS == '1') {
-        //     assetsAudioPlayer.pause();
-        //               await playBasmala();
-        //     assetsAudioPlayerBasmala.current.listen((event) {
-        //       assetsAudioPlayerBasmala.isPlaying.listen((event2) {
-        //         print("BASMALAAAA IS NULL $event2");
-        //         if (event2 == false) {
-        //           setState(() {
-        //             assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-        //           });
-        //         }
-        //       });
-        //     });
+      //   if (ayaS == '1') {
+      //     assetsAudioPlayer.pause();
+      //               await playBasmala();
+      //     assetsAudioPlayerBasmala.current.listen((event) {
+      //       assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+      //         print("BASMALAAAA IS NULL $event2");
+      //         if (event2 == false) {
+      //           setState(() {
+      //             assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+      //           });
+      //         }
+      //       });
+      //     });
 
-        //     // BasmalaFlag=true;
-        //   } 
-        //   // else {
-        //   //   assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-        //   // }
-        // }
-        // print("audio playing is $prev");
-        // print("currently in page $currentPage");
-        // AudioListener();
+      //     // BasmalaFlag=true;
+      //   }
+      //   // else {
+      //   //   assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+      //   // }
+      // }
+      // print("audio playing is $prev");
+      // print("currently in page $currentPage");
+      // AudioListener();
       // }
 
       showModalBottomSheet<void>(
@@ -303,26 +299,23 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   void togglePlayer() {
 // print("$firstFlag $clickHighlightWhilePlaying $ShowAudioPlayer ");
-      // if (firstFlag == true &&
-      //     clickHighlightWhilePlaying == true &&
-      //     ShowAudioPlayer == true) {
-             if (ShowAudioPlayer == true) {
-
-    setState(() async{
-
-            print("11111*************************");
+    // if (firstFlag == true &&
+    //     clickHighlightWhilePlaying == true &&
+    //     ShowAudioPlayer == true) {
+    if (ShowAudioPlayer == true) {
+      setState(() async {
+        print("11111*************************");
         if (showPauseIcon == false) {
           showPauseIcon = !showPauseIcon;
         }
- if (prev != currentPage) {
+        if (prev != currentPage) {
           await loadAudios(currentPage);
 
           OpenPlayer();
         } else {
-
           if (AyaStringNum == '1') {
             assetsAudioPlayer.pause();
-                      await playBasmala();
+            await playBasmala();
             assetsAudioPlayerBasmala.current.listen((event) {
               assetsAudioPlayerBasmala.isPlaying.listen((event2) {
                 print("BASMALAAAA IS NULL $event2");
@@ -335,7 +328,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
             });
 
             // BasmalaFlag=true;
-          } 
+          }
           // else {
           //   assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
           // }
@@ -343,20 +336,14 @@ class _finalCarousel2 extends State<finalCarousel2> {
         print("audio playing is $prev");
         print("currently in page $currentPage");
         AudioListener();
-
-    });
-
-      } else{
-        setState(() {
-           widget.toggleBars();
+      });
+    } else {
+      setState(() {
+        widget.toggleBars();
         ShowAudioPlayer = true;
-          print("22222*************************");
-        });
-       
-
-      } 
-      
-
+        print("22222*************************");
+      });
+    }
 
     print("TOGGLED TO $ShowAudioPlayer");
   }
@@ -378,10 +365,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-
     if (widget.loop == 1 && loopFlag == false) {
       loopFunction();
     }
@@ -410,18 +395,20 @@ class _finalCarousel2 extends State<finalCarousel2> {
         physics: (isLandscape == false)
             ? NeverScrollableScrollPhysics()
             : AlwaysScrollableScrollPhysics(),
-        child: Column(children: [
+        child: Column(
+
+          children: [
           Container(
             width: MediaQuery.of(context).size.width,
             padding: (isLandscape == false)
                 ? EdgeInsets.fromLTRB(0, 130, 0, 0)
                 : EdgeInsets.fromLTRB(10, 130, 10, 50),
-            color: Colors.white,
+            color: Colors.blue,
             child: CarouselSlider(
               options: CarouselOptions(
 
                   // height: MediaQuery.of(context).size.height,
-                  height: (isLandscape == false) ? 615 : 1400,
+                  height: (isLandscape == false) ? 595 : 1400,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -431,20 +418,18 @@ class _finalCarousel2 extends State<finalCarousel2> {
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) {
                     setState(() {
-                              // ayaNumsforThePage.clear();
+                      // ayaNumsforThePage.clear();
 
                       print("we are in next page");
                       overallid = index;
                       currentPage = index + 1;
-                        widget.changeGlobal(currentPage);
+                      widget.changeGlobal(currentPage);
 
                       surahName = _surahNames[index]!;
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
                           widget.goToPage.toString());
-
                     });
-
                   }),
               items: listofObjects.map((i) {
                 int idx = listofObjects.indexOf(i);
@@ -458,16 +443,29 @@ class _finalCarousel2 extends State<finalCarousel2> {
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
                         IgnorePointer(
-                          child:(idx==0 || idx==1 ) ? Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:300,
-                                          fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    ) :
-                                          Image.asset(  'assets/quran_images/images/'+(idx+1).toString()+'.jpg',   height:900,
-                                          fit: BoxFit.fitWidth,       width: MediaQuery.of(context).size.width,    )
+                            child: (idx == 0 || idx == 1)
+                                ? Image.asset(
+                                    'assets/quran_images/images/' +
+                                        (idx + 1).toString() +
+                                        '.jpg',
+                                    height: 300,
+                                    fit: BoxFit.fitWidth,
+                                    width: MediaQuery.of(context).size.width,
+                                  )
+                                : Image.asset(
+                                    'assets/quran_images/images/' +
+                                        (idx + 1).toString() +
+                                        '.jpg',
+                                    height: 900,
+                                    fit: BoxFit.fitWidth,
+                                    width: MediaQuery.of(context).size.width,
+                                  )
 
-                        //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
-                        //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
-                        //                   //                        )
+                            //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
+                            //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
+                            //                   //                        )
 
-                                ),
+                            ),
 
                         //             ): )
                         //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
@@ -505,10 +503,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
                               firstFlag: firstFlag,
                               prev: prev,
                               closedBottomSheet: closedBottomSheet,
-                              ayaNumsforThePage:ayaNumsforThePage,
+                              ayaNumsforThePage: ayaNumsforThePage,
                             ),
                           );
                         }),
+
+                       
                       ]),
                     );
                   },
@@ -530,9 +530,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
                   },
                   child: Container(
                     width: double.infinity,
-                    // margin: EdgeInsets.only(bottom: 70),
+                    margin: EdgeInsets.only(top: 4),
                     // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    height: 85,
+                    height: 70,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         shape: BoxShape.rectangle,
@@ -548,7 +548,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                           style: TextStyle(color: CustomColors.red300),
                         ),
                         SizedBox(
-                          height: 6,
+                          height: 4,
                         ),
                         CarouselSlider(
                           carouselController: carouselController2,
@@ -557,11 +557,10 @@ class _finalCarousel2 extends State<finalCarousel2> {
                               // _currentIndex = index;
                               // print("INDEX IS $index");
                             },
-                            height: 34.0,
-                            viewportFraction: 0.16,
+                            height: 30.0,
+                            viewportFraction: 0.13,
                             reverse: false,
-                            initialPage: 
-                            (cameFromMenu == true)
+                            initialPage: (cameFromMenu == true)
                                 ? widget.goToPage - 1
                                 : 0,
                             scrollDirection: Axis.horizontal,
@@ -572,7 +571,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                             return Builder(
                               builder: (BuildContext context) {
                                 return Container(
-                                  width: 50,
+                                  width: 40,
                                   height: 2,
                                   child: GestureDetector(
                                     onTap: () {
@@ -585,31 +584,31 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                       });
                                     },
                                     child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.grey200
-                                                  : CustomColors.yellow200,
-                                              width: 1,
-                                            ),
-                                            color: Colors.white),
-                                        height: 30,
-                                        width: 40,
-                                        child: Text(
-                                          HelperFunctions
-                                                  .convertToArabicNumbers(
-                                                      i.toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.red300
-                                                  : CustomColors.grey200,
-                                              fontSize: 18),
-                                          textAlign: TextAlign.center,
-                                        )),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                          shape: BoxShape.rectangle,
+                                          border: Border.all(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.grey200
+                                                : CustomColors.yellow200,
+                                            width: 1,
+                                          ),
+                                          color: Colors.white),
+                                      height: 30,
+                                      width: 40,
+                                      child: Text(
+                                        HelperFunctions.convertToArabicNumbers(
+                                                i.toString())
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.red300
+                                                : CustomColors.grey200,
+                                            fontSize: 15),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
                                   ),
                                 );
                               },
@@ -815,7 +814,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                     )
                   //===================PAGE NUMBER====================
                   : Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -829,24 +828,25 @@ class _finalCarousel2 extends State<finalCarousel2> {
                           });
                         },
                         child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(7),
-                                shape: BoxShape.rectangle,
-                                border: Border.all(
-                                  color: CustomColors.yellow200,
-                                  width: 1,
-                                ),
-                                color: Colors.white),
-                            height: 30,
-                            width: 40,
-                            child: Text(
-                              HelperFunctions.convertToArabicNumbers(
-                                      (overallid + 1).toString())
-                                  .toString(),
-                              style: TextStyle(
-                                  color: CustomColors.grey200, fontSize: 18),
-                              textAlign: TextAlign.center,
-                            )),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: CustomColors.yellow200,
+                                width: 1,
+                              ),
+                              color: Colors.white),
+                         height: 30,
+                                      width: 40,
+                          child: Text(
+                            HelperFunctions.convertToArabicNumbers(
+                                    (overallid + 1).toString())
+                                .toString(),
+                            style: TextStyle(
+                                color: CustomColors.grey200, fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
                       ),
                     ),
         ]),
@@ -881,7 +881,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     int rep = await getInt("repNum") as int;
     int surahToLoop = await getInt("surahTo") as int;
     int ayaToLoop = await getInt("ayaTo") as int;
-      
+
     AssetsAudioPlayer.withId("main").stop();
 
     // await loadAudiosLoop(currentPage + 1, rep);
@@ -929,7 +929,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     assetsAudioPlayer.current.listen((playingAudio) {
       final asset = playingAudio!.audio;
 
-      setState(()  {
+      setState(() {
         if (asset != null) {
           isPlaying = true;
         }
@@ -953,9 +953,6 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
         // if (FlagsAudio)
 
-
-
-        
         // print("condition 1: playing.index= " + playingAudio.index.toString());
         // print("condition 2: currentPage= " +
         //     (currentPage + 1).toString() +
@@ -979,7 +976,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 //finally works but need to add condition
 
 //todo: add condition to check beginning of surah.
-      //  print(">>>>>>>>> "+ayaNumsforThePage.toString());
+        //  print(">>>>>>>>> "+ayaNumsforThePage.toString());
 
 // if (ayaNumsforThePage[playingAudio.index] ) {
 
@@ -991,50 +988,48 @@ class _finalCarousel2 extends State<finalCarousel2> {
 //   print("THIS IS THE FIRST AYA");
 // }
 // print("-tttttt=== "+ StartFlagAudio.toString());
-if(StartFlagAudio[playingAudio.index]=="1"){
-  // assetsAudioPlayer.playlistAudioFinished.listen((event) {
-  //   if (event.) {
+        if (StartFlagAudio[playingAudio.index] == "1") {
+          // assetsAudioPlayer.playlistAudioFinished.listen((event) {
+          //   if (event.) {
 
-         assetsAudioPlayer.pause();
+          assetsAudioPlayer.pause();
 
 //          assetsAudioPlayerBasmala.open(
 //         Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
 // );
-  assetsAudioPlayerBasmala.open(
-        Playlist(audios: [
-          Audio.network(
-              "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
-        ], startIndex: 0),
-        loopMode: LoopMode.none);
+          assetsAudioPlayerBasmala.open(
+              Playlist(audios: [
+                Audio.network(
+                    "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+              ], startIndex: 0),
+              loopMode: LoopMode.none);
 
-        assetsAudioPlayerBasmala.playlistFinished.listen((event) {
-          if (event==true) {
-         assetsAudioPlayer.play();
+          assetsAudioPlayerBasmala.playlistFinished.listen((event) {
+            if (event == true) {
+              assetsAudioPlayer.play();
+            }
+          });
 
-          }
-        });
-
-// assetsAudioPlayerBasmala.current.listen((event) { 
+// assetsAudioPlayerBasmala.current.listen((event) {
 //   var asset= event!.audio;
 //               assetsAudioPlayerBasmala.isPlaying.listen((event2) {
 //                 print("BASMALAAAA IS NULL $event2");
 //                 if (event2 == true) {
 //                 }});});
 
+          print("TIHS IS THE FIRST AYA");
+        }
+        // });
+        //           await playBasmala();
+        // assetsAudioPlayerBasmala.current.listen((event) {
+        //   assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+        //     print("BASMALAAAA IS NULL $event2");
+        //     if (event2 == false) {
 
-        print("TIHS IS THE FIRST AYA");
-    }
-  // });
-            //           await playBasmala();
-            // assetsAudioPlayerBasmala.current.listen((event) {
-            //   assetsAudioPlayerBasmala.isPlaying.listen((event2) {
-            //     print("BASMALAAAA IS NULL $event2");
-            //     if (event2 == false) {
-                
-            //         assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
-              
+        //         assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+
 //  } });});
-                // }
+        // }
 
         if (playingAudio.index != 0 &&
             (currentPage) == surahToLoop &&
@@ -1107,12 +1102,13 @@ if(StartFlagAudio[playingAudio.index]=="1"){
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
     // _ayaNumbers = surahsData.loadAyaNum();
- var startflags =
-        await Provider.of<AudioPlayer_Provider>(context, listen: false).StartFlagAudio;
+    var startflags =
+        await Provider.of<AudioPlayer_Provider>(context, listen: false)
+            .StartFlagAudio;
 
     List<Audio> loopPlaylist = [];
     List<String> loopFlags = [];
-        List<String> loopStartFlags = [];
+    List<String> loopStartFlags = [];
 
     List<int> loopIndices = [];
 
@@ -1150,12 +1146,11 @@ if(StartFlagAudio[playingAudio.index]=="1"){
       clickedHighlightNum = 0;
       activeAya = 0;
       FlagsAudio = loopFlags;
-      StartFlagAudio=loopStartFlags;
+      StartFlagAudio = loopStartFlags;
       prev = page;
       LoopIndices = loopIndices;
       audiosList = loopPlaylist;
     });
-
   }
 
 //==================================
@@ -1211,12 +1206,13 @@ if(StartFlagAudio[playingAudio.index]=="1"){
     var flagsss =
         await Provider.of<AudioPlayer_Provider>(context, listen: false)
             .FlagsAudio;
-            var startflags =
-        await Provider.of<AudioPlayer_Provider>(context, listen: false).StartFlagAudio;
+    var startflags =
+        await Provider.of<AudioPlayer_Provider>(context, listen: false)
+            .StartFlagAudio;
 
     setState(() {
       FlagsAudio = flagsss;
-      StartFlagAudio=startflags;
+      StartFlagAudio = startflags;
       prev = page;
 
       audiosList = audddd;
@@ -1251,7 +1247,7 @@ if(StartFlagAudio[playingAudio.index]=="1"){
         print("flag is $FlagsAudio");
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
-            FlagsAudio[playingAudio.index-1 ] == '1') {
+            FlagsAudio[playingAudio.index - 1] == '1') {
           print("THIS IS THE LAST LAST AYA");
 //     assetsAudioPlayer.playlistAudioFinished.listen((Playing playing){
 // print(">>>>>>>>>>>>>>>> " + playing.toString());
@@ -1261,7 +1257,7 @@ if(StartFlagAudio[playingAudio.index]=="1"){
 
         if (playingAudio.index != 0 &&
             FlagsAudio.length > 0 &&
-            FlagsAudio[playingAudio.index ].toString() == "0" &&
+            FlagsAudio[playingAudio.index].toString() == "0" &&
             playingAudio.index == FlagsAudio.length - 1) {
           assetsAudioPlayer.playlistFinished.listen((finished) async {
             if (finished == true) {
