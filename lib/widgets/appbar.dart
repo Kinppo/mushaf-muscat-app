@@ -51,6 +51,7 @@ class _appBarState extends State<appBar> {
 
     return (searchToggle == false)
         ? AppBar(
+elevation: 0.0,
       //        shape: RoundedRectangleBorder(
       // borderRadius: new BorderRadius.vertical(
       //   bottom: new Radius.elliptical(400, 56.0),
