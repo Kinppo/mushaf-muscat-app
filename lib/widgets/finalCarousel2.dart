@@ -554,8 +554,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
                           carouselController: carouselController2,
                           options: CarouselOptions(
                             onPageChanged: (index, reason) {
-                              // _currentIndex = index;
-                              // print("INDEX IS $index");
+                              // print("0000000000000page cjhanged from carousel");
+          // carouselController2.jumpToPage(index);                            
+// print("INDEX IS $index");
                             },
                             height: 30.0,
                             viewportFraction: 0.13,
@@ -578,7 +579,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                       setState(() {
                                         surahName = _surahNames[i - 1]!;
                                         carouselController2
-                                            .animateToPage(i - 1);
+                                            .jumpToPage(i - 1);
                                         carouselController.animateToPage(i - 1);
                                         // ShowOnlyPageNum=true;
                                       });
@@ -814,7 +815,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                     )
                   //===================PAGE NUMBER====================
                   : Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
@@ -837,13 +838,13 @@ class _finalCarousel2 extends State<finalCarousel2> {
                               ),
                               color: Colors.white),
                          height: 30,
-                                      width: 40,
+                                      width: 39,
                           child: Text(
                             HelperFunctions.convertToArabicNumbers(
                                     (overallid + 1).toString())
                                 .toString(),
                             style: TextStyle(
-                                color: CustomColors.grey200, fontSize: 18),
+                                color: CustomColors.grey200, fontSize: 15),
                             textAlign: TextAlign.center,
                           ),
                         ),
