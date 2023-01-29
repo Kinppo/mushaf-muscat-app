@@ -347,7 +347,7 @@ class _pageDetails2State extends State<pageDetails2> {
           style: const TextStyle(
             fontFamily: 'Amiri',
             fontWeight: FontWeight.bold,
-            fontSize: 10,
+            fontSize: 8,
             color: Colors.brown,
             wordSpacing: 1,
             letterSpacing: 0.6,
@@ -372,7 +372,7 @@ class _pageDetails2State extends State<pageDetails2> {
         style: const TextStyle(
           fontFamily: 'Amiri',
           fontWeight: FontWeight.bold,
-          fontSize: 10,
+          fontSize: 8,
           color: Colors.red,
           wordSpacing: 2.9,
           letterSpacing: 1.5,
