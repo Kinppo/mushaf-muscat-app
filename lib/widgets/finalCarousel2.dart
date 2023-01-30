@@ -389,7 +389,9 @@ class _finalCarousel2 extends State<finalCarousel2> {
           pageNumber: i,
         )));
     return Container(
-      color: Colors.white,
+      // color: Colors.blue,
+            color: Color.fromRGBO(245, 239, 234, 1),
+
       height: MediaQuery.of(context).size.height,
       child: SingleChildScrollView(
         physics: (isLandscape == false)
@@ -403,7 +405,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
             padding: (isLandscape == false)
                 ? EdgeInsets.fromLTRB(0, 130, 0, 0)
                 : EdgeInsets.fromLTRB(10, 130, 10, 50),
-            color: Colors.blue,
+          color: Color.fromRGBO(245, 239, 234, 1),
+            // color: Colors.blue,
             child: CarouselSlider(
               options: CarouselOptions(
 
@@ -529,10 +532,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
                     });
                   },
                   child: Container(
+
                     width: double.infinity,
                     margin: EdgeInsets.only(top: 4),
                     // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                     height: 70,
+                    
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         shape: BoxShape.rectangle,

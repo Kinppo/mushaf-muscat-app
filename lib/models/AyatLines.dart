@@ -7,12 +7,15 @@ class AyatLines {
   String? surahName;
   int? pageNumber;
   String? aya;
+  String? startOfSurah;
+
 
   AyatLines({
     this.text,
     this.pageNumber,
     this.endOfSurah,
     this.surahName,
-    this.aya
+    this.aya,
+    this.startOfSurah
   });
 }

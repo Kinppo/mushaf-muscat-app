@@ -80,17 +80,13 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   initState() {
     if (isLoaded == false) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await loadTextandBookmarks(widget.currentpage);
 
-       WidgetsBinding.instance.addPostFrameCallback((_) async {
-   await  loadTextandBookmarks(widget.currentpage);
-
-     setState(() {
-              loadTextandBookmarks(widget.currentpage);
-
-     });
-
-        
-    } );
+        setState(() {
+          loadTextandBookmarks(widget.currentpage);
+        });
+      });
 
       // print("audio list for page $widget.id is $audioList");
       // print(audioList.toString());
@@ -122,13 +118,13 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Future<void> loadTextandBookmarks(int page) async {
-    textlist =await 
-        Provider.of<ayatLines_provider>(context, listen: false).getLines(page);
-  
-  final List<BookMark> bk = await
-        Provider.of<BookMarks>(context, listen: false).bookmarks; 
-        print("bookmarks are: $bk");
- bk.forEach((element) {
+    textlist = await Provider.of<ayatLines_provider>(context, listen: false)
+        .getLines(page);
+
+    final List<BookMark> bk =
+        await Provider.of<BookMarks>(context, listen: false).bookmarks;
+    print("bookmarks are: $bk");
+    bk.forEach((element) {
       setState(() {
         if (element.pageNum == widget.currentpage) {
           bkSamePage = true;
@@ -138,12 +134,10 @@ class _pageDetails2State extends State<pageDetails2> {
         }
       });
     });
-
-  
   }
 
-  didChangeDependencies()  {
-    final List<BookMark> bk = 
+  didChangeDependencies() {
+    final List<BookMark> bk =
         Provider.of<BookMarks>(context, listen: true).bookmarks;
 
     bk.forEach((element) {
@@ -172,11 +166,20 @@ class _pageDetails2State extends State<pageDetails2> {
     List<String> textl = [];
     textlist.then((value) {
       value.forEach((item) {
-        if (item.endOfSurah == '1') {
-          textl.add(item.text! + '\n\n\n\n\n');
+        // if (item.endOfSurah == '1') {
+        //   textl.add(item.text! + '\n\n\n\n');
+        // } else 
+        if (item.startOfSurah== '1') {
+                    textl.add('\n\n\n\n\n\n' +item.text!);
+
         } else {
           textl.add(item.text!);
         }
+        // if (item.endOfSurah == '1') {
+        //   textl.add(item.text! + '\n\n\n\n\n\n');
+        // } else {
+        //   textl.add(item.text!);
+        // }
       });
       fulltext = textl.join('\n\n');
     });
@@ -205,7 +208,6 @@ class _pageDetails2State extends State<pageDetails2> {
       final text = arrayStrings[index] + "";
       var intValue = text.replaceAll(RegExp('[^0-9]'), '');
 
- 
       // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
@@ -217,7 +219,7 @@ class _pageDetails2State extends State<pageDetails2> {
               setState(() {
                 // widget.highlightedAyaText= text;
                 // print("The word touched is " + widget.highlightedAyaText.toString());
-  
+
                 highlightFlag = true;
                 // print(arrayOfTextSpan);
                 int counter = 0;
@@ -361,26 +363,26 @@ class _pageDetails2State extends State<pageDetails2> {
 
   Container? AllOtherPagesContainer() {
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 5, 6, 0),
-        padding: EdgeInsets.fromLTRB(0, 44, 6, 0),
+        margin: EdgeInsets.fromLTRB(0, 0, 6, 0),
+        padding: EdgeInsets.fromLTRB(0, 0, 6, 0),
         child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.justify,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
-        style: const TextStyle(
-          fontFamily: 'Amiri',
-          fontWeight: FontWeight.bold,
-          fontSize: 8,
-          color: Colors.transparent,
-          wordSpacing: 2.9,
-          letterSpacing: 1.5,
-          height: 1.8,
+            style: const TextStyle(
+              fontFamily: 'Amiri',
+              fontWeight: FontWeight.bold,
+              fontSize: 8,
+              color: Colors.red,
+              wordSpacing: 2.9,
+              letterSpacing: 1.5,
+              height: 2.07,
 
-          // height: 1.68,
-        ),
-        children: createTextSpans(),
+              // height: 1.68,
+            ),
+            children: createTextSpans(),
           ),
         ));
   }
@@ -408,7 +410,6 @@ class _pageDetails2State extends State<pageDetails2> {
 
   @override
   Widget build(BuildContext context) {
-  
     return isLoaded
         ? Center(
             child: Column(

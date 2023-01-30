@@ -37,6 +37,9 @@ class ayatLines_provider with ChangeNotifier {
         surahName: jsonResult[index]['SurahName'],
         pageNumber: pageNum,
         aya: jsonResult[index]['aya'],
+        startOfSurah: jsonResult[index]['StartOfSurah'],
+
+
       ));
     }
 
