@@ -161,6 +161,9 @@ class _pageDetails2State extends State<pageDetails2> {
       });
     }
     //=======
+      bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
+
     textlist = Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
@@ -170,7 +173,9 @@ class _pageDetails2State extends State<pageDetails2> {
         //   textl.add(item.text! + '\n\n\n\n');
         // } else 
         if (item.startOfSurah== '1') {
-                    textl.add('\n\n\n\n\n\n' +item.text!);
+        ( isLandscape==false) ?
+                    textl.add('\n\n\n\n\n\n' +item.text!)
+                    :   textl.add('\n\n\n\n' +item.text!);
 
         } else {
           textl.add(item.text!);
@@ -362,23 +367,26 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Container? AllOtherPagesContainer() {
+  
+          bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
-        margin: EdgeInsets.fromLTRB(0, 0, 6, 0),
+        margin: (isLandscape==false) ? EdgeInsets.fromLTRB(0, 0, 6, 0) :  EdgeInsets.fromLTRB(0,110, 6, 0),
         padding: EdgeInsets.fromLTRB(0, 0, 6, 0),
         child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.justify,
+          textAlign: TextAlign.center,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
-            style: const TextStyle(
+            style:  TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: 8,
+              fontSize:  (isLandscape == false) ? 8 : 22,
               color: Colors.red,
               wordSpacing: 2.9,
               letterSpacing: 1.5,
-              height: 2.07,
+              height: (isLandscape==false) ? 2.07:  1.9,
 
               // height: 1.68,
             ),

@@ -411,7 +411,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
               options: CarouselOptions(
 
                   // height: MediaQuery.of(context).size.height,
-                  height: (isLandscape == false) ? 595 : 1400,
+                  height: (isLandscape == false) ? 602 : 1400,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -456,13 +456,14 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                     width: MediaQuery.of(context).size.width,
                                   )
                                 : Image.asset(
-                                    'assets/quran_images/images/' +
-                                        (idx + 1).toString() +
-                                        '.jpg',
+                                    'assets/quran_images/images/598.jpg' ,
+                                    // +
+                                        // (idx + 1).toString() +
+                                        // '.jpg',
                                     height: 900,
                                     fit: BoxFit.fitWidth,
                                     width: MediaQuery.of(context).size.width,
-                                  )
+                                  ), 
 
                             //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
                             //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
@@ -534,7 +535,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                   child: Container(
 
                     width: double.infinity,
-                    margin: EdgeInsets.only(top: 4),
+                    margin: EdgeInsets.only(top: 0),
                     // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
                     height: 70,
                     
