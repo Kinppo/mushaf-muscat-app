@@ -355,7 +355,7 @@ class _pageDetails2State extends State<pageDetails2> {
             fontFamily: 'Amiri',
             fontWeight: FontWeight.bold,
             fontSize: 8,
-            color: Colors.transparent,
+            color: Colors.red,
             wordSpacing: 1,
             letterSpacing: 0.6,
             height: 1.6,

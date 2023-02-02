@@ -39,7 +39,7 @@ class _QuranScreenState extends State<QuranScreen> {
     // _detailListBloc = DetailListBloc(widget.apiUrl);
     setState(() {
       segmentedControlValue = 0;
-      GlobalCurrentPage=1;
+      GlobalCurrentPage = 1;
     });
     // TODO: implement initState
     super.initState();
@@ -69,12 +69,10 @@ class _QuranScreenState extends State<QuranScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
+    print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-   var Screenheight=
-        MediaQuery.of(context).size.height;
+    var Screenheight = MediaQuery.of(context).size.height;
 
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
@@ -109,11 +107,12 @@ print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
 // }R
 //   });
 
-void changeGlobal(int currpage){
-setState(() {
-  GlobalCurrentPage=currpage;
-});
-}
+    void changeGlobal(int currpage) {
+      setState(() {
+        GlobalCurrentPage = currpage;
+      });
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false, // set it to false
@@ -123,7 +122,7 @@ setState(() {
               segmentedControlValue: controlSegment,
               orientationPotrait: orientationPotrait,
               toggleSearch: controlSearch,
-              h: (isLandscape == false) ? Screenheight*0.125 : 200,
+              h: (isLandscape == false) ? Screenheight * 0.18 : 200,
               segmentToggle: segmentedControlValue,
             )
           : PreferredSize(
@@ -146,6 +145,8 @@ setState(() {
         physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: <Widget>[
+                                     (toggleSearch != true) ?
+
             GestureDetector(
 
                 // behavior: HitTestBehavior.deferToChild,
@@ -162,12 +163,15 @@ setState(() {
                               padding: EdgeInsets.only(top: 0),
                               // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
                               child: finalCarousel2(
-                                  goToPage: (goToPage!=0 &&GlobalCurrentPage==1)? goToPage :GlobalCurrentPage,
+                                  goToPage:
+                                      (goToPage != 0 && GlobalCurrentPage == 1)
+                                          ? goToPage
+                                          : GlobalCurrentPage,
                                   loop: loop,
                                   toggleBars: toggleBars,
                                   loophighlight: highlighNum,
                                   GlobalCurrentPage: GlobalCurrentPage,
-                                  changeGlobal:changeGlobal),
+                                  changeGlobal: changeGlobal),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()
@@ -187,7 +191,7 @@ setState(() {
                                 toggleBars: toggleBars,
                                 loophighlight: highlighNum,
                                 GlobalCurrentPage: GlobalCurrentPage,
-                                 changeGlobal:changeGlobal,
+                                changeGlobal: changeGlobal,
                               ),
                               // Text(AppLocalizations.of(context)!
                               //     .translate('tafsir_text')
@@ -195,22 +199,41 @@ setState(() {
                             ),
                           )
 
-                        // if user is searching
-                        : (toggleSearch == true)
-                            ? Container(
-                                color: CustomColors.yellow500,
-                                child: const SizedBox(
-                                  child: Text("s"),
-                                  height: double.infinity,
-                                  width: double.infinity,
-                                ))
                             : Container(
-                                color: CustomColors.yellow500,
+                                height: 400,
+                                child:
+                                    Text("grokgrogjkaoeajeotjejotjeotetetwtw"),
+                                color: CustomColors.red200,
                               ),
                 onTap: () {
                   toggleBars();
-                }),
-          ],
+                }) :
+
+      
+                       Container(
+                        padding: EdgeInsets.only(bottom:30),
+                         child: ListView.builder(
+                              shrinkWrap: true,
+                                        padding: const EdgeInsets.only(top: 20),
+                                        itemCount: 3,
+                                        itemBuilder: (ctx, i) {
+                                          return Column(
+                                            children: [
+                                  
+                                  ListTile(title: Text(i.toString()),
+                                  textColor: Colors.red,
+                                  tileColor: Colors.white),
+                                  ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                  tileColor: Colors.white),
+                                  
+                                  ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                  tileColor: Colors.white),
+                                  
+                                            ],
+                                          );
+                                        }, ),
+                       ) 
+          ]
         ),
       ),
     );
