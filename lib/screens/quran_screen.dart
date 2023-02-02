@@ -32,7 +32,9 @@ class _QuranScreenState extends State<QuranScreen> {
   int loop = 0;
   int highlighNum = 0;
   late int GlobalCurrentPage;
-  var searchRes;
+  var searchRes_surah;
+    var searchRes_aya;
+
 
   @override
   void initState() {
@@ -53,21 +55,31 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
-  void controlSearch( search,result ) {
-    searchRes=[];
+  void controlSearch( search,surah_result, aya_result ) {
+    searchRes_surah=[];
+    searchRes_aya=[];
+
     setState(() {
       toggleSearch = search;
       print("toggleSearch $toggleSearch");
       // print(result.toList().toString());
-      searchRes=result;
+
+      searchRes_surah=surah_result;
+      searchRes_aya=aya_result;
+
     });
   }
 
 List<ListTile> getSearchTiles() {
   List<ListTile> resultstiles=[];
 
-for (int i=0; i<searchRes.length; i++ ) {
-resultstiles.add(ListTile(title: Text(searchRes[i].surahTitle.toString())));
+for (int i=0; i<searchRes_surah.length; i++ ) {
+resultstiles.add(ListTile(title: Text(searchRes_surah[i].surahTitle.toString(), style: TextStyle(fontWeight: FontWeight.bold),)));
+}
+
+for (int i=0; i<searchRes_aya.length; i++ ) {
+resultstiles.add(ListTile(title: Text(searchRes_aya[i].text.toString(), 
+overflow: TextOverflow.ellipsis)));
 }
 
 
@@ -233,7 +245,7 @@ return resultstiles.isNotEmpty? resultstiles : [ListTile(title:Text("empty"))];
                          child: ListView.builder(
                               shrinkWrap: true,
                                         padding: const EdgeInsets.only(top: 20),
-                                        itemCount:  1,
+                                        itemCount: 1,
                                         itemBuilder: (ctx, i) {
                                           return Column(
                                             children:

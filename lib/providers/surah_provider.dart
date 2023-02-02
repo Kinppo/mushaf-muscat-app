@@ -6,9 +6,28 @@ import 'package:mushafmuscat/models/surah.dart';
 
 import '../utils/helperFunctions.dart';
 
+
+
+class generalAya {
+  String surah;
+  String aya;
+  String page;
+  String text;
+
+generalAya({
+    required this.surah,
+    required this.aya,
+    required this.page,
+    required this.text
+  });
+}
+
+
 class SurahProvider with ChangeNotifier {
   List<Surah> _surahs = [];
   List<Surah> _undiacritizedSurahList = [];
+    List<generalAya> _generalAyasList = [];
+
   List <String?> carouselJSON =[];
  List<List<int>>  flagsForEndofSurah =[];
   List<List<String?>>AyaNum=[];
@@ -19,12 +38,17 @@ class SurahProvider with ChangeNotifier {
 
   Future<void> fetchSurahs() async {
     String data = await rootBundle.loadString('lib/data/json_files/surah.json');
+    
+    //for aya search
+    String data2 = await rootBundle.loadString('lib/data/json_files/allayapages.json');
 
     //String convertedData = convertToArabicNumbers(data);
 // String convertedData = HelperFunctions.convertToArabicNumbers(data);
 //  var jsonResult = jsonDecode(convertedData);
 
     var jsonResult = jsonDecode(data);
+        var jsonResult2 = jsonDecode(data2);
+
 
     //print (jsonResult['data']);
 
@@ -32,8 +56,17 @@ class SurahProvider with ChangeNotifier {
       print("result is null");
       return;
     }
+    
+
+    if (jsonResult2 == null) {
+      print("result is null");
+      return;
+    }
 
     final List<Surah> loadedSurahs = [];
+
+    final List<generalAya> loadedAyas = [];
+
     // print("reached here");
 
     jsonResult['data'].forEach((data) =>
@@ -50,9 +83,23 @@ class SurahProvider with ChangeNotifier {
         // );
 
         );
+        
+ jsonResult2.forEach((data) =>
+            //convert data to product objects
 
+            //  print(data['name'])
+            loadedAyas.add(generalAya(
+              aya: data['aya'],
+              text: data['text'],
+              page:data['page'],
+              surah: data['surah'],
+            ))
+        // );
+
+        );
     _surahs = loadedSurahs;
     _undiacritizedSurahList = loadedSurahs;
+    _generalAyasList= loadedAyas;
 
     // _undiacritizedSurahList.forEach((surah) {
     //   surah.surahTitle == HelperFunctions.removeAllDiacritics(surah.surahTitle);
@@ -119,6 +166,31 @@ print(_undiacritizedSurahList.length);
             return matches;
   }
 
+
+
+  List<generalAya> getAyaSeachResults_appbar(user_query) {
+if (_generalAyasList.isEmpty) {
+      fetchSurahs();
+}
+    List<generalAya> matches = [];
+    String ? query= HelperFunctions.removeAllDiacritics(user_query);
+    matches.addAll(_generalAyasList);
+
+    matches.retainWhere((aya) =>
+        (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) 
+        ||
+
+        ((HelperFunctions.removeAllDiacritics((aya.text))!.substring(2))
+            .startsWith(query)) 
+            ||
+        (HelperFunctions.removeAllDiacritics(aya.text!)!
+            .endsWith(query))
+            );
+
+            print(matches);
+            matches.forEach((element) {print(element.text);});
+            return matches;
+  }
 
 
 List<String?>loadSurahs()  {

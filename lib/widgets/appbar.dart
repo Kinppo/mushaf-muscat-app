@@ -41,7 +41,7 @@ class _appBarState extends State<appBar> {
   // int segmentToggle = 0;
   bool searchToggle = false;
   List<Surah> _surah_search_results = [];
-
+List<generalAya> _aya_search_results=[];
   // search controller
   
  
@@ -64,11 +64,13 @@ Future<void> searchController( isStillSearching, search) async {
    setState(()  {
       searchToggle = isStillSearching;
            _surah_search_results =   surahsData.getSeachResults_appbar(search);
-print(_surah_search_results);
+// print(_surah_search_results);
+
+_aya_search_results=surahsData.getAyaSeachResults_appbar(search);
       //compared(input);
       // print(input);
       //todo: send search result here
-            widget.toggleSearch(searchToggle, _surah_search_results);
+            widget.toggleSearch(searchToggle, _surah_search_results,_aya_search_results);
       print("toggle search after $searchToggle");
     });
   }
