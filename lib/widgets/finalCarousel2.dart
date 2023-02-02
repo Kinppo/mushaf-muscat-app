@@ -445,48 +445,29 @@ class _finalCarousel2 extends State<finalCarousel2> {
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
-                        IgnorePointer(
-                            child: (idx == 0 || idx == 1)
-                                ? Image.asset(
-                                    'assets/quran_images/images/' +
-                                        (idx + 1).toString() +
-                                        '.jpg',
-                                    height: 300,
-                                    fit: BoxFit.fitWidth,
-                                    width: MediaQuery.of(context).size.width,
-                                  )
-                                : Image.asset(
-                                    'assets/quran_images/images/598.jpg' ,
-                                    // +
-                                        // (idx + 1).toString() +
-                                        // '.jpg',
-                                    height: 900,
-                                    fit: BoxFit.fitWidth,
-                                    width: MediaQuery.of(context).size.width,
-                                  ), 
-
-                            //                   // SvgPicture.asset('assets/quran_images/svg/$currentPage.svg', fit: BoxFit.cover ,
-                            //                   //                         width:MediaQuery.of(context).size.width  , height:980 , alignment: Alignment.center,  clipBehavior: Clip.none,
-                            //                   //                        )
-
-                            ),
-
-                        //             ): )
-                        //  child: (idx==603) ? SvgPicture.asset('assets/quran_images/604.svg',
-                        //     // height:200,
+                        // IgnorePointer(
+                        //     child: (idx == 0 || idx == 1)
+                        //         ? Image.asset(
+                        //             'assets/quran_images/images/' +
+                        //                 (idx + 1).toString() +
+                        //                 '.jpg',
+                        //             height: 300,
                         //             fit: BoxFit.fitWidth,
-                        //                                     width: MediaQuery.of(context).size.width,
-                        //             ):
-                        //                  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' :
-                        //                'assets/quran_images/img_3.jpg',
-                        //     height:300,
-                        //             fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                        //       ),
-                        // //   //  Image.asset( (idx==0) ? 'assets/quran_images/img_1.jpg' : (idx==603 ? 'assets/quran_images/img_604.jpg' : 'assets/quran_images/img_3.jpg'),
-                        // //   // height:300,
-                        // //     //       fit: BoxFit.fitWidth,                              width: MediaQuery.of(context).size.width,
-                        // //     // ),
-                        // // ),
+                        //             width: MediaQuery.of(context).size.width,
+                        //           )
+                        //         : Image.asset(
+                        //             'assets/quran_images/images/598.jpg' ,
+                        //             // +
+                        //                 // (idx + 1).toString() +
+                        //                 // '.jpg',
+                        //             height: 900,
+                        //             fit: BoxFit.fitWidth,
+                        //             width: MediaQuery.of(context).size.width,
+                        //           ), 
+
+                        //     ),
+
+                        
                         Consumer<AudioPlayer_Provider>(builder:
                             (BuildContext context, value, Widget? child) {
                           return Container(
