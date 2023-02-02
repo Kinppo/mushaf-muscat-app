@@ -32,6 +32,7 @@ class _QuranScreenState extends State<QuranScreen> {
   int loop = 0;
   int highlighNum = 0;
   late int GlobalCurrentPage;
+  var searchRes;
 
   @override
   void initState() {
@@ -52,12 +53,29 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
-  void controlSearch(search) {
+  void controlSearch( search,result ) {
+    searchRes=[];
     setState(() {
       toggleSearch = search;
       print("toggleSearch $toggleSearch");
+      // print(result.toList().toString());
+      searchRes=result;
     });
   }
+
+List<ListTile> getSearchTiles() {
+  List<ListTile> resultstiles=[];
+
+for (int i=0; i<searchRes.length; i++ ) {
+resultstiles.add(ListTile(title: Text(searchRes[i].surahTitle.toString())));
+}
+
+
+return resultstiles.isNotEmpty? resultstiles : [ListTile(title:Text("empty"))];
+
+}
+
+
 
   void toggleBars() {
     setState(() {
@@ -211,25 +229,27 @@ class _QuranScreenState extends State<QuranScreen> {
 
       
                        Container(
-                        padding: EdgeInsets.only(bottom:30),
+                        padding: EdgeInsets.only(top:Screenheight * 0.22),
                          child: ListView.builder(
                               shrinkWrap: true,
                                         padding: const EdgeInsets.only(top: 20),
-                                        itemCount: 3,
+                                        itemCount:  1,
                                         itemBuilder: (ctx, i) {
                                           return Column(
-                                            children: [
+                                            children:
+                                               getSearchTiles()
+
                                   
-                                  ListTile(title: Text(i.toString()),
-                                  textColor: Colors.red,
-                                  tileColor: Colors.white),
-                                  ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                  tileColor: Colors.white),
+                                  // ListTile(title: Text(i.toString()),
+                                  // textColor: Colors.red,
+                                  // tileColor: Colors.white),
+                                  // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                  // tileColor: Colors.white),
                                   
-                                  ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                  tileColor: Colors.white),
+                                  // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                  // tileColor: Colors.white),
                                   
-                                            ],
+                                            ,
                                           );
                                         }, ),
                        ) 

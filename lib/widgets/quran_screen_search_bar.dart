@@ -4,84 +4,103 @@ import 'package:mushafmuscat/resources/colors.dart';
 import '../localization/app_localizations.dart';
 
 class QuranSearchBar extends StatefulWidget {
+  Function searchController;
 
-   Function searchController;
-
-QuranSearchBar({ Key? key,  required this.searchController}) : super(key: key);
+  QuranSearchBar({Key? key, required this.searchController}) : super(key: key);
 
   @override
   State<QuranSearchBar> createState() => QuranSearchBarState();
-
 }
 
 class QuranSearchBarState extends State<QuranSearchBar> {
   bool isStillSearching = false;
- final fieldText = TextEditingController();
+  bool firstFlag = false;
 
- void clearText() {
+  final fieldText = TextEditingController();
+
+  void clearText() {
     fieldText.clear();
   }
 
   @override
-  Widget build(BuildContext context,) {
+  Widget build(
+    BuildContext context,
+  ) {
     return TextField(
-
       onChanged: (text) {
         setState(() {
-          print(text);
-        if (isStillSearching== false) {
-            isStillSearching= true;
-            widget.searchController(isStillSearching);
-
-        }
-
-        else if (isStillSearching== true && text=='' ) {
-          isStillSearching=false;
-           widget.searchController(isStillSearching);
-        }
-
+          if (text != '' && firstFlag == false) {
+            print("entered here");
+            firstFlag = true;
+            isStillSearching = true;
+            widget.searchController(isStillSearching, text);
+          } else {
+            // print(text);
+            if (isStillSearching == false) {
+              isStillSearching = true;
+              // widget.searchController(isStillSearching, text);
+            } else if (isStillSearching == true && text == '') {
+              isStillSearching = false;
+              //  widget.searchController(isStillSearching, text);
+            }
+            widget.searchController(isStillSearching, text);
+          }
         });
-        
-   },
-
-   onSubmitted: (text) {},
-   onEditingComplete: () {},
-
+      },
+      onSubmitted: (text) {
+        setState(() {
+          if (text != '' && firstFlag == false) {
+            print("entered here");
+            firstFlag = true;
+            isStillSearching = true;
+            widget.searchController(isStillSearching, text);
+          } else {
+            // print(text);
+            if (isStillSearching == false) {
+              isStillSearching = true;
+              // widget.searchController(isStillSearching, text);
+            } else if (isStillSearching == true && text == '') {
+              isStillSearching = false;
+              //  widget.searchController(isStillSearching, text);
+            }
+            widget.searchController(isStillSearching, text);
+          }
+        });
+      },
+      onEditingComplete: () {},
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(
-            width: 0,
-            style: BorderStyle.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
           ),
-        ),
-        filled: true,
-        fillColor: Theme.of(context).indicatorColor,
-        prefixIcon:  Icon(Icons.search ,color: CustomColors.grey200),
-        iconColor: CustomColors.grey200,
-        hintText:    AppLocalizations.of(context)!
-                              .translate('search_screen_search')
-                              .toString(),
-        hintStyle:  TextStyle(
-          color: CustomColors.grey200,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ),
-        suffixIcon: isStillSearching==true ? IconButton( color:CustomColors.grey200,    // Icon to 
-                    icon: Icon(Icons.cancel), // clear text
-                    onPressed: clearText,
-                ) : null
-      ),
-      style:  TextStyle(
+          filled: true,
+          fillColor: Theme.of(context).indicatorColor,
+          prefixIcon: Icon(Icons.search, color: CustomColors.grey200),
+          iconColor: CustomColors.grey200,
+          hintText: AppLocalizations.of(context)!
+              .translate('search_screen_search')
+              .toString(),
+          hintStyle: TextStyle(
+            color: CustomColors.grey200,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          suffixIcon: isStillSearching == true
+              ? IconButton(
+                  color: CustomColors.grey200, // Icon to
+                  icon: Icon(Icons.cancel), // clear text
+                  onPressed: clearText,
+                )
+              : null),
+      style: TextStyle(
         color: CustomColors.grey200,
       ),
-                    controller: fieldText,
-
+      controller: fieldText,
     );
   }
-
 }
-
-

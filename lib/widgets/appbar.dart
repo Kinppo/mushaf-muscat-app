@@ -5,8 +5,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:mushafmuscat/widgets/quran_screen_search_bar.dart';
+import 'package:provider/provider.dart';
 
 import '../localization/app_localizations.dart';
+import '../models/surah.dart';
+import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 import '../screens/quran_screen.dart';
 
@@ -37,17 +40,39 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
 class _appBarState extends State<appBar> {
   // int segmentToggle = 0;
   bool searchToggle = false;
+  List<Surah> _surah_search_results = [];
 
   // search controller
-  void searchController(search) {
-    setState(() {
-      searchToggle = search;
-      widget.toggleSearch(searchToggle);
+  
+ 
+    // setState(() {
+    //   print("entered app bar search controller. search is $search");
+      
+    //   searchToggle = search;
+    //   widget.toggleSearch(searchToggle);
       //print("toggle search after $searchToggle");
+    // });
+  // }
+
+  Widget build(BuildContext context) {
+  final surahsData = Provider.of<SurahProvider>(context, listen: false);
+  final _surahs = surahsData.surahs;
+  final List<Surah> _surahitem = _surahs;
+
+
+Future<void> searchController( isStillSearching, search) async {
+   setState(()  {
+      searchToggle = isStillSearching;
+           _surah_search_results =   surahsData.getSeachResults_appbar(search);
+print(_surah_search_results);
+      //compared(input);
+      // print(input);
+      //todo: send search result here
+            widget.toggleSearch(searchToggle, _surah_search_results);
+      print("toggle search after $searchToggle");
     });
   }
 
-  Widget build(BuildContext context) {
 
     return (searchToggle == false)
         ? AppBar(

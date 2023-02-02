@@ -70,24 +70,12 @@ class SurahProvider with ChangeNotifier {
   }
 
 
-//todo: fix function based on new database that will be provided
-  List<Surah> getSurahName(num_param) {
-    List<Surah> nameMatch = [];
-    nameMatch.addAll(_undiacritizedSurahList);
-
-    nameMatch.retainWhere((surah) =>
-    //THIS LINE SHOULD BE FIXED
-        // (int.parse(surah.surahNum!)==num_param) 
-        (num_param-1 < int.parse(surah.surahNum!))
-            );
-
-            //print(matches);
-            return nameMatch;
-  }
 
 
   List<Surah> getSeachResults(user_query) {
+
     List<Surah> matches = [];
+    print("USER QUERY: $user_query");
     String ? query= HelperFunctions.removeAllDiacritics(user_query);
     matches.addAll(_undiacritizedSurahList);
 
@@ -102,9 +90,35 @@ class SurahProvider with ChangeNotifier {
             .endsWith(query))
             );
 
-            //print(matches);
+            print(matches);
             return matches;
   }
+
+  List<Surah> getSeachResults_appbar(user_query) {
+if (_undiacritizedSurahList.isEmpty) {
+      fetchSurahs();
+}
+print(_undiacritizedSurahList.length);
+    List<Surah> matches = [];
+    print("USER QUERY: $user_query");
+    String ? query= HelperFunctions.removeAllDiacritics(user_query);
+    matches.addAll(_undiacritizedSurahList);
+
+    matches.retainWhere((surah) =>
+        (HelperFunctions.removeAllDiacritics((surah.surahTitle))!.contains(query!)) 
+        ||
+
+        ((surah.surahTitle!.substring(2))
+            .startsWith(query)) 
+            ||
+        (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
+            .endsWith(query))
+            );
+
+            print(matches);
+            return matches;
+  }
+
 
 
 List<String?>loadSurahs()  {

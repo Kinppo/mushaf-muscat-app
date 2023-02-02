@@ -77,6 +77,7 @@ class _MainDrawerState extends State<MainDrawer> {
       _surah_search_results = Provider.of<SurahProvider>(context, listen: false)
           .getSeachResults(input);
       print(input);
+      print(_surah_search_results);
       print("toggle search after $searchToggle");
     });
   }
