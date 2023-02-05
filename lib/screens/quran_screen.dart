@@ -90,9 +90,9 @@ overflow: TextOverflow.ellipsis,style: TextStyle(color: CustomColors.black200),)
 
 List<ListTile> FinalList=[];
 
-FinalList.add(ListTile(title: Text("السور (" + searchRes_surah.length.toString()+ ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: CustomColors.black200),)));
+FinalList.add(ListTile(title: Text("السور (" + searchRes_surah.length.toString()+ ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
 FinalList.addAll(SurahResultsTiles);
-FinalList.add(ListTile(title: Text("الايات  (" + searchRes_aya.length.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: CustomColors.black200),)));
+FinalList.add(ListTile(title: Text("الايات  (" + searchRes_aya.length.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
 FinalList.addAll(AyaResultsTiles);
 
 
@@ -260,33 +260,36 @@ return
                 }) :
 
       
-                       Container(
-                        padding: EdgeInsets.only(top:Screenheight * 0.22),
-                                                  height:Screenheight,
-                         child: ListView.builder(
-                     
-
-                              // shrinkWrap: true,
-                                        padding: const EdgeInsets.only(top: 20),
-                                        itemCount: 1,
-                                        itemBuilder: (ctx, i) {
-                                          return Column(
-                                            children:
-                                               getSearchTiles()
+                       GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+                         child: Container(
+                          padding: EdgeInsets.only(top:Screenheight * 0.22),
+                                                    height:Screenheight,
+                           child: ListView.builder(
+                                            
                        
-                                  
-                                  // ListTile(title: Text(i.toString()),
-                                  // textColor: Colors.red,
-                                  // tileColor: Colors.white),
-                                  // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                  // tileColor: Colors.white),
-                                  
-                                  // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                  // tileColor: Colors.white),
-                                  
-                                            ,
-                                          );
-                                        }, ),
+                                // shrinkWrap: true,
+                                          padding: const EdgeInsets.only(top: 20),
+                                          itemCount: 1,
+                                          itemBuilder: (ctx, i) {
+                                            return Column(
+                                              children:
+                                                 getSearchTiles()
+                         
+                                    
+                                    // ListTile(title: Text(i.toString()),
+                                    // textColor: Colors.red,
+                                    // tileColor: Colors.white),
+                                    // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                    // tileColor: Colors.white),
+                                    
+                                    // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                    // tileColor: Colors.white),
+                                    
+                                              ,
+                                            );
+                                          }, ),
+                         ),
                        ) 
           ]
         ),
