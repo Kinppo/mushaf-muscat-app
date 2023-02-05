@@ -33,7 +33,8 @@ class _QuranScreenState extends State<QuranScreen> {
   int highlighNum = 0;
   late int GlobalCurrentPage;
   var searchRes_surah;
-    var searchRes_aya;
+  var searchRes_aya;
+  // int searchListLength=0;
 
 
   @override
@@ -66,26 +67,45 @@ class _QuranScreenState extends State<QuranScreen> {
 
       searchRes_surah=surah_result;
       searchRes_aya=aya_result;
+      // searchListLength= searchRes_surah.length+searchRes_aya.length;
+
 
     });
   }
 
-List<ListTile> getSearchTiles() {
-  List<ListTile> resultstiles=[];
+
+
+List<Widget> getSearchTiles() {
+  List<ListTile> SurahResultsTiles=[];
+  List<ListTile> AyaResultsTiles=[];
 
 for (int i=0; i<searchRes_surah.length; i++ ) {
-resultstiles.add(ListTile(title: Text(searchRes_surah[i].surahTitle.toString(), style: TextStyle(fontWeight: FontWeight.bold),)));
+SurahResultsTiles.add(ListTile(title: Text(searchRes_surah[i].surahTitle.toString(), style: TextStyle(color: CustomColors.black200),)));
 }
 
 for (int i=0; i<searchRes_aya.length; i++ ) {
-resultstiles.add(ListTile(title: Text(searchRes_aya[i].text.toString(), 
-overflow: TextOverflow.ellipsis)));
+AyaResultsTiles.add(ListTile(title: Text(searchRes_aya[i].text.toString(), 
+overflow: TextOverflow.ellipsis,style: TextStyle(color: CustomColors.black200),)));
+}
+
+List<ListTile> FinalList=[];
+
+FinalList.add(ListTile(title: Text("السور (" + searchRes_surah.length.toString()+ ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: CustomColors.black200),)));
+FinalList.addAll(SurahResultsTiles);
+FinalList.add(ListTile(title: Text("الايات  (" + searchRes_aya.length.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18, color: CustomColors.black200),)));
+FinalList.addAll(AyaResultsTiles);
+
+
+return 
+(FinalList.isNotEmpty) ? 
+ FinalList
+
+
+: [ListTile(title:Text("empty"))];
+
 }
 
 
-return resultstiles.isNotEmpty? resultstiles : [ListTile(title:Text("empty"))];
-
-}
 
 
 
@@ -242,15 +262,18 @@ return resultstiles.isNotEmpty? resultstiles : [ListTile(title:Text("empty"))];
       
                        Container(
                         padding: EdgeInsets.only(top:Screenheight * 0.22),
+                                                  height:Screenheight,
                          child: ListView.builder(
-                              shrinkWrap: true,
+                     
+
+                              // shrinkWrap: true,
                                         padding: const EdgeInsets.only(top: 20),
                                         itemCount: 1,
                                         itemBuilder: (ctx, i) {
                                           return Column(
                                             children:
                                                getSearchTiles()
-
+                       
                                   
                                   // ListTile(title: Text(i.toString()),
                                   // textColor: Colors.red,
