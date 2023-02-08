@@ -70,18 +70,6 @@ class SurahProvider with ChangeNotifier {
     _surahs = loadedSurahs;
     // _undiacritizedSurahList = loadedSurahs;
 
-   loadedSurahs.forEach((element) {
-      _undiacritizedSurahList.add(Surah(
-              surahNum: element.surahNum,
-              surahPageNum: element.surahPageNum,
-              surahTitle: HelperFunctions.removeAllDiacritics(element.surahTitle),
-              surahType: element.surahType,
-              numOfAyas: element.numOfAyas,
-            ));
-
-            // print(_undiacritizedSurahList);
-
-   });
 
     notifyListeners();
   }
@@ -90,9 +78,6 @@ class SurahProvider with ChangeNotifier {
     return [..._surahs];
   }
 
-  List<Surah> get undiac_Surahs {
-    return [..._undiacritizedSurahList];
-  }
 
   List<generalAya> get ayaas {
     return [..._generalAyasList];
@@ -124,45 +109,18 @@ class SurahProvider with ChangeNotifier {
     Stopwatch stopwatch = new Stopwatch()..start();
 
     print("*********LOADED AYASSSSS*************");
-    // var pdfText= await json.decode('lib/data/json_files/allayapages.json');
+
     var data2 =
         await rootBundle.loadString('lib/data/json_files/allayapages.json');
     final parsed = jsonDecode(data2).cast<Map<String, dynamic>>();
 
-// Map<String, dynamic> data = new Map<String, dynamic>.from(json.decode(data2));
-// print(data2);
+
 
     final welcome =
         parsed.map<generalAya>((json) => generalAya.fromJson(json)).toList();
-// print(welcome[1].surah);
-// print(welcome);
+
     print('doSomething() executed in ${stopwatch.elapsed}');
 
-// var insertEventInstance = InsertEvent();
-
-// print("*************** LENGTH IS: " + welcome.aya.length.toString());
-//       final List<generalAya> loadedAyas = [];
-
-//     String data2 = await rootBundle.loadString('lib/data/json_files/allayapages.json');
-//         var jsonResult2 = jsonDecode(data2);
-//         if (jsonResult2 == null) {
-//       print("result is null");
-//       return;
-//     }
-
-//      jsonResult2.forEach((data) =>
-//             //convert data to product objects
-
-//             //  print(data['name'])
-//             loadedAyas.add(generalAya(
-//               aya: data['aya'],
-//               text: data['text'],
-//               page:data['page'],
-//               surah: data['surah'],
-//             ))
-//         // );
-
-//         );
     _generalAyasList = welcome;
 
     notifyListeners();
@@ -171,33 +129,19 @@ class SurahProvider with ChangeNotifier {
   List<Surah> getSeachResults_appbar(user_query) {
     if (_undiacritizedSurahList.isEmpty) {
       fetchSurahs();
-      // print(_undiacritizedSurahList.toString());
-
-
     }
-    print(undiac_Surahs.toList().toString());
-List <Surah> m= [];
-undiac_Surahs.forEach((element) {
-  print(element.surahTitle);
-});
 
-// print(_undiacritizedSurahList.length);
     List<Surah> matches = [];
-    // print("USER QUERY: $user_query");
-    String? query = HelperFunctions.removeAllDiacritics(user_query);
-    // matches.addAll(_undiacritizedSurahList);
 
-    // for (var item in _undiacritizedSurahList) {
-    //   if (HelperFunctions.removeAllDiacritics((item.surahTitle))!.contains(query!)) {
-    //     matches.add(item);
-    //   }
-    // }
+    String? query = HelperFunctions.removeAllDiacritics(user_query);
+
+    matches.addAll(_surahs);
+
+ 
     matches.retainWhere((surah) =>
         (HelperFunctions.removeAllDiacritics((surah.surahTitle))!
-            .contains(query!)) 
-        ||
-        (surah.surahTitle!.startsWith(query)) 
-        ||
+            .contains(query!)) ||
+        (surah.surahTitle!.startsWith(query)) ||
         (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
             .endsWith(query)));
 
@@ -222,17 +166,13 @@ undiac_Surahs.forEach((element) {
 //   print("SURAH FATIHA");
 // }
     matches.retainWhere((aya) =>
-        (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) 
-        ||
-
+        (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) ||
         ((HelperFunctions.removeAllDiacritics((aya.text))!)
-            .startsWith(query)) 
-            ||
-
+            .startsWith(query)) ||
         (HelperFunctions.removeAllDiacritics(aya.text!)!.endsWith(query)));
 
     // print(matches);
-  
+
     return matches;
   }
 
@@ -261,6 +201,7 @@ undiac_Surahs.forEach((element) {
 
     for (int index = 0; index < jsonResult.length; index++) {
       carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
+    
     }
     for (int i = 1; i <= jsonResult.length; i++) {
       List<int> tempList = [];
