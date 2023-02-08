@@ -31,7 +31,6 @@ class generalAya {
 
 class SurahProvider with ChangeNotifier {
   List<Surah> _surahs = [];
-  List<Surah> _undiacritizedSurahList = [];
   List<generalAya> _generalAyasList = [];
 
   List<String?> carouselJSON = [];
@@ -66,10 +65,8 @@ class SurahProvider with ChangeNotifier {
         // );
 
         );
-
+    loadAllAyasJson();
     _surahs = loadedSurahs;
-    // _undiacritizedSurahList = loadedSurahs;
-
 
     notifyListeners();
   }
@@ -77,7 +74,6 @@ class SurahProvider with ChangeNotifier {
   List<Surah> get surahs {
     return [..._surahs];
   }
-
 
   List<generalAya> get ayaas {
     return [..._generalAyasList];
@@ -87,7 +83,7 @@ class SurahProvider with ChangeNotifier {
     List<Surah> matches = [];
     // print("USER QUERY: $user_query");
     String? query = HelperFunctions.removeAllDiacritics(user_query);
-    matches.addAll(_undiacritizedSurahList);
+    matches.addAll(_surahs);
 
     matches.retainWhere((surah) =>
         (HelperFunctions.removeAllDiacritics((surah.surahTitle))!
@@ -101,11 +97,6 @@ class SurahProvider with ChangeNotifier {
   }
 
   Future<void> loadAllAyasJson() async {
-// if (_undiacritizedSurahList.isEmpty) {
-//   loadSurahs();
-// }
-
-// var data= await generalAya.fromJson();
     Stopwatch stopwatch = new Stopwatch()..start();
 
     print("*********LOADED AYASSSSS*************");
@@ -113,8 +104,6 @@ class SurahProvider with ChangeNotifier {
     var data2 =
         await rootBundle.loadString('lib/data/json_files/allayapages.json');
     final parsed = jsonDecode(data2).cast<Map<String, dynamic>>();
-
-
 
     final welcome =
         parsed.map<generalAya>((json) => generalAya.fromJson(json)).toList();
@@ -127,9 +116,9 @@ class SurahProvider with ChangeNotifier {
   }
 
   List<Surah> getSeachResults_appbar(user_query) {
-    if (_undiacritizedSurahList.isEmpty) {
-      fetchSurahs();
-    }
+    // if (_surahs.isEmpty) {
+    //   fetchSurahs();
+    // }
 
     List<Surah> matches = [];
 
@@ -137,22 +126,21 @@ class SurahProvider with ChangeNotifier {
 
     matches.addAll(_surahs);
 
- 
     matches.retainWhere((surah) =>
         (HelperFunctions.removeAllDiacritics((surah.surahTitle))!
             .contains(query!)) ||
-        (surah.surahTitle!.startsWith(query)) ||
+        (HelperFunctions.removeAllDiacritics(surah.surahTitle)!
+            .startsWith(query)) ||
         (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
             .endsWith(query)));
 
-    // print(matches);
     return matches;
   }
 
   List<generalAya> getAyaSeachResults_appbar(user_query) {
-    if (_generalAyasList.isEmpty) {
-      loadAllAyasJson();
-    }
+    // if (_generalAyasList.isEmpty) {
+    //   loadAllAyasJson();
+    // }
 // print(_generalAyasList);
 
     List<generalAya> matches = [];
@@ -160,16 +148,12 @@ class SurahProvider with ChangeNotifier {
     matches.addAll(_generalAyasList);
 
     print("guery $query");
-// print("aya " + _generalAyasList[1].text);
 
-// if (query == _generalAyasList[1].text[0]) {
-//   print("SURAH FATIHA");
-// }
     matches.retainWhere((aya) =>
         (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) ||
         ((HelperFunctions.removeAllDiacritics((aya.text))!)
             .startsWith(query)) ||
-        (HelperFunctions.removeAllDiacritics(aya.text!)!.endsWith(query)));
+        (HelperFunctions.removeAllDiacritics(aya.text)!.endsWith(query)));
 
     // print(matches);
 
@@ -201,7 +185,6 @@ class SurahProvider with ChangeNotifier {
 
     for (int index = 0; index < jsonResult.length; index++) {
       carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
-    
     }
     for (int i = 1; i <= jsonResult.length; i++) {
       List<int> tempList = [];

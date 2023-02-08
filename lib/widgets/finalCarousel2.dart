@@ -153,6 +153,11 @@ class _finalCarousel2 extends State<finalCarousel2> {
     _surahNames = surahsData.loadSurahs();
     _flagsForEndofSurah = surahsData.loadFlags();
     _ayaNumbers = surahsData.loadAyaNum();
+
+    // For searching through ayas
+    final _AyaData = Provider.of<SurahProvider>(context, listen: false).fetchSurahs();
+
+    
   }
 
   morePlayOptions() {
