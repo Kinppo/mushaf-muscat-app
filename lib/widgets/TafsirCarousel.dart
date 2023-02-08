@@ -163,18 +163,19 @@ ayaTafsirs.clear();
           Container(
             width: MediaQuery.of(context).size.width,
             padding: (isLandscape == false)
-                ? EdgeInsets.fromLTRB(0, 155, 0, 0)
-                : EdgeInsets.fromLTRB(10, 155, 10, 50),
+                ? EdgeInsets.fromLTRB(0, 50, 0, 0)
+                : EdgeInsets.fromLTRB(10, 50, 10, 50),
             color: CustomColors.yellow100,
             child: CarouselSlider(
               options: CarouselOptions(
 
                   // height: MediaQuery.of(context).size.height,
-                  height: (isLandscape == false && ShowOnlyPageNum == false)
-                      ? 672
-                      : (isLandscape == false && ShowOnlyPageNum == true)
-                          ? 800
-                          : 1400,
+                  // height: (isLandscape == false && ShowOnlyPageNum == false)
+                  //     ? 672
+                  //     : (isLandscape == false && ShowOnlyPageNum == true)
+                  //         ? 800
+                  //         : 1400,
+                           height: size.height,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
@@ -292,7 +293,7 @@ ayaTafsirs.clear();
                             },
                           ),
                         )
-                      ]),
+                      ],),
                     );
                   },
                 );
