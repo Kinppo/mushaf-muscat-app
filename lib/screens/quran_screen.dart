@@ -2,8 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:mushafmuscat/providers/surah_provider.dart';
 
 import 'package:mushafmuscat/widgets/appbar.dart';
+import 'package:provider/provider.dart';
 
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
@@ -34,20 +36,28 @@ class _QuranScreenState extends State<QuranScreen> {
   late int GlobalCurrentPage;
   var searchRes_surah;
   var searchRes_aya;
+  bool searchStatus= false;
   // int searchListLength=0;
 
 
   @override
   void initState() {
-    print("133333333333333333333");
-    // _detailListBloc = DetailListBloc(widget.apiUrl);
+    //load all ayas for search
     setState(() {
+      // loadAyas();
       segmentedControlValue = 0;
       GlobalCurrentPage = 1;
     });
     // TODO: implement initState
     super.initState();
   }
+
+  // void loadAyas() async{
+  //   final surahsData = Provider.of<SurahProvider>(context, listen: false);
+  //    await surahsData.loadAllAyasJson();
+  //    print(surahsData.ayaas);
+
+  // }
 
   void controlSegment(segment) {
     setState(() {
@@ -56,13 +66,13 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
-  void controlSearch( search,surah_result, aya_result ) {
+  void controlSearch(search,surah_result, aya_result ) {
     searchRes_surah=[];
     searchRes_aya=[];
 
     setState(() {
       toggleSearch = search;
-      print("toggleSearch $toggleSearch");
+      // print("toggleSearch $toggleSearch");
       // print(result.toList().toString());
 
       searchRes_surah=surah_result;
@@ -88,19 +98,16 @@ AyaResultsTiles.add(ListTile(title: Text(searchRes_aya[i].text.toString(),
 overflow: TextOverflow.ellipsis,style: TextStyle(color: CustomColors.black200),)));
 }
 
-List<ListTile> FinalList=[];
+List< ListTile> FinalList=[];
 
 FinalList.add(ListTile(title: Text("السور (" + searchRes_surah.length.toString()+ ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
 FinalList.addAll(SurahResultsTiles);
 FinalList.add(ListTile(title: Text("الايات  (" + searchRes_aya.length.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
 FinalList.addAll(AyaResultsTiles);
 
-
 return 
 (FinalList.isNotEmpty) ? 
- FinalList
-
-
+FinalList
 : [ListTile(title:Text("empty"))];
 
 }
@@ -163,6 +170,12 @@ return
       });
     }
 
+    void changeSearchStatus() {
+      setState(() {
+        searchStatus=true;
+      });
+    }
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false, // set it to false
@@ -174,6 +187,7 @@ return
               toggleSearch: controlSearch,
               h: (isLandscape == false) ? Screenheight * 0.18 : 200,
               segmentToggle: segmentedControlValue,
+              changeSearchStatus: changeSearchStatus,
             )
           : PreferredSize(
               child: Container(),
@@ -262,33 +276,45 @@ return
       
                        GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-                         child: Container(
-                          padding: EdgeInsets.only(top:Screenheight * 0.22),
-                                                    height:Screenheight,
-                           child: ListView.builder(
-                                            
-                       
-                                // shrinkWrap: true,
-                                          padding: const EdgeInsets.only(top: 20),
-                                          itemCount: 1,
-                                          itemBuilder: (ctx, i) {
-                                            return Column(
-                                              children:
-                                                 getSearchTiles()
-                         
-                                    
-                                    // ListTile(title: Text(i.toString()),
-                                    // textColor: Colors.red,
-                                    // tileColor: Colors.white),
-                                    // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                    // tileColor: Colors.white),
-                                    
-                                    // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                    // tileColor: Colors.white),
-                                    
-                                              ,
-                                            );
-                                          }, ),
+                         child: Column(
+                           children: [
+                             Container(padding: EdgeInsets.only(top: Screenheight*0.22),
+                             height: Screenheight,
+                             width:double.infinity,
+                               child: ListView.builder(
+                                              
+                                    // shrinkWrap: true,
+                                              padding: const EdgeInsets.only(top: 20),
+                                              itemCount: 1,
+                                              itemBuilder: (ctx, i) {
+                                                return Column(
+                                                  children:
+                                                  (searchStatus==false) ? [CircularProgressIndicator()] :
+                                                          getSearchTiles(),                
+                               //  ListTile.divideTiles( //          <-- ListTile.divideTiles
+                               //       context: context,
+                               //       tiles: [
+                               //         getSearchTiles(),
+                                  
+                               //       ]
+                               //   ).toList(),
+                               
+                                                
+                                        
+                                        // ListTile(title: Text(i.toString()),
+                                        // textColor: Colors.red,
+                                        // tileColor: Colors.white),
+                                        // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                        // tileColor: Colors.white),
+                                        
+                                        // ListTile(title: Text(i.toString()),  textColor: Colors.red,
+                                        // tileColor: Colors.white),
+                                        
+                                                  
+                                                );
+                                              }, ),
+                             ),
+                           ],
                          ),
                        ) 
           ]

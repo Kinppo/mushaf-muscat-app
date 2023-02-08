@@ -126,8 +126,8 @@ ayaTafsirs.clear();
           ayaTafsirs.add(textlist[i].tafsir);
         }
 
-        print("vvvvvvvvvvvvvvvv $ayaStrings");
-        print("vvvvvvvvvvvvvvvv $ayaTafsirs");
+        // print("vvvvvvvvvvvvvvvv $ayaStrings");
+        // print("vvvvvvvvvvvvvvvv $ayaTafsirs");
       });
 
   }
@@ -139,7 +139,9 @@ ayaTafsirs.clear();
 
   @override
   Widget build(BuildContext context) {
-    print("RRRRRRRRRRRR PAGE IS " + widget.GlobalCurrentPage.toString());
+    Size size = MediaQuery.of(context).size;
+
+    // print("RRRRRRRRRRRR PAGE IS " + widget.GlobalCurrentPage.toString());
 
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;

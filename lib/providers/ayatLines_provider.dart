@@ -58,6 +58,7 @@ class ayatLines_provider with ChangeNotifier {
   List<AyatLines> get numbers {
     return [...ayat_lines];
   }
+  
 
   Future<int?> getSplit(int chosenAya, List<AyatLines> ayats) async {
     int idx = 0;

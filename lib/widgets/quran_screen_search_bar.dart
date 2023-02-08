@@ -29,6 +29,7 @@ class QuranSearchBarState extends State<QuranSearchBar> {
     return TextField(
       onChanged: (text) {
         setState(() {
+          print(text);
           if (text != '' && firstFlag == false) {
             print("entered here");
             firstFlag = true;

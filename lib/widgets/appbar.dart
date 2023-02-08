@@ -19,6 +19,7 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
   Function toggleSearch;
   double h;
   int segmentToggle;
+  Function changeSearchStatus;
   appBar({
     Key? key,
     required this.segmentedControlValue,
@@ -26,6 +27,7 @@ class appBar extends StatefulWidget implements PreferredSizeWidget {
     required this.toggleSearch,
     required this.h,
     required this.segmentToggle,
+    required this.changeSearchStatus,
     // this variable is not used yet
   }) : super(key: key);
   @override
@@ -61,17 +63,20 @@ List<generalAya> _aya_search_results=[];
 
 
 Future<void> searchController( isStillSearching, search) async {
+_surah_search_results =   await surahsData.getSeachResults_appbar(search);
+_aya_search_results= await surahsData.getAyaSeachResults_appbar(search);
+
    setState(()  {
       searchToggle = isStillSearching;
-           _surah_search_results =   surahsData.getSeachResults_appbar(search);
+          widget.changeSearchStatus();
+
 // print(_surah_search_results);
 
-_aya_search_results=surahsData.getAyaSeachResults_appbar(search);
       //compared(input);
       // print(input);
       //todo: send search result here
-            widget.toggleSearch(searchToggle, _surah_search_results,_aya_search_results);
-      print("toggle search after $searchToggle");
+            widget.toggleSearch( searchToggle, _surah_search_results,_aya_search_results);
+      // print("toggle search after $searchToggle");
     });
   }
 

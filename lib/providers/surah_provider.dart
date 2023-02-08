@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mushafmuscat/models/surah.dart';
@@ -7,6 +8,8 @@ import 'package:mushafmuscat/models/surah.dart';
 import '../utils/helperFunctions.dart';
 
 
+
+generalAya welcomeFromJson(String str) => generalAya.fromJson(json.decode(str));
 
 class generalAya {
   String surah;
@@ -20,6 +23,17 @@ generalAya({
     required this.page,
     required this.text
   });
+  
+
+
+ factory generalAya.fromJson(Map<String, dynamic> json) => generalAya(
+        surah: json["surah"],
+        aya: json["aya"],
+        page: json["page"],
+        text: json["text"],
+    );
+
+
 }
 
 
@@ -38,41 +52,18 @@ class SurahProvider with ChangeNotifier {
 
   Future<void> fetchSurahs() async {
     String data = await rootBundle.loadString('lib/data/json_files/surah.json');
-    
-    //for aya search
-    String data2 = await rootBundle.loadString('lib/data/json_files/allayapages.json');
-
-    //String convertedData = convertToArabicNumbers(data);
-// String convertedData = HelperFunctions.convertToArabicNumbers(data);
-//  var jsonResult = jsonDecode(convertedData);
 
     var jsonResult = jsonDecode(data);
-        var jsonResult2 = jsonDecode(data2);
-
-
-    //print (jsonResult['data']);
 
     if (jsonResult == null) {
-      print("result is null");
-      return;
-    }
-    
-
-    if (jsonResult2 == null) {
       print("result is null");
       return;
     }
 
     final List<Surah> loadedSurahs = [];
 
-    final List<generalAya> loadedAyas = [];
-
-    // print("reached here");
-
     jsonResult['data'].forEach((data) =>
             //convert data to product objects
-
-            //  print(data['name'])
             loadedSurahs.add(Surah(
               surahNum: data['number'],
               surahPageNum: data['first_page_num'],
@@ -84,30 +75,10 @@ class SurahProvider with ChangeNotifier {
 
         );
         
- jsonResult2.forEach((data) =>
-            //convert data to product objects
 
-            //  print(data['name'])
-            loadedAyas.add(generalAya(
-              aya: data['aya'],
-              text: data['text'],
-              page:data['page'],
-              surah: data['surah'],
-            ))
-        // );
-
-        );
     _surahs = loadedSurahs;
     _undiacritizedSurahList = loadedSurahs;
-    _generalAyasList= loadedAyas;
 
-    // _undiacritizedSurahList.forEach((surah) {
-    //   surah.surahTitle == HelperFunctions.removeAllDiacritics(surah.surahTitle);
-    // });
-
-    //   print("UNDIAC");
-    
-    //  print(_undiacritizedSurahList);
 
     notifyListeners();
   }
@@ -117,12 +88,15 @@ class SurahProvider with ChangeNotifier {
   }
 
 
+ List<generalAya> get ayaas {
+    return [..._generalAyasList];
+  }
 
 
   List<Surah> getSeachResults(user_query) {
 
     List<Surah> matches = [];
-    print("USER QUERY: $user_query");
+    // print("USER QUERY: $user_query");
     String ? query= HelperFunctions.removeAllDiacritics(user_query);
     matches.addAll(_undiacritizedSurahList);
 
@@ -137,17 +111,72 @@ class SurahProvider with ChangeNotifier {
             .endsWith(query))
             );
 
-            print(matches);
+            // print(matches);
             return matches;
   }
 
+
+
+Future<void> loadAllAyasJson() async {
+// if (_undiacritizedSurahList.isEmpty) {
+//   loadSurahs();
+// }
+
+// var data= await generalAya.fromJson();
+  Stopwatch stopwatch = new Stopwatch()..start();
+
+  print("*********LOADED AYASSSSS*************");
+  // var pdfText= await json.decode('lib/data/json_files/allayapages.json');  
+    var data2 = await rootBundle.loadString('lib/data/json_files/allayapages.json');
+  final parsed = jsonDecode(data2).cast<Map<String, dynamic>>();
+
+// Map<String, dynamic> data = new Map<String, dynamic>.from(json.decode(data2));
+// print(data2);
+
+  final welcome =
+  parsed.map<generalAya>((json) => generalAya.fromJson(json)).toList();
+// print(welcome[1].surah);
+// print(welcome);
+print('doSomething() executed in ${stopwatch.elapsed}');
+
+// var insertEventInstance = InsertEvent();
+
+// print("*************** LENGTH IS: " + welcome.aya.length.toString());
+//       final List<generalAya> loadedAyas = [];
+
+//     String data2 = await rootBundle.loadString('lib/data/json_files/allayapages.json');
+//         var jsonResult2 = jsonDecode(data2);
+//         if (jsonResult2 == null) {
+//       print("result is null");
+//       return;
+//     }
+
+//      jsonResult2.forEach((data) =>
+//             //convert data to product objects
+
+//             //  print(data['name'])
+//             loadedAyas.add(generalAya(
+//               aya: data['aya'],
+//               text: data['text'],
+//               page:data['page'],
+//               surah: data['surah'],
+//             ))
+//         // );
+
+//         );
+    _generalAyasList= welcome;
+    
+      notifyListeners();
+}
+
+
   List<Surah> getSeachResults_appbar(user_query) {
 if (_undiacritizedSurahList.isEmpty) {
-      fetchSurahs();
+fetchSurahs();
 }
-print(_undiacritizedSurahList.length);
+// print(_undiacritizedSurahList.length);
     List<Surah> matches = [];
-    print("USER QUERY: $user_query");
+    // print("USER QUERY: $user_query");
     String ? query= HelperFunctions.removeAllDiacritics(user_query);
     matches.addAll(_undiacritizedSurahList);
 
@@ -155,14 +184,14 @@ print(_undiacritizedSurahList.length);
         (HelperFunctions.removeAllDiacritics((surah.surahTitle))!.contains(query!)) 
         ||
 
-        ((surah.surahTitle!.substring(2))
+        ((surah.surahTitle![0])
             .startsWith(query)) 
             ||
         (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
             .endsWith(query))
             );
 
-            print(matches);
+            // print(matches);
             return matches;
   }
 
@@ -170,25 +199,35 @@ print(_undiacritizedSurahList.length);
 
   List<generalAya> getAyaSeachResults_appbar(user_query) {
 if (_generalAyasList.isEmpty) {
-      fetchSurahs();
+      loadAllAyasJson();
 }
+// print(_generalAyasList);
+
     List<generalAya> matches = [];
     String ? query= HelperFunctions.removeAllDiacritics(user_query);
     matches.addAll(_generalAyasList);
 
+print("guery $query");
+print("aya " + _generalAyasList.first.text);
+
+// if (query == _generalAyasList[1].text[0]) {
+//   print("SURAH FATIHA");
+// }
     matches.retainWhere((aya) =>
         (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) 
-        ||
-
-        ((HelperFunctions.removeAllDiacritics((aya.text))!.substring(2))
+        ||    
+        ((HelperFunctions.removeAllDiacritics((aya.text))![0]
+           ==query[0]) )
+            ||
+        ((HelperFunctions.removeAllDiacritics((aya.text))!.substring(0))
             .startsWith(query)) 
             ||
         (HelperFunctions.removeAllDiacritics(aya.text!)!
             .endsWith(query))
             );
 
-            print(matches);
-            matches.forEach((element) {print(element.text);});
+            // print(matches);
+            // matches.forEach((element) {print(element.text);});
             return matches;
   }
 
