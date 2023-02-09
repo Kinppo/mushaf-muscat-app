@@ -156,167 +156,171 @@ ayaTafsirs.clear();
         )));
     return Container(
       color: CustomColors.yellow100,
-      height: MediaQuery.of(context).size.height,
-      child: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(children: [
-          Container(
-            width: MediaQuery.of(context).size.width,
-            padding: (isLandscape == false)
-                ? EdgeInsets.fromLTRB(0, 50, 0, 0)
-                : EdgeInsets.fromLTRB(10, 50, 10, 50),
-            color: CustomColors.yellow100,
-            child: CarouselSlider(
-              options: CarouselOptions(
+      // height: MediaQuery.of(context).size.height,
+      child: Column(children: [
+        Container(
+          height: (ShowOnlyPageNum == false) ? 720 : 750,
+          width: MediaQuery.of(context).size.width,
+          padding: (isLandscape == false)
+              ? EdgeInsets.fromLTRB(0, 50, 0, 0)
+              : EdgeInsets.fromLTRB(10, 50, 10, 50),
+          color: CustomColors.yellow100,
+          child: CarouselSlider(
+            options: CarouselOptions(
 
-                  // height: MediaQuery.of(context).size.height,
-                  // height: (isLandscape == false && ShowOnlyPageNum == false)
-                  //     ? 672
-                  //     : (isLandscape == false && ShowOnlyPageNum == true)
-                  //         ? 800
-                  //         : 1400,
-                           height: size.height,
-                  reverse: false,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: true,
-                  initialPage: (cameFromMenu == true)
-                                ? widget.GlobalCurrentPage!
-                                : 0,
-                  //if infinite scroll is false, then initial page has to be -1 not 0
-                  // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
-                  scrollDirection: Axis.horizontal,
-                  onPageChanged: (index, reason) async {
-                    // await loadTafisrs();
+                // height: MediaQuery.of(context).size.height,
+                // height: (isLandscape == false && ShowOnlyPageNum == false)
+                //     ? 672
+                //     : (isLandscape == false && ShowOnlyPageNum == true)
+                //         ? 800
+                //         : 1400,
+                         height: size.height,
+                reverse: false,
+                viewportFraction: 1,
+                enableInfiniteScroll: true,
+                initialPage: (cameFromMenu == true)
+                              ? widget.GlobalCurrentPage!
+                              : 0,
+                //if infinite scroll is false, then initial page has to be -1 not 0
+                // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
+                scrollDirection: Axis.horizontal,
+                onPageChanged: (index, reason) async {
+                  // await loadTafisrs();
 
-                    setState(()  {
-                      // ayaNumsforThePage.clear();
+                  setState(()  {
+                    // ayaNumsforThePage.clear();
 
-                      print("we are in next page");
-                      overallid = index;
-                      currentPage = index + 1;
-                      // surahName = _surahNames[index]!;
-                      widget.changeGlobal(currentPage);
-                      print("CURRENT PAGE IS $currentPage");
-                      print("the value of go to page is ....." +
-                          widget.goToPage.toString());
-                    });
-                    await loadTafisrs(currentPage);
+                    print("we are in next page");
+                    overallid = index;
+                    currentPage = index + 1;
+                    // surahName = _surahNames[index]!;
+                    widget.changeGlobal(currentPage);
+                    print("CURRENT PAGE IS $currentPage");
+                    print("the value of go to page is ....." +
+                        widget.goToPage.toString());
+                  });
+                  await loadTafisrs(currentPage);
 
 
-                  }),
-              items: listofObjects.map((i) {
-                int idx = listofObjects.indexOf(i);
-                // print("building... $idx")
+                }),
+            items: listofObjects.map((i) {
+              int idx = listofObjects.indexOf(i);
+              // print("building... $idx")
 
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        ShowOnlyPageNum = !ShowOnlyPageNum;
-                      },
-                      child: Stack(fit: StackFit.passthrough, children: [
-                        // IgnorePointer()
+              return Builder(
+                builder: (BuildContext context) {
+                  return GestureDetector(
+                    onTap: () {
+                      ShowOnlyPageNum = !ShowOnlyPageNum;
+                    },
+                    child: Stack(fit: StackFit.passthrough, children: [
+                      // IgnorePointer()
 
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                          margin: EdgeInsets.all(2),
-                          child: ListView.builder(
-                            // shrinkWrap: true,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        margin: EdgeInsets.all(2),
+                        child: ListView.builder(
+                          // shrinkWrap: true,
 
-                            padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
-                            itemCount: ayaStrings.length,
-                            itemBuilder: (ctx, i) {
-                              return Column(
-                                children: [
-                                  Container(
-                                      margin: EdgeInsets.only(top: 17),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 22, vertical: 33),
-                                      decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(children: [
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                          child: Text(
-                                              ayaStrings[i].toString(),
-                                              textAlign: TextAlign.right,
-                                              // _ayah.ayah,
-                                              style: TextStyle(
-                                                  fontFamily:
-                                                      'ScheherazadeNew',
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 22,
-                                                  color:
-                                                      CustomColors.black200)),
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Divider(
-                                            color: CustomColors.yellow200,
-                                            thickness: 1.3,
-                                            endIndent: 18),
-                                        Align(
-                                          alignment: Alignment.topRight,
-                                        ),
-                                        const SizedBox(
-                                          height: 5,
-                                        ),
-                                        Align(
-                                          child: Text(
-                                            ayaTafsirs[i].toString(),
-                                            // _ayah.content,
+                          padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
+                          itemCount: ayaStrings.length,
+                          itemBuilder: (ctx, i) {
+                            return Column(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(top: 17),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 22, vertical: 33),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(children: [
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                        child: Text(
+                                            ayaStrings[i].toString(),
+                                            textAlign: TextAlign.right,
+                                            // _ayah.ayah,
                                             style: TextStyle(
                                                 fontFamily:
-                                                    'IBMPlexSansArabic',
-                                                fontSize: 19,
-                                                // fontWeight: FontWeight.w400,
-                                                color: CustomColors.brown100),
-                                          ),
-                                          alignment: Alignment.topRight,
+                                                    'ScheherazadeNew',
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 22,
+                                                color:
+                                                    CustomColors.black200)),
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Divider(
+                                          color: CustomColors.yellow200,
+                                          thickness: 1.3,
+                                          endIndent: 18),
+                                      Align(
+                                        alignment: Alignment.topRight,
+                                      ),
+                                      const SizedBox(
+                                        height: 5,
+                                      ),
+                                      Align(
+                                        child: Text(
+                                          ayaTafsirs[i].toString(),
+                                          // _ayah.content,
+                                          style: TextStyle(
+                                              fontFamily:
+                                                  'IBMPlexSansArabic',
+                                              fontSize: 19,
+                                              // fontWeight: FontWeight.w400,
+                                              color: CustomColors.brown100),
                                         ),
-                                      ])),
-                                  (i == ayaStrings.length - 1)
-                                      ? Container(
-                                          padding:
-                                              EdgeInsets.only(bottom: 60),
-                                          color: CustomColors.yellow100,
-                                          height: (ShowOnlyPageNum == false)
-                                              ? 30
-                                              : 100)
-                                      : Container(),
-                                ],
-                              );
-                            },
-                          ),
-                        )
-                      ],),
-                    );
-                  },
-                );
-              }).toList(),
-              carouselController: carouselController,
-            ),
+                                        alignment: Alignment.topRight,
+                                      ),
+                                    ])),
+                                (i == ayaStrings.length - 1)
+                                    ? Container(
+                                        padding:
+                                            EdgeInsets.only(bottom: 60),
+                                        color: CustomColors.yellow100,
+                                        height: (ShowOnlyPageNum == false)
+                                            ? 30
+                                            : 100)
+                                    : Container(),
+                              ],
+                            );
+                          },
+                        ),
+                      )
+                    ],),
+                  );
+                },
+              );
+            }).toList(),
+            carouselController: carouselController,
           ),
+        ),
+                  // Container(color: Colors.red, height:300),
 
-          //====================PAGE INDICATOR=====================
 
-          (ShowOnlyPageNum == false)
-              ? GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      ShowOnlyPageNum = !ShowOnlyPageNum;
-                      // print("what is this");
-                    });
-                  },
+        //====================PAGE INDICATOR=====================
+
+        (ShowOnlyPageNum == false)
+            ? GestureDetector(
+                onTap: () {
+                  setState(() {
+                    ShowOnlyPageNum = !ShowOnlyPageNum;
+                    // print("what is this");
+                  });
+                },
+                child: Align(
+                  alignment: Alignment.bottomCenter,
                   child: Container(
                     width: double.infinity,
                     // margin: EdgeInsets.only(bottom: 70),
-                    // padding: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    height: 85,
+                    // : EdgeInsets.fromLTRB(0, 0, 0, 10),
+                    height: 80,
+                    
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(7),
                         shape: BoxShape.rectangle,
@@ -402,31 +406,47 @@ ayaTafsirs.clear();
                       ],
                     ),
                   ),
-                )
-
-              //===================PAGE NUMBER====================
-              : Container(
-                  // color: CustomColors.yellow100,
-                  // color: Colors.red,
-
-                  padding: const EdgeInsets.fromLTRB(0, 40, 0, 0),
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        if (cameFromMenu == true) {
-                          // print(surahName);
-                          surahName =
-                              _surahNames[(widget.goToPage as int) - 1]!;
-                        }
-                        print("========PRESSED");
-
-                        ShowOnlyPageNum = !ShowOnlyPageNum;
-                      });
-                    },
-                  ),
                 ),
-        ]),
-      ),
+              )
+
+            //===================PAGE NUMBER====================
+            : Container(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            if (cameFromMenu == true) {
+                              surahName =
+                                  _surahNames[(widget.goToPage as int) - 1]!;
+                            }
+                            print("========PRESSED");
+
+                            ShowOnlyPageNum = !ShowOnlyPageNum;
+                          });
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(7),
+                              shape: BoxShape.rectangle,
+                              border: Border.all(
+                                color: CustomColors.yellow200,
+                                width: 1,
+                              ),
+                              color: Colors.white),
+                         height: 30,
+                                      width: 39,
+                          child: Text(
+                            HelperFunctions.convertToArabicNumbers(
+                                    (overallid + 1).toString())
+                                .toString(),
+                            style: TextStyle(
+                                color: CustomColors.grey200, fontSize: 15),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+      ]),
     );
   }
 }

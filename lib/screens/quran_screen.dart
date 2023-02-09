@@ -282,7 +282,8 @@ FinalList
                              height: Screenheight,
                              width:double.infinity,
                                child: ListView.builder(
-                                              
+                                                addAutomaticKeepAlives: false,
+    addRepaintBoundaries: false,
                                     // shrinkWrap: true,
                                               padding: const EdgeInsets.only(top: 20),
                                               itemCount: 1,
