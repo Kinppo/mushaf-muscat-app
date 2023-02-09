@@ -364,10 +364,11 @@ ayaTafsirs.clear();
                                   child: GestureDetector(
                                     onTap: () {
                                       setState(() {
-                                        surahName = _surahNames[i - 1]!;
+                                        print("&&&&&&& " +i.toString());
+                                        surahName = _surahNames[i -1]!;
                                         carouselController2
-                                            .animateToPage(i - 1);
-                                        carouselController.animateToPage(i - 1);
+                                            .animateToPage(i-1);
+                                        carouselController.animateToPage(i-1);
                                         // ShowOnlyPageNum=true;
                                       });
                                     },
@@ -415,13 +416,27 @@ ayaTafsirs.clear();
                       child: GestureDetector(
                         onTap: () {
                           setState(() {
+  //                                    final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
+  // _surahNames =  tafsirProv.loadSurahs();
+
+print("%%%%%%% " +widget.goToPage.toString());
+print("%%%%%%% " +_surahNames[widget.goToPage].toString());
+
                             if (cameFromMenu == true) {
+                              if (widget.goToPage as int !=0) {
+
                               surahName =
                                   _surahNames[(widget.goToPage as int) - 1]!;
+                            }
+                            else 
+                            {
+                                   surahName =_surahNames[0]!;
+
                             }
                             print("========PRESSED");
 
                             ShowOnlyPageNum = !ShowOnlyPageNum;
+                            }
                           });
                         },
                         child: Container(
