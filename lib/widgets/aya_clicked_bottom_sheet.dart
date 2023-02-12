@@ -53,11 +53,15 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
   }
 
   void shareController() async {
-    await Share.share(widget.highlightedAyaText);
+      String sharedAya = widget.highlightedAyaText.replaceAll("\n", " ");
+
+    await Share.share(sharedAya);
   }
 
   void copyClipboard() async {
-    await Clipboard.setData(ClipboardData(text: widget.highlightedAyaText))
+        String copiedAya = widget.highlightedAyaText.replaceAll("\n", " ");
+
+    await Clipboard.setData(ClipboardData(text: copiedAya))
         .then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("تم نسخ الآية!")));

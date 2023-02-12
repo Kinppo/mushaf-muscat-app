@@ -386,10 +386,10 @@ class _pageDetails2State extends State<pageDetails2> {
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
         margin: (isLandscape==false) ? EdgeInsets.fromLTRB(0, 0, 6, 0) :  EdgeInsets.fromLTRB(0,110, 6, 0),
-        padding: EdgeInsets.fromLTRB(0, 0, 6, 0),
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.justify,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
