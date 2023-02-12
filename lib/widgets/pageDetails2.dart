@@ -299,9 +299,9 @@ class _pageDetails2State extends State<pageDetails2> {
     if (bkSamePage == true) {
       arrayOfTextSpan[bkIndex].style?.background!.color =
           bkColor.withOpacity(0.25);
-              arrayOfTextSpan[idx].style?.background!.style = PaintingStyle.stroke;
+              arrayOfTextSpan[bkIndex].style?.background!.style = PaintingStyle.stroke;
 
-        arrayOfTextSpan[idx].style?.background!.strokeWidth = 17.2;
+        arrayOfTextSpan[bkIndex].style?.background!.strokeWidth = 17.2;
     }
 
     setState(() {
@@ -319,7 +319,12 @@ class _pageDetails2State extends State<pageDetails2> {
         ///====
         arrayOfTextSpan[widget.indexhighlight].style?.background!.color =
             Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
-      }
+
+              arrayOfTextSpan[widget.indexhighlight].style?.background!.style = PaintingStyle.stroke;
+
+        arrayOfTextSpan[widget.indexhighlight].style?.background!.strokeWidth = 17.2;
+    }
+      
     });
 
     return arrayOfTextSpan as List<TextSpan>;
