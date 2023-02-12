@@ -174,22 +174,22 @@ class _pageDetails2State extends State<pageDetails2> {
         // } else 
 
         if (item.startOfSurah== '1') {
-      item.height== '1';
+//       item.height== '1';
 
-      String s='';
-      for (int i=0; i <  int.parse(item.height); i++) {
-        s=s+'\n';
-      }
- print(s);
+//       String s='';
+//       for (int i=0; i <  int.parse(item.height); i++) {
+//         s=s+'\n';
+//       }
+//  print(s);
 
-   ( isLandscape==false) ?
-                    textl.add(s +item.text!)
+//    ( isLandscape==false) ?
+//                     textl.add(s +item.text!)
+//                     :   textl.add('\n\n\n\n' +item.text!);
+
+
+        ( isLandscape==false) ?
+                    textl.add('\n\n\n\n\n\n' +item.text!)
                     :   textl.add('\n\n\n\n' +item.text!);
-
-
-        // ( isLandscape==false) ?
-        //             textl.add('\n\n\n\n\n\n' +item.text!)
-        //             :   textl.add('\n\n\n\n' +item.text!);
 
         } else {
           textl.add(item.text!);
@@ -232,7 +232,9 @@ class _pageDetails2State extends State<pageDetails2> {
           text: text,
           style: TextStyle(
               // wordSpacing:text.length/90,
-              background: Paint()..color = Colors.transparent),
+              background: Paint()..color = Colors.transparent
+),
+              
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -284,7 +286,12 @@ class _pageDetails2State extends State<pageDetails2> {
           arrayOfTextSpan.length == arrayStrings.length) {
         arrayOfTextSpan[idx].style?.background!.color =
             Colors.brown.withOpacity(0.25);
-        arrayOfTextSpan[idx].style?.background!.strokeWidth = 8.9;
+          // arrayOfTextSpan[idx].style?.background!.
+    arrayOfTextSpan[idx].style?.background!.style = PaintingStyle.stroke;
+        // arrayOfTextSpan[idx].style?.background!.strokeJoin=StrokeJoin.round;
+        // arrayOfTextSpan[idx].style?.background!.strokeCap= StrokeCap.square;
+
+        arrayOfTextSpan[idx].style?.background!.strokeWidth = 17.2;
         highlightFlag = false;
       }
     });
@@ -292,7 +299,9 @@ class _pageDetails2State extends State<pageDetails2> {
     if (bkSamePage == true) {
       arrayOfTextSpan[bkIndex].style?.background!.color =
           bkColor.withOpacity(0.25);
-      arrayOfTextSpan[bkIndex].style?.background!.strokeWidth = 8.9;
+              arrayOfTextSpan[idx].style?.background!.style = PaintingStyle.stroke;
+
+        arrayOfTextSpan[idx].style?.background!.strokeWidth = 17.2;
     }
 
     setState(() {
@@ -327,7 +336,8 @@ class _pageDetails2State extends State<pageDetails2> {
           text: text,
           style: TextStyle(
               // wordSpacing:text.length/90,
-              background: Paint()..color = Colors.transparent),
+              background: Paint()..color = Colors.transparent
+),
           recognizer: TapGestureRecognizer()
             ..onTap = () {
               setState(() {
@@ -363,7 +373,7 @@ class _pageDetails2State extends State<pageDetails2> {
       padding: EdgeInsets.fromLTRB(0, 126, 0, 0),
       child: RichText(
         textDirection: TextDirection.rtl,
-        textAlign: TextAlign.justify,
+        textAlign: TextAlign.center,
         text: new TextSpan(
           style: const TextStyle(
             fontFamily: 'Amiri',
@@ -385,11 +395,11 @@ class _pageDetails2State extends State<pageDetails2> {
           bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
-        margin: (isLandscape==false) ? EdgeInsets.fromLTRB(0, 0, 6, 0) :  EdgeInsets.fromLTRB(0,110, 6, 0),
+        margin: (isLandscape==false) ? EdgeInsets.fromLTRB(0, 0, 0, 0) :  EdgeInsets.fromLTRB(0,110, 0, 0),
         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
         child: RichText(
           textDirection: TextDirection.rtl,
-          textAlign: TextAlign.justify,
+          textAlign: TextAlign.center,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
           text: new TextSpan(
@@ -397,10 +407,10 @@ class _pageDetails2State extends State<pageDetails2> {
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
               fontSize:  (isLandscape == false) ? 8 : 22,
-              color: Colors.red,
+              color: Colors.transparent,
               wordSpacing: 2.9,
-              letterSpacing: 1.5,
-              height: (isLandscape==false) ? 2.07:  1.9,
+              letterSpacing: (isLandscape==false) ? 1.5 :2.5,
+              height: (isLandscape==false) ? 2.07:  1.8,
 
               // height: 1.68,
             ),
@@ -433,17 +443,18 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   Widget build(BuildContext context) {
     return isLoaded
-        ? Center(
-            child: Column(
-                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Center(
-                    child: (widget.id == 1 || widget.id == 2)
-                        ? Page1_and2Container()
-                        : AllOtherPagesContainer(),
-                  ),
-                ]),
-          )
+        ? Column(
+             crossAxisAlignment: CrossAxisAlignment.start, // <=== try this maybe
+
+            // mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Align(
+                alignment: Alignment.centerRight,
+                child: (widget.id == 1 || widget.id == 2)
+                    ? Page1_and2Container()
+                    : AllOtherPagesContainer(),
+              ),
+            ])
         : CircularProgressIndicator();
   }
 }
