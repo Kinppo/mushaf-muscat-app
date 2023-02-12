@@ -313,99 +313,96 @@ ayaTafsirs.clear();
                     // print("what is this");
                   });
                 },
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    width: double.infinity,
-                    // margin: EdgeInsets.only(bottom: 70),
-                    // : EdgeInsets.fromLTRB(0, 0, 0, 10),
-                    height: 80,
-                    
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(7),
-                        shape: BoxShape.rectangle,
-                        border: Border.all(
-                          color: CustomColors.yellow200,
-                          width: 1,
-                        ),
-                        color: CustomColors.yellow500),
-                    child: Column(
-                      children: [
-                        Text(
-                          surahName,
-                          style: TextStyle(color: CustomColors.red300),
-                        ),
-                        SizedBox(
-                          height: 6,
-                        ),
-                        CarouselSlider(
-                          carouselController: carouselController2,
-                          options: CarouselOptions(
-                            onPageChanged: (index, reason) {
-                              // _currentIndex = index;
-                              // print("INDEX IS $index");
+                child: Container(
+                  width: double.infinity,
+                  // margin: EdgeInsets.only(bottom: 70),
+                  // : EdgeInsets.fromLTRB(0, 0, 0, 10),
+                  height: 70,
+                  
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(7),
+                      shape: BoxShape.rectangle,
+                      border: Border.all(
+                        color: CustomColors.yellow200,
+                        width: 1,
+                      ),
+                      color: CustomColors.yellow500),
+                  child: Column(
+                    children: [
+                      Text(
+                        surahName,
+                        style: TextStyle(color: CustomColors.red300),
+                      ),
+                      SizedBox(
+                        height: 4,
+                      ),
+                      CarouselSlider(
+                        carouselController: carouselController2,
+                        options: CarouselOptions(
+                          onPageChanged: (index, reason) {
+                            // _currentIndex = index;
+                            // print("INDEX IS $index");
+                          },
+                          height: 30.0,
+                          viewportFraction: 0.13,
+                          reverse: false,
+                          initialPage: (cameFromMenu == true)
+                              ? widget.GlobalCurrentPage!
+                              : 0,
+                          scrollDirection: Axis.horizontal,
+                          pageSnapping: true,
+                          enableInfiniteScroll: true,
+                  ),
+                        items: listindex.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                width: 40,
+                                height: 2,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      print("&&&&&&& " +i.toString());
+                                      surahName = _surahNames[i -1]!;
+                                      carouselController2
+                                          .animateToPage(i-1);
+                                      carouselController.animateToPage(i-1);
+                                      // ShowOnlyPageNum=true;
+                                    });
+                                  },
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(7),
+                                          shape: BoxShape.rectangle,
+                                          border: Border.all(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.grey200
+                                                : CustomColors.yellow200,
+                                            width: 1,
+                                          ),
+                                          color: Colors.white),
+                                      height: 30,
+                                      width: 40,
+                                      child: Text(
+                                        HelperFunctions
+                                                .convertToArabicNumbers(
+                                                    i.toString())
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: (i - 1 == overallid)
+                                                ? CustomColors.red300
+                                                : CustomColors.grey200,
+                                            fontSize: 15),
+                                        textAlign: TextAlign.center,
+                                      )),
+                                ),
+                              );
                             },
-                            height: 34.0,
-                            viewportFraction: 0.16,
-                            reverse: false,
-                            initialPage: (cameFromMenu == true)
-                                ? widget.GlobalCurrentPage!
-                                : 0,
-                            scrollDirection: Axis.horizontal,
-                            pageSnapping: true,
-                            enableInfiniteScroll: true,
-                    ),
-                          items: listindex.map((i) {
-                            return Builder(
-                              builder: (BuildContext context) {
-                                return Container(
-                                  width: 50,
-                                  height: 2,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        print("&&&&&&& " +i.toString());
-                                        surahName = _surahNames[i -1]!;
-                                        carouselController2
-                                            .animateToPage(i-1);
-                                        carouselController.animateToPage(i-1);
-                                        // ShowOnlyPageNum=true;
-                                      });
-                                    },
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(7),
-                                            shape: BoxShape.rectangle,
-                                            border: Border.all(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.grey200
-                                                  : CustomColors.yellow200,
-                                              width: 1,
-                                            ),
-                                            color: Colors.white),
-                                        height: 30,
-                                        width: 40,
-                                        child: Text(
-                                          HelperFunctions
-                                                  .convertToArabicNumbers(
-                                                      i.toString())
-                                              .toString(),
-                                          style: TextStyle(
-                                              color: (i - 1 == overallid)
-                                                  ? CustomColors.red300
-                                                  : CustomColors.grey200,
-                                              fontSize: 18),
-                                          textAlign: TextAlign.center,
-                                        )),
-                                  ),
-                                );
-                              },
-                            );
-                          }).toList(),
-                        ),
-                      ],
-                    ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
                   ),
                 ),
               )
