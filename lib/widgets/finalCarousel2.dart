@@ -450,27 +450,27 @@ class _finalCarousel2 extends State<finalCarousel2> {
                         ShowOnlyPageNum = !ShowOnlyPageNum;
                       },
                       child: Stack(fit: StackFit.passthrough, children: [
-                        // IgnorePointer(
-                        //     child: (idx == 0 || idx == 1)
-                        //         ? Image.asset(
-                        //             'assets/quran_images/images/' +
-                        //                 (idx + 1).toString() +
-                        //                 '.jpg',
-                        //             height: 300,
-                        //             fit: BoxFit.fitWidth,
-                        //             width: MediaQuery.of(context).size.width,
-                        //           )
-                        //         : Image.asset(
-                        //             'assets/quran_images/images/598.jpg' ,
-                        //             // +
-                        //                 // (idx + 1).toString() +
-                        //                 // '.jpg',
-                        //             height: 900,
-                        //             fit: BoxFit.fitWidth,
-                        //             width: MediaQuery.of(context).size.width,
-                        //           ), 
+                        IgnorePointer(
+                            child: (idx == 0 || idx == 1)
+                                ? Image.asset(
+                                    'assets/quran_images/images/' +
+                                        (idx + 1).toString() +
+                                        '.jpg',
+                                    height: 300,
+                                    fit: BoxFit.fitWidth,
+                                    width: MediaQuery.of(context).size.width,
+                                  )
+                                : Image.asset(
+                                    'assets/quran_images/images/598.jpg' ,
+                                    // +
+                                        // (idx + 1).toString() +
+                                        // '.jpg',
+                                    height: 900,
+                                    fit: BoxFit.fitWidth,
+                                    width: MediaQuery.of(context).size.width,
+                                  ), 
 
-                        //     ),
+                            ),
 
                         
                         Consumer<AudioPlayer_Provider>(builder:

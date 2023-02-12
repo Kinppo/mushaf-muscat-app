@@ -172,10 +172,24 @@ class _pageDetails2State extends State<pageDetails2> {
         // if (item.endOfSurah == '1') {
         //   textl.add(item.text! + '\n\n\n\n');
         // } else 
+
         if (item.startOfSurah== '1') {
-        ( isLandscape==false) ?
-                    textl.add('\n\n\n\n\n\n' +item.text!)
+      item.height== '1';
+
+      String s='';
+      for (int i=0; i <  int.parse(item.height); i++) {
+        s=s+'\n';
+      }
+ print(s);
+
+   ( isLandscape==false) ?
+                    textl.add(s +item.text!)
                     :   textl.add('\n\n\n\n' +item.text!);
+
+
+        // ( isLandscape==false) ?
+        //             textl.add('\n\n\n\n\n\n' +item.text!)
+        //             :   textl.add('\n\n\n\n' +item.text!);
 
         } else {
           textl.add(item.text!);
