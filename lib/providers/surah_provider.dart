@@ -96,6 +96,22 @@ class SurahProvider with ChangeNotifier {
     return matches;
   }
 
+    Future<List<String>> getSurahName(page) async {
+      // print(_generalAyasList);
+   List<generalAya> FoundSurahs=[];
+   FoundSurahs.addAll(_generalAyasList);
+  //  print("#########found surahs  $page");
+       FoundSurahs.retainWhere((element) =>  element.page.toString()== page.toString());
+      //  print(FoundSurahs);
+       List<String> SurahString=[];
+       FoundSurahs.forEach((element) {
+        SurahString.add(element.surah);
+       });
+
+      //  print(SurahString);
+return SurahString;
+    }
+
   Future<void> loadAllAyasJson() async {
     Stopwatch stopwatch = new Stopwatch()..start();
 

@@ -49,17 +49,22 @@ class BookMarks extends ChangeNotifier {
 
   Future<void> addBookMark({ id, aya, page, type, pageNum, highlightNum}) async {
     // final newItem = BookMark(id: '2', aya: '٢٣٥', page: 'test', type: '2');
+
 bool check = checkBookmark(type);
     if (check ==true) {
       print("bookmark already exists");
     }
     else {
+      //incremented the highlight num cus it stopped working correctly
         final newItem = BookMark(id: id, aya: aya, page: page, type: type, pageNum: pageNum, highlightNum: highlightNum);
 
     final box = Boxes.getBookMarks();
     box.add(newItem);
     fetchAndSetBookMarks();
+
     }
+        notifyListeners();
+
   }
 
   Future<void> deleteBookMark(int id) async {

@@ -4,6 +4,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/models/book_mark.dart';
 import 'package:mushafmuscat/providers/bookMarks_provider.dart';
+import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mushafmuscat/models/pageText.dart';
@@ -59,7 +60,7 @@ class _pageDetails2State extends State<pageDetails2> {
   bool clickedListen = false;
 
   int textsize = 0;
-
+List<String> surahNameList=[];
 //new vars
   List<String> audioPaths = [];
   List<Audio> audioList = [];
@@ -80,12 +81,13 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   initState() {
     if (isLoaded == false) {
+      print("rebuildingggggg");
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await loadTextandBookmarks(widget.currentpage);
 
-        setState(() {
-          loadTextandBookmarks(widget.currentpage);
-        });
+        // setState(() {
+        //    loadTextandBookmarks(widget.currentpage);
+        // });
       });
 
       // print("audio list for page $widget.id is $audioList");
@@ -120,6 +122,15 @@ class _pageDetails2State extends State<pageDetails2> {
   Future<void> loadTextandBookmarks(int page) async {
     textlist = await Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(page);
+surahNameList=[];
+
+  surahNameList =await Provider.of<SurahProvider>(context, listen: false).getSurahName(page);
+
+// textlist.forEach((element){
+// surahNameList.add(element.surahName);
+// });
+
+// print(surahNameList);
 
     final List<BookMark> bk =
         await Provider.of<BookMarks>(context, listen: false).bookmarks;
@@ -131,22 +142,26 @@ class _pageDetails2State extends State<pageDetails2> {
           bkColor = pickColor(element.type);
           bkIndex = element.highlightNum;
           print("we are in the same page");
+          print("BOOKMARK HIGHLIGHT NUM IS $bkIndex");
+
         }
       });
     });
   }
 
   didChangeDependencies() {
-    final List<BookMark> bk =
+    final List<BookMark> bk2 =
         Provider.of<BookMarks>(context, listen: true).bookmarks;
 
-    bk.forEach((element) {
+    bk2.forEach((element) {
       setState(() {
         if (element.pageNum == widget.currentpage) {
           bkSamePage = true;
           bkColor = pickColor(element.type);
           bkIndex = element.highlightNum;
-          print("we are in the same page");
+          print("we are in the same page DIDDDD");
+                    print("BOOKMARK HIGHLIGHT NUM IS $bkIndex");
+
         }
       });
     });
@@ -163,12 +178,16 @@ class _pageDetails2State extends State<pageDetails2> {
     //=======
       bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
+// print(surahNameList.toString());
 
     textlist = Provider.of<ayatLines_provider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
     textlist.then((value) {
       value.forEach((item) {
+        // print(item.surahName.toString());
+        // SingleSurahList.add(item.surahName.toString());
+
         // if (item.endOfSurah == '1') {
         //   textl.add(item.text! + '\n\n\n\n');
         // } else 
@@ -226,7 +245,12 @@ class _pageDetails2State extends State<pageDetails2> {
     for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
       var intValue = text.replaceAll(RegExp('[^0-9]'), '');
+      // print(surahNameList.toString());
 
+      // String singleSurahName =  (SingleSurahList.isNotEmpty) ? SingleSurahList[index].toString(): "unknoen";
+      
+      // SingleSurahList[index].toString();
+// print(textlist[index]);
       // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
@@ -265,7 +289,7 @@ class _pageDetails2State extends State<pageDetails2> {
                 print("highlighted TEXT IS  " + intValue.toString());
                 widget.clickedHighlightNum = idx + 1;
                 widget.toggleClickedHighlight(
-                    idx + 1, intValue.toString(), text);
+                    idx + 1, intValue.toString(), text,surahNameList[idx]);
               });
             });
 
@@ -330,47 +354,7 @@ class _pageDetails2State extends State<pageDetails2> {
     return arrayOfTextSpan as List<TextSpan>;
   }
 
-  Future<List<TextSpan>> AddAyas(arrayStrings) async {
-    List<TextSpan> arrayOfTextSpan = [];
-    for (int index = 0; index < arrayStrings.length; index++) {
-      final text = arrayStrings[index] + "";
-      var intValue = text.replaceAll(RegExp('[^0-9]'), '');
 
-      // print("TEXT LENGTH: "+ text.length.toString());
-      final span = TextSpan(
-          text: text,
-          style: TextStyle(
-              // wordSpacing:text.length/90,
-              background: Paint()..color = Colors.transparent
-),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
-              setState(() {
-                // widget.highlightedAyaText= text;
-                // print("The word touched is " + widget.highlightedAyaText.toString());
-
-                highlightFlag = true;
-                idx = arrayOfTextSpan
-                    .indexWhere((element) => element.text == text);
-                print("highlighted line number  $idx");
-                //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
-                print("highlighted TEXT IS  " + intValue.toString());
-                widget.clickedHighlightNum = idx + 1;
-                widget.toggleClickedHighlight(
-                    idx + 1, intValue.toString(), text);
-              });
-            });
-
-      if (index == 0) {
-        widget.ayaNumsforThePage.clear();
-      }
-      widget.ayaNumsforThePage.add(intValue);
-
-      arrayOfTextSpan.add(span);
-    }
-
-    return arrayOfTextSpan;
-  }
 
   Container? Page1_and2Container() {
     return Container(
@@ -412,7 +396,7 @@ class _pageDetails2State extends State<pageDetails2> {
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
               fontSize:  (isLandscape == false) ? 8 : 22,
-              color: Colors.transparent,
+              color: Colors.red,
               wordSpacing: 2.9,
               letterSpacing: (isLandscape==false) ? 1.5 :2.5,
               height: (isLandscape==false) ? 2.07:  1.8,
