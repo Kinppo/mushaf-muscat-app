@@ -7,7 +7,7 @@ class AyatLines {
   int? pageNumber;
   String? aya;
   String? startOfSurah;
-  String? height;
+  int? height;
 
   AyatLines(
       {this.text,

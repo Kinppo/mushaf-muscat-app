@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mushafmuscat/models/AyatLines.dart';
+import 'package:mushafmuscat/screens/ayah_screen.dart';
 
 import '../utils/helperFunctions.dart';
 
@@ -43,7 +44,6 @@ class ayatLines_provider with ChangeNotifier {
 
       ));
     }
-
     ayat_lines = lines;
 
     notifyListeners();
