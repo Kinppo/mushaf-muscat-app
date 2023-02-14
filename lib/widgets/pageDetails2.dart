@@ -195,20 +195,25 @@ surahNameList=[];
         if (item.startOfSurah== '1') {
 //       item.height== '1';
 
-//       String s='';
-//       for (int i=0; i <  int.parse(item.height); i++) {
-//         s=s+'\n';
-//       }
-//  print(s);
+      String sPortrait='';
+            String sLandscape='';
 
-//    ( isLandscape==false) ?
-//                     textl.add(s +item.text!)
-//                     :   textl.add('\n\n\n\n' +item.text!);
+      for (int i=0; i < item.height; i++) {
+        sPortrait=sPortrait+'\n';
+        if (i<item.height-2){
+sLandscape=sLandscape+ '\n';
+        }
+      }
+ print(sPortrait);
+
+   ( isLandscape==false) ?
+                    textl.add( sPortrait+item.text!)
+                    :   textl.add(sLandscape+item.text!);
 
 
-        ( isLandscape==false) ?
-                    textl.add('\n\n\n\n\n\n' +item.text!)
-                    :   textl.add('\n\n\n\n' +item.text!);
+        // ( isLandscape==false) ?
+        //             textl.add('\n\n\n\n\n\n' +item.text!)
+        //             :   textl.add('\n\n\n\n' +item.text!);
 
         } else {
           textl.add(item.text!);
@@ -385,7 +390,7 @@ surahNameList=[];
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
         margin: (isLandscape==false) ? EdgeInsets.fromLTRB(0, 0, 0, 0) :  EdgeInsets.fromLTRB(0,110, 0, 0),
-        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        padding: (widget.id==600 )?   EdgeInsets.only(top:26):  EdgeInsets.only(top:33),
         child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.center,
@@ -395,11 +400,11 @@ surahNameList=[];
             style:  TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize:  (isLandscape == false) ? 8 : 22,
+              fontSize:  (isLandscape == false) ? 7 : 22,
               color: Colors.red,
               wordSpacing: 2.9,
-              letterSpacing: (isLandscape==false) ? 1.5 :2.5,
-              height: (isLandscape==false) ? 2.07:  1.8,
+              letterSpacing: (isLandscape==false) ? 2.0 :2.5,
+              height: (isLandscape==false) ? 2.52:  1.8,
 
               // height: 1.68,
             ),
