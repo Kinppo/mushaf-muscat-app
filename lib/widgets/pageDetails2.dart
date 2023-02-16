@@ -283,7 +283,12 @@ class _pageDetails2State extends State<pageDetails2> {
     List<String> textl = [];
     textlist.then((value) {
       for (int i = 0; i < value.length; i++) {
-        if (value[i].startOfSurah == '1') {
+        if (i == 0 &&
+            value[i].endOfSurah == '1' &&
+            value[i + 1].startOfSurah == '1') {
+          print("&&&&&&&&&&&&&&&&&");
+          textl.add(value[i].text! + '\n\n');
+        } else if (value[i].startOfSurah == '1') {
           print("$i  >>>>>>> " +
               value[i].toString() +
               " with height " +
@@ -308,28 +313,6 @@ class _pageDetails2State extends State<pageDetails2> {
         }
       }
 
-//       item.height== '1';
-
-//       String sPortrait='';
-//             String sLandscape='';
-
-//       for (int i=0; i < value[i].height; i++) {
-//         sPortrait=sPortrait+'\n';
-//         if (i<value[i].height-2){
-// sLandscape=sLandscape+ '\n';
-//         }
-//       }
-//  print(sPortrait);
-
-//    ( isLandscape==false) ?
-//                     textl.add( sPortrait+value[i].text!)
-//                     :   textl.add(sLandscape+value[i].text!);
-
-//         } else {
-//           textl.add(value[i].text!);
-//         }
-
-      // }
       fulltext = textl.join('\n\n');
     });
 
@@ -494,8 +477,8 @@ class _pageDetails2State extends State<pageDetails2> {
         margin: (isLandscape == false)
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
-        padding: (widget.id == 600)
-            ? EdgeInsets.only(top: 26)
+        padding: (widget.id == 600 || widget.id == 599 || widget.id == 596 || widget.id == 595 || widget.id == 594 ||widget.id == 593)
+            ? EdgeInsets.only(top: 25)
             : (surahPageswithHeaders.contains(widget.id))
                 ? EdgeInsets.only(top: 15)
                 : EdgeInsets.only(top: 36),
@@ -511,7 +494,7 @@ class _pageDetails2State extends State<pageDetails2> {
               fontSize: (isLandscape == false) ? 8 : 22,
               color: Colors.red,
               wordSpacing: 2.9,
-              letterSpacing: (isLandscape == false) ? 1.7 : 2.5,
+              letterSpacing:(isLandscape == false && (widget.id == 596 ||widget.id == 595 ||widget.id == 594)) ? 1.30 :(isLandscape == false) ? 1.7 : 2.5,
               height: (isLandscape == false) ? 2.3 : 1.8,
 
               // height: 1.68,
