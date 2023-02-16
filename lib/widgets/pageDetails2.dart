@@ -73,7 +73,39 @@ class _pageDetails2State extends State<pageDetails2> {
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
 
-  List<int> surahPageswithHeaders = [
+  List<int> pagesThatNeedExtraPadding = [
+    600,
+    599,
+    596,
+    595,
+    594,
+    593,
+    592,
+    589,
+    583,
+    582,
+    580,
+        577,
+
+  ];
+
+  List<int> pagesThatNeedLessSpacing = [
+    596,
+    595,
+    594,
+    592,
+    591,
+    589,
+    587,
+    585,
+    583,
+    582,
+    580,
+
+  
+  ];
+
+ final surahPageswithHeaders = [
     77,
     604,
     599,
@@ -477,7 +509,8 @@ class _pageDetails2State extends State<pageDetails2> {
         margin: (isLandscape == false)
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
-        padding: (widget.id == 600 || widget.id == 599 || widget.id == 596 || widget.id == 595 || widget.id == 594 ||widget.id == 593 ||widget.id == 592 || widget.id == 589 || widget.id == 583|| widget.id == 582)
+        padding:  (isLandscape == false &&(  widget.id==575 || widget.id == 574 || widget.id == 572  || widget.id==568 || widget.id==566 || widget.id==563  || widget.id==564  || widget.id==558  || widget.id==554  ) ) ? EdgeInsets.only(top: 25) :
+        pagesThatNeedExtraPadding.contains(widget.id)
             ? EdgeInsets.only(top: 25)
             : (surahPageswithHeaders.contains(widget.id))
                 ? EdgeInsets.only(top: 15)
@@ -491,11 +524,26 @@ class _pageDetails2State extends State<pageDetails2> {
             style: TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize:  (isLandscape == false && (widget.id == 591 || widget.id == 585)) ?6.0  :(isLandscape == false) ? 8 : 22,
+              fontSize: (isLandscape == false &&
+                      (widget.id == 591 || widget.id == 585 || widget.id == 585 || widget.id==568 || widget.id == 566 ))
+                  ? 6.0
+                  : (isLandscape == false)
+                      ? 8
+                      : 22,
               color: Colors.red,
               wordSpacing: 2.9,
-              letterSpacing: (isLandscape == false && (widget.id == 596 ||widget.id == 595 ||widget.id == 594 ||widget.id == 592  || widget.id == 591 || widget.id == 589 || widget.id == 587 ||widget.id == 585 || widget.id == 583 || widget.id == 582)) ? 1.30 :(isLandscape == false) ? 1.7 : 2.5,
-              height: (isLandscape == false && (widget.id == 591|| widget.id == 585)) ?3.0  : (isLandscape == false) ? 2.3 : 1.8,
+              letterSpacing: (isLandscape == false &&( widget.id==568  )) ? 1.5 :(isLandscape == false &&( widget.id==577 || widget.id== 575 || widget.id == 562   || widget.id == 560|| widget.id == 558) ) ?1.3 :  (isLandscape == false &&
+                      pagesThatNeedLessSpacing.contains(widget.id))
+                  ? 1.30
+                  : (isLandscape == false)
+                      ? 1.7
+                      : 2.5,
+              height: (isLandscape == false &&
+                      (widget.id == 591 || widget.id == 585 ||widget.id == 568 || widget.id == 566 || widget.id == 566 ))
+                  ? 3.0
+                  : (isLandscape == false)
+                      ? 2.3
+                      : 1.8,
 
               // height: 1.68,
             ),
