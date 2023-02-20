@@ -178,4 +178,12 @@ final pagesThatNeedExtraPadding =[
 final pagesThatNeedSpacing_medium = [
    568 , 537 , 523 , 518 , 502 , 483 , 221 , 208 ,151
 ];
+
+final pagesThatNeedSmallerFont = [
+     591 , 585 , 568 , 566 , 446 , 350 , 293
+];
+final pagesThatNeedLessHeight = [
+   591 , 585 ,568 , 566 , 446 , 350 , 293];
+
+
 }

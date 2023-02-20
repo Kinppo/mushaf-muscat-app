@@ -73,13 +73,15 @@ class _pageDetails2State extends State<pageDetails2> {
   bool clickHighlightWhilePlaying = false;
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
-  final pagesThatNeedExtraPadding = manualLists().pagesThatNeedExtraPadding;
-
-  final pagesThatNeedSpacing_small = manualLists().pagesThatNeedSpacing_small;
-
-  final pagesThatNeedSpacing_medium = manualLists().pagesThatNeedSpacing_medium;
 
   final surahPageswithHeaders = manualLists().surahPageswithHeaders;
+
+  final pagesThatNeedExtraPadding = manualLists().pagesThatNeedExtraPadding;
+  final pagesThatNeedSpacing_small = manualLists().pagesThatNeedSpacing_small;
+  final pagesThatNeedSpacing_medium = manualLists().pagesThatNeedSpacing_medium;
+  final pagesThatNeedSmallerFont = manualLists().pagesThatNeedSmallerFont;
+  final pagesThatNeedLessHeight = manualLists().pagesThatNeedLessHeight;
+
   //bookmark variables
   bool bkSamePage = false;
   late Color bkColor;
@@ -399,14 +401,8 @@ class _pageDetails2State extends State<pageDetails2> {
             style: TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: (isLandscape == false &&
-                      (widget.id == 591 ||
-                          widget.id == 585 ||
-                          widget.id == 568 ||
-                          widget.id == 566 ||
-                          widget.id == 446 ||
-                          widget.id == 350 ||
-                          widget.id == 293))
+              fontSize: (isLandscape == false && pagesThatNeedSmallerFont.contains(widget.id)
+                   )
                   ? 6.0
                   : (isLandscape == false)
                       ? 8
@@ -423,13 +419,7 @@ class _pageDetails2State extends State<pageDetails2> {
                           ? 1.7
                           : 2.5,
               height: (isLandscape == false &&
-                      (widget.id == 591 ||
-                          widget.id == 585 ||
-                          widget.id == 568 ||
-                          widget.id == 566 ||
-                          widget.id == 446 ||
-                          widget.id == 350 ||
-                          widget.id == 293))
+                      pagesThatNeedLessHeight.contains(widget.id))
                   ? 3.0
                   : (isLandscape == false)
                       ? 2.3
