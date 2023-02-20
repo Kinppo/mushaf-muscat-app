@@ -261,8 +261,10 @@ class _pageDetails2State extends State<pageDetails2> {
           style: TextStyle(
               // wordSpacing:text.length/90,
               background: Paint()..color = Colors.transparent),
-          recognizer: TapGestureRecognizer()
-            ..onTap = () {
+          recognizer: DoubleTapGestureRecognizer()
+          // TapGestureRecognizer()
+          
+            ..onDoubleTap = () {
               setState(() {
                 // widget.highlightedAyaText= text;
                 // print("The word touched is " + widget.highlightedAyaText.toString());
@@ -397,7 +399,7 @@ class _pageDetails2State extends State<pageDetails2> {
           textAlign: TextAlign.center,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
-          text: new TextSpan(
+          text:  TextSpan(
             style: TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
@@ -432,27 +434,7 @@ class _pageDetails2State extends State<pageDetails2> {
         ));
   }
 
-  // Container? AllOtherPagesContainer() {
-  //   return Container(
-  //       padding: EdgeInsets.fromLTRB(12, 53, 6, 0),
-  //       child: Expanded(
-  //           child: RichText(
-  //         textDirection: TextDirection.rtl,
-  //         textAlign: TextAlign.justify,
-  //         text: new TextSpan(
-  //           style: const TextStyle(
-  //               fontFamily: 'Amiri',
-  //               fontWeight: FontWeight.bold,
-  //               fontSize: 13,
-  //               color: Colors.brown,
-  //               wordSpacing: 2.6,
-  //               letterSpacing: 1,
-  //               height: 1.25),
-  //           children: createTextSpans(),
-  //         ),
-  //       )));
-  // }
-
+ 
   @override
   Widget build(BuildContext context) {
     return isLoaded
