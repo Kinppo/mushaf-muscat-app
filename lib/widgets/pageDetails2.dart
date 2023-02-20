@@ -73,25 +73,11 @@ class _pageDetails2State extends State<pageDetails2> {
   bool clickHighlightWhilePlaying = false;
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
- List<int> pagesThatNeedExtraPadding= manualLists().pagesThatNeedExtraPadding;
- 
-  List<int> pagesThatNeedSpacing_small = [
-    596,
-    595,
-    594,
-    592,
-    591,
-    589,
-    587,
-    585,
-    583,
-    582,
-    580,
-  ];
+  final pagesThatNeedExtraPadding = manualLists().pagesThatNeedExtraPadding;
 
-    List<int> pagesThatNeedSpacing_medium = [
+  final pagesThatNeedSpacing_small = manualLists().pagesThatNeedSpacing_small;
 
-    ];
+  final pagesThatNeedSpacing_medium = manualLists().pagesThatNeedSpacing_medium;
 
   final surahPageswithHeaders = manualLists().surahPageswithHeaders;
   //bookmark variables
@@ -399,51 +385,11 @@ class _pageDetails2State extends State<pageDetails2> {
         margin: (isLandscape == false)
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
-        padding: (isLandscape == false &&
-                (widget.id == 575 ||
-                    widget.id == 574 ||
-                    widget.id == 572 ||
-                    widget.id == 568 ||
-                    widget.id == 566 ||
-                    widget.id == 563 ||
-                    widget.id == 564 ||
-                    widget.id == 558 ||
-                    widget.id == 554 ||
-                    widget.id == 551 ||
-                    widget.id == 545 ||
-                    widget.id == 542 ||
-                    widget.id == 537 ||
-                    widget.id == 534 ||
-                    widget.id == 531 ||
-                    widget.id == 528 ||
-                    widget.id == 523 ||
-                    widget.id == 520 ||
-                    widget.id == 515 ||
-                    widget.id == 502 ||
-                    widget.id == 489 ||
-                    widget.id == 477 ||
-                    widget.id == 467 ||
-                    widget.id == 440 ||
-                    widget.id == 434 ||
-                    widget.id == 396 ||
-                    widget.id == 385 ||
-                    widget.id == 367 ||
-                    widget.id == 359 ||
-                    widget.id == 312 ||
-                    widget.id == 293 ||
-                    widget.id == 267 ||
-                    widget.id == 255 ||
-                    widget.id == 235 ||
-                    widget.id == 221 ||
-                    widget.id == 187 ||
-                    widget.id == 106 ||
-                    widget.id == 77))
+        padding: pagesThatNeedExtraPadding.contains(widget.id)
             ? EdgeInsets.only(top: 25)
-            : pagesThatNeedExtraPadding.contains(widget.id)
-                ? EdgeInsets.only(top: 25)
-                : (surahPageswithHeaders.contains(widget.id))
-                    ? EdgeInsets.only(top: 15)
-                    : EdgeInsets.only(top: 36),
+            : (surahPageswithHeaders.contains(widget.id))
+                ? EdgeInsets.only(top: 15)
+                : EdgeInsets.only(top: 36),
         child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.center,
@@ -468,35 +414,14 @@ class _pageDetails2State extends State<pageDetails2> {
               color: Colors.red,
               wordSpacing: 2.9,
               letterSpacing: (isLandscape == false &&
-                      (widget.id == 568 ||
-                          widget.id == 537 ||
-                          widget.id == 523 ||
-                          widget.id == 518 ||
-                          widget.id == 502 ||
-                          widget.id == 483 ||
-                          widget.id == 221 ||
-                          widget.id == 208 ||
-                          widget.id == 151))
+                      pagesThatNeedSpacing_medium.contains(widget.id))
                   ? 1.5
                   : (isLandscape == false &&
-                          (widget.id == 577 ||
-                              widget.id == 575 ||
-                              widget.id == 562 ||
-                              widget.id == 560 ||
-                              widget.id == 558 ||
-                              widget.id == 534 ||
-                              widget.id == 367 ||
-                              widget.id == 350 ||
-                              widget.id == 342 ||
-                              widget.id == 235 ||
-                              widget.id == 77))
-                      ? 1.3
-                      : (isLandscape == false &&
-                              pagesThatNeedSpacing_small.contains(widget.id))
-                          ? 1.30
-                          : (isLandscape == false)
-                              ? 1.7
-                              : 2.5,
+                          pagesThatNeedSpacing_small.contains(widget.id))
+                      ? 1.30
+                      : (isLandscape == false)
+                          ? 1.7
+                          : 2.5,
               height: (isLandscape == false &&
                       (widget.id == 591 ||
                           widget.id == 585 ||

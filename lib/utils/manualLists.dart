@@ -150,4 +150,32 @@ final pagesThatNeedExtraPadding =[
     77
   ];
 
+  final pagesThatNeedSpacing_small = [
+    596,
+    595,
+    594,
+    592,
+    591,
+    589,
+    587,
+    585,
+    583,
+    582,
+    580,
+    577,
+    575,
+    562,
+    560,
+    558,
+    534,
+    367,
+    350,
+    342,
+    235,
+    77
+  ];
+
+final pagesThatNeedSpacing_medium = [
+   568 , 537 , 523 , 518 , 502 , 483 , 221 , 208 ,151
+];
 }
