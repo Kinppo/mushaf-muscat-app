@@ -390,7 +390,7 @@ class _pageDetails2State extends State<pageDetails2> {
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
         padding: 
-                      (isLandscape == false && (widget.id==597 || widget.id==586|| widget.id==578 || widget.id==578  || widget.id==458  || widget.id==453  || widget.id==404 )) ? EdgeInsets.only(top: 25):
+                      (isLandscape == false && (widget.id==597 || widget.id==586|| widget.id==578 || widget.id==578  || widget.id==458  || widget.id==453  || widget.id==404 || widget.id==350    || widget.id==585  || widget.id==587  || widget.id==590 || widget.id==518 || widget.id==322 || widget.id==570  || widget.id==377  )) ? EdgeInsets.only(top: 25):
 
         pagesThatNeedExtraPadding.contains(widget.id)
             ? EdgeInsets.only(top: 25)
@@ -419,8 +419,8 @@ class _pageDetails2State extends State<pageDetails2> {
               color: Colors.red,
               wordSpacing: 2.9,
               letterSpacing: 
-                  (isLandscape == false && (widget.id==499 || widget.id==404 || widget.id==415)) ? 1.5:
-              (isLandscape == false && (widget.id==597 ||widget.id==578 ||widget.id==526 ||widget.id==507   ||widget.id==453)) ? 1.3:
+                  (isLandscape == false && (widget.id==499 || widget.id==404 || widget.id==415 )) ? 1.5:
+              (isLandscape == false && (widget.id==597 ||widget.id==578 ||widget.id==526 ||widget.id==507   ||widget.id==453  || widget.id==418   || widget.id==570 || widget.id==377)) ? 1.3:
               (isLandscape == false &&
                       pagesThatNeedSpacing_medium.contains(widget.id))
                   ? 1.5
