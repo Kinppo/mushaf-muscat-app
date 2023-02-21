@@ -261,10 +261,10 @@ class _pageDetails2State extends State<pageDetails2> {
           style: TextStyle(
               // wordSpacing:text.length/90,
               background: Paint()..color = Colors.transparent),
-          recognizer: DoubleTapGestureRecognizer()
-          // TapGestureRecognizer()
+          recognizer: 
+          TapGestureRecognizer()
           
-            ..onDoubleTap = () {
+            ..onTap = () {
               setState(() {
                 // widget.highlightedAyaText= text;
                 // print("The word touched is " + widget.highlightedAyaText.toString());
@@ -389,7 +389,10 @@ class _pageDetails2State extends State<pageDetails2> {
         margin: (isLandscape == false)
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
-        padding: pagesThatNeedExtraPadding.contains(widget.id)
+        padding: 
+                      (isLandscape == false && (widget.id==597 || widget.id==586|| widget.id==578 || widget.id==578  || widget.id==458  || widget.id==453  || widget.id==404 )) ? EdgeInsets.only(top: 25):
+
+        pagesThatNeedExtraPadding.contains(widget.id)
             ? EdgeInsets.only(top: 25)
             : (surahPageswithHeaders.contains(widget.id))
                 ? EdgeInsets.only(top: 15)
@@ -403,7 +406,11 @@ class _pageDetails2State extends State<pageDetails2> {
             style: TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: (isLandscape == false && pagesThatNeedSmallerFont.contains(widget.id)
+              fontSize: 
+                            (isLandscape == false && (widget.id==507 ||widget.id==499 )) ? 6 :
+
+              (isLandscape == false && (widget.id==597 )) ? 6.8 :
+              (isLandscape == false && pagesThatNeedSmallerFont.contains(widget.id)
                    )
                   ? 6.0
                   : (isLandscape == false)
@@ -411,7 +418,10 @@ class _pageDetails2State extends State<pageDetails2> {
                       : 22,
               color: Colors.red,
               wordSpacing: 2.9,
-              letterSpacing: (isLandscape == false &&
+              letterSpacing: 
+                  (isLandscape == false && (widget.id==499 || widget.id==404 || widget.id==415)) ? 1.5:
+              (isLandscape == false && (widget.id==597 ||widget.id==578 ||widget.id==526 ||widget.id==507   ||widget.id==453)) ? 1.3:
+              (isLandscape == false &&
                       pagesThatNeedSpacing_medium.contains(widget.id))
                   ? 1.5
                   : (isLandscape == false &&
@@ -420,14 +430,18 @@ class _pageDetails2State extends State<pageDetails2> {
                       : (isLandscape == false)
                           ? 1.7
                           : 2.5,
-              height: (isLandscape == false &&
+              height: 
+                            (isLandscape == false &&(widget.id==507 || widget.id==499)) ? 3.0 :
+
+              (isLandscape == false &&(widget.id==597)) ? 2.6 :
+              (isLandscape == false &&
                       pagesThatNeedLessHeight.contains(widget.id))
                   ? 3.0
                   : (isLandscape == false)
                       ? 2.3
                       : 1.8,
 
-              // height: 1.68,
+              // height: 1.68, 
             ),
             children: createTextSpans(),
           ),
