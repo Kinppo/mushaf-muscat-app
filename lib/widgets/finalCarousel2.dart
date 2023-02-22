@@ -896,6 +896,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
     AssetsAudioPlayer.withId("main").stop();
 
+
     // await loadAudiosLoop(currentPage + 1, rep);
     print("highlight number AND CURRENT PAGE..... " + currentPage.toString());
 
@@ -903,15 +904,23 @@ class _finalCarousel2 extends State<finalCarousel2> {
         widget.loophighlight.toString());
     print("page number of chosen aya is..... " + currentPage.toString());
     // print("NUMBER OF REPS ..... " + rep.toString());
+
+
     int? ayaToHighlight =
         await Provider.of<ayatLines_provider>(context, listen: false)
             .getAya(surahToLoop, ayaToLoop as int);
 
 // print(audiosList);
+ await playBasmala();
+BasmalaFlag=true;
+if (BasmalaFlag==true ) {
+ assetsAudioPlayerBasmala.current.listen((event) {
+        assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+          print("BASMALAAAA IS NULL $event2");
+          if (event2 == false) {
+            setState(() {
 
-// print(loopPlaylist);
-    setState(() {
-      assetsAudioPlayer.open(
+  assetsAudioPlayer.open(
           Playlist(
             audios: audiosList,
             startIndex:
@@ -919,18 +928,48 @@ class _finalCarousel2 extends State<finalCarousel2> {
           ),
           loopMode: LoopMode.none);
       // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
-      print(LoopIndices.toString());
+      // print(LoopIndices.toString());
       clickedHighlightNum =
           (loopFirstPage == false) ? widget.loophighlight! : 0;
       activeAya = clickedHighlightNum;
       ayaFlag = true;
       loopFirstPage = true;
+              BasmalaFlag = false;
     });
+          
+              // assetsAudioPlayer.open(
+              //     Playlist(audios: audiosList, startIndex: clickedHighlightNum),
+              //     loopMode: LoopMode.none);
+              // activeAya = clickedHighlightNum;
+            
+     
+            // AudioListener();
+          }
+        });
+      });
+}
+// print(loopPlaylist);
+    // setState(() {
+    //   assetsAudioPlayer.open(
+    //       Playlist(
+    //         audios: audiosList,
+    //         startIndex:
+    //             (loopFirstPage == false) ? widget.loophighlight! * rep : 0,
+    //       ),
+    //       loopMode: LoopMode.none);
+    //   // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
+    //   // print(LoopIndices.toString());
+    //   clickedHighlightNum =
+    //       (loopFirstPage == false) ? widget.loophighlight! : 0;
+    //   activeAya = clickedHighlightNum;
+    //   ayaFlag = true;
+    //   loopFirstPage = true;
+    // });
 // print("nums + " + ayaNumsforThePage.length.toString());
 // print("aaaa + "+ audiosList.length.toString());
 
     // if (ayaNumsforThePage.length==audiosList.length){
-    AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight);
+    // AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight);
     // }
   }
 

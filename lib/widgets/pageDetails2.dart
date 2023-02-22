@@ -178,6 +178,8 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   List<TextSpan> createTextSpans() {
+
+
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
@@ -355,7 +357,9 @@ class _pageDetails2State extends State<pageDetails2> {
             17.2;
       }
     });
-
+   setState(() {
+      
+    });
     return arrayOfTextSpan as List<TextSpan>;
   }
 
