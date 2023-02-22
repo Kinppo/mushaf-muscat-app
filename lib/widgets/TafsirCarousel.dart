@@ -230,8 +230,9 @@ ayaTafsirs.clear();
                               children: [
                                 Container(
                                     margin: EdgeInsets.only(top: 17),
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 22, vertical: 33),
+                                    padding:const EdgeInsets.fromLTRB(25, 20, 25,10),
+                                    // padding: const EdgeInsets.symmetric(
+                                    //     horizontal: 22, vertical: 10),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:

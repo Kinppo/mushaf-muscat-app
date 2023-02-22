@@ -284,7 +284,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     audiosList.clear();
     FlagsAudio.clear();
     StartFlagAudio.clear();
-    await loadAudios(currentPage + 1);
+    await loadAudios(currentPage );
     clickedHighlightNum = 0;
     //                        if (loopFlag==true) {
     //  OpenPlayerLoop();
@@ -314,7 +314,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
           showPauseIcon = !showPauseIcon;
         }
         if (prev != currentPage) {
-          await loadAudios(currentPage);
+          await loadAudios(currentPage+1);
 
           OpenPlayer();
         } else {
@@ -372,6 +372,21 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
   @override
   Widget build(BuildContext context) {
+    
+    setState(() {
+      if (widget.goToPage != null && widget.goToPage != 0) {
+      overallid = (widget.goToPage as int) - 1;
+      currentPage = (widget.goToPage as int) - 1;
+     
+      } 
+      else {
+        setState(() {
+           cameFromMenu = false;
+        });
+      }
+    });
+
+
     if (widget.loop == 1 && loopFlag == false) {
       loopFunction();
     }
@@ -667,7 +682,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                             "0" &&
                                         activeAya == FlagsAudio.length - 1) {
                                       handlePlayButton();
-                                    } else {
+                                    } 
+                                    else {
                                       assetsAudioPlayer.next();
                                     }
                                   }),
@@ -698,13 +714,16 @@ class _finalCarousel2 extends State<finalCarousel2> {
                                         });
                                       } else if (firstFlag == false) {
                                         setState(() async {
-                                          print(
-                                              "CURRENT UPDATED PAGE IS $currentPage");
                                           if (cameFromMenu == true) {
+
                                             await loadAudios(currentPage + 1);
-                                          } else {
+                                          } else  {
+                                        
+
                                             await loadAudios(currentPage);
                                           }
+                                            print( "CURRENT UPDATED PAGE IS $currentPage");
+                                          print( "CAME FROM MENU IS $cameFromMenu");
 
                                           print(audiosList);
                                           //                            if (loopFlag==true) {
@@ -1259,7 +1278,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
               carouselController2.nextPage();
               audiosList.clear();
               FlagsAudio.clear();
-              await loadAudios(currentPage + 1);
+              await loadAudios(currentPage+1);
               clickedHighlightNum = 0;
 
               OpenPlayer();
