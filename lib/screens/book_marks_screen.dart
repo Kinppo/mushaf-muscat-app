@@ -44,8 +44,10 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BNavigationBar(
+      bottomNavigationBar: BNavigationBar(
         pageIndex: 1,
+        toggleBars:
+            () {}, //do nothing and only allow bottom nav bar to disappear in quran screen
       ),
       body: Container(
           width: MediaQuery.of(context).size.width,

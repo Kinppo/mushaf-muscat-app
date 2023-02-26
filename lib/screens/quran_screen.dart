@@ -38,7 +38,7 @@ class _QuranScreenState extends State<QuranScreen> {
   var searchRes_aya;
   bool searchStatus= false;
   // int searchListLength=0;
-
+String SurahFrom="الفاتحة";
 
   @override
   void initState() {
@@ -142,6 +142,8 @@ FinalList
       goToPage = arg['v1'] as int;
       loop = arg['v2'] as int;
       highlighNum = arg['v3'] as int;
+      SurahFrom = arg['v4'] as String;
+
       print("ARGSSSS: " + arg.toString());
     }
 //  goToPage = arg['v1'] as int;
@@ -188,14 +190,16 @@ FinalList
               h: (isLandscape == false) ? Screenheight * 0.18 : 200,
               segmentToggle: segmentedControlValue,
               changeSearchStatus: changeSearchStatus,
+              toggleBars: toggleBars,
             )
           : PreferredSize(
               child: Container(),
               preferredSize: const Size(0.0, 0.0),
             ),
       bottomNavigationBar: showNavBar
-          ? const BNavigationBar(
+          ?  BNavigationBar(
               pageIndex: 0,
+              toggleBars:toggleBars,
             )
           : const PreferredSize(
               child: Text(""),
@@ -235,7 +239,9 @@ FinalList
                                   toggleBars: toggleBars,
                                   loophighlight: highlighNum,
                                   GlobalCurrentPage: GlobalCurrentPage,
-                                  changeGlobal: changeGlobal),
+                                  changeGlobal: changeGlobal,
+                                  surahFrom: SurahFrom,
+                                  ),
                             ),
                             // showPlayer ? AudioPlayerWidget():
                             // Container()

@@ -42,8 +42,10 @@ class _AyahScreenState extends State<AyahScreen> {
     final _isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
-        bottomNavigationBar: const BNavigationBar(
+        bottomNavigationBar:  BNavigationBar(
           pageIndex: 2,
+                    toggleBars: () {}, //do nothing and only allow bottom nav bar to disappear in quran screen
+
         ),
         body: Container(
             width: MediaQuery.of(context).size.width,
