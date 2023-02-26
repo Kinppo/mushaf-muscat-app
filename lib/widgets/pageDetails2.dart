@@ -198,13 +198,13 @@ class _pageDetails2State extends State<pageDetails2> {
         if (i == 0 &&
             value[i].endOfSurah == '1' &&
             value[i + 1].startOfSurah == '1') {
-          print("&&&&&&&&&&&&&&&&&");
+          // print("&&&&&&&&&&&&&&&&&");
           textl.add(value[i].text! + '\n\n');
         } else if (value[i].startOfSurah == '1') {
-          print("$i  >>>>>>> " +
-              value[i].toString() +
-              " with height " +
-              value[i].height.toString());
+          // print("$i  >>>>>>> " +
+              // value[i].toString() +
+              // " with height " +
+              // value[i].height.toString());
 
           String sPortrait = '';
           String sLandscape = '';
@@ -364,21 +364,25 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Container? Page1_and2Container() {
+       bool isLandscape =
+        MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
-      margin: EdgeInsets.fromLTRB(65, 0, 65, 0),
-      padding: EdgeInsets.fromLTRB(0, 126, 0, 0),
+      margin: (widget.id==1) ?
+          EdgeInsets.fromLTRB(0, 105, 0, 0): EdgeInsets.fromLTRB(0, 145, 0, 0),
+      padding: EdgeInsets.symmetric(horizontal: 70),
       child: RichText(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.center,
-        text: new TextSpan(
-          style: const TextStyle(
+        text:  TextSpan(
+          style:  TextStyle(
             fontFamily: 'Amiri',
             fontWeight: FontWeight.bold,
             fontSize: 8,
             color: Colors.red,
-            wordSpacing: 1,
-            letterSpacing: 0.6,
-            height: 1.6,
+            wordSpacing: 2.9,
+            letterSpacing:  (widget.id==1) ? 2.2: 1.5,
+            height:
+            2.2,
           ),
           children: createTextSpans(),
         ),
