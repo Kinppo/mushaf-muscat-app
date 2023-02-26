@@ -264,9 +264,9 @@ class _pageDetails2State extends State<pageDetails2> {
               // wordSpacing:text.length/90,
               background: Paint()..color = Colors.transparent),
           recognizer: 
-          TapGestureRecognizer()
+          DoubleTapGestureRecognizer()
           
-            ..onTap = () {
+            ..onDoubleTap = () {
               setState(() {
                 // widget.highlightedAyaText= text;
                 // print("The word touched is " + widget.highlightedAyaText.toString());
