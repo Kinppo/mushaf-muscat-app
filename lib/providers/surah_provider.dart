@@ -14,25 +14,37 @@ class generalAya {
   String aya;
   String page;
   String text;
+  int index;
 
   generalAya(
       {required this.surah,
       required this.aya,
       required this.page,
-      required this.text});
+      required this.text,
+      required this.index});
 
-  factory generalAya.fromJson(Map<String, dynamic> json) => generalAya(
-        surah: json["surah"],
-        aya: json["aya"],
+  factory generalAya.fromJsonUndiac(Map<String, dynamic> json) => generalAya(
+        surah: HelperFunctions.removeAllDiacritics (json["surah"])!,
+        aya: json["aya"] ,
         page: json["page"],
-        text: json["text"],
+        text: HelperFunctions.removeAllDiacritics (json["text"])!,
+        index: json['index']
+      );
+
+        factory generalAya.fromJson(Map<String, dynamic> json) => generalAya(
+        surah: json["surah"]!,
+        aya: json["aya"] ,
+        page: json["page"],
+        text: json["text"]!,
+        index: json['index']
+
       );
 }
 
 class SurahProvider with ChangeNotifier {
   List<Surah> _surahs = [];
   List<generalAya> _generalAyasList = [];
-
+  List<generalAya>  _generalAyasList_undiac=[];
   List<String?> carouselJSON = [];
   List<List<int>> flagsForEndofSurah = [];
   List<List<String?>> AyaNum = [];
@@ -77,6 +89,10 @@ class SurahProvider with ChangeNotifier {
 
   List<generalAya> get ayaas {
     return [..._generalAyasList];
+  }
+
+    List<generalAya> get UndiacAyaas {
+    return [..._generalAyasList_undiac];
   }
 
   List<Surah> getSeachResults(user_query) {
@@ -124,9 +140,22 @@ return SurahString;
     final welcome =
         parsed.map<generalAya>((json) => generalAya.fromJson(json)).toList();
 
-    print('doSomething() executed in ${stopwatch.elapsed}');
+    var data3 =
+        await rootBundle.loadString('lib/data/json_files/undiac_allayapages.json');
+    final parsed3 = jsonDecode(data3).cast<Map<String, dynamic>>();
 
+    final welcome_undiac =
+        parsed3.map<generalAya>((json) => generalAya.fromJsonUndiac(json)).toList();
+
+    print('doSomething() executed in ${stopwatch.elapsed}');
+    // print(welcome);
+    // for(int i=0; i< welcome.length; i++) {
+    //   welcome[i].text= HelperFunctions.removeAllDiacritics( welcome[i].text);
+    //         welcome[i].surah= HelperFunctions.removeAllDiacritics( welcome[i].surah);
+
+    // }
     _generalAyasList = welcome;
+        _generalAyasList_undiac = welcome_undiac;
 
     notifyListeners();
   }
@@ -143,12 +172,13 @@ return SurahString;
     matches.addAll(_surahs);
 
     matches.retainWhere((surah) =>
-        (HelperFunctions.removeAllDiacritics((surah.surahTitle))!
-            .contains(query!)) ||
-        (HelperFunctions.removeAllDiacritics(surah.surahTitle)!
-            .startsWith(query)) ||
-        (HelperFunctions.removeAllDiacritics(surah.surahTitle!)!
-            .endsWith(query)));
+     (HelperFunctions.removeAllDiacritics(surah.surahTitle) )!
+            .contains(query!) 
+            ||
+            // ((HelperFunctions.removeAllDiacritics(surah.surahTitle))!.substring(2).startsWith(query)) ||
+
+      ((HelperFunctions.removeAllDiacritics(surah.surahTitle!)))!
+            .endsWith(query));
 
     return matches;
   }
@@ -161,19 +191,28 @@ return SurahString;
 
     List<generalAya> matches = [];
     String? query = HelperFunctions.removeAllDiacritics(user_query);
-    matches.addAll(_generalAyasList);
+    matches.addAll(_generalAyasList_undiac);
 
     print("guery $query");
 
     matches.retainWhere((aya) =>
-        (HelperFunctions.removeAllDiacritics((aya.text))!.contains(query!)) ||
-        ((HelperFunctions.removeAllDiacritics((aya.text))!)
-            .startsWith(query)) ||
-        (HelperFunctions.removeAllDiacritics(aya.text)!.endsWith(query)));
+        (aya.text)!.contains(query!)
+        ||
+        (aya.text)!
+            .startsWith(query)||
+       (aya.text)!.endsWith(query)
+        );
 
     // print(matches);
+        List<generalAya> matches_diac =[];
+                List<int> indices =[];
 
-    return matches;
+for (var mtch in matches) {
+  matches_diac.add(_generalAyasList[mtch.index]);
+indices.add(mtch.index);
+}
+ 
+    return matches_diac;
   }
 
   List<String?> loadSurahs() {
