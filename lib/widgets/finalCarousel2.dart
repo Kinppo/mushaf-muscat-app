@@ -1005,21 +1005,20 @@ if (BasmalaFlag==true ) {
 
         // handleActiveAya(LoopIndices[playingAudio.index]);
         print("flag is $FlagsAudio");
-
+});
 //Check if we started a new surah
 if (StartFlagAudio[playingAudio.index] == "1") {
           // assetsAudioPlayer.playlistAudioFinished.listen((event) {
           //   if (event.) {
 
-          assetsAudioPlayer.pause().then((value)  {
+          assetsAudioPlayer.pause().then((value)  async {
 print("&&&&&&&&&");
 
 var tempAudioPlayer = AssetsAudioPlayer();
 
 try {
-     tempAudioPlayer.open(
+    await  tempAudioPlayer.open(
         Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
-    BasmalaFlag=true;
     );
 } catch (t) {
    print("mp3 unreachable");
@@ -1038,8 +1037,6 @@ try {
 //               assetsAudioPlayer.play();
 //             }
 //           });
-
-              if (BasmalaFlag==true ) {
 tempAudioPlayer.current.listen((event) {
         tempAudioPlayer.isPlaying.listen((event2) {
           print("BASMALAAAA IS NULL2222222 $event2");
@@ -1087,6 +1084,9 @@ tempAudioPlayer.current.listen((event) {
 //         }});});
 // }}
 });}
+setState(() {
+  
+
         if (playingAudio.index != 0 &&
             (currentPage) == surahToLoop &&
             ayaToHighlight == LoopIndices[playingAudio.index - 1] &&
