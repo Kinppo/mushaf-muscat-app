@@ -913,7 +913,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
     //    .getAya(surahToLoop as int, ayaToLoop as int, widget.surahFrom as String);
 // int? ayaToHighlight = 
 //       await Provider.of<ayatLines_provider>(context, listen: false)
-//        .getAya(surahToLoop as int, ayaToLoop as int);
+//        .getAya(surahToLoop as int, ayaToLoop as int, SurahFrom);
 
 // print(audiosList);
  await playBasmala();
@@ -933,7 +933,8 @@ if (BasmalaFlag==true ) {
           ),
           loopMode: LoopMode.none);
       // assetsAudioPlayer.toggleLoop(); //toggle the value of looping
-      // print(LoopIndices.toString());
+      print(LoopIndices.toString());
+      print("loop highlight is  " + widget.loophighlight.toString());
       clickedHighlightNum =
           (loopFirstPage == false) ? widget.loophighlight! : 0;
       activeAya = clickedHighlightNum;
@@ -974,7 +975,7 @@ if (BasmalaFlag==true ) {
 // print("aaaa + "+ audiosList.length.toString());
 
     // if (ayaNumsforThePage.length==audiosList.length){
-    // AudioListenerLoop(surahToLoop, ayaToLoop, rep, ayaToHighlight);
+    AudioListenerLoop(surahToLoop, ayaToLoop, rep, widget.loophighlight);
     // }
   }
 
@@ -984,8 +985,9 @@ if (BasmalaFlag==true ) {
 // }
     assetsAudioPlayer.current.listen((playingAudio) {
       final asset = playingAudio!.audio;
+      activeAya = ayaToHighlight;
 
-      setState(() {
+      setState(()  {
         if (asset != null) {
           isPlaying = true;
         }
@@ -1003,93 +1005,88 @@ if (BasmalaFlag==true ) {
 
         // handleActiveAya(LoopIndices[playingAudio.index]);
         print("flag is $FlagsAudio");
-        // if (playingAudio.index != 0 &&
-        //     FlagsAudio.length > 0 &&
-        //     FlagsAudio[playingAudio.index - 1] == '1') {
-        //   print("THIS IS THE LAST LAST AYA");
-        //   assetsAudioPlayer.pause();
-        // }
 
-        // if (FlagsAudio)
-
-        // print("condition 1: playing.index= " + playingAudio.index.toString());
-        // print("condition 2: currentPage= " +
-        //     (currentPage + 1).toString() +
-        //     " == surahToLoop: " +
-        //     surahToLoop.toString());
-        // print("condition 3: ayaToHighlight= " +
-        //     ayaToHighlight.toString() +
-        //     " == LoopIndices[playingAudio.index-1]: " +
-        //     LoopIndices[playingAudio.index - 1].toString());
-        // print("condition 4: ayaToHighlight= " +
-        //     ayaToHighlight.toString() +
-        //     " != LoopIndices[playingAudio.index]: " +
-        //     LoopIndices[playingAudio.index].toString());
-
-//  if (playingAudio.index != 0 &&
-//             FlagsAudio.length > 0 &&
-//             FlagsAudio[playingAudio.index+1] == '1') {
-//           print("THIS IS THE LAST LAST AYA");
-//           assetsAudioPlayer.pause();
-//         }
-//finally works but need to add condition
-
-//todo: add condition to check beginning of surah.
-        //  print(">>>>>>>>> "+ayaNumsforThePage.toString());
-
-// if (ayaNumsforThePage[playingAudio.index] ) {
-
-//   print(playingAudio.index.toString() + " ---- a");
-//  print(ayaNumsforThePage[1].toString() + " ---- b");
-// // }
-
-// if (ayaNumsforThePage[playingAudio.index].toString() =="1") {
-//   print("THIS IS THE FIRST AYA");
-// }
-// print("-tttttt=== "+ StartFlagAudio.toString());
-        if (StartFlagAudio[playingAudio.index] == "1") {
+//Check if we started a new surah
+if (StartFlagAudio[playingAudio.index] == "1") {
           // assetsAudioPlayer.playlistAudioFinished.listen((event) {
           //   if (event.) {
 
-          assetsAudioPlayer.pause();
+          assetsAudioPlayer.pause().then((value)  {
+print("&&&&&&&&&");
 
+var tempAudioPlayer = AssetsAudioPlayer();
+
+try {
+     tempAudioPlayer.open(
+        Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+    BasmalaFlag=true;
+    );
+} catch (t) {
+   print("mp3 unreachable");
+   //mp3 unreachable
+}// print(value);
+
+// assetsAudioPlayerBasmala.open(
+//               Playlist(audios: [
+//                 Audio.network(
+//                     "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+//               ], startIndex: 0),
+//               loopMode: LoopMode.none);
+
+//           assetsAudioPlayerBasmala.playlistFinished.listen((event) {
+//             if (event == true) {
+//               assetsAudioPlayer.play();
+//             }
+//           });
+
+              if (BasmalaFlag==true ) {
+tempAudioPlayer.current.listen((event) {
+        tempAudioPlayer.isPlaying.listen((event2) {
+          print("BASMALAAAA IS NULL2222222 $event2");
+          if (event2 == false) {
+              assetsAudioPlayer.play();
+            
+          }});});
+ 
 //          assetsAudioPlayerBasmala.open(
 //         Audio.network("https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
 // );
-          assetsAudioPlayerBasmala.open(
-              Playlist(audios: [
-                Audio.network(
-                    "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
-              ], startIndex: 0),
-              loopMode: LoopMode.none);
+// //  playBasmala();
+// BasmalaFlag=true;
+// if (BasmalaFlag==true ) {
+//  assetsAudioPlayerBasmala.current.listen((event) {
+//         assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+//           print("BASMALAAAA IS NULL $event2");
+//           if (event2 == false) {
+//             // setState(() {
 
-          assetsAudioPlayerBasmala.playlistFinished.listen((event) {
-            if (event == true) {
-              assetsAudioPlayer.play();
-            }
-          });
+//               assetsAudioPlayer.play();
 
-// assetsAudioPlayerBasmala.current.listen((event) {
-//   var asset= event!.audio;
-//               assetsAudioPlayerBasmala.isPlaying.listen((event2) {
-//                 print("BASMALAAAA IS NULL $event2");
-//                 if (event2 == true) {
-//                 }});});
+//     // });
+//           // assetsAudioPlayerBasmala.open(
+//           //     Playlist(audios: [
+//           //       Audio.network(
+//           //           "https:\/\/everyayah.com\/data\/Minshawy_Murattal_128kbps\/001001.mp3")
+//           //     ], startIndex: 0),
+//           //     loopMode: LoopMode.none);
 
-          print("TIHS IS THE FIRST AYA");
-        }
-        // });
-        //           await playBasmala();
-        // assetsAudioPlayerBasmala.current.listen((event) {
-        //   assetsAudioPlayerBasmala.isPlaying.listen((event2) {
-        //     print("BASMALAAAA IS NULL $event2");
-        //     if (event2 == false) {
+//           // assetsAudioPlayerBasmala.playlistFinished.listen((event) {
+//           //   if (event == true) {
+//           //     assetsAudioPlayer.play();
+//           //   }
+//           // });
 
-        //         assetsAudioPlayer.playlistPlayAtIndex(clickedHighlightNum);
+// // assetsAudioPlayerBasmala.current.listen((event) {
+// //   var asset= event!.audio;
+// //               assetsAudioPlayerBasmala.isPlaying.listen((event2) {
+// //                 print("BASMALAAAA IS NULL $event2");
+// //                 if (event2 == true) {
+// //                 }});});
 
-//  } });});
-        // }
-
+//           print("TIHS IS THE FIRST AYA");
+//         }});});
+// }}
+});}
         if (playingAudio.index != 0 &&
             (currentPage) == surahToLoop &&
             ayaToHighlight == LoopIndices[playingAudio.index - 1] &&
