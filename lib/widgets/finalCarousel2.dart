@@ -1005,9 +1005,18 @@ if (BasmalaFlag==true ) {
 
         // handleActiveAya(LoopIndices[playingAudio.index]);
         print("flag is $FlagsAudio");
+
+        if  (StartFlagAudio[playingAudio.index] == "1") {
+            for (int i=0; i<rep; i++ ) {
+              int c= i+1;
+StartFlagAudio[playingAudio.index+c]="0";
+// c=c+1;
+            }
+        }
 });
 //Check if we started a new surah
 if (StartFlagAudio[playingAudio.index] == "1") {
+  
           // assetsAudioPlayer.playlistAudioFinished.listen((event) {
           //   if (event.) {
 
