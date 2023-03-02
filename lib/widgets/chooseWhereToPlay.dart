@@ -237,7 +237,8 @@ class _whereToPlayState extends State<whereToPlay> {
                         
                          dynamic ayafrom =
                             await getInt("ayaFrom").then((value) => value);
-                              int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page, ayafrom as int);
+                              // int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page, 4, SurahFrom);
+                              int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page,ayafrom as int, SurahFrom );
 
                         print("-------- "+ highlight.toString());
                         Navigator.of(context).popAndPushNamed(
@@ -246,6 +247,8 @@ class _whereToPlayState extends State<whereToPlay> {
       'v1': page as int,
       'v2': 1,
     'v3':highlight,
+        'v4':SurahFrom,
+
    });
                       },
                       child: Container(

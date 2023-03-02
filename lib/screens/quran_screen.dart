@@ -36,9 +36,10 @@ class _QuranScreenState extends State<QuranScreen> {
   late int GlobalCurrentPage;
   var searchRes_surah;
   var searchRes_aya;
-  bool searchStatus= false;
+  var searchRes_combined;
+  bool searchStatus = false;
   // int searchListLength=0;
-String SurahFrom="الفاتحة";
+  String SurahFrom = "الفاتحة";
 
   @override
   void initState() {
@@ -66,55 +67,71 @@ String SurahFrom="الفاتحة";
     });
   }
 
-  void controlSearch(search,surah_result, aya_result ) {
-    searchRes_surah=[];
-    searchRes_aya=[];
-
+  void controlSearch(search, surah_result, aya_result) {
+    searchRes_surah = [];
+    searchRes_aya = [];
+// searchRes_combined=[];
     setState(() {
       toggleSearch = search;
       // print("toggleSearch $toggleSearch");
       // print(result.toList().toString());
 
-      searchRes_surah=surah_result;
-      searchRes_aya=aya_result;
+      searchRes_surah = surah_result;
+      searchRes_aya = aya_result;
+
+      // searchRes_combined.addAll(surah_result);
+      // searchRes_combined.addAll(aya_result);
+
       // searchListLength= searchRes_surah.length+searchRes_aya.length;
-
-
     });
   }
 
+  List<Widget> getSearchTiles() {
+    List<ListTile> SurahResultsTiles = [];
+    List<ListTile> AyaResultsTiles = [];
 
+    for (int i = 0; i < searchRes_surah.length; i++) {
+      SurahResultsTiles.add(ListTile(
+          title: Text(
+        searchRes_surah[i].surahTitle.toString(),
+        style: TextStyle(color: CustomColors.black200),
+      )));
+    }
 
-List<Widget> getSearchTiles() {
-  List<ListTile> SurahResultsTiles=[];
-  List<ListTile> AyaResultsTiles=[];
+    for (int i = 0; i < searchRes_aya.length; i++) {
+      AyaResultsTiles.add(ListTile(
+          title: Text(
+        searchRes_aya[i].text.toString(),
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: CustomColors.black200),
+      )));
+    }
 
-for (int i=0; i<searchRes_surah.length; i++ ) {
-SurahResultsTiles.add(ListTile(title: Text(searchRes_surah[i].surahTitle.toString(), style: TextStyle(color: CustomColors.black200),)));
-}
+    List<ListTile> FinalList = [];
 
-for (int i=0; i<searchRes_aya.length; i++ ) {
-AyaResultsTiles.add(ListTile(title: Text(searchRes_aya[i].text.toString(), 
-overflow: TextOverflow.ellipsis,style: TextStyle(color: CustomColors.black200),)));
-}
+    FinalList.add(ListTile(
+        title: Text(
+      "السور (" + searchRes_surah.length.toString() + ")",
+      style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 21,
+          color: CustomColors.black200),
+    )));
+    FinalList.addAll(SurahResultsTiles);
+    FinalList.add(ListTile(
+        title: Text(
+      "الايات  (" + searchRes_aya.length.toString() + ")",
+      style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 21,
+          color: CustomColors.black200),
+    )));
+    FinalList.addAll(AyaResultsTiles);
 
-List< ListTile> FinalList=[];
-
-FinalList.add(ListTile(title: Text("السور (" + searchRes_surah.length.toString()+ ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
-FinalList.addAll(SurahResultsTiles);
-FinalList.add(ListTile(title: Text("الايات  (" + searchRes_aya.length.toString() + ")", style: TextStyle(fontWeight: FontWeight.bold,fontSize: 21, color: CustomColors.black200),)));
-FinalList.addAll(AyaResultsTiles);
-
-return 
-(FinalList.isNotEmpty) ? 
-FinalList
-: [ListTile(title:Text("empty"))];
-
-}
-
-
-
-
+    return (FinalList.isNotEmpty)
+        ? FinalList
+        : [ListTile(title: Text("empty"))];
+  }
 
   void toggleBars() {
     setState(() {
@@ -130,6 +147,7 @@ FinalList
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     var Screenheight = MediaQuery.of(context).size.height;
+    var ScreenWidth = MediaQuery.of(context).size.width;
 
     // Future.delayed(Duration.zero,(){//you can await it if you want
     //   print('init=${ModalRoute.of(context)!.settings.arguments}');
@@ -174,7 +192,7 @@ FinalList
 
     void changeSearchStatus() {
       setState(() {
-        searchStatus=true;
+        searchStatus = true;
       });
     }
 
@@ -197,9 +215,9 @@ FinalList
               preferredSize: const Size(0.0, 0.0),
             ),
       bottomNavigationBar: showNavBar
-          ?  BNavigationBar(
+          ? BNavigationBar(
               pageIndex: 0,
-              toggleBars:toggleBars,
+              toggleBars: toggleBars,
             )
           : const PreferredSize(
               child: Text(""),
@@ -210,27 +228,25 @@ FinalList
         child: const MainDrawer(),
       ),
       body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-                                     (toggleSearch != true) ?
+        physics: (toggleSearch != true) ? NeverScrollableScrollPhysics() :AlwaysScrollableScrollPhysics(),
+        child: Column(children: <Widget>[
+          (toggleSearch != true)
+              ? GestureDetector(
 
-            GestureDetector(
+                  // behavior: HitTestBehavior.deferToChild,
+                  child: (segmentedControlValue == 0 && toggleSearch == false)
+                      ? Container(
+                          // padding: const EdgeInsets.all(Dimens.px22),
+                          color: Theme.of(context).backgroundColor,
+                          height: MediaQuery.of(context).size.height,
 
-                // behavior: HitTestBehavior.deferToChild,
-                child: (segmentedControlValue == 0 && toggleSearch == false)
-                    ? Container(
-                        // padding: const EdgeInsets.all(Dimens.px22),
-                        color: Theme.of(context).backgroundColor,
-                        height: MediaQuery.of(context).size.height,
-
-                        width: double.infinity,
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 0),
-                              // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
-                              child: finalCarousel2(
+                          width: double.infinity,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(top: 0),
+                                // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
+                                child: finalCarousel2(
                                   goToPage:
                                       (goToPage != 0 && GlobalCurrentPage == 1)
                                           ? goToPage
@@ -241,91 +257,171 @@ FinalList
                                   GlobalCurrentPage: GlobalCurrentPage,
                                   changeGlobal: changeGlobal,
                                   surahFrom: SurahFrom,
-                                  ),
+                                ),
+                              ),
+                              // showPlayer ? AudioPlayerWidget():
+                              // Container()
+                            ],
+                          ),
+                        )
+                      : (segmentedControlValue == 1 && toggleSearch == false)
+                          ? Container(
+                              height: MediaQuery.of(context).size.height,
+                              // padding: const EdgeInsets.all(Dimens.px22),
+                              color: Theme.of(context).backgroundColor,
+                              width: double.infinity,
+                              child: SingleChildScrollView(
+                                child: TafsirCarousel(
+                                  goToPage: GlobalCurrentPage,
+                                  loop: loop,
+                                  toggleBars: toggleBars,
+                                  loophighlight: highlighNum,
+                                  GlobalCurrentPage: GlobalCurrentPage,
+                                  changeGlobal: changeGlobal,
+                                ),
+                                // Text(AppLocalizations.of(context)!
+                                //     .translate('tafsir_text')
+                                //     .toString()),
+                              ),
+                            )
+                          : Container(
+                              height: 400,
+                              child: Text("test"),
+                              color: CustomColors.red200,
                             ),
-                            // showPlayer ? AudioPlayerWidget():
-                            // Container()
-                          ],
+                  onTap: () {
+                    toggleBars();
+                  })
+              : GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.only(top: Screenheight * 0.22),
+                        width: double.infinity,
+                      ),
+                  
+                      ListTile(
+                                        title: Text(
+                                          "السور (" +
+                                              searchRes_surah.length
+                                                  .toString() +
+                                              ")",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 21,
+                                              color: CustomColors.black200),
+                                        )),
+                      Container(
+                        // height: Screenheight,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          //  itemExtent: 200,
+                  
+                          addAutomaticKeepAlives: true,
+                          addRepaintBoundaries: false,
+                          shrinkWrap: true,
+                          primary:false,
+                          physics: NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 20),
+                          // + 2 are the headers for each search category
+                          itemCount: searchRes_surah.length,
+                          itemBuilder: (ctx, i) {
+                            int index = i;
+                            return (searchStatus == false)
+                                ? CircularProgressIndicator()
+                                // : (i == 0)
+                                  // ? ListTile(
+                                  //       title: Text(
+                                  //         "السور (" +
+                                  //             searchRes_surah.length
+                                  //                 .toString() +
+                                  //             ")",
+                                  //         style: TextStyle(
+                                  //             fontWeight: FontWeight.bold,
+                                  //             fontSize: 21,
+                                  //             color: CustomColors.black200),
+                                  //       ),
+                                  //       subtitle: Text(
+                                  //         searchRes_surah[index]
+                                  //             .surahTitle
+                                  //             .toString(),
+                                  //         style: TextStyle(
+                                  //             color: CustomColors.black200,
+                                  //             fontSize: 18),
+                                  //       ))
+                                    : 
+                                    ListTile(
+                                        title: Text(
+                                        searchRes_surah[index]
+                                            .surahTitle
+                                            .toString(),
+                                        style: TextStyle(
+                                            color: CustomColors.black200),
+                                      ));
+                          },
                         ),
-                      )
-                    : (segmentedControlValue == 1 && toggleSearch == false)
-                        ? Container(
-                            height: MediaQuery.of(context).size.height,
-                            // padding: const EdgeInsets.all(Dimens.px22),
-                            color: Theme.of(context).backgroundColor,
-                            width: double.infinity,
-                            child: SingleChildScrollView(
-                              child: TafsirCarousel(
-                                goToPage: GlobalCurrentPage,
-                                loop: loop,
-                                toggleBars: toggleBars,
-                                loophighlight: highlighNum,
-                                GlobalCurrentPage: GlobalCurrentPage,
-                                changeGlobal: changeGlobal,
-                              ),
-                              // Text(AppLocalizations.of(context)!
-                              //     .translate('tafsir_text')
-                              //     .toString()),
-                            ),
-                          )
+                      ),
+                       ListTile(
+                                        title: Text(
+                                          "الايات (" +
+                                              searchRes_aya.length.toString() +
+                                              ")",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 21,
+                                              color: CustomColors.black200),
+                                        ),),
+                      Container(
+                        // height: Screenheight,
+                        width: double.infinity,
+                        child: ListView.builder(
+                          //  itemExtent: 200,
+                  
+                          addAutomaticKeepAlives: true,
+                          addRepaintBoundaries: false,
+                          shrinkWrap: true,
+                                                      primary:false,
 
-                            : Container(
-                                height: 400,
-                                child:
-                                    Text("grokgrogjkaoeajeotjejotjeotetetwtw"),
-                                color: CustomColors.red200,
-                              ),
-                onTap: () {
-                  toggleBars();
-                }) :
-
-      
-                       GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-                         child: Column(
-                           children: [
-                             Container(padding: EdgeInsets.only(top: Screenheight*0.22),
-                             height: Screenheight,
-                             width:double.infinity,
-                               child: ListView.builder(
-                                                addAutomaticKeepAlives: false,
-    addRepaintBoundaries: false,
-                                    // shrinkWrap: true,
-                                              padding: const EdgeInsets.only(top: 20),
-                                              itemCount: 1,
-                                              itemBuilder: (ctx, i) {
-                                                return Column(
-                                                  children:
-                                                  (searchStatus==false) ? [CircularProgressIndicator()] :
-                                                          getSearchTiles(),                
-                               //  ListTile.divideTiles( //          <-- ListTile.divideTiles
-                               //       context: context,
-                               //       tiles: [
-                               //         getSearchTiles(),
-                                  
-                               //       ]
-                               //   ).toList(),
-                               
-                                                
-                                        
-                                        // ListTile(title: Text(i.toString()),
-                                        // textColor: Colors.red,
-                                        // tileColor: Colors.white),
-                                        // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                        // tileColor: Colors.white),
-                                        
-                                        // ListTile(title: Text(i.toString()),  textColor: Colors.red,
-                                        // tileColor: Colors.white),
-                                        
-                                                  
-                                                );
-                                              }, ),
-                             ),
-                           ],
-                         ),
-                       ) 
-          ]
-        ),
+                          physics: NeverScrollableScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 10),
+                          // + 2 are the headers for each search category
+                          itemCount: searchRes_aya.length,
+                          itemBuilder: (ctx, i) {
+                            int index = i;
+                            return (searchStatus == false)
+                                ? CircularProgressIndicator()
+                                // : (i == 0)
+                                //     ? ListTile(
+                                //         title: Text(
+                                //           "الايات (" +
+                                //               searchRes_aya.length.toString() +
+                                //               ")",
+                                //           style: TextStyle(
+                                //               fontWeight: FontWeight.bold,
+                                //               fontSize: 21,
+                                //               color: CustomColors.black200),
+                                //         ),
+                                //         subtitle: Text(
+                                //           searchRes_aya[index].text.toString(),
+                                //           style: TextStyle(
+                                //               color: CustomColors.black200,
+                                //               fontSize: 18),
+                                //         ))
+                                    : ListTile(
+                                        title: Text(
+                                        searchRes_aya[index].text.toString(),
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                            color: CustomColors.black200),
+                                      ));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+        ]),
       ),
     );
   }

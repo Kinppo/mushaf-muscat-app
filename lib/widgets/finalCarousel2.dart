@@ -32,6 +32,8 @@ class finalCarousel2 extends StatefulWidget {
   int? loophighlight;
   int? GlobalCurrentPage;
   Function changeGlobal;
+  String surahFrom;
+
 
   finalCarousel2({
     Key? key,
@@ -41,6 +43,7 @@ class finalCarousel2 extends StatefulWidget {
     this.loophighlight,
     required int GlobalCurrentPage,
     required this.changeGlobal,
+    required this.surahFrom,
   }) : super(key: key);
 
   @override
@@ -905,10 +908,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
     print("page number of chosen aya is..... " + currentPage.toString());
     // print("NUMBER OF REPS ..... " + rep.toString());
 
-
-    int? ayaToHighlight =
-        await Provider.of<ayatLines_provider>(context, listen: false)
-            .getAya(surahToLoop, ayaToLoop as int);
+    // int? ayaToHighlight = 
+    //   await Provider.of<ayatLines_provider>(context, listen: false)
+    //    .getAya(surahToLoop as int, ayaToLoop as int, widget.surahFrom as String);
+// int? ayaToHighlight = 
+//       await Provider.of<ayatLines_provider>(context, listen: false)
+//        .getAya(surahToLoop as int, ayaToLoop as int);
 
 // print(audiosList);
  await playBasmala();
@@ -988,6 +993,9 @@ if (BasmalaFlag==true ) {
         print("========playing id: " + playingAudio.index.toString());
         print("========loop indice: " +
             LoopIndices[playingAudio.index].toString());
+
+            
+        print("^^^^^^^^^^^^^^^^^^" + LoopIndices.toList().toString());
 
         // handleActiveAya(LoopIndices[playingAudio.index]-1);
         activeAya = LoopIndices[playingAudio.index];
