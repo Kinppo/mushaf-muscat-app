@@ -1302,6 +1302,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 // print(">>>>>>>>>>>>>>>> " + playing.toString());
 // });
           assetsAudioPlayer.pause();
+          showPauseIcon=false;
         }
 
         if (playingAudio.index != 0 &&
