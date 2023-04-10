@@ -282,6 +282,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                   loophighlight: highlighNum,
                                   GlobalCurrentPage: GlobalCurrentPage,
                                   changeGlobal: changeGlobal,
+                                  barsOn: showNavBar,
                                 ),
                                 // Text(AppLocalizations.of(context)!
                                 //     .translate('tafsir_text')
