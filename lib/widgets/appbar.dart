@@ -180,27 +180,28 @@ class _appBarState extends State<appBar> {
                                   }),
                             ),
                           ),
-                          // const SizedBox(
-                          //   width: 5,
-                          // ),
+                        // lock device orientation change
                           IconButton(
+                            // do not remove button, instead make it transparent
+                            //so that it doesn't mess with the layout of the app bar
+                            color: Colors.transparent,
                             iconSize: 28,
                             onPressed: () {
-                              setState(() {
-                                if (widget.orientationPotrait == true) {
-                                  widget.orientationPotrait =
-                                      !widget.orientationPotrait;
+                              // setState(() {
+                              //   if (widget.orientationPotrait == true) {
+                              //     widget.orientationPotrait =
+                              //         !widget.orientationPotrait;
 
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.landscapeRight]);
-                                } else {
-                                  widget.orientationPotrait =
-                                      !widget.orientationPotrait;
+                              //     SystemChrome.setPreferredOrientations(
+                              //         [DeviceOrientation.landscapeRight]);
+                              //   } else {
+                              //     widget.orientationPotrait =
+                              //         !widget.orientationPotrait;
 
-                                  SystemChrome.setPreferredOrientations(
-                                      [DeviceOrientation.portraitUp]);
-                                }
-                              });
+                              //     SystemChrome.setPreferredOrientations(
+                              //         [DeviceOrientation.portraitUp]);
+                              //   }
+                              // });
                             },
                             icon: const Icon(MdiIcons.screenRotation),
                           ),
