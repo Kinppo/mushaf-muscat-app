@@ -10,11 +10,15 @@ import 'package:provider/provider.dart';
 import '../localization/app_localizations.dart';
 import '../resources/dimens.dart';
 import '../resources/colors.dart';
+import '../utils/helperFunctions.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
 import '../widgets/finalCarousel2.dart';
 import '../widgets/TafsirCarousel.dart';
+import '../widgets/surahs_list.dart';
+import '../widgets/quran_surah_search_tiles.dart';
+
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -67,6 +71,18 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
+void tapHandlerFunc(String page) {
+    print(page);
+    setState(() {
+    goToPage= int.parse(page);});
+    print("go to page $page");
+     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:{
+      'v1': goToPage,
+      'v2': 0,
+      
+   },);
+    // });
+  }
   void controlSearch(search, surah_result, aya_result) {
     searchRes_surah = [];
     searchRes_aya = [];
@@ -130,7 +146,14 @@ class _QuranScreenState extends State<QuranScreen> {
 
     return (FinalList.isNotEmpty)
         ? FinalList
-        : [ListTile(title: Text("empty"))];
+        : [
+            ListTile(
+              title: Text(
+                "لم يتم العثور على نتائج",
+                style: TextStyle(color: CustomColors.black200),
+              ),
+            )
+          ];
   }
 
   void toggleBars() {
@@ -149,12 +172,6 @@ class _QuranScreenState extends State<QuranScreen> {
     var Screenheight = MediaQuery.of(context).size.height;
     var ScreenWidth = MediaQuery.of(context).size.width;
 
-    // Future.delayed(Duration.zero,(){//you can await it if you want
-    //   print('init=${ModalRoute.of(context)!.settings.arguments}');
-    // goToPage = ModalRoute.of(context)!.settings.arguments?[0] as int;
-    // loop = ModalRoute.of(context)!.settings.arguments[1];
-//  List<dynamic> args = [goToPage, 0];
-// args=  ModalRoute.of(context)!.settings.arguments as List<dynamic>;
     final arg = ModalRoute.of(context)!.settings.arguments as Map;
     if (arg != null) {
       goToPage = arg['v1'] as int;
@@ -164,25 +181,6 @@ class _QuranScreenState extends State<QuranScreen> {
 
       print("ARGSSSS: " + arg.toString());
     }
-//  goToPage = arg['v1'] as int;
-// int randomVar2 = arg['v2'];
-// print("argsssssss1: "+ randomVar1.toString());
-// print("argsssssss2: "+ randomVar2.toString());
-
-// if (args.length!= null){
-// print((args.length>1)? "this is null": args[1].toString());
-// }
-//   setState(() {
-
-// if (!args.first.isEmpty) {
-
-//       goToPage=args. as int;
-// }
-// if (!argRs.last.isEmpty) {
-
-// loop=args[1] as int;
-// }R
-//   });
 
     void changeGlobal(int currpage) {
       setState(() {
@@ -228,7 +226,9 @@ class _QuranScreenState extends State<QuranScreen> {
         child: const MainDrawer(),
       ),
       body: SingleChildScrollView(
-        physics: (toggleSearch != true) ? NeverScrollableScrollPhysics() :AlwaysScrollableScrollPhysics(),
+        physics: (toggleSearch != true)
+            ? NeverScrollableScrollPhysics()
+            : AlwaysScrollableScrollPhysics(),
         child: Column(children: <Widget>[
           (toggleSearch != true)
               ? GestureDetector(
@@ -300,28 +300,24 @@ class _QuranScreenState extends State<QuranScreen> {
                         padding: EdgeInsets.only(top: Screenheight * 0.22),
                         width: double.infinity,
                       ),
-                  
                       ListTile(
-                                        title: Text(
-                                          "السور (" +
-                                              searchRes_surah.length
-                                                  .toString() +
-                                              ")",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 21,
-                                              color: CustomColors.black200),
-                                        )),
+                          title: Text(
+                        "السور (" + searchRes_surah.length.toString() + ")",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 21,
+                            color: CustomColors.black200),
+                      )),
                       Container(
                         // height: Screenheight,
                         width: double.infinity,
                         child: ListView.builder(
                           //  itemExtent: 200,
-                  
+
                           addAutomaticKeepAlives: true,
                           addRepaintBoundaries: false,
                           shrinkWrap: true,
-                          primary:false,
+                          primary: false,
                           physics: NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(top: 20),
                           // + 2 are the headers for each search category
@@ -330,58 +326,48 @@ class _QuranScreenState extends State<QuranScreen> {
                             int index = i;
                             return (searchStatus == false)
                                 ? CircularProgressIndicator()
-                                // : (i == 0)
-                                  // ? ListTile(
-                                  //       title: Text(
-                                  //         "السور (" +
-                                  //             searchRes_surah.length
-                                  //                 .toString() +
-                                  //             ")",
-                                  //         style: TextStyle(
-                                  //             fontWeight: FontWeight.bold,
-                                  //             fontSize: 21,
-                                  //             color: CustomColors.black200),
-                                  //       ),
-                                  //       subtitle: Text(
-                                  //         searchRes_surah[index]
-                                  //             .surahTitle
-                                  //             .toString(),
-                                  //         style: TextStyle(
-                                  //             color: CustomColors.black200,
-                                  //             fontSize: 18),
-                                  //       ))
-                                    : 
-                                    ListTile(
-                                        title: Text(
-                                        searchRes_surah[index]
-                                            .surahTitle
-                                            .toString(),
-                                        style: TextStyle(
-                                            color: CustomColors.black200),
-                                      ));
+                       
+                                : 
+                                QuranSurahSearchTiles(
+                                num: HelperFunctions.convertToArabicNumbers(
+                                   searchRes_surah[index].surahNum),
+                                title: searchRes_surah[index].surahTitle,
+                                numAya:  HelperFunctions.convertToArabicNumbers(
+                                     searchRes_surah[index].numOfAyas),
+                                type: searchRes_surah[index].surahType,
+                                firstPageNum: searchRes_surah[index].surahPageNum,
+                                tapHandler: tapHandlerFunc
+                              );
+                                // ListTile(
+                                  //   title: Text(
+                                  //   searchRes_surah[index]
+                                  //       .surahTitle
+                                  //       .toString(),
+                                  //   style:
+                                  //       TextStyle(color: CustomColors.black200),
+                                  // ));
                           },
                         ),
                       ),
-                       ListTile(
-                                        title: Text(
-                                          "الايات (" +
-                                              searchRes_aya.length.toString() +
-                                              ")",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 21,
-                                              color: CustomColors.black200),
-                                        ),),
+                      ListTile(
+                        title: Text(
+                          "الايات (" + searchRes_aya.length.toString() + ")",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 21,
+                              color: CustomColors.black200),
+                        ),
+                      ),
                       Container(
                         // height: Screenheight,
                         width: double.infinity,
                         child: ListView.builder(
                           //  itemExtent: 200,
-                  
+
                           addAutomaticKeepAlives: true,
                           addRepaintBoundaries: false,
                           shrinkWrap: true,
-                                                      primary:false,
+                          primary: false,
 
                           physics: NeverScrollableScrollPhysics(),
                           padding: const EdgeInsets.only(top: 10),
@@ -391,30 +377,14 @@ class _QuranScreenState extends State<QuranScreen> {
                             int index = i;
                             return (searchStatus == false)
                                 ? CircularProgressIndicator()
-                                // : (i == 0)
-                                //     ? ListTile(
-                                //         title: Text(
-                                //           "الايات (" +
-                                //               searchRes_aya.length.toString() +
-                                //               ")",
-                                //           style: TextStyle(
-                                //               fontWeight: FontWeight.bold,
-                                //               fontSize: 21,
-                                //               color: CustomColors.black200),
-                                //         ),
-                                //         subtitle: Text(
-                                //           searchRes_aya[index].text.toString(),
-                                //           style: TextStyle(
-                                //               color: CustomColors.black200,
-                                //               fontSize: 18),
-                                //         ))
-                                    : ListTile(
-                                        title: Text(
-                                        searchRes_aya[index].text.toString(),
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(
-                                            color: CustomColors.black200),
-                                      ));
+                       
+                                : ListTile(
+                                    title: Text(
+                                    searchRes_aya[index].text.toString(),
+                                    overflow: TextOverflow.ellipsis,
+                                    style:
+                                        TextStyle(color: CustomColors.black200),
+                                  ));
                           },
                         ),
                       ),
@@ -426,3 +396,27 @@ class _QuranScreenState extends State<QuranScreen> {
     );
   }
 }
+
+// ListView.builder(
+//                         padding: const EdgeInsets.only(top: 20),
+//                         itemCount: _surah_search_results.length,
+//                         itemBuilder: (ctx, i) {
+//                           return Column(
+//                             children: [
+//                               buildSurahListTile(
+//                                 HelperFunctions.convertToArabicNumbers(
+//                                     _surah_search_results[i].surahNum),
+//                                 _surah_search_results[i].surahTitle,
+//                                 HelperFunctions.convertToArabicNumbers(
+//                                     _surah_search_results[i].numOfAyas),
+//                                 _surah_search_results[i].surahType,
+//                                 _surah_search_results[i].surahPageNum,
+//                                tapHandlerFunc,
+//                               ),
+//                               const Divider(
+//                                 height: 20,
+//                               )
+//                             ],
+//                           );
+//                         },
+//                       )
