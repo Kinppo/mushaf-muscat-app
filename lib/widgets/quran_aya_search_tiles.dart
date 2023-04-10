@@ -1,37 +1,30 @@
 import 'package:flutter/material.dart';
 import '../resources/colors.dart';
 
-class QuranSurahSearchTiles extends StatelessWidget {
-  String? num;
-  String? title;
+class QuranAyaSearchTiles extends StatelessWidget {
+  String? surahNum;
+  String? ayaText;
   String? numAya;
-  String? type;
-  String? firstPageNum;
+  String? surahName;
+  String? ayaPageNum;
   Function? tapHandler;
 
 
 
-QuranSurahSearchTiles({Key? key,  this.num,  this.title,  this. numAya,  this.type, this.firstPageNum, this.tapHandler}) : super(key: key);
+QuranAyaSearchTiles({Key? key,  this.surahNum,  this.ayaText,  this. numAya,  this.surahName, this.ayaPageNum, this.tapHandler}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-            trailing: CircleAvatar(
-              child: Text(
-                num!,
-                style: Theme.of(context).textTheme.labelMedium,
-              ),
-              radius: 15,
-              backgroundColor: Theme.of(context).shadowColor,
-            ),
             title: Text(
-              title!,
+              ayaText!,
               style: Theme.of(context).textTheme.headline1?.copyWith(
                   color: CustomColors.black200,
-                  fontWeight: FontWeight.w600,
                   fontSize: 18),
+                                                  overflow: TextOverflow.ellipsis,
+
             ),
-            subtitle: Text("آياتها : $numAya   .   $type",
+            subtitle: Text("$surahName . الآية: $numAya",
                 style:
                      TextStyle(color: CustomColors.grey200)),
             onTap: () {
@@ -40,7 +33,7 @@ QuranSurahSearchTiles({Key? key,  this.num,  this.title,  this. numAya,  this.ty
             //   print("numAya: $numAya");
             // print("firstPageNum: $firstPageNum");
             //   print("tapped $firstPageNum");
-              tapHandler!(firstPageNum);
+              tapHandler!(ayaPageNum);
             });
   }
 }

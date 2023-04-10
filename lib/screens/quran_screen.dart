@@ -16,9 +16,9 @@ import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
 import '../widgets/finalCarousel2.dart';
 import '../widgets/TafsirCarousel.dart';
+import '../widgets/quran_aya_search_tiles.dart';
 import '../widgets/surahs_list.dart';
 import '../widgets/quran_surah_search_tiles.dart';
-
 
 class QuranScreen extends StatefulWidget {
   static const routeName = '/quran';
@@ -71,18 +71,22 @@ class _QuranScreenState extends State<QuranScreen> {
     });
   }
 
-void tapHandlerFunc(String page) {
+  void tapHandlerFunc(String page) {
     print(page);
     setState(() {
-    goToPage= int.parse(page);});
+      goToPage = int.parse(page);
+    });
     print("go to page $page");
-     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:{
-      'v1': goToPage,
-      'v2': 0,
-      
-   },);
+    Navigator.of(context).popAndPushNamed(
+      QuranScreen.routeName,
+      arguments: {
+        'v1': goToPage,
+        'v2': 0,
+      },
+    );
     // });
   }
+
   void controlSearch(search, surah_result, aya_result) {
     searchRes_surah = [];
     searchRes_aya = [];
@@ -326,26 +330,17 @@ void tapHandlerFunc(String page) {
                             int index = i;
                             return (searchStatus == false)
                                 ? CircularProgressIndicator()
-                       
-                                : 
-                                QuranSurahSearchTiles(
-                                num: HelperFunctions.convertToArabicNumbers(
-                                   searchRes_surah[index].surahNum),
-                                title: searchRes_surah[index].surahTitle,
-                                numAya:  HelperFunctions.convertToArabicNumbers(
-                                     searchRes_surah[index].numOfAyas),
-                                type: searchRes_surah[index].surahType,
-                                firstPageNum: searchRes_surah[index].surahPageNum,
-                                tapHandler: tapHandlerFunc
-                              );
-                                // ListTile(
-                                  //   title: Text(
-                                  //   searchRes_surah[index]
-                                  //       .surahTitle
-                                  //       .toString(),
-                                  //   style:
-                                  //       TextStyle(color: CustomColors.black200),
-                                  // ));
+                                : QuranSurahSearchTiles(
+                                    num: HelperFunctions.convertToArabicNumbers(
+                                        searchRes_surah[index].surahNum),
+                                    title: searchRes_surah[index].surahTitle,
+                                    numAya:
+                                        HelperFunctions.convertToArabicNumbers(
+                                            searchRes_surah[index].numOfAyas),
+                                    type: searchRes_surah[index].surahType,
+                                    firstPageNum:
+                                        searchRes_surah[index].surahPageNum,
+                                    tapHandler: tapHandlerFunc);
                           },
                         ),
                       ),
@@ -377,14 +372,24 @@ void tapHandlerFunc(String page) {
                             int index = i;
                             return (searchStatus == false)
                                 ? CircularProgressIndicator()
-                       
-                                : ListTile(
-                                    title: Text(
-                                    searchRes_aya[index].text.toString(),
-                                    overflow: TextOverflow.ellipsis,
-                                    style:
-                                        TextStyle(color: CustomColors.black200),
-                                  ));
+                                : QuranAyaSearchTiles(
+                                    surahNum: HelperFunctions.convertToArabicNumbers(
+                                        searchRes_aya[index].index.toString()),
+                                    ayaText: searchRes_aya[index].text,
+                                    numAya:
+                                        HelperFunctions.convertToArabicNumbers(
+                                            searchRes_aya[index].aya.toString()),
+                                    surahName: searchRes_aya[index].surah,
+                                    ayaPageNum:
+                                        searchRes_aya[index].page,
+                                    tapHandler: tapHandlerFunc);
+                          //  : ListTile(
+                          //       title: Text(
+                          //       searchRes_aya[index].text.toString(),
+                          //       overflow: TextOverflow.ellipsis,
+                          //       style:
+                          //           TextStyle(color: CustomColors.black200),
+                          //     ));
                           },
                         ),
                       ),
