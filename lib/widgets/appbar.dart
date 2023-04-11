@@ -181,6 +181,7 @@ class _appBarState extends State<appBar> {
                             ),
                           ),
                         // lock device orientation change
+                        //TODO: Support landscape orientation
                           IconButton(
                             // do not remove button, instead make it transparent
                             //so that it doesn't mess with the layout of the app bar
