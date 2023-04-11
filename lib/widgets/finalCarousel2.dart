@@ -448,6 +448,12 @@ class _finalCarousel2 extends State<finalCarousel2> {
                       print("CURRENT PAGE IS $currentPage");
                       print("the value of go to page is ....." +
                           widget.goToPage.toString());
+
+                      carouselController2.animateToPage(
+                        index,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.ease,
+                      );
                     });
                   }),
               items: listofObjects.map((i) {
@@ -549,11 +555,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
                         CarouselSlider(
                           carouselController: carouselController2,
                           options: CarouselOptions(
-                            onPageChanged: (index, reason) {
-                              // print("0000000000000page cjhanged from carousel");
-                              // carouselController2.jumpToPage(index);
-// print("INDEX IS $index");
-                            },
+                            onPageChanged: (index, reason) {},
                             height: 30.0,
                             viewportFraction: 0.13,
                             reverse: false,
@@ -1302,7 +1304,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 // print(">>>>>>>>>>>>>>>> " + playing.toString());
 // });
           assetsAudioPlayer.pause();
-          showPauseIcon=false;
+          showPauseIcon = false;
         }
 
         if (playingAudio.index != 0 &&
