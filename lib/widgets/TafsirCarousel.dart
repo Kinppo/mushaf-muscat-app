@@ -286,16 +286,19 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                           height: 5,
                                         ),
                                         Align(
-                                          child: Text(
-                                            ayaTafsirs[i].toString(),
-                                            // _ayah.content,
-                                            style: TextStyle(
-                                                fontFamily: 'IBMPlexSansArabic',
-                                                fontSize: 19,
-                                                // fontWeight: FontWeight.w400,
-                                                color: CustomColors.brown100),
-                                          ),
-                                          alignment: Alignment.topRight,
+                                          child: RichText(
+  text: _getHighlightedTextSpan(ayaTafsirs[i].toString()),
+),
+                                          // child: Text(
+                                          //   ayaTafsirs[i].toString(),
+                                          //   // _ayah.content,
+                                          //   style: TextStyle(
+                                          //       fontFamily: 'IBMPlexSansArabic',
+                                          //       fontSize: 19,
+                                          //       // fontWeight: FontWeight.w400,
+                                          //       color: CustomColors.brown100),
+                                          // ),
+                                          // alignment: Alignment.topRight,
                                         ),
                                       ])),
                                   (i == ayaStrings.length - 1)
@@ -479,4 +482,64 @@ class _TafsirCarousel extends State<TafsirCarousel> {
       ]),
     );
   }
+TextSpan _getHighlightedTextSpan(String text) {
+  final braceRegExp = RegExp(r'\{[^\}]+\}');
+  final matches = braceRegExp.allMatches(text);
+
+  if (matches.isEmpty) {
+    // no curly braces found, return a single TextSpan
+    return TextSpan(
+      text: text,
+      style: TextStyle(
+        fontFamily: 'IBMPlexSansArabic',
+        fontSize: 19,
+        color: CustomColors.brown100,
+      ),
+    );
+  } else {
+    // split the text into segments, alternating between curly brace segments
+    // (to be highlighted) and non-curly brace segments (to be displayed normally)
+    final segments = <TextSpan>[];
+    int lastIndex = 0;
+    for (final match in matches) {
+      if (match.start > lastIndex) {
+        // add a normal segment
+        final normalText = text.substring(lastIndex, match.start);
+        segments.add(TextSpan(
+          text: normalText,
+          style: TextStyle(
+            fontFamily: 'IBMPlexSansArabic',
+            fontSize: 19,
+            color: CustomColors.brown100,
+          ),
+        ));
+      }
+      // add a highlighted segment
+      final braceText = text.substring(match.start, match.end);
+      segments.add(TextSpan(
+        text: braceText,
+        style: TextStyle(
+          fontFamily: 'IBMPlexSansArabic',
+          fontSize: 19,
+          color: CustomColors.green300,
+        ),
+      ));
+      lastIndex = match.end;
+    }
+    // add the last normal segment (if any)
+    if (lastIndex < text.length) {
+      final normalText = text.substring(lastIndex);
+      segments.add(TextSpan(
+        text: normalText,
+        style: TextStyle(
+          fontFamily: 'IBMPlexSansArabic',
+          fontSize: 19,
+          color: CustomColors.brown100,
+        ),
+      ));
+    }
+    return TextSpan(children: segments);
+  }
+}
+
 }
