@@ -384,13 +384,6 @@ class _QuranScreenState extends State<QuranScreen> {
                                     ayaPageNum:
                                         searchRes_aya[index].page,
                                     tapHandler: tapHandlerFunc);
-                          //  : ListTile(
-                          //       title: Text(
-                          //       searchRes_aya[index].text.toString(),
-                          //       overflow: TextOverflow.ellipsis,
-                          //       style:
-                          //           TextStyle(color: CustomColors.black200),
-                          //     ));
                           },
                         ),
                       ),
@@ -403,26 +396,3 @@ class _QuranScreenState extends State<QuranScreen> {
   }
 }
 
-// ListView.builder(
-//                         padding: const EdgeInsets.only(top: 20),
-//                         itemCount: _surah_search_results.length,
-//                         itemBuilder: (ctx, i) {
-//                           return Column(
-//                             children: [
-//                               buildSurahListTile(
-//                                 HelperFunctions.convertToArabicNumbers(
-//                                     _surah_search_results[i].surahNum),
-//                                 _surah_search_results[i].surahTitle,
-//                                 HelperFunctions.convertToArabicNumbers(
-//                                     _surah_search_results[i].numOfAyas),
-//                                 _surah_search_results[i].surahType,
-//                                 _surah_search_results[i].surahPageNum,
-//                                tapHandlerFunc,
-//                               ),
-//                               const Divider(
-//                                 height: 20,
-//                               )
-//                             ],
-//                           );
-//                         },
-//                       )
