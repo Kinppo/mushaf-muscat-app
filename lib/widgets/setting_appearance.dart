@@ -22,8 +22,8 @@ class SettingAppearance extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
       child: Column(children: [
         GestureDetector(
-          onTap: () => Navigator.of(context)
-              .pushNamed(SettingAppearanceScreen.routeName),
+          // onTap: () => Navigator.of(context)
+          //     .pushNamed(SettingAppearanceScreen.routeName),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
