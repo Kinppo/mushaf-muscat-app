@@ -16,6 +16,7 @@ QuranAyaSearchTiles({Key? key,  this.surahNum,  this.ayaText,  this. numAya,  th
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      enableFeedback: true,
             title: Text(
               ayaText!,
               style: Theme.of(context).textTheme.headline1?.copyWith(
