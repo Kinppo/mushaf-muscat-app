@@ -1,10 +1,10 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
-
 import '../localization/app_localizations.dart';
 
 class QuranSearchBar extends StatefulWidget {
-  Function searchController;
+  final Function searchController;
 
   QuranSearchBar({Key? key, required this.searchController}) : super(key: key);
 
@@ -15,6 +15,7 @@ class QuranSearchBar extends StatefulWidget {
 class QuranSearchBarState extends State<QuranSearchBar> {
   bool isStillSearching = false;
   bool firstFlag = false;
+  Timer? searchOnStoppedTyping;
 
   final fieldText = TextEditingController();
 
@@ -22,52 +23,44 @@ class QuranSearchBarState extends State<QuranSearchBar> {
     fieldText.clear();
   }
 
+  void _onChangeHandler(String text) {
+    if (searchOnStoppedTyping != null) {
+      setState(() {
+        if (isStillSearching == false) {
+          isStillSearching = true;
+        } else if (isStillSearching == true && text == '') {
+          isStillSearching = false;
+        }
+      });
+      searchOnStoppedTyping!.cancel();
+    }
+    searchOnStoppedTyping = Timer(Duration(milliseconds: 700), () {
+      widget.searchController(isStillSearching, text);
+    });
+  }
+
   @override
   Widget build(
     BuildContext context,
   ) {
     return TextField(
-      onChanged: (text) {
-        setState(() {
-          print(text);
-          if (text != '' && firstFlag == false) {
-            print("entered here");
-            firstFlag = true;
-            isStillSearching = true;
-            widget.searchController(isStillSearching, text);
-          } else {
-            // print(text);
-            if (isStillSearching == false) {
-              isStillSearching = true;
-              // widget.searchController(isStillSearching, text);
-            } else if (isStillSearching == true && text == '') {
-              isStillSearching = false;
-              //  widget.searchController(isStillSearching, text);
-            }
-            widget.searchController(isStillSearching, text);
-          }
-        });
-      },
+      onChanged: _onChangeHandler,
       onSubmitted: (text) {
-        setState(() {
-          if (text != '' && firstFlag == false) {
-            print("entered here");
-            firstFlag = true;
-            isStillSearching = true;
-            widget.searchController(isStillSearching, text);
-          } else {
-            // print(text);
-            if (isStillSearching == false) {
-              isStillSearching = true;
-              // widget.searchController(isStillSearching, text);
-            } else if (isStillSearching == true && text == '') {
-              isStillSearching = false;
-              //  widget.searchController(isStillSearching, text);
-            }
-            widget.searchController(isStillSearching, text);
-          }
-        });
-      },
+  setState(() {
+    if (text != '' && firstFlag == false) {
+      firstFlag = true;
+      isStillSearching = true;
+    } else {
+      if (isStillSearching == false) {
+        isStillSearching = true;
+      } else if (isStillSearching == true && text == '') {
+        isStillSearching = false;
+      }
+    }
+    widget.searchController(isStillSearching, text);
+  });
+  FocusScope.of(context).unfocus();
+},
       onEditingComplete: () {},
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
@@ -93,8 +86,8 @@ class QuranSearchBarState extends State<QuranSearchBar> {
           ),
           suffixIcon: isStillSearching == true
               ? IconButton(
-                  color: CustomColors.grey200, // Icon to
-                  icon: Icon(Icons.cancel), // clear text
+                  color: CustomColors.grey200, 
+                  icon: Icon(Icons.cancel), 
                   onPressed: clearText,
                 )
               : null),
