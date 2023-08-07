@@ -6,8 +6,6 @@ import 'package:mushafmuscat/providers/ayatLines_provider.dart';
 import 'package:mushafmuscat/providers/dailyAya_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
-import 'package:responsive_framework/responsive_framework.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sizer/sizer.dart';
 
 import 'package:provider/provider.dart';
@@ -18,7 +16,6 @@ import '../screens/splash_screen.dart';
 import '../themes/app_themes.dart';
 import './providers/theme_provider.dart';
 import '../providers/bookMarks_provider.dart';
-import '../providers/surah_provider.dart';
 import '../providers/quarter_provider.dart';
 
 //temp
