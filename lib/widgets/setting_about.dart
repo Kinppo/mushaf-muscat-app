@@ -14,12 +14,15 @@ String? encodeQueryParameters(Map<String, String> params) {
 }
 
 class SettingAbout extends StatelessWidget {
-  final Uri emailLaunchUri = Uri(
-    scheme: 'mailto',
-    path: 'smith@example.com',
-    query: encodeQueryParameters(
-        <String, String>{'subject': 'Example Subject & Symbols are allowed!'}),
-  );
+
+  void _launchURL() async {
+  const url = 'mailto:MushafMuscat@etco.om?subject=Feedback';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +54,7 @@ class SettingAbout extends StatelessWidget {
                         .translate('setting_screen_about')
                         .toString(),
                     style: TextStyle(
+                        fontFamily: 'IBMPlexSansArabic',
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: CustomColors.black200),
@@ -80,7 +84,7 @@ class SettingAbout extends StatelessWidget {
         ),
         GestureDetector(
           onTap: () =>
-              {launch("mailto:shaban.mohamed@etco.om?subject=test&body=test")},
+           _launchURL(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
