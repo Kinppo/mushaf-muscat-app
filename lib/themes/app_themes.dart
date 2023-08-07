@@ -21,7 +21,7 @@ class AppThemes {
             fontFamily: "IBMPlexSansArabic",
             fontWeight: FontWeight.w200,
             ),
-        headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+        headline6: TextStyle(fontSize: 36.0, fontFamily: 'IBMPlexSansArabic'),
         bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'IBMPlexSansArabic'),
         labelMedium: TextStyle(fontSize: 16.0, fontFamily: 'IBMPlexSansArabic', color: Colors.black,fontWeight: FontWeight.bold),
       ),);
