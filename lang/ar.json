@@ -2,7 +2,7 @@
   "head_title": "مرحبا, هذا نص مترجم.",
   "app_bar_title": "ترجمة",
   "undo": "الغاء ",
-  "app_version": "الاصدار ١.٢",
+  "app_version": "الاصدار ١.٠",
 
   "quran_screen_switch_quran": "القرآن",
   "quran_screen_switch_tafsir": "التفسير",
@@ -30,11 +30,14 @@
   "setting_screen_quran_book": "كتاب ",
 
   "setting_screen_storage": "إدارة التخزين",
-  "setting_screen_storage_size": "١٢٨.١٣ م.ب",
+  "setting_screen_storage_size": "",
   "setting_screen_about": "عن التطبيق",
   "setting_screen_feedback": "شاركنا رأيك",
 
-  "about_screen_details": " تساعدك علامات الرجوع في تنظيم خططك في حفظ وقرائة ومراجعة القرآن   تساعدك علامات الرجوع في تنظيم خططك في حفظ وقرائة ومراجعة القرآن ",
+  "about_screen_details": "يمتاز تطبيق مصحف مسقط بتقديم تجربة بسيطة ومريحة لقارئ القرآن الكريم، بعيدة عن المشتتات البصرية أثناء القراءة، ويعتمد الرسمُ العثماني في التطبيق على نماذج مميزة من خط النسخ العربي.",
+  "about_screen_details2": "يُعينك تطبيق مصحف مسقط على فهم الآيات وتدبر معانيها من خلال سهولة الوصول إلى تفسيرٍ ميسّرٍ للآيات الكريمة، ويساعدك على تتبع وردك اليوميّ باستخدام الفواصل الملونة.",
+  "about_screen_details3": "مع تطبيق مصحف مسقط، يمكنك الاستماع إلى الآيات الكريمة وتتبع قراءتها من خلال ميزة تظليل الآيات، بالإضافة إلى إمكانية تكرار الآية أو عدة آيات لغرض تثبيت الحفظ والمراجعة. ويمكنك كذلك مشاركة الآية والتفسير.",
+
 
   "drawer_screen_switch_surahs": "السور",
   "drawer_screen_switch_quarters": "الأرباع",
@@ -47,7 +50,7 @@
   "onclick_aya_modalsheet_bk2": "الثاني",
   "onclick_aya_modalsheet_bk3": "الثالث",
   "onclick_aya_modalsheet_bk4": "الرابع",
-  "onclick_aya_modalsheet_list1": "إستماع للآية",
+  "onclick_aya_modalsheet_list1": "استماع للآية",
   "onclick_aya_modalsheet_list2": "المزيد من خيارات الاستماع...",
   "onclick_aya_modalsheet_list3": "مشاركة",
   "onclick_aya_modalsheet_list4": "نسخ"
