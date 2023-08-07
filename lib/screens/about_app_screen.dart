@@ -17,7 +17,7 @@ class AboutAppScreen extends StatelessWidget {
           AppLocalizations.of(context)!
               .translate('setting_screen_about')
               .toString(),
-          style: const TextStyle(fontWeight: FontWeight.w400, fontSize: 18),
+          style:  TextStyle(fontFamily: 'IBMPlexSansArabic', fontWeight: FontWeight.w400, fontSize: 20,  color: CustomColors.black200),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         foregroundColor: CustomColors.brown600,
@@ -41,8 +41,10 @@ class AboutAppScreen extends StatelessWidget {
                       color: CustomColors.yellow150),
                   child: Column(
                     children: [
-                      Image.asset('./assets/images/logo.jpeg',
-                          cacheHeight: 100),
+                      Image.asset('./assets/images/playstore.png',
+                      width: 60,
+                      height: 60,
+                         ),
                       Text(
                         AppLocalizations.of(context)!
                             .translate('app_version')
@@ -71,7 +73,23 @@ class AboutAppScreen extends StatelessWidget {
                         alignment: Alignment.topRight,
                         child: Text(
                           AppLocalizations.of(context)!
-                              .translate('about_screen_details')
+                              .translate('about_screen_details2')
+                              .toString(),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 15,
+                              height: 1.8),
+                        ),
+                      ),
+                     const SizedBox(
+                        height: 10,
+                      ),
+                            
+                     Align(
+                        alignment: Alignment.topRight,
+                        child: Text(
+                          AppLocalizations.of(context)!
+                              .translate('about_screen_details3')
                               .toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.w400,
