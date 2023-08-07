@@ -101,31 +101,25 @@ class SettingAppearance extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context)
-                    .pushNamed(SettingQuranViewScreen.routeName);
-              },
-              child: Row(
-                children: [
-                  Icon(
-                    MdiIcons.fileDocumentOutline,
-                    color: CustomColors.grey200,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    AppLocalizations.of(context)!
-                        .translate('setting_screen_quran')
-                        .toString(),
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: CustomColors.black200),
-                  )
-                ],
-              ),
+            Row(
+              children: [
+                Icon(
+                  MdiIcons.fileDocumentOutline,
+                  color: CustomColors.grey200,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)!
+                      .translate('setting_screen_quran')
+                      .toString(),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: CustomColors.black200),
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.only(left: 10),
