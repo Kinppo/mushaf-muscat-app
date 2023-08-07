@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mushafmuscat/resources/colors.dart';
 import 'dart:async';
 
 import '../screens/quran_screen.dart';
@@ -14,8 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    // TODO: implement initState
-    Timer(const Duration(seconds: 3), () {
+    Timer(const Duration(seconds: 2), () {
       Navigator.of(context).pushReplacementNamed(QuranScreen.routeName);
     });
     super.initState();
@@ -24,19 +24,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    return Scaffold(
-      body: Container(
-        child: Column(
-          children: <Widget>[
-            Center(
-              child: Image.asset(
-                'assets/images/logo.jpeg',
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-              ),
+    return Container(
+      color: CustomColors.brown200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            color: CustomColors.brown200,
+            child: Image.asset(
+              'assets/images/playstore.png',
+              width: MediaQuery.of(context).size.width * 0.6,
+              height: MediaQuery.of(context).size.height * 0.6,
             ),
-          ],
-        ),
+          ),
+          Container(
+          color: CustomColors.brown200,
+            height: MediaQuery.of(context).size.height * 0.05,
+            width: MediaQuery.of(context).size.height * 0.05,
+            child: CircularProgressIndicator(
+                color: CustomColors.yellow400),
+          ),
+        ],
       ),
     );
   }
