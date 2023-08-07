@@ -47,19 +47,18 @@ dependencies:
   hive: ^2.1.0
   hive_flutter: ^1.1.0
   carousel_slider: ^4.1.1
-  smooth_page_indicator: ^1.0.0+2
-  pageview_widget_indicator: ^0.0.4
   assets_audio_player: 
   http: ^0.13.4
-  scroll_to_index: any
   auto_size_text: 
   sizer: 
-  responsive_framework: 
-  flutter_screenutil: ^5.5.3+2
+  flutter_screenutil: ^5.0.0+2
   share_plus: ^6.1.0
+  flutter_launcher_icons: ^0.9.0
 
 
-
+flutter_icons:
+  ios: true
+  image_path: 'assets/icons/icon.png'
 
 
 dev_dependencies:
@@ -131,11 +130,7 @@ flutter:
     - family: Amiri
       fonts:
         - asset: assets/fonts/amiri-regular.ttf
-    - family: OmanTypeface
-      fonts:
-        - asset: assets/fonts/omanfont/OmanTypeface-Regular.ttf
-        - asset: assets/fonts/omanfont/OmanTypeface-Bold.ttf
-        - asset: assets/fonts/omanfont/OmanTypeface-Light.ttf
+
         
 
   #
