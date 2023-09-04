@@ -12,9 +12,10 @@ import '../resources/dimens.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 import '../widgets/bottom_navigation_bar.dart';
+import '../widgets/custom.dart';   //new appbar 
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
-import '../widgets/finalCarousel2.dart';
+import '../widgets/finalCarousell.dart';
 import '../widgets/TafsirCarousel.dart';
 import '../widgets/quran_aya_search_tiles.dart';
 import '../widgets/surahs_list.dart';
@@ -199,200 +200,206 @@ class _QuranScreenState extends State<QuranScreen> {
     }
 
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      resizeToAvoidBottomInset: false, // set it to false
+        extendBodyBehindAppBar: true,
+        resizeToAvoidBottomInset: false, // set it to false
 
-      appBar: showAppBar
-          ? appBar(
-              segmentedControlValue: controlSegment,
-              orientationPotrait: orientationPotrait,
-              toggleSearch: controlSearch,
-              h: (isLandscape == false) ? Screenheight * 0.18 : 200,
-              segmentToggle: segmentedControlValue,
-              changeSearchStatus: changeSearchStatus,
-              toggleBars: toggleBars,
-            )
-          : PreferredSize(
-              child: Container(),
-              preferredSize: const Size(0.0, 0.0),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(Screenheight * 0.2),
+          child: GestureDetector(
+            // Add this
+            onTap: toggleBars,
+            child: Container(
+              color: Colors.transparent,
+              child: showAppBar
+                  ? CustomAppBar(
+                      segmentedControlValue: controlSegment,
+                      orientationPotrait: orientationPotrait,
+                      toggleSearch: controlSearch,
+                      h: (isLandscape == false) ? Screenheight * 0.18 : 200,
+                      segmentToggle: segmentedControlValue,
+                      changeSearchStatus: changeSearchStatus,
+                      toggleBars: toggleBars,
+                    )
+                  : Container(),
             ),
-      bottomNavigationBar: showNavBar
-          ? BNavigationBar(
-              pageIndex: 0,
-              toggleBars: toggleBars,
-            )
-          : const PreferredSize(
-              child: Text(""),
-              preferredSize: Size(0.0, 0.0),
-            ),
-      drawer: Container(
+          ),
+        ),
+        drawer: Container(
         width: double.infinity,
         child: const MainDrawer(),
       ),
-      body: SingleChildScrollView(
-        physics: (toggleSearch != true)
-            ? NeverScrollableScrollPhysics()
-            : AlwaysScrollableScrollPhysics(),
-        child: Column(children: <Widget>[
-          (toggleSearch != true)
-              ? GestureDetector(
-
-                  // behavior: HitTestBehavior.deferToChild,
-                  child: (segmentedControlValue == 0 && toggleSearch == false)
-                      ? Container(
-                          // padding: const EdgeInsets.all(Dimens.px22),
-                          color: Theme.of(context).backgroundColor,
-                          height: MediaQuery.of(context).size.height,
-
-                          width: double.infinity,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 0),
-                                // child: finalCarousel(goToPage: goToPage, toggleBars:toggleBars),
-                                child: finalCarousel2(
-                                  goToPage:
-                                      (goToPage != 0 && GlobalCurrentPage == 1)
-                                          ? goToPage
-                                          : GlobalCurrentPage,
-                                  loop: loop,
-                                  toggleBars: toggleBars,
-                                  loophighlight: highlighNum,
-                                  GlobalCurrentPage: GlobalCurrentPage,
-                                  changeGlobal: changeGlobal,
-                                  surahFrom: SurahFrom,
-                                ),
-                              ),
-                              // showPlayer ? AudioPlayerWidget():
-                              // Container()
-                            ],
-                          ),
-                        )
-                      : (segmentedControlValue == 1 && toggleSearch == false)
-                          ? Container(
-                              height: MediaQuery.of(context).size.height,
-                              // padding: const EdgeInsets.all(Dimens.px22),
-                              color: Theme.of(context).backgroundColor,
-                              width: double.infinity,
-                              child: SingleChildScrollView(
-                                child: TafsirCarousel(
-                                  goToPage: GlobalCurrentPage,
-                                  loop: loop,
-                                  toggleBars: toggleBars,
-                                  loophighlight: highlighNum,
-                                  GlobalCurrentPage: GlobalCurrentPage,
-                                  changeGlobal: changeGlobal,
-                                  barsOn: showNavBar,
-                                ),
-                                // Text(AppLocalizations.of(context)!
-                                //     .translate('tafsir_text')
-                                //     .toString()),
+        body: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: () {
+                  toggleBars();
+                },
+                child: toggleSearch != true
+                    ? (segmentedControlValue == 0
+                        ? finalCarousel2(
+                            goToPage: (goToPage != 0 && GlobalCurrentPage == 1)
+                                ? goToPage
+                                : GlobalCurrentPage,
+                            loop: loop,
+                            toggleBars: toggleBars,
+                            loophighlight: highlighNum,
+                            GlobalCurrentPage: GlobalCurrentPage,
+                            changeGlobal: changeGlobal,
+                            surahFrom: SurahFrom,
+                          )
+                        : (segmentedControlValue == 1
+                            ? SingleChildScrollView(
+                              physics: NeverScrollableScrollPhysics(),
+                              child: TafsirCarousel(
+                                goToPage: GlobalCurrentPage,
+                                loop: loop,
+                                toggleBars: toggleBars,
+                                loophighlight: highlighNum,
+                                GlobalCurrentPage: GlobalCurrentPage,
+                                changeGlobal: changeGlobal,
+                                barsOn: showNavBar,
                               ),
                             )
-                          : Container(
-                              height: 400,
-                              child: Text("test"),
-                              color: CustomColors.red200,
+                            : Container(
+                                height: 400,
+                                color: CustomColors.red200,
+                              )))
+                    : GestureDetector(
+                        onTap: () {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                        },
+                        child: SafeArea(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      top: Screenheight * 0.008),
+                                  width: double.infinity,
+                                ),
+                                ListTile(
+                                    title: Text(
+                                  "السور (" +
+                                      searchRes_surah.length.toString() +
+                                      ")",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 21,
+                                      color: CustomColors.black200),
+                                )),
+                                Container(
+                                  // height: Screenheight,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    //  itemExtent: 200,
+
+                                    addAutomaticKeepAlives: true,
+                                    addRepaintBoundaries: false,
+                                    shrinkWrap: true,
+                                    primary: false,
+                                    padding: EdgeInsets.only(
+                                        bottom: Screenheight * 0.02),
+                                    // + 2 are the headers for each search category
+                                    itemCount: searchRes_surah.length,
+                                    itemBuilder: (ctx, i) {
+                                      int index = i;
+                                      return (searchStatus == false)
+                                          ? CircularProgressIndicator()
+                                          : QuranSurahSearchTiles(
+                                              num: HelperFunctions
+                                                  .convertToArabicNumbers(
+                                                      searchRes_surah[index]
+                                                          .surahNum),
+                                              title: searchRes_surah[index]
+                                                  .surahTitle,
+                                              numAya: HelperFunctions
+                                                  .convertToArabicNumbers(
+                                                      searchRes_surah[index]
+                                                          .numOfAyas),
+                                              type: searchRes_surah[index]
+                                                  .surahType,
+                                              firstPageNum:
+                                                  searchRes_surah[index]
+                                                      .surahPageNum,
+                                              tapHandler: tapHandlerFunc);
+                                    },
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "الايات (" +
+                                        searchRes_aya.length.toString() +
+                                        ")",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 21,
+                                        color: CustomColors.black200),
+                                  ),
+                                ),
+                                Container(
+                                  // height: Screenheight,
+                                  width: double.infinity,
+                                  child: ListView.builder(
+                                    //  itemExtent: 200,
+
+                                    addAutomaticKeepAlives: true,
+                                    addRepaintBoundaries: false,
+                                    shrinkWrap: true,
+                                    primary: false,
+
+                                    padding: EdgeInsets.only(
+                                        bottom: Screenheight * 0.1),
+                                    // + 2 are the headers for each search category
+                                    itemCount: searchRes_aya.length,
+                                    itemBuilder: (ctx, i) {
+                                      int index = i;
+                                      return (searchStatus == false)
+                                          ? CircularProgressIndicator()
+                                          : QuranAyaSearchTiles(
+                                              surahNum: HelperFunctions
+                                                  .convertToArabicNumbers(
+                                                      searchRes_aya[index]
+                                                          .index
+                                                          .toString()),
+                                              ayaText:
+                                                  searchRes_aya[index].text,
+                                              numAya: HelperFunctions
+                                                  .convertToArabicNumbers(
+                                                      searchRes_aya[index]
+                                                          .aya
+                                                          .toString()),
+                                              surahName:
+                                                  searchRes_aya[index].surah,
+                                              ayaPageNum:
+                                                  searchRes_aya[index].page,
+                                              tapHandler: tapHandlerFunc);
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                  onTap: () {
-                    toggleBars();
-                  })
-              : GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.only(top: Screenheight * 0.22),
-                        width: double.infinity,
-                      ),
-                      ListTile(
-                          title: Text(
-                        "السور (" + searchRes_surah.length.toString() + ")",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 21,
-                            color: CustomColors.black200),
-                      )),
-                      Container(
-                        // height: Screenheight,
-                        width: double.infinity,
-                        child: ListView.builder(
-                          //  itemExtent: 200,
-
-                          addAutomaticKeepAlives: true,
-                          addRepaintBoundaries: false,
-                          shrinkWrap: true,
-                          primary: false,
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.only(top: 20),
-                          // + 2 are the headers for each search category
-                          itemCount: searchRes_surah.length,
-                          itemBuilder: (ctx, i) {
-                            int index = i;
-                            return (searchStatus == false)
-                                ? CircularProgressIndicator()
-                                : QuranSurahSearchTiles(
-                                    num: HelperFunctions.convertToArabicNumbers(
-                                        searchRes_surah[index].surahNum),
-                                    title: searchRes_surah[index].surahTitle,
-                                    numAya:
-                                        HelperFunctions.convertToArabicNumbers(
-                                            searchRes_surah[index].numOfAyas),
-                                    type: searchRes_surah[index].surahType,
-                                    firstPageNum:
-                                        searchRes_surah[index].surahPageNum,
-                                    tapHandler: tapHandlerFunc);
-                          },
+                          ),
                         ),
                       ),
-                      ListTile(
-                        title: Text(
-                          "الايات (" + searchRes_aya.length.toString() + ")",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 21,
-                              color: CustomColors.black200),
-                        ),
-                      ),
-                      Container(
-                        // height: Screenheight,
-                        width: double.infinity,
-                        child: ListView.builder(
-                          //  itemExtent: 200,
-
-                          addAutomaticKeepAlives: true,
-                          addRepaintBoundaries: false,
-                          shrinkWrap: true,
-                          primary: false,
-
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: const EdgeInsets.only(top: 10),
-                          // + 2 are the headers for each search category
-                          itemCount: searchRes_aya.length,
-                          itemBuilder: (ctx, i) {
-                            int index = i;
-                            return (searchStatus == false)
-                                ? CircularProgressIndicator()
-                                : QuranAyaSearchTiles(
-                                    surahNum: HelperFunctions.convertToArabicNumbers(
-                                        searchRes_aya[index].index.toString()),
-                                    ayaText: searchRes_aya[index].text,
-                                    numAya:
-                                        HelperFunctions.convertToArabicNumbers(
-                                            searchRes_aya[index].aya.toString()),
-                                    surahName: searchRes_aya[index].surah,
-                                    ayaPageNum:
-                                        searchRes_aya[index].page,
-                                    tapHandler: tapHandlerFunc);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                )
-        ]),
-      ),
-    );
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: GestureDetector(
+                // Add this
+                onTap: toggleBars,
+                child: showNavBar
+                    ? BNavigationBar(
+                        pageIndex: 0,
+                        toggleBars: toggleBars,
+                      )
+                    : Container(),
+              ),
+            ),
+          ],
+        ));
   }
 }
-
