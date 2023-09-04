@@ -72,6 +72,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final Screenheight= MediaQuery.of(context).size.height;
+    final Screenwidth= MediaQuery.of(context).size.width;
     final box = context.findRenderObject() as RenderBox?;
 
     final bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
@@ -98,8 +100,10 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       String bkText,
       int type,
       String bkAya,
+      double Screenheight
     ) {
       return Container(
+                  // color: Colors.red,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: rad,
@@ -107,7 +111,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
         child: Row(
           children: [
             IconButton(
-                padding: const EdgeInsets.all(20),
+                // padding: const EdgeInsets.all(10),
                 iconSize: 32,
                 alignment: Alignment.topRight,
                 onPressed: () {
@@ -144,25 +148,26 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                     : Icon(Icons.bookmark_border_outlined),
                 // icon: Icon(bkIconsList[type-1]),
                 color: bkColor),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                Text(
-                  "الفاصل $bkText",
-                  style: TextStyle(fontSize: 16, color: CustomColors.black200),
-                  textAlign: TextAlign.right,
-                ),
-
-                //todo: only show this when button is pressed
-                Text(
-                  (bkAya != '' && bkAya != null) ? "الآية: $bkAya" : "",
-                  style: TextStyle(fontSize: 14, color: CustomColors.grey200),
-                  textAlign: TextAlign.right,
-                ),
-              ],
+            Padding(
+              padding:  EdgeInsets.only(top: Screenheight*0.025),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                     
+                  Text(
+                    "الفاصل $bkText",
+                    style: TextStyle(fontSize: 16, color: CustomColors.black200),
+                    textAlign: TextAlign.right,
+                  ),
+            
+                  //todo: only show this when button is pressed
+                  Text(
+                    (bkAya != '' && bkAya != null) ? "الآية: $bkAya" : "",
+                    style: TextStyle(fontSize: 14, color: CustomColors.grey200),
+                    textAlign: TextAlign.right,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -193,143 +198,147 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
       );
     }
 
-    return Container(
-      height: 600,
-      color: CustomColors.yellow100,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            ListTile(
-              title: Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Container(
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: Screenheight*0.01),
+        // height: Screenheight*0.65,
+        // color: Colors.blue,
+        color: CustomColors.yellow100,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ListTile(
+                title: Container(
                   decoration: BoxDecoration(
-                    color: CustomColors.yellow100,
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: CustomColors.yellow100,
+                    ),
+                    child: GridView(
+                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        physics: NeverScrollableScrollPhysics(),
+                        clipBehavior: Clip.hardEdge,
+                        shrinkWrap: true,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisSpacing: 1,
+                          mainAxisSpacing: 1,
+                          crossAxisCount: 2,
+                          childAspectRatio: 74 / 30,
+                        ),
+                        children: <Widget>[
+                          returnGridItem(
+                              const BorderRadius.only(
+                                  topRight: Radius.circular(20)),
+                              CustomColors.yellow400,
+                              AppLocalizations.of(context)!
+                                  .translate('onclick_aya_modalsheet_bk1')
+                                  .toString(),
+                              1,
+                              bkAya("1")!, Screenheight),
+                          returnGridItem(
+                              const BorderRadius.only(
+                                  topLeft: Radius.circular(20)),
+                              CustomColors.pink100,
+                              AppLocalizations.of(context)!
+                                  .translate('onclick_aya_modalsheet_bk2')
+                                  .toString(),
+                              2,
+                              bkAya("2")!, Screenheight),
+                          returnGridItem(
+                              const BorderRadius.only(
+                                  bottomRight: Radius.circular(20)),
+                              CustomColors.green200,
+                              AppLocalizations.of(context)!
+                                  .translate('onclick_aya_modalsheet_bk3')
+                                  .toString(),
+                              3,
+                              bkAya("3")!, Screenheight),
+                          returnGridItem(
+                              const BorderRadius.only(
+                                  bottomLeft: Radius.circular(20)),
+                              CustomColors.blue100,
+                              AppLocalizations.of(context)!
+                                  .translate('onclick_aya_modalsheet_bk4')
+                                  .toString(),
+                              4,
+                              bkAya("4")!, Screenheight),
+                        ]),
                   ),
-                  child: GridView(
-                      padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                      physics: NeverScrollableScrollPhysics(),
-                      clipBehavior: Clip.hardEdge,
-                      shrinkWrap: true,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisSpacing: 1,
-                        mainAxisSpacing: 1,
-                        crossAxisCount: 2,
-                        childAspectRatio: 79 / 30,
-                      ),
-                      children: <Widget>[
-                        returnGridItem(
-                            const BorderRadius.only(
-                                topRight: Radius.circular(20)),
-                            CustomColors.yellow400,
-                            AppLocalizations.of(context)!
-                                .translate('onclick_aya_modalsheet_bk1')
-                                .toString(),
-                            1,
-                            bkAya("1")!),
-                        returnGridItem(
-                            const BorderRadius.only(
-                                topLeft: Radius.circular(20)),
-                            CustomColors.pink100,
-                            AppLocalizations.of(context)!
-                                .translate('onclick_aya_modalsheet_bk2')
-                                .toString(),
-                            2,
-                            bkAya("2")!),
-                        returnGridItem(
-                            const BorderRadius.only(
-                                bottomRight: Radius.circular(20)),
-                            CustomColors.green200,
-                            AppLocalizations.of(context)!
-                                .translate('onclick_aya_modalsheet_bk3')
-                                .toString(),
-                            3,
-                            bkAya("3")!),
-                        returnGridItem(
-                            const BorderRadius.only(
-                                bottomLeft: Radius.circular(20)),
-                            CustomColors.blue100,
-                            AppLocalizations.of(context)!
-                                .translate('onclick_aya_modalsheet_bk4')
-                                .toString(),
-                            4,
-                            bkAya("4")!),
-                      ]),
                 ),
               ),
-            ),
-
-            ListTile(
-              title: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(children: [
-                  returnListItem(
-                      AppLocalizations.of(context)!
-                          .translate('onclick_aya_modalsheet_list1')
-                          .toString(),
-                      false,
-                      'listPlay',
-                      viewAudioPlayerController),
-                  Divider(
-                    color: CustomColors.yellow200,
-                    indent: 58,
-                    thickness: 1.3,
+    
+              ListTile(
+                title: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  returnListItem(
-                      AppLocalizations.of(context)!
-                          .translate('onclick_aya_modalsheet_list2')
-                          .toString(),
-                      false,
-                      'listPlay',
-                      widget.playMoreOptions),
-                ]),
-              ),
-            ),
-            SizedBox(height: 6),
-            ListTile(
-              title: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  child: Column(children: [
+                    returnListItem(
+                        AppLocalizations.of(context)!
+                            .translate('onclick_aya_modalsheet_list1')
+                            .toString(),
+                        false,
+                        'listPlay',
+                        viewAudioPlayerController),
+                    Divider(
+                      color: CustomColors.yellow200,
+                      indent: 58,
+                      thickness: 1.3,
+                    ),
+                    returnListItem(
+                        AppLocalizations.of(context)!
+                            .translate('onclick_aya_modalsheet_list2')
+                            .toString(),
+                        false,
+                        'listPlay',
+                        widget.playMoreOptions),
+                  ]),
                 ),
-                child: Column(children: [
-                  returnListItem(
-                      AppLocalizations.of(context)!
-                          .translate('onclick_aya_modalsheet_list3')
-                          .toString(),
-                      true,
-                      'listShare',
-                      shareController),
-                  Divider(
-                    color: CustomColors.yellow200,
-                    indent: 58,
-                    thickness: 1.3,
-                  ),
-                  returnListItem(
-                      AppLocalizations.of(context)!
-                          .translate('onclick_aya_modalsheet_list4')
-                          .toString(),
-                      true,
-                      'listCopy',
-                      copyClipboard),
-                ]),
               ),
-            ),
-            SizedBox(height: 8),
-
-            // ElevatedButton(
-            //   child: const Text('Close BottomSheet'),
-            //   onPressed: () => Navigator.pop(context),
-            // )
-          ],
+              SizedBox(height: 6),
+              ListTile(
+                title: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Column(children: [
+                    returnListItem(
+                        AppLocalizations.of(context)!
+                            .translate('onclick_aya_modalsheet_list3')
+                            .toString(),
+                        true,
+                        'listShare',
+                        shareController),
+                    Divider(
+                      color: CustomColors.yellow200,
+                      indent: 58,
+                      thickness: 1.3,
+                    ),
+                    returnListItem(
+                        AppLocalizations.of(context)!
+                            .translate('onclick_aya_modalsheet_list4')
+                            .toString(),
+                        true,
+                        'listCopy',
+                        copyClipboard),
+                  ]),
+                ),
+              ),
+              // SizedBox(height: 8),
+    
+              // ElevatedButton(
+              //   child: const Text('Close BottomSheet'),
+              //   onPressed: () => Navigator.pop(context),
+              // )
+            ],
+          ),
         ),
       ),
     );
