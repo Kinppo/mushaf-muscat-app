@@ -44,21 +44,19 @@ class _appBarState extends State<appBar> {
   bool searchToggle = false;
   List<Surah> _surah_search_results = [];
   List<generalAya> _aya_search_results = [];
-  // search controller
 
-  // setState(() {
-  //   print("entered app bar search controller. search is $search");
-
-  //   searchToggle = search;
-  //   widget.toggleSearch(searchToggle);
-  //print("toggle search after $searchToggle");
-  // });
-  // }
 
   Widget build(BuildContext context) {
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
     final List<Surah> _surahitem = _surahs;
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final appBarTopPadding = screenHeight * 0.03;
+    final appBarBottomPadding = screenHeight * 0.03;
+
+    final searchBarPadding = screenWidth * 0.04;
 
     Future<void> searchController(isStillSearching, search) async {
       _surah_search_results = await surahsData.getSeachResults_appbar(search);
@@ -68,68 +66,33 @@ class _appBarState extends State<appBar> {
         searchToggle = isStillSearching;
         widget.changeSearchStatus();
 
-// print(_surah_search_results);
-
-        //compared(input);
-        // print(input);
         //todo: send search result here
         widget.toggleSearch(
             searchToggle, _surah_search_results, _aya_search_results);
-        // print("toggle search after $searchToggle");
       });
     }
 
     return (searchToggle == false)
         ? GestureDetector(
             onTap: () => widget.toggleBars(),
-            child: AppBar(
-              // elevation: 0.0,
-              //        shape: RoundedRectangleBorder(
-              // borderRadius: new BorderRadius.vertical(
-              //   bottom: new Radius.elliptical(400, 56.0),
-              // ),),
-              automaticallyImplyLeading:
-                  false, // this will hide Drawer hamburger icon
-              actions: <Widget>[Container()],
-
-              // bottom: PreferredSize(
-              //     child: Container(
-              //       color: CustomColors.yellow200,
-              //       height: 1.0,
-              //     ),
-              //     preferredSize: Size.fromHeight(1.0)),
-              // leading: Builder(
-              //   builder: (context) => IconButton(
-              //     icon: const Icon(Icons.menu_rounded),
-              //     onPressed: () => Scaffold.of(context).openDrawer(),
-              //   ),
-              // ),
-              // iconTheme: IconThemeData(color: CustomColors.black200),
-              // toolbarHeight: 50, // Set this height
-              flexibleSpace: Container(
-                color: CustomColors.yellow500,
-                // color:Colors.blue,
-
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+            child: SafeArea(
+              child: AppBar(
+                title: Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 70),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           IconButton(
-                            // iconSize: 20,
-                            icon: SvgPicture.asset("assets/images/Icon.svg",
-                                width: 27, height: 27, fit: BoxFit.contain),
+                            icon: SvgPicture.asset(
+                              "assets/images/Icon.svg",
+                              width: 27,
+                              height: 27,
+                              fit: BoxFit.contain,
+                            ),
                             onPressed: () => Scaffold.of(context).openDrawer(),
                           ),
-                          //           IconButton(
-                          //   icon: const Icon(Icons.menu_rounded),
-                          //   onPressed: () => Scaffold.of(context).openDrawer(),
-                          // ),
-                          // const SizedBox(
-                          //   width: 30,
-                          // ),
                           ConstrainedBox(
                             constraints: const BoxConstraints(
                               maxWidth: 200,
@@ -137,51 +100,50 @@ class _appBarState extends State<appBar> {
                             ),
                             child: Container(
                               child: CupertinoSlidingSegmentedControl(
-                                  groupValue: widget.segmentToggle,
-                                  backgroundColor:
-                                      Theme.of(context).shadowColor,
-                                  children: <int, Widget>{
-                                    0: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate(
-                                              'quran_screen_switch_quran')
-                                          .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          ?.copyWith(
-                                            color: CustomColors.brown300,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 17,
-                                          ),
-                                    ),
-                                    1: Text(
-                                      AppLocalizations.of(context)!
-                                          .translate(
-                                              'quran_screen_switch_tafsir')
-                                          .toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headline1
-                                          ?.copyWith(
-                                            color: CustomColors.brown300,
-                                            fontWeight: FontWeight.normal,
-                                            fontSize: 17,
-                                          ),
-                                    ),
-                                  },
-                                  onValueChanged: (value) {
-                                    setState(() {
-                                      widget.segmentToggle = value as int;
-                                      print("app bar $widget.segmentToggle");
-                                      widget.segmentedControlValue(
-                                          widget.segmentToggle);
-                                    });
-                                  }),
+                                groupValue: widget.segmentToggle,
+                                backgroundColor: Theme.of(context).shadowColor,
+                                children: <int, Widget>{
+                                  0: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('quran_screen_switch_quran')
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        ?.copyWith(
+                                          color: CustomColors.brown300,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 17,
+                                        ),
+                                  ),
+                                  1: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('quran_screen_switch_tafsir')
+                                        .toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headline1
+                                        ?.copyWith(
+                                          color: CustomColors.brown300,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 17,
+                                        ),
+                                  ),
+                                },
+                                onValueChanged: (value) {
+                                  setState(() {
+                                    widget.segmentToggle = value as int;
+                                    print("app bar $widget.segmentToggle");
+                                    widget.segmentedControlValue(
+                                      widget.segmentToggle,
+                                    );
+                                  });
+                                },
+                              ),
                             ),
                           ),
-                        // lock device orientation change
-                        //TODO: Support landscape orientation
+                          // lock device orientation change
+                          //TODO: Support landscape orientation
                           IconButton(
                             // do not remove button, instead make it transparent
                             //so that it doesn't mess with the layout of the app bar
@@ -209,12 +171,13 @@ class _appBarState extends State<appBar> {
                         ],
                       ),
                     ),
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(34, 10, 34, 0),
-                      width: double.infinity,
-                      height: 50,
-                      child: QuranSearchBar(searchController: searchController),
-                    ),
+
+                    // Container(
+                    //   padding: EdgeInsets.only(top: 60),
+                    //   color: Colors.red,
+                    //   height: 80,
+                    // )
+//  QuranSearchBar(searchController: searchController),
                   ],
                 ),
               ),
