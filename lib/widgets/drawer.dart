@@ -144,6 +144,9 @@ class _MainDrawerState extends State<MainDrawer> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final Screenwidth= MediaQuery.of(context).size.width;
+
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
     final List<Surah> _surahitem = _surahs;
@@ -164,14 +167,14 @@ class _MainDrawerState extends State<MainDrawer> {
         children: <Widget>[
           Container(
             //margin: EdgeInsets.all(16.0),
-            padding: const EdgeInsets.only(top: 80.0),
+            padding:  EdgeInsets.only(top: screenHeight*0.1),
             // width: 180,
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                const SizedBox(
-                  width: 70,
+                 SizedBox(
+                  width: Screenwidth*0.17,
                 ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
