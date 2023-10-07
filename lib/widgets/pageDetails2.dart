@@ -6,6 +6,7 @@ import 'package:mushafmuscat/models/book_mark.dart';
 import 'package:mushafmuscat/providers/bookMarks_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:mushafmuscat/models/pageText.dart';
 import '../widgets/finalCarousel2.dart';
@@ -378,7 +379,7 @@ class _pageDetails2State extends State<pageDetails2> {
             fontFamily: 'Amiri',
             fontWeight: FontWeight.bold,
             fontSize: 8,
-            color: Colors.red,
+            color: Colors.transparent,
             wordSpacing: 2.9,
             letterSpacing:  (widget.id==1) ? 2.2: 1.5,
             height:
@@ -391,6 +392,8 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Container? AllOtherPagesContainer() {
+          final Screenheight= MediaQuery.of(context).size.height;
+
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
@@ -424,7 +427,7 @@ class _pageDetails2State extends State<pageDetails2> {
                   : (isLandscape == false)
                       ? 8
                       : 22,
-              color: Colors.red,
+              color: Colors.transparent,
               wordSpacing: 2.9,
               letterSpacing: 
                   (isLandscape == false && (widget.id==499 || widget.id==404 || widget.id==415 )) ? 1.5:
@@ -446,8 +449,14 @@ class _pageDetails2State extends State<pageDetails2> {
                       pagesThatNeedLessHeight.contains(widget.id))
                   ? 3.0
                   : (isLandscape == false)
-                      ? 2.3
-                      : 1.8,
+                  // ? 2.3
+                  ? Screenheight > 800 ? Screenheight*0.0027
+    : Screenheight > 700  ? Screenheight*0.0033
+      : Screenheight * 0.0033 :1.7,
+                      // ?  Screenheight>700? Screenheight*0.0027: 
+                      
+                      //  Screenheight*0.0033
+                      // : 1.6,
 
               // height: 1.68, 
             ),
