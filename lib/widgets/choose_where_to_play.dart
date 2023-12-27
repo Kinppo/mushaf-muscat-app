@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
+import 'package:mushafmuscat/providers/tilawa_options_provider.dart';
 import 'package:mushafmuscat/screens/quran_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';

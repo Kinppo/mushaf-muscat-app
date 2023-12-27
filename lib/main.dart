@@ -4,7 +4,7 @@ import 'package:mushafmuscat/providers/audioplayer_provider.dart';
 import 'package:mushafmuscat/providers/ayat_lines_provider.dart';
 import 'package:mushafmuscat/providers/daily_aya_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
-import 'package:mushafmuscat/providers/tilawaOptions_provider.dart';
+import 'package:mushafmuscat/providers/tilawa_options_provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:provider/provider.dart';
 import 'localization/app_localizations_setup.dart';
