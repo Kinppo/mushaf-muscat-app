@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import 'package:mushafmuscat/screens/setting_screen.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 import '../screens/ayah_screen.dart';
@@ -11,13 +9,13 @@ import '../screens/quran_screen.dart';
 
 class BNavigationBar extends StatefulWidget {
   final int pageIndex;
-  Function toggleBars;
+  final Function toggleBars;
 
-  BNavigationBar({
-    Key? key,
+  const BNavigationBar({
+    super.key,
     required this.pageIndex,
     required this.toggleBars,
-  }) : super(key: key);
+  });
 
   @override
   State<BNavigationBar> createState() => _BNavigationBarState();
@@ -48,26 +46,19 @@ class _BNavigationBarState extends State<BNavigationBar> {
                 Navigator.of(context)
                     .pushReplacementNamed(QuranScreen.routeName);
                 break;
-
               case 1:
                 Navigator.of(context)
                     .pushReplacementNamed(BookMarksScreen.routeName);
                 break;
-
               case 2:
                 Navigator.of(context)
                     .pushReplacementNamed(AyahScreen.routeName);
                 break;
-
               case 3:
                 Navigator.of(context)
                     .pushReplacementNamed(SettingScreen.routeName);
                 break;
-
               default:
-              // Navigator.of(context)
-              //     .pushReplacementNamed(QuranScreen.routeName);
-              // break;
             }
           },
           type: BottomNavigationBarType.fixed,

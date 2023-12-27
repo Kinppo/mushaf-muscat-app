@@ -5,8 +5,7 @@ import '../localization/app_localizations.dart';
 
 class QuranSearchBar extends StatefulWidget {
   final Function searchController;
-
-  QuranSearchBar({Key? key, required this.searchController}) : super(key: key);
+  const QuranSearchBar({super.key, required this.searchController});
 
   @override
   State<QuranSearchBar> createState() => QuranSearchBarState();
@@ -34,7 +33,7 @@ class QuranSearchBarState extends State<QuranSearchBar> {
       });
       searchOnStoppedTyping!.cancel();
     }
-    searchOnStoppedTyping = Timer(Duration(milliseconds: 700), () {
+    searchOnStoppedTyping = Timer(const Duration(milliseconds: 700), () {
       widget.searchController(isStillSearching, text);
     });
   }
@@ -46,21 +45,21 @@ class QuranSearchBarState extends State<QuranSearchBar> {
     return TextField(
       onChanged: _onChangeHandler,
       onSubmitted: (text) {
-  setState(() {
-    if (text != '' && firstFlag == false) {
-      firstFlag = true;
-      isStillSearching = true;
-    } else {
-      if (isStillSearching == false) {
-        isStillSearching = true;
-      } else if (isStillSearching == true && text == '') {
-        isStillSearching = false;
-      }
-    }
-    widget.searchController(isStillSearching, text);
-  });
-  FocusScope.of(context).unfocus();
-},
+        setState(() {
+          if (text != '' && firstFlag == false) {
+            firstFlag = true;
+            isStillSearching = true;
+          } else {
+            if (isStillSearching == false) {
+              isStillSearching = true;
+            } else if (isStillSearching == true && text == '') {
+              isStillSearching = false;
+            }
+          }
+          widget.searchController(isStillSearching, text);
+        });
+        FocusScope.of(context).unfocus();
+      },
       onEditingComplete: () {},
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
@@ -86,8 +85,8 @@ class QuranSearchBarState extends State<QuranSearchBar> {
           ),
           suffixIcon: isStillSearching == true
               ? IconButton(
-                  color: CustomColors.grey200, 
-                  icon: Icon(Icons.cancel), 
+                  color: CustomColors.grey200,
+                  icon: const Icon(Icons.cancel),
                   onPressed: clearText,
                 )
               : null),

@@ -1,23 +1,15 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/models/book_mark.dart';
 import 'package:mushafmuscat/providers/bookmarks_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:mushafmuscat/models/pageText.dart';
-import '../widgets/finalCarousel2.dart';
-import '../models/aya_lines.dart';
-import '../providers/audioplayer_provider.dart';
 import '../providers/ayat_lines_provider.dart';
 import '../resources/colors.dart';
-import '../utils/helper_functions.dart';
 import '../utils/manual_lists.dart';
 
-class pageDetails2 extends StatefulWidget {
+class PageDetails2 extends StatefulWidget {
   int id;
   int indexhighlight;
   int currentpage;
@@ -28,11 +20,8 @@ class pageDetails2 extends StatefulWidget {
   int prev;
   bool closedBottomSheet;
   List<String> ayaNumsforThePage;
-  // bool pageDetails_loadAudios;
 
-// Function togg;
-
-  pageDetails2({
+  PageDetails2({
     Key? key,
     required this.id,
     required this.indexhighlight,
@@ -47,10 +36,10 @@ class pageDetails2 extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<pageDetails2> createState() => _pageDetails2State();
+  State<PageDetails2> createState() => _PageDetails2State();
 }
 
-class _pageDetails2State extends State<pageDetails2> {
+class _PageDetails2State extends State<PageDetails2> {
   String? fulltext;
   bool flag = false;
   List<String> splittedList = [''];
@@ -60,23 +49,17 @@ class _pageDetails2State extends State<pageDetails2> {
   bool highlightFlag = false;
   int idx = 0;
   bool clickedListen = false;
-
   int textsize = 0;
   List<String> surahNameList = [];
-//new vars
   List<String> audioPaths = [];
   List<Audio> audioList = [];
   final assetsAudioPlayer = AssetsAudioPlayer();
   var bookmarks;
-
-  // int clickedHighlightNum = 0;
   bool firstFlag = false;
   bool clickHighlightWhilePlaying = false;
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
-
   final surahPageswithHeaders = ManualLists().surahPageswithHeaders;
-
   final pagesThatNeedExtraPadding = ManualLists().pagesThatNeedExtraPadding;
   final pagesThatNeedSpacing_small = ManualLists().pagesThatNeedSpacingSmall;
   final pagesThatNeedSpacing_medium = ManualLists().pagesThatNeedSpacingMedium;
@@ -93,16 +76,9 @@ class _pageDetails2State extends State<pageDetails2> {
     if (isLoaded == false) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await loadTextandBookmarks(widget.currentpage);
-
-        // setState(() {
-        //    loadTextandBookmarks(widget.currentpage);
-        // });
       });
-
-      //todo:fix this
       isLoaded = true;
     }
-
     super.initState();
   }
 
@@ -110,16 +86,12 @@ class _pageDetails2State extends State<pageDetails2> {
     switch (type) {
       case '1':
         return CustomColors.yellow400;
-
       case '2':
         return CustomColors.pink100;
-
       case '3':
         return CustomColors.green200;
-
       case '4':
         return CustomColors.blue100;
-
       default:
         return Colors.transparent;
     }
@@ -133,12 +105,8 @@ class _pageDetails2State extends State<pageDetails2> {
     surahNameList = await Provider.of<SurahProvider>(context, listen: false)
         .getSurahName(page);
 
-// textlist.forEach((element){
-// surahNameList.add(element.surahName);
-// });
-
     final List<BookMark> bk =
-        await Provider.of<BookMarks>(context, listen: false).bookmarks;
+        Provider.of<BookMarks>(context, listen: false).bookmarks;
     bk.forEach((element) {
       setState(() {
         if (element.pageNum == widget.currentpage) {
@@ -150,6 +118,7 @@ class _pageDetails2State extends State<pageDetails2> {
     });
   }
 
+  @override
   didChangeDependencies() {
     final List<BookMark> bk2 =
         Provider.of<BookMarks>(context, listen: true).bookmarks;
@@ -173,7 +142,6 @@ class _pageDetails2State extends State<pageDetails2> {
         widget.indexhighlight = -1;
       });
     }
-    //=======
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
@@ -187,17 +155,13 @@ class _pageDetails2State extends State<pageDetails2> {
             value[i + 1].startOfSurah == '1') {
           textl.add(value[i].text! + '\n\n');
         } else if (value[i].startOfSurah == '1') {
-          // value[i].toString() +
-          // " with height " +
-          // value[i].height.toString());
-
           String sPortrait = '';
           String sLandscape = '';
 
           for (int j = 0; j < value[i].height; j++) {
-            sPortrait = sPortrait + '\n';
+            sPortrait = '$sPortrait\n';
             if (i < value[i].height - 2) {
-              sLandscape = sLandscape + '\n';
+              sLandscape = '$sLandscape\n';
             }
           }
 
@@ -213,59 +177,36 @@ class _pageDetails2State extends State<pageDetails2> {
     });
 
     if (fulltext == null) {
-      return [TextSpan(text: '')];
+      return [const TextSpan(text: '')];
     }
     fulltext = fulltext!.replaceAll(')', ').');
-
     splittedList = fulltext!.split(".");
 
-    // splittedList = fulltext!.replaceAll('.', ')');
-
-    // splittedList = (HelperFunctions.splitLinesintoList(fulltext!));
-    //=======
     List<String> arrayStrings = splittedList;
     List<TextSpan> arrayOfTextSpan = [];
 
-    // final string = """Text seems like it should be so simple, but it really isn't.""";
-    // final arrayStrings = string.split(" ");
-    bool tapped = false;
-
-    // arrayOfTextSpan= await AddAyas(arrayStrings);
     for (int index = 0; index < arrayStrings.length; index++) {
-      final text = arrayStrings[index] + "";
+      final text = arrayStrings[index];
       var intValue = text.replaceAll(RegExp('[^0-9]'), '');
 
-      // String singleSurahName =  (SingleSurahList.isNotEmpty) ? SingleSurahList[index].toString(): "unknoen";
-
-      // SingleSurahList[index].toString();
       final span = TextSpan(
           text: text,
-          style: TextStyle(
-              // wordSpacing:text.length/90,
-              background: Paint()..color = Colors.transparent),
+          style: TextStyle(background: Paint()..color = Colors.transparent),
           recognizer: DoubleTapGestureRecognizer()
             ..onDoubleTap = () {
               setState(() {
-                // widget.highlightedAyaText= text;
-
                 highlightFlag = true;
                 int counter = 0;
                 arrayOfTextSpan.forEach((element) {
                   if (element.text != null &&
                       element.text != "" &&
                       element.text != '\n') {
-                    // String dummy = element.text!;
                     if (element.text == text) {
                       idx = counter;
-                      // counter = counter + 1;
                     }
                     counter = counter + 1;
                   }
                 });
-
-                // idx = arrayStrings
-                //     .indexWhere((element) => text ==  element );
-                //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
                 widget.clickedHighlightNum = idx + 1;
                 widget.toggleClickedHighlight(
                     idx + 1, intValue.toString(), text, surahNameList[idx]);
@@ -276,7 +217,6 @@ class _pageDetails2State extends State<pageDetails2> {
         widget.ayaNumsforThePage.clear();
       }
       widget.ayaNumsforThePage.add(intValue);
-
       arrayOfTextSpan.add(span);
     }
 
@@ -285,11 +225,7 @@ class _pageDetails2State extends State<pageDetails2> {
           arrayOfTextSpan.length == arrayStrings.length) {
         arrayOfTextSpan[idx].style?.background!.color =
             Colors.brown.withOpacity(0.25);
-        // arrayOfTextSpan[idx].style?.background!.
         arrayOfTextSpan[idx].style?.background!.style = PaintingStyle.stroke;
-        // arrayOfTextSpan[idx].style?.background!.strokeJoin=StrokeJoin.round;
-        // arrayOfTextSpan[idx].style?.background!.strokeCap= StrokeCap.square;
-
         arrayOfTextSpan[idx].style?.background!.strokeWidth = 17.2;
         highlightFlag = false;
       }
@@ -299,7 +235,6 @@ class _pageDetails2State extends State<pageDetails2> {
       arrayOfTextSpan[bkIndex].style?.background!.color =
           bkColor.withOpacity(0.25);
       arrayOfTextSpan[bkIndex].style?.background!.style = PaintingStyle.stroke;
-
       arrayOfTextSpan[bkIndex].style?.background!.strokeWidth = 17.2;
     }
 
@@ -307,37 +242,28 @@ class _pageDetails2State extends State<pageDetails2> {
       if (widget.currentpage == widget.prev &&
           widget.ayaFlag != false &&
           arrayStrings[0] != "") {
-        ///====temp and may be disposed later based on the use case
         if (widget.closedBottomSheet == true) {
-          // highlightFlag = false;
           widget.closedBottomSheet = false;
-
           arrayOfTextSpan[idx].style?.background!.color = Colors.transparent;
         }
-
-        ///====
         arrayOfTextSpan[widget.indexhighlight].style?.background!.color =
-            Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
-
+            const Color.fromARGB(255, 223, 223, 66).withOpacity(0.15);
         arrayOfTextSpan[widget.indexhighlight].style?.background!.style =
             PaintingStyle.stroke;
-
         arrayOfTextSpan[widget.indexhighlight].style?.background!.strokeWidth =
             17.2;
       }
     });
     setState(() {});
-    return arrayOfTextSpan as List<TextSpan>;
+    return arrayOfTextSpan;
   }
 
-  Container? Page1_and2Container() {
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+  Container? page1And2Container() {
     return Container(
       margin: (widget.id == 1)
-          ? EdgeInsets.fromLTRB(0, 105, 0, 0)
-          : EdgeInsets.fromLTRB(0, 145, 0, 0),
-      padding: EdgeInsets.symmetric(horizontal: 70),
+          ? const EdgeInsets.fromLTRB(0, 105, 0, 0)
+          : const EdgeInsets.fromLTRB(0, 145, 0, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 70),
       child: RichText(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.center,
@@ -357,15 +283,15 @@ class _pageDetails2State extends State<pageDetails2> {
     );
   }
 
-  Container? AllOtherPagesContainer() {
-    final Screenheight = MediaQuery.of(context).size.height;
+  Container? allOtherPagesContainer() {
+    final screenheight = MediaQuery.of(context).size.height;
 
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
         margin: (isLandscape == false)
-            ? EdgeInsets.fromLTRB(0, 0, 0, 0)
-            : EdgeInsets.fromLTRB(0, 110, 0, 0),
+            ? const EdgeInsets.fromLTRB(0, 0, 0, 0)
+            : const EdgeInsets.fromLTRB(0, 110, 0, 0),
         padding: (isLandscape == false &&
                 (widget.id == 597 ||
                     widget.id == 586 ||
@@ -382,12 +308,12 @@ class _pageDetails2State extends State<pageDetails2> {
                     widget.id == 322 ||
                     widget.id == 570 ||
                     widget.id == 377))
-            ? EdgeInsets.only(top: 25)
+            ? const EdgeInsets.only(top: 25)
             : pagesThatNeedExtraPadding.contains(widget.id)
-                ? EdgeInsets.only(top: 25)
+                ? const EdgeInsets.only(top: 25)
                 : (surahPageswithHeaders.contains(widget.id))
-                    ? EdgeInsets.only(top: 15)
-                    : EdgeInsets.only(top: 36),
+                    ? const EdgeInsets.only(top: 15)
+                    : const EdgeInsets.only(top: 36),
         child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.center,
@@ -445,18 +371,12 @@ class _pageDetails2State extends State<pageDetails2> {
                           ? 3.0
                           : (isLandscape == false)
                               // ? 2.3
-                              ? Screenheight > 800
-                                  ? Screenheight * 0.0027
-                                  : Screenheight > 700
-                                      ? Screenheight * 0.0033
-                                      : Screenheight * 0.0033
+                              ? screenheight > 800
+                                  ? screenheight * 0.0027
+                                  : screenheight > 700
+                                      ? screenheight * 0.0033
+                                      : screenheight * 0.0033
                               : 1.7,
-              // ?  Screenheight>700? Screenheight*0.0027:
-
-              //  Screenheight*0.0033
-              // : 1.6,
-
-              // height: 1.68,
             ),
             children: createTextSpans(),
           ),
@@ -466,18 +386,14 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   Widget build(BuildContext context) {
     return isLoaded
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // <=== try this maybe
-
-            // mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: (widget.id == 1 || widget.id == 2)
-                      ? Page1_and2Container()
-                      : AllOtherPagesContainer(),
-                ),
-              ])
-        : CircularProgressIndicator();
+        ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: (widget.id == 1 || widget.id == 2)
+                  ? page1And2Container()
+                  : allOtherPagesContainer(),
+            ),
+          ])
+        : const CircularProgressIndicator();
   }
 }

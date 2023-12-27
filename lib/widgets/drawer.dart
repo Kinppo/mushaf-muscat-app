@@ -1,11 +1,8 @@
-// import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import '../utils/helper_functions.dart';
-
 import '../localization/app_localizations.dart';
 import '../providers/quarter_provider.dart';
 import '../providers/surah_provider.dart';
@@ -18,7 +15,7 @@ import '../models/quarter.dart';
 import '../models/surah.dart';
 
 class MainDrawer extends StatefulWidget {
-  const MainDrawer({Key? key}) : super(key: key);
+  const MainDrawer({super.key});
 
   @override
   State<MainDrawer> createState() => _MainDrawerState();
@@ -27,11 +24,8 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   bool _isInit = true;
   bool _isLoading = true;
-
-  // list of retrieved search result
-  List<Quarter> _quarter_search_results = [];
-  List<Surah> _surah_search_results = [];
-  List<Surah> undiacritized_titles = [];
+  List<Surah> surahSearchResults = [];
+  List<Surah> undiacritizedTitles = [];
 
   @override
   void initState() {
@@ -61,20 +55,14 @@ class _MainDrawerState extends State<MainDrawer> {
     super.didChangeDependencies();
   }
 
-  // final List<Surah> _surah = surah;
-
   int segmentedControlValue = 0;
   bool searchToggle = false;
   int goToPage = 1;
-
-  // List <Surah> surahs= [];
   List<Surah> surahslist = [];
-// search controller
   void searchController(search, input) {
     setState(() {
       searchToggle = search;
-      //compared(input);
-      _surah_search_results = Provider.of<SurahProvider>(context, listen: false)
+      surahSearchResults = Provider.of<SurahProvider>(context, listen: false)
           .getSeachResults(input);
     });
   }
@@ -141,72 +129,67 @@ class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final Screenwidth = MediaQuery.of(context).size.width;
+    final screenwidth = MediaQuery.of(context).size.width;
 
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
-    final _surahs = surahsData.surahs;
-    final List<Surah> _surahitem = _surahs;
+    final surahs = surahsData.surahs;
+    final List<Surah> surahitem = surahs;
 
     final quartersData = Provider.of<QuarterProvider>(context, listen: false);
-    final _quarters = quartersData.quarters;
-    final List<Quarter> _quarteritem = _quarters;
+    final quarters = quartersData.quarters;
+    final List<Quarter> quarteritem = quarters;
 
-    setSurahs(_surahitem);
+    setSurahs(surahitem);
 
     return Drawer(
       backgroundColor: Theme.of(context).backgroundColor,
       child: Column(
         children: <Widget>[
           Container(
-            //margin: EdgeInsets.all(16.0),
             padding: EdgeInsets.only(top: screenHeight * 0.1),
-            // width: 180,
-
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  width: Screenwidth * 0.17,
+                  width: screenwidth * 0.17,
                 ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
                     maxWidth: 200,
                     minWidth: 180,
                   ),
-                  child: Container(
-                    child: CupertinoSlidingSegmentedControl(
-                        groupValue: segmentedControlValue,
-                        backgroundColor: Theme.of(context).shadowColor,
-                        children: <int, Widget>{
-                          0: Text(
-                            AppLocalizations.of(context)!
-                                .translate('drawer_screen_switch_surahs')
-                                .toString(),
-                            style:
-                                Theme.of(context).textTheme.headline1?.copyWith(
-                                      color: CustomColors.brown300,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 17,
-                                    ),
-                          ),
-                          1: Text(
-                            AppLocalizations.of(context)!
-                                .translate('drawer_screen_switch_quarters')
-                                .toString(),
-                            style:
-                                Theme.of(context).textTheme.headline1?.copyWith(
-                                      color: CustomColors.brown300,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 17,
-                                    ),
-                          ),
-                        },
-                        onValueChanged: (value) {
-                          setState(() {
-                            segmentedControlValue = value as int;
-                          });
-                        }),
-                  ),
+                  child: CupertinoSlidingSegmentedControl(
+                      groupValue: segmentedControlValue,
+                      backgroundColor: Theme.of(context).shadowColor,
+                      children: <int, Widget>{
+                        0: Text(
+                          AppLocalizations.of(context)!
+                              .translate('drawer_screen_switch_surahs')
+                              .toString(),
+                          style:
+                              Theme.of(context).textTheme.headline1?.copyWith(
+                                    color: CustomColors.brown300,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 17,
+                                  ),
+                        ),
+                        1: Text(
+                          AppLocalizations.of(context)!
+                              .translate('drawer_screen_switch_quarters')
+                              .toString(),
+                          style:
+                              Theme.of(context).textTheme.headline1?.copyWith(
+                                    color: CustomColors.brown300,
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 17,
+                                  ),
+                        ),
+                      },
+                      onValueChanged: (value) {
+                        setState(() {
+                          segmentedControlValue = value as int;
+                        });
+                      }),
                 ),
                 const SizedBox(
                   width: 5,
@@ -231,7 +214,7 @@ class _MainDrawerState extends State<MainDrawer> {
               width: double.infinity,
               height: 80,
               padding: const EdgeInsets.all(Dimens.px20),
-              child: drawerSearchBar(searchController: searchController),
+              child: DrawerSearchBar(searchController: searchController),
             ),
             const Divider(
               height: 0,
@@ -248,18 +231,18 @@ class _MainDrawerState extends State<MainDrawer> {
                   ? const Center(child: CircularProgressIndicator())
                   : ListView.builder(
                       padding: const EdgeInsets.only(top: 20),
-                      itemCount: _surahitem.length,
+                      itemCount: surahitem.length,
                       itemBuilder: (ctx, i) {
                         return Column(
                           children: [
                             buildSurahListTile(
                                 HelperFunctions.convertToArabicNumbers(
-                                    _surahitem[i].surahNum),
-                                _surahitem[i].surahTitle,
+                                    surahitem[i].surahNum),
+                                surahitem[i].surahTitle,
                                 HelperFunctions.convertToArabicNumbers(
-                                    _surahitem[i].numOfAyas),
-                                _surahitem[i].surahType,
-                                _surahitem[i].surahPageNum,
+                                    surahitem[i].numOfAyas),
+                                surahitem[i].surahType,
+                                surahitem[i].surahPageNum,
                                 tapHandlerFunc),
                             const Divider(
                               height: 20,
@@ -273,20 +256,20 @@ class _MainDrawerState extends State<MainDrawer> {
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.only(top: 2),
-                itemCount: _quarters.length,
+                itemCount: quarters.length,
                 itemBuilder: (ctx, i) {
                   return Column(
                     children: [
                       buildQuarterListTile(
-                        _quarteritem[i].startingJuzzIndex,
-                        _quarteritem[i].startingHizbIndex,
-                        _quarteritem[i].quarter,
-                        _quarteritem[i].hizbNum,
-                        _quarteritem[i].surahTitle,
-                        _quarteritem[i].startingAya,
-                        _quarteritem[i].juzz,
-                        _quarteritem[i].quarterAyaNum,
-                        _quarteritem[i].quarterPageNum,
+                        quarteritem[i].startingJuzzIndex,
+                        quarteritem[i].startingHizbIndex,
+                        quarteritem[i].quarter,
+                        quarteritem[i].hizbNum,
+                        quarteritem[i].surahTitle,
+                        quarteritem[i].startingAya,
+                        quarteritem[i].juzz,
+                        quarteritem[i].quarterAyaNum,
+                        quarteritem[i].quarterPageNum,
                         tapHandlerFunc,
                       ),
                       const Divider(
@@ -297,24 +280,23 @@ class _MainDrawerState extends State<MainDrawer> {
                 },
               ),
             ),
-            //search in juzz
           ] else if (searchToggle == true && segmentedControlValue == 0) ...[
             Expanded(
-                child: (_surah_search_results.length) != 0
+                child: surahSearchResults.isNotEmpty
                     ? ListView.builder(
                         padding: const EdgeInsets.only(top: 20),
-                        itemCount: _surah_search_results.length,
+                        itemCount: surahSearchResults.length,
                         itemBuilder: (ctx, i) {
                           return Column(
                             children: [
                               buildSurahListTile(
                                 HelperFunctions.convertToArabicNumbers(
-                                    _surah_search_results[i].surahNum),
-                                _surah_search_results[i].surahTitle,
+                                    surahSearchResults[i].surahNum),
+                                surahSearchResults[i].surahTitle,
                                 HelperFunctions.convertToArabicNumbers(
-                                    _surah_search_results[i].numOfAyas),
-                                _surah_search_results[i].surahType,
-                                _surah_search_results[i].surahPageNum,
+                                    surahSearchResults[i].numOfAyas),
+                                surahSearchResults[i].surahType,
+                                surahSearchResults[i].surahPageNum,
                                 tapHandlerFunc,
                               ),
                               const Divider(
@@ -325,7 +307,6 @@ class _MainDrawerState extends State<MainDrawer> {
                         },
                       )
                     : Container()),
-            // search in quarter
           ] else if (searchToggle == true && segmentedControlValue == 1) ...[
             Expanded(
               child: Container(),

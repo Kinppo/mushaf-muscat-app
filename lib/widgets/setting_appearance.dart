@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mushafmuscat/screens/setting_quran_view_screen.dart';
 import 'package:provider/provider.dart';
-
 import '../localization/app_localizations.dart';
 import '../providers/theme_provider.dart';
 import '../resources/colors.dart';
-import '../screens/setting_appearance_screen.dart';
 
 class SettingAppearance extends StatelessWidget {
-  const SettingAppearance({Key? key}) : super(key: key);
+  const SettingAppearance({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +19,6 @@ class SettingAppearance extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 15, 15, 15),
       child: Column(children: [
         GestureDetector(
-          // onTap: () => Navigator.of(context)
-          //     .pushNamed(SettingAppearanceScreen.routeName),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -95,7 +90,7 @@ class SettingAppearance extends StatelessWidget {
             thickness: 1,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Row(

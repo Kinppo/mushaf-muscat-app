@@ -2,22 +2,21 @@ import 'package:flutter/material.dart';
 import '../resources/colors.dart';
 
 class QuranAyaSearchTiles extends StatelessWidget {
-  String? surahNum;
-  String? ayaText;
-  String? numAya;
-  String? surahName;
-  String? ayaPageNum;
-  Function? tapHandler;
+  final String? surahNum;
+  final String? ayaText;
+  final String? numAya;
+  final String? surahName;
+  final String? ayaPageNum;
+  final Function? tapHandler;
 
-  QuranAyaSearchTiles(
-      {Key? key,
+  const QuranAyaSearchTiles(
+      {super.key,
       this.surahNum,
       this.ayaText,
       this.numAya,
       this.surahName,
       this.ayaPageNum,
-      this.tapHandler})
-      : super(key: key);
+      this.tapHandler});
 
   @override
   Widget build(BuildContext context) {

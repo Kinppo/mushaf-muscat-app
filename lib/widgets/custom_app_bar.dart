@@ -115,7 +115,6 @@ class AppBarState extends State<CustomAppBar> {
                               },
                               onValueChanged: (value) {
                                 setState(() {
-                                  //widget.segmentToggle = value as int;
                                   widget.segmentedControlValue(
                                     widget.segmentToggle,
                                   );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mushafmuscat/screens/about_app_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
@@ -14,15 +13,14 @@ String? encodeQueryParameters(Map<String, String> params) {
 }
 
 class SettingAbout extends StatelessWidget {
-
   void _launchURL() async {
-  const url = 'mailto:MushafMuscat@etco.om?subject=Feedback';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
+    const url = 'mailto:MushafMuscat@etco.om?subject=Feedback';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +77,11 @@ class SettingAbout extends StatelessWidget {
             thickness: 1,
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         GestureDetector(
-          onTap: () =>
-           _launchURL(),
+          onTap: () => _launchURL(),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

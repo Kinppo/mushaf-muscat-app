@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:mushafmuscat/localization/app_localizations.dart';
-import 'package:mushafmuscat/models/page.dart';
 import 'package:provider/provider.dart';
-
 import '../resources/colors.dart';
 import '../providers/bookmarks_provider.dart';
 import '../screens/quran_screen.dart';
@@ -17,13 +14,15 @@ class BookMarkItem extends StatelessWidget {
   final int pageNum;
   final int highlightNum;
 
-  BookMarkItem(
-      {required this.page,
-      required this.aya,
-      required this.type,
-      required this.id,
-      required this.pageNum,
-      required this.highlightNum});
+  BookMarkItem({
+    super.key,
+    required this.page,
+    required this.aya,
+    required this.type,
+    required this.id,
+    required this.pageNum,
+    required this.highlightNum,
+  });
 
   Future<bool?> _showSnackBar(context) async {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -39,7 +38,7 @@ class BookMarkItem extends StatelessWidget {
     return null;
   }
 
-  late final bookMarkProvider;
+  late final BookMarks bookMarkProvider;
 
   @override
   Widget build(BuildContext context) {
@@ -51,38 +50,19 @@ class BookMarkItem extends StatelessWidget {
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
             color: Theme.of(context).errorColor),
-        //color: Theme.of(context).errorColor,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.only(left: 20),
+        margin: const EdgeInsets.fromLTRB(0, 5, 5, 13),
         child: const Icon(
           Icons.delete,
           color: Colors.white,
           size: 40,
         ),
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.only(left: 20),
-        margin: const EdgeInsets.fromLTRB(0, 5, 5, 13),
       ),
       direction: DismissDirection.endToStart,
       confirmDismiss: (direction) {
         bookMarkProvider.deleteBookMark(int.parse(id));
         return _showSnackBar(context);
-        // return showDialog(
-        //     context: context,
-        //     builder: (ctx) => AlertDialog(
-        //           title: const Text('Are you sure? '),
-        //           content: const Text('Do you remove the item from cart?'),
-        //           actions: [
-        //             FlatButton(
-        //                 onPressed: () {
-        //                   Navigator.of(context).pop(false);
-        //                 },
-        //                 child: const Text('No')),
-        //             FlatButton(
-        //                 onPressed: () {
-        //                   Navigator.of(context).pop(true);
-        //                 },
-        //                 child: const Text('Yes'))
-        //           ],
-        //         ));
       },
       onDismissed: (direction) {},
       child: Card(

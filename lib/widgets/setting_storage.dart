@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
 class SettingStorage extends StatelessWidget {
-  const SettingStorage({Key? key}) : super(key: key);
+  const SettingStorage({super.key});
 
   @override
   Widget build(BuildContext context) {

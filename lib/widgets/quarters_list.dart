@@ -4,18 +4,19 @@ import 'package:mushafmuscat/utils/helper_functions.dart';
 import '../resources/colors.dart';
 
 class QuartersList extends StatelessWidget {
-  bool? startingJuzzIndex;
-  bool? startingHizbIndex;
-  int? quarter;
-  String? hizbNum;
-  String? surahTitle;
-  String? startingAya;
-  String? juzz;
-  String? quarterAyaNum;
-  String? quarterPageNum;
-  Function? tapHandler;
-  QuartersList({
-    Key? key,
+  final bool? startingJuzzIndex;
+  final bool? startingHizbIndex;
+  final int? quarter;
+  final String? hizbNum;
+  final String? surahTitle;
+  final String? startingAya;
+  final String? juzz;
+  final String? quarterAyaNum;
+  final String? quarterPageNum;
+  final Function? tapHandler;
+
+  const QuartersList({
+    super.key,
     this.startingJuzzIndex,
     this.startingHizbIndex,
     this.quarter,
@@ -26,7 +27,8 @@ class QuartersList extends StatelessWidget {
     this.quarterAyaNum,
     this.quarterPageNum,
     this.tapHandler,
-  }) : super(key: key);
+  });
+
   @override
   Widget build(BuildContext context) {
     IconData? getQuarterIcon(int quarter) {
@@ -59,6 +61,8 @@ class QuartersList extends StatelessWidget {
             contentPadding: const EdgeInsets.fromLTRB(60, 0, 15, 0),
             leading: (quarter == 1)
                 ? CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Theme.of(context).shadowColor,
                     child: Text(
                       hizbNum!,
                       style: Theme.of(context).textTheme.labelMedium!.copyWith(
@@ -66,8 +70,6 @@ class QuartersList extends StatelessWidget {
                           color: CustomColors.black200,
                           fontSize: 18),
                     ),
-                    radius: 20,
-                    backgroundColor: Theme.of(context).shadowColor,
                   )
                 : CircleAvatar(
                     backgroundColor: Theme.of(context).shadowColor,

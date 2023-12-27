@@ -2,33 +2,32 @@ import 'package:flutter/material.dart';
 import '../resources/colors.dart';
 
 class QuranSurahSearchTiles extends StatelessWidget {
-  String? num;
-  String? title;
-  String? numAya;
-  String? type;
-  String? firstPageNum;
-  Function? tapHandler;
+  final String? num;
+  final String? title;
+  final String? numAya;
+  final String? type;
+  final String? firstPageNum;
+  final Function? tapHandler;
 
-  QuranSurahSearchTiles(
-      {Key? key,
+  const QuranSurahSearchTiles(
+      {super.key,
       this.num,
       this.title,
       this.numAya,
       this.type,
       this.firstPageNum,
-      this.tapHandler})
-      : super(key: key);
+      this.tapHandler});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
         trailing: CircleAvatar(
+          radius: 15,
+          backgroundColor: Theme.of(context).shadowColor,
           child: Text(
             num!,
             style: Theme.of(context).textTheme.labelMedium,
           ),
-          radius: 15,
-          backgroundColor: Theme.of(context).shadowColor,
         ),
         title: Text(
           title!,

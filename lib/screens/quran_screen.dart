@@ -4,8 +4,8 @@ import '../utils/helper_functions.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/custom.dart';
 import '../widgets/drawer.dart';
-import '../widgets/finalCarousell.dart';
-import '../widgets/TafsirCarousel.dart';
+import '../widgets/final_carousell.dart';
+import '../widgets/tafsir_carousel.dart';
 import '../widgets/quran_aya_search_tiles.dart';
 import '../widgets/quran_surah_search_tiles.dart';
 
@@ -199,14 +199,14 @@ class _QuranScreenState extends State<QuranScreen> {
                 },
                 child: toggleSearch != true
                     ? (segmentedControlValue == 0
-                        ? finalCarousel2(
+                        ? FinalCarousel2(
                             goToPage: (goToPage != 0 && globalCurrentPage == 1)
                                 ? goToPage
                                 : globalCurrentPage,
                             loop: loop,
                             toggleBars: toggleBars,
                             loophighlight: highlighNum,
-                            GlobalCurrentPage: globalCurrentPage,
+                            globalCurrentPage: globalCurrentPage,
                             changeGlobal: changeGlobal,
                             surahFrom: surahFrom,
                           )

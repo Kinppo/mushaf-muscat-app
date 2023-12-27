@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/book_mark_item.dart' as bmi;
 import '../localization/app_localizations.dart';
 import '../providers/bookmarks_provider.dart';
 
 class BookMarksGrid extends StatelessWidget {
-  const BookMarksGrid({Key? key}) : super(key: key);
+  const BookMarksGrid({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final _isLandscape =
+    final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     final bookMarksData = Provider.of<BookMarks>(context).bookmarks;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           AppLocalizations.of(context)!
@@ -27,7 +28,7 @@ class BookMarksGrid extends StatelessWidget {
             ? SingleChildScrollView(
                 child: Column(
                   children: [
-                    if (_isLandscape)
+                    if (isLandscape)
                       const SizedBox(
                         width: double.infinity,
                         height: 20,
@@ -78,8 +79,6 @@ class BookMarksGrid extends StatelessWidget {
                     highlightNum: bookMarksData[i].highlightNum),
               )),
       ],
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
     );
   }
 }

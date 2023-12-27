@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
-class drawerSearchBar extends StatefulWidget {
-  Function searchController;
+class DrawerSearchBar extends StatefulWidget {
+  final searchController;
 
-  drawerSearchBar({
-    Key? key,
+  const DrawerSearchBar({
+    super.key,
     required this.searchController,
-  }) : super(key: key);
+  });
 
   @override
-  State<drawerSearchBar> createState() => _drawerSearchBarState();
+  State<DrawerSearchBar> createState() => _DrawerSearchBarState();
 }
 
-class _drawerSearchBarState extends State<drawerSearchBar> {
+class _DrawerSearchBarState extends State<DrawerSearchBar> {
   bool isStillSearching = false;
   bool firstFlag = false;
 
@@ -41,10 +40,8 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
           } else {
             if (isStillSearching == false) {
               isStillSearching = true;
-              // widget.searchController(isStillSearching, text);
             } else if (isStillSearching == true && text == '') {
               isStillSearching = false;
-              //  widget.searchController(isStillSearching, text);
             }
             widget.searchController(isStillSearching, text);
           }
@@ -59,10 +56,8 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
           } else {
             if (isStillSearching == false) {
               isStillSearching = true;
-              // widget.searchController(isStillSearching, text);
             } else if (isStillSearching == true && text == '') {
               isStillSearching = false;
-              //  widget.searchController(isStillSearching, text);
             }
             widget.searchController(isStillSearching, text);
           }
@@ -93,8 +88,8 @@ class _drawerSearchBarState extends State<drawerSearchBar> {
           ),
           suffixIcon: isStillSearching == true
               ? IconButton(
-                  color: CustomColors.grey200, // Icon to
-                  icon: Icon(Icons.cancel), // clear text
+                  color: CustomColors.grey200,
+                  icon: const Icon(Icons.cancel),
                   onPressed: clearText,
                 )
               : null),

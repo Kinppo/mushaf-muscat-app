@@ -1,10 +1,7 @@
-import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/providers/tafsir_provider.dart';
-
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/aya_lines.dart';
 import '../resources/colors.dart';
 import '../utils/helper_functions.dart';
