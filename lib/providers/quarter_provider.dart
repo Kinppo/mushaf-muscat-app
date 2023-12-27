@@ -11,7 +11,7 @@ import '../utils/helperFunctions.dart';
 class QuarterProvider with ChangeNotifier {
   List<Quarter> _quarters = [];
 
-  int Counter =0;
+  int Counter = 0;
 
   Future<void> fetchQuarters() async {
     String data = await rootBundle
@@ -21,55 +21,43 @@ class QuarterProvider with ChangeNotifier {
     // String convertedData = HelperFunctions.convertToArabicNumbers(data);
     var jsonResult = jsonDecode(data);
 
-// print(jsonResult);
-    //print (jsonResult['data']);
-
     if (jsonResult == null) {
-      print("result is null");
       return;
     }
 
     final List<Quarter> loadedQuarters = [];
-    // print("reached here");
     jsonResult['data'].forEach((data) =>
-            //convert data to product objects
+        //convert data to product objects
 
-            //  print(int. parse(data['rub']))
-            loadedQuarters.add(Quarter(
-              startingJuzzIndex: trueorfalse(data['startingJuzzIndex']),
-              startingHizbIndex: trueorfalse(data['startingHizbIndex']),
-              quarter: updated_quarter(int.parse(data['rub'])),
-              hizbNum: HelperFunctions.convertToArabicNumbers(data['hezb']),
-              surahTitle: HelperFunctions.normalise(data['surahTitle']),
-              startingAya: (data['text']),
-              juzz: convertToArabicOrdinal(int.parse(data['juz'])),
-              quarterAyaNum:
-                  HelperFunctions.convertToArabicNumbers(data['quarterAyaNum']),
-              quarterPageNum:
-                  HelperFunctions.convertToArabicNumbers(data['page']),
-            ))
-        // );
-        //  print(data['name']);
-
-        );
+        loadedQuarters.add(Quarter(
+          startingJuzzIndex: trueorfalse(data['startingJuzzIndex']),
+          startingHizbIndex: trueorfalse(data['startingHizbIndex']),
+          quarter: updated_quarter(int.parse(data['rub'])),
+          hizbNum: HelperFunctions.convertToArabicNumbers(data['hezb']),
+          surahTitle: HelperFunctions.normalise(data['surahTitle']),
+          startingAya: (data['text']),
+          juzz: convertToArabicOrdinal(int.parse(data['juz'])),
+          quarterAyaNum:
+              HelperFunctions.convertToArabicNumbers(data['quarterAyaNum']),
+          quarterPageNum: HelperFunctions.convertToArabicNumbers(data['page']),
+        )));
 
     _quarters = loadedQuarters;
     notifyListeners();
   }
 
-int updated_quarter (int quarter) {
-  
-Counter = Counter +1;
+  int updated_quarter(int quarter) {
+    Counter = Counter + 1;
 
-int updatedQ=Counter;
-// print(updated_q);
- 
-if (Counter ==4){
-  Counter=0;
-}
+    int updatedQ = Counter;
 
-  return updatedQ;
-}
+    if (Counter == 4) {
+      Counter = 0;
+    }
+
+    return updatedQ;
+  }
+
 // Convert 0 and 1 values to boolean values
   bool trueorfalse(String value) {
     if (value == "1") {
@@ -131,10 +119,8 @@ if (Counter ==4){
     String? out = firstDigits[firstDigit]! + " و";
 
     out = out + lastDigits[lastDigit]!;
-    //print(out);
     return out;
   }
-
 
 // return list of quarters
   List<Quarter> get quarters {

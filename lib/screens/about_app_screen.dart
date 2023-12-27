@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
 class AboutAppScreen extends StatelessWidget {
-  const AboutAppScreen({Key? key}) : super(key: key);
+  const AboutAppScreen({super.key});
   static const routeName = '/about-app';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //leading: const Icon(MdiIcons.chevronRight),
-        //centerTitle: false,
         title: Text(
           AppLocalizations.of(context)!
               .translate('setting_screen_about')
               .toString(),
-          style:  TextStyle(fontFamily: 'IBMPlexSansArabic', fontWeight: FontWeight.w400, fontSize: 20,  color: CustomColors.black200),
+          style: TextStyle(
+              fontFamily: 'IBMPlexSansArabic',
+              fontWeight: FontWeight.w400,
+              fontSize: 20,
+              color: CustomColors.black200),
         ),
         backgroundColor: Theme.of(context).backgroundColor,
         foregroundColor: CustomColors.brown600,
@@ -41,15 +42,16 @@ class AboutAppScreen extends StatelessWidget {
                       color: CustomColors.yellow150),
                   child: Column(
                     children: [
-                      Image.asset('./assets/images/playstore.png',
-                      width: 60,
-                      height: 60,
-                         ),
+                      Image.asset(
+                        './assets/images/playstore.png',
+                        width: 60,
+                        height: 60,
+                      ),
                       Text(
                         AppLocalizations.of(context)!
                             .translate('app_version')
                             .toString(),
-                        style: TextStyle(fontWeight: FontWeight.w400),
+                        style: const TextStyle(fontWeight: FontWeight.w400),
                       ),
                       const SizedBox(
                         height: 10,
@@ -60,7 +62,7 @@ class AboutAppScreen extends StatelessWidget {
                           AppLocalizations.of(context)!
                               .translate('about_screen_details')
                               .toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
                               height: 1.8),
@@ -75,23 +77,22 @@ class AboutAppScreen extends StatelessWidget {
                           AppLocalizations.of(context)!
                               .translate('about_screen_details2')
                               .toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
                               height: 1.8),
                         ),
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
-                            
-                     Align(
+                      Align(
                         alignment: Alignment.topRight,
                         child: Text(
                           AppLocalizations.of(context)!
                               .translate('about_screen_details3')
                               .toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 15,
                               height: 1.8),

@@ -1,6 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-
 import '../data/boxes.dart';
 import '../models/book_mark.dart';
 
@@ -12,14 +10,14 @@ class BookMarkItem {
   final int pageNum;
   final int highlightNum;
 
-  BookMarkItem(
-      {required this.page,
-      required this.aya,
-      required this.type,
-      required this.id,
-      required this.pageNum,
-      required this.highlightNum,
-      });
+  BookMarkItem({
+    required this.page,
+    required this.aya,
+    required this.type,
+    required this.id,
+    required this.pageNum,
+    required this.highlightNum,
+  });
 }
 
 class BookMarks extends ChangeNotifier {
@@ -47,69 +45,58 @@ class BookMarks extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addBookMark({ id, aya, page, type, pageNum, highlightNum}) async {
+  Future<void> addBookMark({id, aya, page, type, pageNum, highlightNum}) async {
     // final newItem = BookMark(id: '2', aya: '٢٣٥', page: 'test', type: '2');
 
-bool check = checkBookmark(type);
-    if (check ==true) {
-      print("bookmark already exists");
-    }
-    else {
+    bool check = checkBookmark(type);
+    if (check == true) {
+    } else {
       //incremented the highlight num cus it stopped working correctly
-        final newItem = BookMark(id: id, aya: aya, page: page, type: type, pageNum: pageNum, highlightNum: highlightNum);
+      final newItem = BookMark(
+          id: id,
+          aya: aya,
+          page: page,
+          type: type,
+          pageNum: pageNum,
+          highlightNum: highlightNum);
 
-    final box = Boxes.getBookMarks();
-    box.add(newItem);
-    fetchAndSetBookMarks();
-
+      final box = Boxes.getBookMarks();
+      box.add(newItem);
+      fetchAndSetBookMarks();
     }
-        notifyListeners();
-
+    notifyListeners();
   }
 
   Future<void> deleteBookMark(int id) async {
-// print("deleting.... $id");
-   final box = Boxes.getBookMarks();
-   var listofbox= box.values.toList();
+    final box = Boxes.getBookMarks();
+    var listofbox = box.values.toList();
 
-   int indices= listofbox.indexWhere((element) => element.type==id.toString());
-   print("indixes are " +indices.toString());
-print(box.values.toList().toString());
+    int indices =
+        listofbox.indexWhere((element) => element.type == id.toString());
 
     box.deleteAt(indices);
-        fetchAndSetBookMarks();
+    fetchAndSetBookMarks();
   }
 
+  bool checkBookmark(String type) {
+    final box = Boxes.getBookMarks();
+    var filteredUsers = box.values.where((box) => box.id == type).toList();
 
-
-bool checkBookmark(String type)  {
-   final box = Boxes.getBookMarks();
- var filteredUsers = box.values
-          .where((box) => box.id == type)
-          .toList();
-
-    if(filteredUsers.length >=1) {
+    if (filteredUsers.length >= 1) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
-      
-      }
+  }
 
+  String? bkAyaText(String type) {
+    final box = Boxes.getBookMarks();
+    var bookmarksss = box.values.where((box) => box.id == type).toList();
+    String bkTxt = '';
+    bookmarksss.forEach((element) {
+      bkTxt = element.aya.toString();
+    });
 
-      String? bkAyaText(String type)  {
-   final box = Boxes.getBookMarks();
- var bookmarksss = box.values
-          .where((box) => box.id == type)
-          .toList();
-    String bkTxt='';
-        bookmarksss.forEach((element) {
-         bkTxt= element.aya.toString();
-         }); 
-
-         return bkTxt;
-
-      }
-
+    return bkTxt;
+  }
 }

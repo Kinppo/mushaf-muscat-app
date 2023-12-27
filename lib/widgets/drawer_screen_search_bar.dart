@@ -6,8 +6,6 @@ import '../resources/colors.dart';
 class drawerSearchBar extends StatefulWidget {
   Function searchController;
 
-
-
   drawerSearchBar({
     Key? key,
     required this.searchController,
@@ -18,116 +16,92 @@ class drawerSearchBar extends StatefulWidget {
 }
 
 class _drawerSearchBarState extends State<drawerSearchBar> {
-    bool isStillSearching = false;
-    bool firstFlag= false;
-      
-    final fieldText = TextEditingController();
+  bool isStillSearching = false;
+  bool firstFlag = false;
 
- void clearText() {
+  final fieldText = TextEditingController();
+
+  void clearText() {
     fieldText.clear();
     setState(() {
-          isStillSearching=false;
-           widget.searchController(isStillSearching, '');
-        });
+      isStillSearching = false;
+      widget.searchController(isStillSearching, '');
+    });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       onChanged: (text) {
         setState(() {
-          if (text!='' && firstFlag==false) {
-          print("entered here");
-                  firstFlag= true;
-                  isStillSearching= true;
-                            widget.searchController(isStillSearching, text);
-
-
+          if (text != '' && firstFlag == false) {
+            firstFlag = true;
+            isStillSearching = true;
+            widget.searchController(isStillSearching, text);
+          } else {
+            if (isStillSearching == false) {
+              isStillSearching = true;
+              // widget.searchController(isStillSearching, text);
+            } else if (isStillSearching == true && text == '') {
+              isStillSearching = false;
+              //  widget.searchController(isStillSearching, text);
+            }
+            widget.searchController(isStillSearching, text);
           }
-
-          else {
-          // print(text);
-        if (isStillSearching== false) {
-            isStillSearching= true;
-            // widget.searchController(isStillSearching, text);
-
-        }
-
-        else if (isStillSearching== true && text=='' ) {
-          isStillSearching=false;
-          //  widget.searchController(isStillSearching, text);
-        }
-         widget.searchController(isStillSearching, text);
-
-          }
-
         });
-        
-   },
-    onSubmitted: (text) {setState(() {
-          if (text!='' && firstFlag==false) {
-          print("entered here");
-                  firstFlag= true;
-                  isStillSearching= true;
-                            widget.searchController(isStillSearching, text);
-
-
+      },
+      onSubmitted: (text) {
+        setState(() {
+          if (text != '' && firstFlag == false) {
+            firstFlag = true;
+            isStillSearching = true;
+            widget.searchController(isStillSearching, text);
+          } else {
+            if (isStillSearching == false) {
+              isStillSearching = true;
+              // widget.searchController(isStillSearching, text);
+            } else if (isStillSearching == true && text == '') {
+              isStillSearching = false;
+              //  widget.searchController(isStillSearching, text);
+            }
+            widget.searchController(isStillSearching, text);
           }
-
-          else {
-          // print(text);
-        if (isStillSearching== false) {
-            isStillSearching= true;
-            // widget.searchController(isStillSearching, text);
-
-        }
-
-        else if (isStillSearching== true && text=='' ) {
-          isStillSearching=false;
-          //  widget.searchController(isStillSearching, text);
-        }
-         widget.searchController(isStillSearching, text);
-
-          }
-
-        });},
-
-   onEditingComplete: () {
-     
-   },
-
+        });
+      },
+      onEditingComplete: () {},
       textAlign: TextAlign.right,
       textAlignVertical: TextAlignVertical.bottom,
       decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: const BorderSide(
-            width: 0,
-            style: BorderStyle.none,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10.0),
+            borderSide: const BorderSide(
+              width: 0,
+              style: BorderStyle.none,
+            ),
           ),
-        ),
-        filled: true,
-        fillColor: Theme.of(context).indicatorColor,
-        prefixIcon: const Icon(Icons.search),
-        iconColor: CustomColors.grey200,
-        hintText:  AppLocalizations.of(context)!
-                                .translate('drawer_screen_search_hint_surahs')
-                                .toString(),
-        hintStyle:  TextStyle(
-          color: CustomColors.grey200,
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-        ), 
-          suffixIcon: isStillSearching==true ? IconButton(  color:CustomColors.grey200,     // Icon to 
-                    icon: Icon(Icons.cancel), // clear text
-                    onPressed: clearText,
-                ) : null
-      ),
+          filled: true,
+          fillColor: Theme.of(context).indicatorColor,
+          prefixIcon: const Icon(Icons.search),
+          iconColor: CustomColors.grey200,
+          hintText: AppLocalizations.of(context)!
+              .translate('drawer_screen_search_hint_surahs')
+              .toString(),
+          hintStyle: TextStyle(
+            color: CustomColors.grey200,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          suffixIcon: isStillSearching == true
+              ? IconButton(
+                  color: CustomColors.grey200, // Icon to
+                  icon: Icon(Icons.cancel), // clear text
+                  onPressed: clearText,
+                )
+              : null),
       style: const TextStyle(
         color: Color.fromRGBO(148, 135, 121, 1),
       ),
-              controller: fieldText,
-
+      controller: fieldText,
     );
   }
 }

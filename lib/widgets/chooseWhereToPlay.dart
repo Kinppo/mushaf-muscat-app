@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/surah.dart';
-import '../providers/ayatLines_provider.dart';
+import '../providers/ayat_lines_provider.dart';
 import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 
@@ -60,7 +60,6 @@ String Loopdropdownvalue = '1';
 class _whereToPlayState extends State<whereToPlay> {
   @override
   void initState() {
-    print('REBUILDING SHEET');
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await Provider.of<tilawaOptions>(context, listen: false).fetchSurahs();
       setState(() {
@@ -92,11 +91,6 @@ class _whereToPlayState extends State<whereToPlay> {
 // ];
 // ayaNumbersFrom = numbersFrom;
 // ayaNumbersTo = numbersTo;
-
-        // print("Surah from: $SurahFrom");
-        // print("Surah to: $SurahTo");
-        // print("SurahS FROM: $surahTitlesFrom");
-        // print("SurahS TO: $surahTitlesTo");
       });
       saveSharedPref(
           'surahFrom',
@@ -114,9 +108,7 @@ class _whereToPlayState extends State<whereToPlay> {
     Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
     final SharedPreferences prefs = await _prefs;
     dynamic _res = prefs.getInt("$key");
-    print("+++++++++" + _res.toString());
     return _res;
-    // print("SHARED PREF " + _res.toString());
   }
 
   dynamic saveSharedPref(key, val) async {
@@ -128,10 +120,6 @@ class _whereToPlayState extends State<whereToPlay> {
   @override
   Widget build(BuildContext context) {
     bool isEmpty = surahTitlesFrom.isEmpty && surahTitlesTo.isEmpty;
-    print(surahTitlesFrom.length);
-    print(surahTitlesTo.length);
-
-    print("the value of condition $isEmpty");
     final surahsData = Provider.of<tilawaOptions>(context, listen: false);
 
     return Container(
@@ -234,22 +222,22 @@ class _whereToPlayState extends State<whereToPlay> {
                         //navigate to selected page
                         dynamic page =
                             await getInt("surahFrom").then((value) => value);
-                        
-                         dynamic ayafrom =
+
+                        dynamic ayafrom =
                             await getInt("ayaFrom").then((value) => value);
-                              // int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page, 4, SurahFrom);
-                              int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page,ayafrom as int, SurahFrom );
+                        // int? highlight = await Provider.of<ayatLines_provider>(context, listen: false).getAya(page, 4, SurahFrom);
+                        int? highlight = await Provider.of<AyatLinesProvider>(
+                                context,
+                                listen: false)
+                            .getAya(page, ayafrom as int, SurahFrom);
 
-                        print("-------- "+ highlight.toString());
-                        Navigator.of(context).popAndPushNamed(
-                            QuranScreen.routeName,
-                          arguments:{
-      'v1': page as int,
-      'v2': 1,
-    'v3':highlight,
-        'v4':SurahFrom,
-
-   });
+                        Navigator.of(context)
+                            .popAndPushNamed(QuranScreen.routeName, arguments: {
+                          'v1': page as int,
+                          'v2': 1,
+                          'v3': highlight,
+                          'v4': SurahFrom,
+                        });
                       },
                       child: Container(
                           width: 110,
@@ -279,7 +267,6 @@ class _whereToPlayState extends State<whereToPlay> {
   }
 
   DropdownButton getSurahDropDown(int tofrom, List<String> items) {
-    // print(items);
     return DropdownButton(
       // value: (tofrom == 0) ? SurahFrom : SurahTo,
       value: (tofrom == 0) ? SurahFrom : SurahTo,
@@ -323,7 +310,7 @@ class _whereToPlayState extends State<whereToPlay> {
             // saveSharedPref('surahTo', indexSelectedSurahTo);
           }
         });
-                  saveSharedPref("repNum", int.parse(Loopdropdownvalue));
+        saveSharedPref("repNum", int.parse(Loopdropdownvalue));
 
         saveSharedPref(
             (tofrom == 0) ? 'surahFrom' : 'surahTo',
@@ -382,16 +369,14 @@ class _whereToPlayState extends State<whereToPlay> {
             numbersTo = ayaNumbersTo.sublist(
                 ayaNumbersFrom.indexOf(AyaFrom), ayaNumbersTo.length);
           }
-
-
-          print("CHANGED DROPDOWN AYA TO $newValue");
         });
         int temp = await surahsData.getPageNumber(
             (tofrom == 0) ? SurahFrom : SurahTo,
             (tofrom == 0) ? AyaFrom : AyaTo);
 
         saveSharedPref((tofrom == 0) ? 'surahFrom' : 'surahTo', temp);
-        saveSharedPref((tofrom == 0) ? 'ayaFrom' : 'ayaTo',int.parse(newValue));
+        saveSharedPref(
+            (tofrom == 0) ? 'ayaFrom' : 'ayaTo', int.parse(newValue));
       },
     );
   }

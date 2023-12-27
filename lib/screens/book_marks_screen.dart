@@ -4,7 +4,7 @@ import 'package:mushafmuscat/widgets/book_mark_grid.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/bottom_navigation_bar.dart';
-import '../providers/bookMarks_provider.dart';
+import '../providers/bookmarks_provider.dart';
 
 class BookMarksScreen extends StatefulWidget {
   static const routeName = '/book_marks';

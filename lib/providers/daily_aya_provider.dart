@@ -26,8 +26,6 @@ Future<dailyAya> getSinglePostData(context) async {
     if (response.statusCode == 200) {
       final item = json.decode(response.body);
       result = dailyAya.fromJson(item);
-    } else {
-      print("ERROR");
     }
   } catch (e) {
     log(e.toString());
@@ -63,11 +61,9 @@ class dailyAyaProvider with ChangeNotifier {
 
   getPostData(context) async {
     final bool checkInternet = await hasNetwork();
-    print("checking internet $checkInternet");
     if (checkInternet == true) {
       post = await getSinglePostData(context);
     }
-    print(post.Aya);
     notifyListeners();
   }
 }

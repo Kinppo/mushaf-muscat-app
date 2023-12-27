@@ -12,7 +12,7 @@ import '../resources/dimens.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 import '../widgets/bottom_navigation_bar.dart';
-import '../widgets/custom.dart';   //new appbar 
+import '../widgets/custom.dart'; //new appbar
 import '../widgets/drawer.dart';
 import '../widgets/appbar.dart';
 import '../widgets/finalCarousell.dart';
@@ -43,7 +43,6 @@ class _QuranScreenState extends State<QuranScreen> {
   var searchRes_aya;
   var searchRes_combined;
   bool searchStatus = false;
-  // int searchListLength=0;
   String SurahFrom = "الفاتحة";
 
   @override
@@ -61,23 +60,19 @@ class _QuranScreenState extends State<QuranScreen> {
   // void loadAyas() async{
   //   final surahsData = Provider.of<SurahProvider>(context, listen: false);
   //    await surahsData.loadAllAyasJson();
-  //    print(surahsData.ayaas);
 
   // }
 
   void controlSegment(segment) {
     setState(() {
       segmentedControlValue = segment;
-      print("segmentedControlValue $segmentedControlValue");
     });
   }
 
   void tapHandlerFunc(String page) {
-    print(page);
     setState(() {
       goToPage = int.parse(page);
     });
-    print("go to page $page");
     Navigator.of(context).popAndPushNamed(
       QuranScreen.routeName,
       arguments: {
@@ -85,34 +80,24 @@ class _QuranScreenState extends State<QuranScreen> {
         'v2': 0,
       },
     );
-    // });
   }
 
   void controlSearch(search, surah_result, aya_result) {
     searchRes_surah = [];
     searchRes_aya = [];
-// searchRes_combined=[];
     setState(() {
       toggleSearch = search;
-      // print("toggleSearch $toggleSearch");
-      // print(result.toList().toString());
-
       searchRes_surah = surah_result;
       searchRes_aya = aya_result;
-
-      // searchRes_combined.addAll(surah_result);
-      // searchRes_combined.addAll(aya_result);
-
-      // searchListLength= searchRes_surah.length+searchRes_aya.length;
     });
   }
 
   List<Widget> getSearchTiles() {
-    List<ListTile> SurahResultsTiles = [];
-    List<ListTile> AyaResultsTiles = [];
+    List<ListTile> surahResultsTiles = [];
+    List<ListTile> ayaResultsTiles = [];
 
     for (int i = 0; i < searchRes_surah.length; i++) {
-      SurahResultsTiles.add(ListTile(
+      surahResultsTiles.add(ListTile(
           title: Text(
         searchRes_surah[i].surahTitle.toString(),
         style: TextStyle(color: CustomColors.black200),
@@ -120,7 +105,7 @@ class _QuranScreenState extends State<QuranScreen> {
     }
 
     for (int i = 0; i < searchRes_aya.length; i++) {
-      AyaResultsTiles.add(ListTile(
+      ayaResultsTiles.add(ListTile(
           title: Text(
         searchRes_aya[i].text.toString(),
         overflow: TextOverflow.ellipsis,
@@ -132,13 +117,13 @@ class _QuranScreenState extends State<QuranScreen> {
 
     FinalList.add(ListTile(
         title: Text(
-      "السور (" + searchRes_surah.length.toString() + ")",
+      "السور (${searchRes_surah.length})",
       style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 21,
           color: CustomColors.black200),
     )));
-    FinalList.addAll(SurahResultsTiles);
+    FinalList.addAll(surahResultsTiles);
     FinalList.add(ListTile(
         title: Text(
       "الايات  (" + searchRes_aya.length.toString() + ")",
@@ -147,7 +132,7 @@ class _QuranScreenState extends State<QuranScreen> {
           fontSize: 21,
           color: CustomColors.black200),
     )));
-    FinalList.addAll(AyaResultsTiles);
+    FinalList.addAll(ayaResultsTiles);
 
     return (FinalList.isNotEmpty)
         ? FinalList
@@ -171,20 +156,18 @@ class _QuranScreenState extends State<QuranScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print("WIDGET GLOBAL IS +" + GlobalCurrentPage.toString());
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    var Screenheight = MediaQuery.of(context).size.height;
-    var ScreenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
 
-    final arg = ModalRoute.of(context)!.settings.arguments as Map;
-    if (arg != null) {
-      goToPage = arg['v1'] as int;
-      loop = arg['v2'] as int;
-      highlighNum = arg['v3'] as int;
-      SurahFrom = arg['v4'] as String;
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
 
-      print("ARGSSSS: " + arg.toString());
+    if (args != null) {
+      goToPage = args['v1'] as int? ?? 0;
+      loop = args['v2'] as int? ?? 0;
+      highlighNum = args['v3'] as int? ?? 0;
+      SurahFrom = args['v4'] as String? ?? '';
     }
 
     void changeGlobal(int currpage) {
@@ -204,7 +187,7 @@ class _QuranScreenState extends State<QuranScreen> {
         resizeToAvoidBottomInset: false, // set it to false
 
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(Screenheight * 0.2),
+          preferredSize: Size.fromHeight(screenHeight * 0.2),
           child: GestureDetector(
             // Add this
             onTap: toggleBars,
@@ -215,7 +198,7 @@ class _QuranScreenState extends State<QuranScreen> {
                       segmentedControlValue: controlSegment,
                       orientationPotrait: orientationPotrait,
                       toggleSearch: controlSearch,
-                      h: (isLandscape == false) ? Screenheight * 0.18 : 200,
+                      h: (isLandscape == false) ? screenHeight * 0.18 : 200,
                       segmentToggle: segmentedControlValue,
                       changeSearchStatus: changeSearchStatus,
                       toggleBars: toggleBars,
@@ -225,9 +208,9 @@ class _QuranScreenState extends State<QuranScreen> {
           ),
         ),
         drawer: Container(
-        width: double.infinity,
-        child: const MainDrawer(),
-      ),
+          width: double.infinity,
+          child: const MainDrawer(),
+        ),
         body: Stack(
           children: <Widget>[
             Positioned.fill(
@@ -250,17 +233,17 @@ class _QuranScreenState extends State<QuranScreen> {
                           )
                         : (segmentedControlValue == 1
                             ? SingleChildScrollView(
-                              physics: NeverScrollableScrollPhysics(),
-                              child: TafsirCarousel(
-                                goToPage: GlobalCurrentPage,
-                                loop: loop,
-                                toggleBars: toggleBars,
-                                loophighlight: highlighNum,
-                                GlobalCurrentPage: GlobalCurrentPage,
-                                changeGlobal: changeGlobal,
-                                barsOn: showNavBar,
-                              ),
-                            )
+                                physics: NeverScrollableScrollPhysics(),
+                                child: TafsirCarousel(
+                                  goToPage: GlobalCurrentPage,
+                                  loop: loop,
+                                  toggleBars: toggleBars,
+                                  loophighlight: highlighNum,
+                                  GlobalCurrentPage: GlobalCurrentPage,
+                                  changeGlobal: changeGlobal,
+                                  barsOn: showNavBar,
+                                ),
+                              )
                             : Container(
                                 height: 400,
                                 color: CustomColors.red200,
@@ -275,7 +258,7 @@ class _QuranScreenState extends State<QuranScreen> {
                               children: [
                                 Container(
                                   padding: EdgeInsets.only(
-                                      top: Screenheight * 0.008),
+                                      top: screenHeight * 0.008),
                                   width: double.infinity,
                                 ),
                                 ListTile(
@@ -289,7 +272,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                       color: CustomColors.black200),
                                 )),
                                 Container(
-                                  // height: Screenheight,
+                                  // height: screenHeight,
                                   width: double.infinity,
                                   child: ListView.builder(
                                     //  itemExtent: 200,
@@ -299,7 +282,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                     shrinkWrap: true,
                                     primary: false,
                                     padding: EdgeInsets.only(
-                                        bottom: Screenheight * 0.02),
+                                        bottom: screenHeight * 0.02),
                                     // + 2 are the headers for each search category
                                     itemCount: searchRes_surah.length,
                                     itemBuilder: (ctx, i) {
@@ -338,7 +321,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                   ),
                                 ),
                                 Container(
-                                  // height: Screenheight,
+                                  // height: screenHeight,
                                   width: double.infinity,
                                   child: ListView.builder(
                                     //  itemExtent: 200,
@@ -349,7 +332,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                     primary: false,
 
                                     padding: EdgeInsets.only(
-                                        bottom: Screenheight * 0.1),
+                                        bottom: screenHeight * 0.1),
                                     // + 2 are the headers for each search category
                                     itemCount: searchRes_aya.length,
                                     itemBuilder: (ctx, i) {

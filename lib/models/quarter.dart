@@ -10,14 +10,14 @@ class Quarter {
   String? quarterPageNum;
 
   Quarter({
-     this.startingJuzzIndex,
-     this.startingHizbIndex,
-     this.quarter,
-     this.hizbNum,
-     this.surahTitle,
-     this.startingAya,
-     this.juzz,
-     this.quarterAyaNum,
-     this.quarterPageNum,
+    this.startingJuzzIndex,
+    this.startingHizbIndex,
+    this.quarter,
+    this.hizbNum,
+    this.surahTitle,
+    this.startingAya,
+    this.juzz,
+    this.quarterAyaNum,
+    this.quarterPageNum,
   });
 }

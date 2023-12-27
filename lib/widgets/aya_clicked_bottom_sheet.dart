@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import '../providers/bookMarks_provider.dart';
+import '../providers/bookmarks_provider.dart';
 
 import 'package:mushafmuscat/localization/app_localizations.dart';
 
@@ -53,16 +53,15 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
   }
 
   void shareController() async {
-      String sharedAya = widget.highlightedAyaText.replaceAll("\n", " ");
+    String sharedAya = widget.highlightedAyaText.replaceAll("\n", " ");
 
     await Share.share(sharedAya);
   }
 
   void copyClipboard() async {
-        String copiedAya = widget.highlightedAyaText.replaceAll("\n", " ");
+    String copiedAya = widget.highlightedAyaText.replaceAll("\n", " ");
 
-    await Clipboard.setData(ClipboardData(text: copiedAya))
-        .then((_) {
+    await Clipboard.setData(ClipboardData(text: copiedAya)).then((_) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text("تم نسخ الآية!")));
     });
@@ -72,8 +71,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final Screenheight= MediaQuery.of(context).size.height;
-    final Screenwidth= MediaQuery.of(context).size.width;
+    final Screenheight = MediaQuery.of(context).size.height;
+    final Screenwidth = MediaQuery.of(context).size.width;
     final box = context.findRenderObject() as RenderBox?;
 
     final bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
@@ -94,16 +93,10 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
       return l;
     }
 
-    Widget returnGridItem(
-      BorderRadius rad,
-      Color bkColor,
-      String bkText,
-      int type,
-      String bkAya,
-      double Screenheight
-    ) {
+    Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText,
+        int type, String bkAya, double Screenheight) {
       return Container(
-                  // color: Colors.red,
+        // color: Colors.red,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: rad,
@@ -115,13 +108,6 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                 iconSize: 32,
                 alignment: Alignment.topRight,
                 onPressed: () {
-                  print("SURAAAH NAME: " + widget.surahName);
-                  print(
-                      "SURAAAH aya: " + widget.clickedHighlightNum.toString());
-                  print(bkIconsList.toList().toString());
-print("???????????????????????????????? ayaNum "+ widget.ayaNum.toString());
-print("???????????????????????????????? highlightNum "+ widget.clickedHighlightNum.toString());
-
                   bookMarkProvider.addBookMark(
                       id: type.toString(),
                       aya: widget.ayaNum,
@@ -138,10 +124,6 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                   setState(() {
                     getIcon(type);
                   });
-                  print(bookMarkProvider.getFullAccount().toString());
-                  // if  (bookMarkProvider.bookmarks[1] != null ) {
-                  //   print("already there is a bookmark");
-                  // }
                 },
                 icon: (bookMarkProvider.checkBookmark(type.toString()) == true)
                     ? Icon(Icons.bookmark)
@@ -149,17 +131,17 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                 // icon: Icon(bkIconsList[type-1]),
                 color: bkColor),
             Padding(
-              padding:  EdgeInsets.only(top: Screenheight*0.025),
+              padding: EdgeInsets.only(top: Screenheight * 0.025),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                     
                   Text(
                     "الفاصل $bkText",
-                    style: TextStyle(fontSize: 16, color: CustomColors.black200),
+                    style:
+                        TextStyle(fontSize: 16, color: CustomColors.black200),
                     textAlign: TextAlign.right,
                   ),
-            
+
                   //todo: only show this when button is pressed
                   Text(
                     (bkAya != '' && bkAya != null) ? "الآية: $bkAya" : "",
@@ -200,7 +182,7 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: Screenheight*0.01),
+        padding: EdgeInsets.symmetric(vertical: Screenheight * 0.01),
         // height: Screenheight*0.65,
         // color: Colors.blue,
         color: CustomColors.yellow100,
@@ -239,7 +221,8 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                                   .translate('onclick_aya_modalsheet_bk1')
                                   .toString(),
                               1,
-                              bkAya("1")!, Screenheight),
+                              bkAya("1")!,
+                              Screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   topLeft: Radius.circular(20)),
@@ -248,7 +231,8 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                                   .translate('onclick_aya_modalsheet_bk2')
                                   .toString(),
                               2,
-                              bkAya("2")!, Screenheight),
+                              bkAya("2")!,
+                              Screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   bottomRight: Radius.circular(20)),
@@ -257,7 +241,8 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                                   .translate('onclick_aya_modalsheet_bk3')
                                   .toString(),
                               3,
-                              bkAya("3")!, Screenheight),
+                              bkAya("3")!,
+                              Screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   bottomLeft: Radius.circular(20)),
@@ -266,12 +251,13 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                                   .translate('onclick_aya_modalsheet_bk4')
                                   .toString(),
                               4,
-                              bkAya("4")!, Screenheight),
+                              bkAya("4")!,
+                              Screenheight),
                         ]),
                   ),
                 ),
               ),
-    
+
               ListTile(
                 title: Container(
                   decoration: BoxDecoration(
@@ -332,7 +318,7 @@ print("???????????????????????????????? highlightNum "+ widget.clickedHighlightN
                 ),
               ),
               // SizedBox(height: 8),
-    
+
               // ElevatedButton(
               //   child: const Text('Close BottomSheet'),
               //   onPressed: () => Navigator.pop(context),

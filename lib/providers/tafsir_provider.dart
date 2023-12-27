@@ -21,20 +21,17 @@ class TafsirLines {
 }
 
 class TafsirProvider with ChangeNotifier {
-    List <String?> surahs =[];
+  List<String?> surahs = [];
 
-  List <String?> ayats =[];
-    List <String?> tafsirs =[];
-  List <String?> carouselJSON =[];
+  List<String?> ayats = [];
+  List<String?> tafsirs = [];
+  List<String?> carouselJSON = [];
 
-  List<TafsirLines>tafsir_lines = [];
+  List<TafsirLines> tafsir_lines = [];
 
   int pageNumber = 0;
 
   Future<List<TafsirLines>> getLines(pageNum) async {
-// print(pageNum);
-
-
     final List<TafsirLines> lines = [];
 
     String data = await rootBundle.loadString(
@@ -59,19 +56,14 @@ class TafsirProvider with ChangeNotifier {
     return tafsir_lines;
   }
 
- 
 //   Future<void> fetchSurahs(int page) async {
 //  ayats.clear();
 //      tafsirs.clear();
 //     String data = await rootBundle.loadString('lib/data/json_files/tafsir_files/surahs_tafsir_$page.json');
 
 //     var jsonResult = jsonDecode(data);
-// print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-// print(jsonResult);
-// print("%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
 //     if (jsonResult == null) {
-//       print("result is null");
 //       return;
 //     }
 
@@ -84,43 +76,22 @@ class TafsirProvider with ChangeNotifier {
 //     }
 //         );
 
-
-//         // print(ayats);
-//         //         print(tafsirs);
-
-
-    
 //     notifyListeners();
 //   }
 
   void fetchSurahsforCarousel() async {
-    
- var data =
+    var data =
         await rootBundle.loadString('lib/data/json_files/surahs_pages.json');
     var jsonResult = jsonDecode(data);
-    // print(jsonResult);
 
     for (int index = 0; index < jsonResult.length; index++) {
       carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
     }
+  }
 
- }
+  List<String?> loadSurahs() {
+    fetchSurahsforCarousel();
 
- List<String?>loadSurahs()  {
-  fetchSurahsforCarousel();
- 
-return carouselJSON;
-   
- }
- }
-
-
-
-
-
-
-
-
-
- 
- 
+    return carouselJSON;
+  }
+}

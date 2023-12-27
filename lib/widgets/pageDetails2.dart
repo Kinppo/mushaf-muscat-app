@@ -3,16 +3,16 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/models/book_mark.dart';
-import 'package:mushafmuscat/providers/bookMarks_provider.dart';
+import 'package:mushafmuscat/providers/bookmarks_provider.dart';
 import 'package:mushafmuscat/providers/surah_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:mushafmuscat/models/pageText.dart';
 import '../widgets/finalCarousel2.dart';
-import '../models/AyatLines.dart';
+import '../models/aya_lines.dart';
 import '../providers/audioplayer_provider.dart';
-import '../providers/ayatLines_provider.dart';
+import '../providers/ayat_lines_provider.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 import '../utils/manualLists.dart';
@@ -91,7 +91,6 @@ class _pageDetails2State extends State<pageDetails2> {
   @override
   initState() {
     if (isLoaded == false) {
-      print("rebuildingggggg");
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         await loadTextandBookmarks(widget.currentpage);
 
@@ -99,9 +98,6 @@ class _pageDetails2State extends State<pageDetails2> {
         //    loadTextandBookmarks(widget.currentpage);
         // });
       });
-
-      // print("audio list for page $widget.id is $audioList");
-      // print(audioList.toString());
 
       //todo:fix this
       isLoaded = true;
@@ -130,7 +126,7 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Future<void> loadTextandBookmarks(int page) async {
-    textlist = await Provider.of<ayatLines_provider>(context, listen: false)
+    textlist = await Provider.of<AyatLinesProvider>(context, listen: false)
         .getLines(page);
     surahNameList = [];
 
@@ -141,19 +137,14 @@ class _pageDetails2State extends State<pageDetails2> {
 // surahNameList.add(element.surahName);
 // });
 
-// print(surahNameList);
-
     final List<BookMark> bk =
         await Provider.of<BookMarks>(context, listen: false).bookmarks;
-    print("bookmarks are: $bk");
     bk.forEach((element) {
       setState(() {
         if (element.pageNum == widget.currentpage) {
           bkSamePage = true;
           bkColor = pickColor(element.type);
           bkIndex = element.highlightNum;
-          print("we are in the same page");
-          print("BOOKMARK HIGHLIGHT NUM IS $bkIndex");
         }
       });
     });
@@ -169,8 +160,6 @@ class _pageDetails2State extends State<pageDetails2> {
           bkSamePage = true;
           bkColor = pickColor(element.type);
           bkIndex = element.highlightNum;
-          print("we are in the same page DIDDDD");
-          print("BOOKMARK HIGHLIGHT NUM IS $bkIndex");
         }
       });
     });
@@ -179,8 +168,6 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   List<TextSpan> createTextSpans() {
-
-
     if (widget.currentpage != widget.id) {
       setState(() {
         widget.indexhighlight = -1;
@@ -189,9 +176,8 @@ class _pageDetails2State extends State<pageDetails2> {
     //=======
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-// print(surahNameList.toString());
 
-    textlist = Provider.of<ayatLines_provider>(context, listen: false)
+    textlist = Provider.of<AyatLinesProvider>(context, listen: false)
         .getLines(widget.id);
     List<String> textl = [];
     textlist.then((value) {
@@ -199,13 +185,11 @@ class _pageDetails2State extends State<pageDetails2> {
         if (i == 0 &&
             value[i].endOfSurah == '1' &&
             value[i + 1].startOfSurah == '1') {
-          // print("&&&&&&&&&&&&&&&&&");
           textl.add(value[i].text! + '\n\n');
         } else if (value[i].startOfSurah == '1') {
-          // print("$i  >>>>>>> " +
-              // value[i].toString() +
-              // " with height " +
-              // value[i].height.toString());
+          // value[i].toString() +
+          // " with height " +
+          // value[i].height.toString());
 
           String sPortrait = '';
           String sLandscape = '';
@@ -216,7 +200,6 @@ class _pageDetails2State extends State<pageDetails2> {
               sLandscape = sLandscape + '\n';
             }
           }
-          print(sPortrait);
 
           (isLandscape == false)
               ? textl.add(sPortrait + value[i].text!)
@@ -229,7 +212,6 @@ class _pageDetails2State extends State<pageDetails2> {
       fulltext = textl.join('\n\n');
     });
 
-    // print(fulltext);
     if (fulltext == null) {
       return [TextSpan(text: '')];
     }
@@ -252,35 +234,27 @@ class _pageDetails2State extends State<pageDetails2> {
     for (int index = 0; index < arrayStrings.length; index++) {
       final text = arrayStrings[index] + "";
       var intValue = text.replaceAll(RegExp('[^0-9]'), '');
-      // print(surahNameList.toString());
 
       // String singleSurahName =  (SingleSurahList.isNotEmpty) ? SingleSurahList[index].toString(): "unknoen";
 
       // SingleSurahList[index].toString();
-// print(textlist[index]);
-      // print("TEXT LENGTH: "+ text.length.toString());
       final span = TextSpan(
           text: text,
           style: TextStyle(
               // wordSpacing:text.length/90,
               background: Paint()..color = Colors.transparent),
-          recognizer: 
-          DoubleTapGestureRecognizer()
-          
+          recognizer: DoubleTapGestureRecognizer()
             ..onDoubleTap = () {
               setState(() {
                 // widget.highlightedAyaText= text;
-                // print("The word touched is " + widget.highlightedAyaText.toString());
 
                 highlightFlag = true;
-                // print(arrayOfTextSpan);
                 int counter = 0;
                 arrayOfTextSpan.forEach((element) {
                   if (element.text != null &&
                       element.text != "" &&
                       element.text != '\n') {
                     // String dummy = element.text!;
-                    // print("counter=$counter and element is $dummy");
                     if (element.text == text) {
                       idx = counter;
                       // counter = counter + 1;
@@ -291,9 +265,7 @@ class _pageDetails2State extends State<pageDetails2> {
 
                 // idx = arrayStrings
                 //     .indexWhere((element) => text ==  element );
-                print("highlighted line number  $idx");
                 //  intValue = int.parse(text.replaceAll(RegExp('[^0-9]'), ''));
-                print("highlighted TEXT IS  " + intValue.toString());
                 widget.clickedHighlightNum = idx + 1;
                 widget.toggleClickedHighlight(
                     idx + 1, intValue.toString(), text, surahNameList[idx]);
@@ -309,10 +281,6 @@ class _pageDetails2State extends State<pageDetails2> {
     }
 
     setState(() {
-      print("HIGHLIGHT FLAG IS CURRENTLY $highlightFlag");
-      print("HIGHLIGHT ERRORRRRR $idx and length is :" +
-          arrayOfTextSpan.length.toString());
-
       if (highlightFlag == true &&
           arrayOfTextSpan.length == arrayStrings.length) {
         arrayOfTextSpan[idx].style?.background!.color =
@@ -358,32 +326,30 @@ class _pageDetails2State extends State<pageDetails2> {
             17.2;
       }
     });
-   setState(() {
-      
-    });
+    setState(() {});
     return arrayOfTextSpan as List<TextSpan>;
   }
 
   Container? Page1_and2Container() {
-       bool isLandscape =
+    bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
     return Container(
-      margin: (widget.id==1) ?
-          EdgeInsets.fromLTRB(0, 105, 0, 0): EdgeInsets.fromLTRB(0, 145, 0, 0),
+      margin: (widget.id == 1)
+          ? EdgeInsets.fromLTRB(0, 105, 0, 0)
+          : EdgeInsets.fromLTRB(0, 145, 0, 0),
       padding: EdgeInsets.symmetric(horizontal: 70),
       child: RichText(
         textDirection: TextDirection.rtl,
         textAlign: TextAlign.center,
-        text:  TextSpan(
-          style:  TextStyle(
+        text: TextSpan(
+          style: TextStyle(
             fontFamily: 'Amiri',
             fontWeight: FontWeight.bold,
             fontSize: 8,
             color: Colors.transparent,
             wordSpacing: 2.9,
-            letterSpacing:  (widget.id==1) ? 2.2: 1.5,
-            height:
-            2.2,
+            letterSpacing: (widget.id == 1) ? 2.2 : 1.5,
+            height: 2.2,
           ),
           children: createTextSpans(),
         ),
@@ -392,7 +358,7 @@ class _pageDetails2State extends State<pageDetails2> {
   }
 
   Container? AllOtherPagesContainer() {
-          final Screenheight= MediaQuery.of(context).size.height;
+    final Screenheight = MediaQuery.of(context).size.height;
 
     bool isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
@@ -400,72 +366,103 @@ class _pageDetails2State extends State<pageDetails2> {
         margin: (isLandscape == false)
             ? EdgeInsets.fromLTRB(0, 0, 0, 0)
             : EdgeInsets.fromLTRB(0, 110, 0, 0),
-        padding: 
-                      (isLandscape == false && (widget.id==597 || widget.id==586|| widget.id==578 || widget.id==578  || widget.id==458  || widget.id==453  || widget.id==404 || widget.id==350    || widget.id==585  || widget.id==587  || widget.id==590 || widget.id==518 || widget.id==322 || widget.id==570  || widget.id==377  )) ? EdgeInsets.only(top: 25):
-
-        pagesThatNeedExtraPadding.contains(widget.id)
+        padding: (isLandscape == false &&
+                (widget.id == 597 ||
+                    widget.id == 586 ||
+                    widget.id == 578 ||
+                    widget.id == 578 ||
+                    widget.id == 458 ||
+                    widget.id == 453 ||
+                    widget.id == 404 ||
+                    widget.id == 350 ||
+                    widget.id == 585 ||
+                    widget.id == 587 ||
+                    widget.id == 590 ||
+                    widget.id == 518 ||
+                    widget.id == 322 ||
+                    widget.id == 570 ||
+                    widget.id == 377))
             ? EdgeInsets.only(top: 25)
-            : (surahPageswithHeaders.contains(widget.id))
-                ? EdgeInsets.only(top: 15)
-                : EdgeInsets.only(top: 36),
+            : pagesThatNeedExtraPadding.contains(widget.id)
+                ? EdgeInsets.only(top: 25)
+                : (surahPageswithHeaders.contains(widget.id))
+                    ? EdgeInsets.only(top: 15)
+                    : EdgeInsets.only(top: 36),
         child: RichText(
           textDirection: TextDirection.rtl,
           textAlign: TextAlign.center,
           overflow: TextOverflow.fade,
           textWidthBasis: TextWidthBasis.longestLine,
-          text:  TextSpan(
+          text: TextSpan(
             style: TextStyle(
               fontFamily: 'Amiri',
               fontWeight: FontWeight.bold,
-              fontSize: 
-                            (isLandscape == false && (widget.id==507 ||widget.id==499 )) ? 6 :
-
-              (isLandscape == false && (widget.id==597 )) ? 6.8 :
-              (isLandscape == false && pagesThatNeedSmallerFont.contains(widget.id)
-                   )
-                  ? 6.0
-                  : (isLandscape == false)
-                      ? 8
-                      : 22,
+              fontSize: (isLandscape == false &&
+                      (widget.id == 507 || widget.id == 499))
+                  ? 6
+                  : (isLandscape == false && (widget.id == 597))
+                      ? 6.8
+                      : (isLandscape == false &&
+                              pagesThatNeedSmallerFont.contains(widget.id))
+                          ? 6.0
+                          : (isLandscape == false)
+                              ? 8
+                              : 22,
               color: Colors.transparent,
               wordSpacing: 2.9,
-              letterSpacing: 
-                  (isLandscape == false && (widget.id==499 || widget.id==404 || widget.id==415 )) ? 1.5:
-              (isLandscape == false && (widget.id==597 ||widget.id==578 ||widget.id==526 ||widget.id==507   ||widget.id==453  || widget.id==418   || widget.id==570 || widget.id==377)) ? 1.3:
-              (isLandscape == false &&
-                      pagesThatNeedSpacing_medium.contains(widget.id))
+              letterSpacing: (isLandscape == false &&
+                      (widget.id == 499 ||
+                          widget.id == 404 ||
+                          widget.id == 415))
                   ? 1.5
                   : (isLandscape == false &&
-                          pagesThatNeedSpacing_small.contains(widget.id))
-                      ? 1.30
-                      : (isLandscape == false)
-                          ? 1.7
-                          : 2.5,
-              height: 
-                            (isLandscape == false &&(widget.id==507 || widget.id==499)) ? 3.0 :
-
-              (isLandscape == false &&(widget.id==597)) ? 2.6 :
-              (isLandscape == false &&
-                      pagesThatNeedLessHeight.contains(widget.id))
+                          (widget.id == 597 ||
+                              widget.id == 578 ||
+                              widget.id == 526 ||
+                              widget.id == 507 ||
+                              widget.id == 453 ||
+                              widget.id == 418 ||
+                              widget.id == 570 ||
+                              widget.id == 377))
+                      ? 1.3
+                      : (isLandscape == false &&
+                              pagesThatNeedSpacing_medium.contains(widget.id))
+                          ? 1.5
+                          : (isLandscape == false &&
+                                  pagesThatNeedSpacing_small
+                                      .contains(widget.id))
+                              ? 1.30
+                              : (isLandscape == false)
+                                  ? 1.7
+                                  : 2.5,
+              height: (isLandscape == false &&
+                      (widget.id == 507 || widget.id == 499))
                   ? 3.0
-                  : (isLandscape == false)
-                  // ? 2.3
-                  ? Screenheight > 800 ? Screenheight*0.0027
-    : Screenheight > 700  ? Screenheight*0.0033
-      : Screenheight * 0.0033 :1.7,
-                      // ?  Screenheight>700? Screenheight*0.0027: 
-                      
-                      //  Screenheight*0.0033
-                      // : 1.6,
+                  : (isLandscape == false && (widget.id == 597))
+                      ? 2.6
+                      : (isLandscape == false &&
+                              pagesThatNeedLessHeight.contains(widget.id))
+                          ? 3.0
+                          : (isLandscape == false)
+                              // ? 2.3
+                              ? Screenheight > 800
+                                  ? Screenheight * 0.0027
+                                  : Screenheight > 700
+                                      ? Screenheight * 0.0033
+                                      : Screenheight * 0.0033
+                              : 1.7,
+              // ?  Screenheight>700? Screenheight*0.0027:
 
-              // height: 1.68, 
+              //  Screenheight*0.0033
+              // : 1.6,
+
+              // height: 1.68,
             ),
             children: createTextSpans(),
           ),
         ));
   }
 
- 
   @override
   Widget build(BuildContext context) {
     return isLoaded

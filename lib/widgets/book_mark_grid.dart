@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../widgets/book_mark_item.dart' as bmi;
 import '../localization/app_localizations.dart';
-import '../providers/bookMarks_provider.dart';
+import '../providers/bookmarks_provider.dart';
 
 class BookMarksGrid extends StatelessWidget {
   const BookMarksGrid({Key? key}) : super(key: key);
@@ -70,13 +70,12 @@ class BookMarksGrid extends StatelessWidget {
                 child: ListView.builder(
                 itemCount: bookMarksData.length,
                 itemBuilder: (ctx, i) => bmi.BookMarkItem(
-                  id: bookMarksData[i].id,
-                  page: bookMarksData[i].page,
-                  aya: bookMarksData[i].aya,
-                  type: bookMarksData[i].type,
-                   pageNum: bookMarksData[i].pageNum,
-                    highlightNum: bookMarksData[i].highlightNum
-                ),
+                    id: bookMarksData[i].id,
+                    page: bookMarksData[i].page,
+                    aya: bookMarksData[i].aya,
+                    type: bookMarksData[i].type,
+                    pageNum: bookMarksData[i].pageNum,
+                    highlightNum: bookMarksData[i].highlightNum),
               )),
       ],
       mainAxisAlignment: MainAxisAlignment.start,

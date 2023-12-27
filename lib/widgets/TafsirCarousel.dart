@@ -5,7 +5,7 @@ import 'package:mushafmuscat/providers/tafsir_provider.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../models/AyatLines.dart';
+import '../models/aya_lines.dart';
 import '../resources/colors.dart';
 import '../utils/helperFunctions.dart';
 
@@ -76,7 +76,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
   @override
   void initState() {
-    print("building......" + widget.GlobalCurrentPage.toString());
     final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
     if (widget.goToPage != null && widget.goToPage != 0) {
       overallid = (widget.goToPage as int) - 1;
@@ -111,7 +110,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
 
     textlist = await tafsirProv.getLines(page);
-    // print(textlist);
     setState(() {
       ayaStrings.clear();
       ayaTafsirs.clear();
@@ -135,7 +133,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
     var isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
-    print("orientation is $isLandscape");
 
     List<int> listindex = new List<int>.generate(604, (i) => i + 1);
     List<AyatLines> listofObjects = [];
@@ -182,9 +179,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                       currentPage = index + 1;
                       // surahName = _surahNames[index]!;
                       widget.changeGlobal(currentPage);
-                      print("CURRENT PAGE IS $currentPage");
-                      print("the value of go to page is ....." +
-                          widget.goToPage.toString());
                       surahName = _surahNames[index]!;
                     });
 
@@ -206,8 +200,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                   }),
               items: listofObjects.map((i) {
                 int idx = listofObjects.indexOf(i);
-                // print("building... $idx")
-                // carouselController2.animateToPage(idx);
 
                 return Builder(
                   builder: (BuildContext context) {
@@ -216,7 +208,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                         setState(() {
                           pageIndicatorCarouselLoaded = true;
                           widget.toggleBars();
-                          print("bars are " + widget.barsOn.toString());
                           if (widget.barsOn == true) {
                             ShowOnlyPageNum = true;
                           } else {
@@ -229,8 +220,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                         padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
                         margin: EdgeInsets.all(2),
                         child: ListView.builder(
-                          // shrinkWrap: true,
-
                           padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                           itemCount: ayaStrings.length + 1,
                           itemBuilder: (ctx, i) {
@@ -340,7 +329,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
 
                                         // });
                                         // _currentIndex = index;
-                                        // print("INDEX IS $index");
                                       },
                                       height: 30.0,
                                       viewportFraction: 0.13,

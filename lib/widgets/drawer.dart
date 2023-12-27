@@ -65,7 +65,7 @@ class _MainDrawerState extends State<MainDrawer> {
 
   int segmentedControlValue = 0;
   bool searchToggle = false;
-  int goToPage=1;
+  int goToPage = 1;
 
   // List <Surah> surahs= [];
   List<Surah> surahslist = [];
@@ -76,9 +76,6 @@ class _MainDrawerState extends State<MainDrawer> {
       //compared(input);
       _surah_search_results = Provider.of<SurahProvider>(context, listen: false)
           .getSeachResults(input);
-      print(input);
-      print(_surah_search_results);
-      print("toggle search after $searchToggle");
     });
   }
 
@@ -87,16 +84,16 @@ class _MainDrawerState extends State<MainDrawer> {
   }
 
   void tapHandlerFunc(String page) {
-    print(page);
     setState(() {
-    goToPage= int.parse(page);});
-    print("go to page $page");
-     Navigator.of(context).popAndPushNamed(QuranScreen.routeName,arguments:{
-      'v1': goToPage,
-      'v2': 0,
-      
-   },);
-    // });
+      goToPage = int.parse(page);
+    });
+    Navigator.of(context).popAndPushNamed(
+      QuranScreen.routeName,
+      arguments: {
+        'v1': goToPage,
+        'v2': 0,
+      },
+    );
   }
 
   Widget buildSurahListTile(
@@ -138,14 +135,13 @@ class _MainDrawerState extends State<MainDrawer> {
       quarterAyaNum: quarterAyaNum,
       quarterPageNum: quarterPageNum,
       tapHandler: tapHandler,
-
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final Screenwidth= MediaQuery.of(context).size.width;
+    final Screenwidth = MediaQuery.of(context).size.width;
 
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
@@ -154,11 +150,7 @@ class _MainDrawerState extends State<MainDrawer> {
     final quartersData = Provider.of<QuarterProvider>(context, listen: false);
     final _quarters = quartersData.quarters;
     final List<Quarter> _quarteritem = _quarters;
-    // print(_quarteritem.length);
-    //print(_surahitem.length);
 
-    //final List<Quarter> _quarter = quarter;
-    // for searching
     setSurahs(_surahitem);
 
     return Drawer(
@@ -167,14 +159,14 @@ class _MainDrawerState extends State<MainDrawer> {
         children: <Widget>[
           Container(
             //margin: EdgeInsets.all(16.0),
-            padding:  EdgeInsets.only(top: screenHeight*0.1),
+            padding: EdgeInsets.only(top: screenHeight * 0.1),
             // width: 180,
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                 SizedBox(
-                  width: Screenwidth*0.17,
+                SizedBox(
+                  width: Screenwidth * 0.17,
                 ),
                 ConstrainedBox(
                   constraints: const BoxConstraints(
@@ -212,8 +204,6 @@ class _MainDrawerState extends State<MainDrawer> {
                         onValueChanged: (value) {
                           setState(() {
                             segmentedControlValue = value as int;
-
-                            print(segmentedControlValue);
                           });
                         }),
                   ),
@@ -224,10 +214,12 @@ class _MainDrawerState extends State<MainDrawer> {
                 IconButton(
                   iconSize: 28,
                   onPressed: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => QuranScreen(),), (route) => false);
-
-                    // Navigator.of(context)
-                    //     .popAndPushNamed(QuranScreen.routeName);
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => QuranScreen(),
+                        ),
+                        (route) => false);
                   },
                   icon: const Icon(Icons.cancel),
                 ),
@@ -250,9 +242,6 @@ class _MainDrawerState extends State<MainDrawer> {
               height: 20,
             ),
           ],
-          // const Divider(
-          //   height: 0,
-          // ),
           if (segmentedControlValue == 0 && searchToggle == false) ...[
             Expanded(
               child: _isLoading
@@ -264,15 +253,14 @@ class _MainDrawerState extends State<MainDrawer> {
                         return Column(
                           children: [
                             buildSurahListTile(
-                              HelperFunctions.convertToArabicNumbers(
-                                  _surahitem[i].surahNum),
-                              _surahitem[i].surahTitle,
-                              HelperFunctions.convertToArabicNumbers(
-                                  _surahitem[i].numOfAyas),
-                              _surahitem[i].surahType,
-                              _surahitem[i].surahPageNum,
-                              tapHandlerFunc
-                            ),
+                                HelperFunctions.convertToArabicNumbers(
+                                    _surahitem[i].surahNum),
+                                _surahitem[i].surahTitle,
+                                HelperFunctions.convertToArabicNumbers(
+                                    _surahitem[i].numOfAyas),
+                                _surahitem[i].surahType,
+                                _surahitem[i].surahPageNum,
+                                tapHandlerFunc),
                             const Divider(
                               height: 20,
                             )
@@ -327,7 +315,7 @@ class _MainDrawerState extends State<MainDrawer> {
                                     _surah_search_results[i].numOfAyas),
                                 _surah_search_results[i].surahType,
                                 _surah_search_results[i].surahPageNum,
-                               tapHandlerFunc,
+                                tapHandlerFunc,
                               ),
                               const Divider(
                                 height: 20,

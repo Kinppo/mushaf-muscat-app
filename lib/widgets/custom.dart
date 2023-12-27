@@ -13,8 +13,7 @@ import '../providers/surah_provider.dart';
 import '../resources/colors.dart';
 import '../screens/quran_screen.dart';
 
-class CustomAppBar extends StatefulWidget   {
-
+class CustomAppBar extends StatefulWidget {
   Function segmentedControlValue;
   bool orientationPotrait;
   Function toggleSearch;
@@ -31,29 +30,28 @@ class CustomAppBar extends StatefulWidget   {
     required this.segmentToggle,
     required this.changeSearchStatus,
     required this.toggleBars,
- }) : super(key: key);
+  }) : super(key: key);
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
-
 }
+
 class _CustomAppBarState extends State<CustomAppBar> {
-   bool searchToggle = false;
+  bool searchToggle = false;
   List<Surah> _surah_search_results = [];
   List<generalAya> _aya_search_results = [];
 
   @override
   Widget build(BuildContext context) {
-     final surahsData = Provider.of<SurahProvider>(context, listen: false);
+    final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
     final List<Surah> _surahitem = _surahs;
 
-final screenWidth = MediaQuery.of(context).size.width;
-final screenHeight = MediaQuery.of(context).size.height;
-final appBarTopPadding = screenHeight * 0.03;
-final appBarBottomPadding = screenHeight * 0.03;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final appBarTopPadding = screenHeight * 0.03;
+    final appBarBottomPadding = screenHeight * 0.03;
 
-final searchBarPadding = screenWidth * 0.04;
-
+    final searchBarPadding = screenWidth * 0.04;
 
     Future<void> searchController(isStillSearching, search) async {
       _surah_search_results = await surahsData.getSeachResults_appbar(search);
@@ -63,25 +61,20 @@ final searchBarPadding = screenWidth * 0.04;
         searchToggle = isStillSearching;
         widget.changeSearchStatus();
 
-// print(_surah_search_results);
-
-        //compared(input);
-        // print(input);
-        //todo: send search result here
         widget.toggleSearch(
             searchToggle, _surah_search_results, _aya_search_results);
-        // print("toggle search after $searchToggle");
       });
     }
+
     return SafeArea(
       child: Material(
-        elevation: 4.0, 
+        elevation: 4.0,
         child: Container(
           color: CustomColors.yellow500,
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(top: screenHeight*0.045),
+                padding: EdgeInsets.only(top: screenHeight * 0.045),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -134,7 +127,6 @@ final searchBarPadding = screenWidth * 0.04;
                           onValueChanged: (value) {
                             setState(() {
                               widget.segmentToggle = value as int;
-                              print("app bar $widget.segmentToggle");
                               widget.segmentedControlValue(
                                 widget.segmentToggle,
                               );
@@ -147,20 +139,19 @@ final searchBarPadding = screenWidth * 0.04;
                       color: Colors.transparent,
                       iconSize: 28,
                       onPressed: () {},
-                      icon: const Icon(MdiIcons.screenRotation),
+                      icon: Icon(MdiIcons.screenRotation),
                     ),
                   ],
                 ),
               ),
               Container(
-                height: screenHeight*0.06,
-                padding: EdgeInsets.fromLTRB(screenWidth*0.035, screenHeight*0.01, screenWidth*0.035, 0),
-                child: QuranSearchBar(searchController: searchController)),
+                  height: screenHeight * 0.06,
+                  padding: EdgeInsets.fromLTRB(screenWidth * 0.035,
+                      screenHeight * 0.01, screenWidth * 0.035, 0),
+                  child: QuranSearchBar(searchController: searchController)),
               // Container(color: Colors.red,height: 50,)
             ],
-          
           ),
-           
         ),
       ),
     );

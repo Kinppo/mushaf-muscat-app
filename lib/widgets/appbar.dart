@@ -45,7 +45,6 @@ class _appBarState extends State<appBar> {
   List<Surah> _surah_search_results = [];
   List<generalAya> _aya_search_results = [];
 
-
   Widget build(BuildContext context) {
     final surahsData = Provider.of<SurahProvider>(context, listen: false);
     final _surahs = surahsData.surahs;
@@ -133,7 +132,6 @@ class _appBarState extends State<appBar> {
                                 onValueChanged: (value) {
                                   setState(() {
                                     widget.segmentToggle = value as int;
-                                    print("app bar $widget.segmentToggle");
                                     widget.segmentedControlValue(
                                       widget.segmentToggle,
                                     );
@@ -166,7 +164,7 @@ class _appBarState extends State<appBar> {
                               //   }
                               // });
                             },
-                            icon: const Icon(MdiIcons.screenRotation),
+                            icon: Icon(MdiIcons.screenRotation),
                           ),
                         ],
                       ),
