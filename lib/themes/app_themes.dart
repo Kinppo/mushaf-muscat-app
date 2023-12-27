@@ -8,8 +8,6 @@ class AppThemes {
     primaryColorDark: HexColor('#c7beb5'),
     primaryColorLight: HexColor('#ffffff'),
     hintColor: HexColor('#db0f00'),
-
-    // textSelectionColor: HexColor('#db0f00'),
     secondaryHeaderColor: HexColor('#948779'),
     indicatorColor: HexColor('#e6ded6'),
     shadowColor: HexColor('#e6dfd8'),

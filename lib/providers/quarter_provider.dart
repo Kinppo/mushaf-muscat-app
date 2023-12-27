@@ -1,38 +1,26 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mushafmuscat/models/quarter.dart';
-
-import '../utils/helperFunctions.dart';
-
-//import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 class QuarterProvider with ChangeNotifier {
   List<Quarter> _quarters = [];
-
-  int Counter = 0;
+  int counter = 0;
 
   Future<void> fetchQuarters() async {
     String data = await rootBundle
         .loadString('lib/data/json_files/quarters_updated.json');
-    //String convertedData = convertToArabicNumbers(data);
-
-    // String convertedData = HelperFunctions.convertToArabicNumbers(data);
     var jsonResult = jsonDecode(data);
-
     if (jsonResult == null) {
       return;
     }
 
     final List<Quarter> loadedQuarters = [];
-    jsonResult['data'].forEach((data) =>
-        //convert data to product objects
-
-        loadedQuarters.add(Quarter(
+    jsonResult['data'].forEach((data) => loadedQuarters.add(Quarter(
           startingJuzzIndex: trueorfalse(data['startingJuzzIndex']),
           startingHizbIndex: trueorfalse(data['startingHizbIndex']),
-          quarter: updated_quarter(int.parse(data['rub'])),
+          quarter: updatedQuarter(int.parse(data['rub'])),
           hizbNum: HelperFunctions.convertToArabicNumbers(data['hezb']),
           surahTitle: HelperFunctions.normalise(data['surahTitle']),
           startingAya: (data['text']),
@@ -46,19 +34,17 @@ class QuarterProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int updated_quarter(int quarter) {
-    Counter = Counter + 1;
+  int updatedQuarter(int quarter) {
+    counter = counter + 1;
+    int updatedQ = counter;
 
-    int updatedQ = Counter;
-
-    if (Counter == 4) {
-      Counter = 0;
+    if (counter == 4) {
+      counter = 0;
     }
 
     return updatedQ;
   }
 
-// Convert 0 and 1 values to boolean values
   bool trueorfalse(String value) {
     if (value == "1") {
       return true;
@@ -67,7 +53,6 @@ class QuarterProvider with ChangeNotifier {
     }
   }
 
-// Convert Juzz numbers to arabic ordinal literals
   String? convertToArabicOrdinal(int num) {
     Map<int, String> specialNums = {
       1: "الأول",
@@ -113,16 +98,15 @@ class QuarterProvider with ChangeNotifier {
     double lastDigit = num - firstDigit;
 
     if (lastDigit < 20) {
-      return firstDigits[firstDigit]! + " " + lastDigits[lastDigit]!;
+      return "${firstDigits[firstDigit]!} ${lastDigits[lastDigit]!}";
     }
 
-    String? out = firstDigits[firstDigit]! + " و";
+    String? out = "${firstDigits[firstDigit]!} و";
 
     out = out + lastDigits[lastDigit]!;
     return out;
   }
 
-// return list of quarters
   List<Quarter> get quarters {
     return [..._quarters];
   }

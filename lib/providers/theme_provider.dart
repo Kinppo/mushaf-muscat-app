@@ -15,15 +15,15 @@ class ThemeProvider extends ChangeNotifier {
   }
 
   changeTheme(String theme) async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    await _prefs.setString('theme', theme);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('theme', theme);
     currentTheme = theme;
     notifyListeners();
   }
 
   initialize() async {
-    final SharedPreferences _prefs = await SharedPreferences.getInstance();
-    currentTheme = _prefs.getString('theme') ?? 'light';
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    currentTheme = prefs.getString('theme') ?? 'light';
     notifyListeners();
   }
 }

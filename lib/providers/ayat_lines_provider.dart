@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mushafmuscat/models/aya_lines.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 class AyatLinesProvider with ChangeNotifier {
   bool firstlist = true;

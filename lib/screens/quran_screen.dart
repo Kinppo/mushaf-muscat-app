@@ -1,27 +1,16 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mushafmuscat/providers/surah_provider.dart';
-
-import 'package:mushafmuscat/widgets/appbar.dart';
-import 'package:provider/provider.dart';
-
-import '../localization/app_localizations.dart';
-import '../resources/dimens.dart';
 import '../resources/colors.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 import '../widgets/bottom_navigation_bar.dart';
-import '../widgets/custom.dart'; //new appbar
+import '../widgets/custom.dart';
 import '../widgets/drawer.dart';
-import '../widgets/appbar.dart';
 import '../widgets/finalCarousell.dart';
 import '../widgets/TafsirCarousel.dart';
 import '../widgets/quran_aya_search_tiles.dart';
-import '../widgets/surahs_list.dart';
 import '../widgets/quran_surah_search_tiles.dart';
 
 class QuranScreen extends StatefulWidget {
+  const QuranScreen({super.key});
   static const routeName = '/quran';
 
   @override
@@ -38,30 +27,22 @@ class _QuranScreenState extends State<QuranScreen> {
   int goToPage = 0;
   int loop = 0;
   int highlighNum = 0;
-  late int GlobalCurrentPage;
-  var searchRes_surah;
-  var searchRes_aya;
-  var searchRes_combined;
+  late int globalCurrentPage = 0;
+  var searchResSurah = [];
+  var searchResAya = [];
+  String searchResCombined = '';
   bool searchStatus = false;
-  String SurahFrom = "الفاتحة";
+  String surahFrom = "الفاتحة";
 
   @override
   void initState() {
-    //load all ayas for search
     setState(() {
-      // loadAyas();
       segmentedControlValue = 0;
-      GlobalCurrentPage = 1;
+      globalCurrentPage = 1;
     });
-    // TODO: implement initState
+
     super.initState();
   }
-
-  // void loadAyas() async{
-  //   final surahsData = Provider.of<SurahProvider>(context, listen: false);
-  //    await surahsData.loadAllAyasJson();
-
-  // }
 
   void controlSegment(segment) {
     setState(() {
@@ -82,13 +63,13 @@ class _QuranScreenState extends State<QuranScreen> {
     );
   }
 
-  void controlSearch(search, surah_result, aya_result) {
-    searchRes_surah = [];
-    searchRes_aya = [];
+  void controlSearch(search, surahResult, ayaResult) {
+    searchResSurah = [];
+    searchResAya = [];
     setState(() {
       toggleSearch = search;
-      searchRes_surah = surah_result;
-      searchRes_aya = aya_result;
+      searchResSurah = surahResult;
+      searchResAya = ayaResult;
     });
   }
 
@@ -96,46 +77,46 @@ class _QuranScreenState extends State<QuranScreen> {
     List<ListTile> surahResultsTiles = [];
     List<ListTile> ayaResultsTiles = [];
 
-    for (int i = 0; i < searchRes_surah.length; i++) {
+    for (int i = 0; i < searchResSurah.length; i++) {
       surahResultsTiles.add(ListTile(
           title: Text(
-        searchRes_surah[i].surahTitle.toString(),
+        searchResSurah[i].surahTitle.toString(),
         style: TextStyle(color: CustomColors.black200),
       )));
     }
 
-    for (int i = 0; i < searchRes_aya.length; i++) {
+    for (int i = 0; i < searchResAya.length; i++) {
       ayaResultsTiles.add(ListTile(
           title: Text(
-        searchRes_aya[i].text.toString(),
+        searchResAya[i].text.toString(),
         overflow: TextOverflow.ellipsis,
         style: TextStyle(color: CustomColors.black200),
       )));
     }
 
-    List<ListTile> FinalList = [];
+    List<ListTile> finalList = [];
 
-    FinalList.add(ListTile(
+    finalList.add(ListTile(
         title: Text(
-      "السور (${searchRes_surah.length})",
+      "السور (${searchResSurah.length})",
       style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 21,
           color: CustomColors.black200),
     )));
-    FinalList.addAll(surahResultsTiles);
-    FinalList.add(ListTile(
+    finalList.addAll(surahResultsTiles);
+    finalList.add(ListTile(
         title: Text(
-      "الايات  (" + searchRes_aya.length.toString() + ")",
+      "الايات  (${searchResAya.length})",
       style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 21,
           color: CustomColors.black200),
     )));
-    FinalList.addAll(ayaResultsTiles);
+    finalList.addAll(ayaResultsTiles);
 
-    return (FinalList.isNotEmpty)
-        ? FinalList
+    return (finalList.isNotEmpty)
+        ? finalList
         : [
             ListTile(
               title: Text(
@@ -167,12 +148,12 @@ class _QuranScreenState extends State<QuranScreen> {
       goToPage = args['v1'] as int? ?? 0;
       loop = args['v2'] as int? ?? 0;
       highlighNum = args['v3'] as int? ?? 0;
-      SurahFrom = args['v4'] as String? ?? '';
+      surahFrom = args['v4'] as String? ?? '';
     }
 
     void changeGlobal(int currpage) {
       setState(() {
-        GlobalCurrentPage = currpage;
+        globalCurrentPage = currpage;
       });
     }
 
@@ -184,12 +165,10 @@ class _QuranScreenState extends State<QuranScreen> {
 
     return Scaffold(
         extendBodyBehindAppBar: true,
-        resizeToAvoidBottomInset: false, // set it to false
-
+        resizeToAvoidBottomInset: false,
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(screenHeight * 0.2),
           child: GestureDetector(
-            // Add this
             onTap: toggleBars,
             child: Container(
               color: Colors.transparent,
@@ -207,9 +186,9 @@ class _QuranScreenState extends State<QuranScreen> {
             ),
           ),
         ),
-        drawer: Container(
+        drawer: const SizedBox(
           width: double.infinity,
-          child: const MainDrawer(),
+          child: MainDrawer(),
         ),
         body: Stack(
           children: <Widget>[
@@ -221,25 +200,25 @@ class _QuranScreenState extends State<QuranScreen> {
                 child: toggleSearch != true
                     ? (segmentedControlValue == 0
                         ? finalCarousel2(
-                            goToPage: (goToPage != 0 && GlobalCurrentPage == 1)
+                            goToPage: (goToPage != 0 && globalCurrentPage == 1)
                                 ? goToPage
-                                : GlobalCurrentPage,
+                                : globalCurrentPage,
                             loop: loop,
                             toggleBars: toggleBars,
                             loophighlight: highlighNum,
-                            GlobalCurrentPage: GlobalCurrentPage,
+                            GlobalCurrentPage: globalCurrentPage,
                             changeGlobal: changeGlobal,
-                            surahFrom: SurahFrom,
+                            surahFrom: surahFrom,
                           )
                         : (segmentedControlValue == 1
                             ? SingleChildScrollView(
-                                physics: NeverScrollableScrollPhysics(),
+                                physics: const NeverScrollableScrollPhysics(),
                                 child: TafsirCarousel(
-                                  goToPage: GlobalCurrentPage,
+                                  goToPage: globalCurrentPage,
                                   loop: loop,
                                   toggleBars: toggleBars,
                                   loophighlight: highlighNum,
-                                  GlobalCurrentPage: GlobalCurrentPage,
+                                  GlobalCurrentPage: globalCurrentPage,
                                   changeGlobal: changeGlobal,
                                   barsOn: showNavBar,
                                 ),
@@ -263,47 +242,42 @@ class _QuranScreenState extends State<QuranScreen> {
                                 ),
                                 ListTile(
                                     title: Text(
-                                  "السور (" +
-                                      searchRes_surah.length.toString() +
-                                      ")",
+                                  "السور (${searchResSurah.length})",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 21,
                                       color: CustomColors.black200),
                                 )),
-                                Container(
-                                  // height: screenHeight,
+                                SizedBox(
                                   width: double.infinity,
                                   child: ListView.builder(
-                                    //  itemExtent: 200,
-
                                     addAutomaticKeepAlives: true,
                                     addRepaintBoundaries: false,
                                     shrinkWrap: true,
                                     primary: false,
                                     padding: EdgeInsets.only(
                                         bottom: screenHeight * 0.02),
-                                    // + 2 are the headers for each search category
-                                    itemCount: searchRes_surah.length,
+                                    itemCount: searchResSurah.length,
                                     itemBuilder: (ctx, i) {
                                       int index = i;
                                       return (searchStatus == false)
-                                          ? CircularProgressIndicator()
+                                          ? const CircularProgressIndicator()
                                           : QuranSurahSearchTiles(
                                               num: HelperFunctions
                                                   .convertToArabicNumbers(
-                                                      searchRes_surah[index]
+                                                      searchResSurah[index]
                                                           .surahNum),
-                                              title: searchRes_surah[index]
+                                              title: searchResSurah[index]
                                                   .surahTitle,
-                                              numAya: HelperFunctions
-                                                  .convertToArabicNumbers(
-                                                      searchRes_surah[index]
-                                                          .numOfAyas),
-                                              type: searchRes_surah[index]
+                                              numAya:
+                                                  HelperFunctions
+                                                      .convertToArabicNumbers(
+                                                          searchResSurah[index]
+                                                              .numOfAyas),
+                                              type: searchResSurah[index]
                                                   .surahType,
                                               firstPageNum:
-                                                  searchRes_surah[index]
+                                                  searchResSurah[index]
                                                       .surahPageNum,
                                               tapHandler: tapHandlerFunc);
                                     },
@@ -311,51 +285,43 @@ class _QuranScreenState extends State<QuranScreen> {
                                 ),
                                 ListTile(
                                   title: Text(
-                                    "الايات (" +
-                                        searchRes_aya.length.toString() +
-                                        ")",
+                                    "الايات (${searchResAya.length})",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         fontSize: 21,
                                         color: CustomColors.black200),
                                   ),
                                 ),
-                                Container(
-                                  // height: screenHeight,
+                                SizedBox(
                                   width: double.infinity,
                                   child: ListView.builder(
-                                    //  itemExtent: 200,
-
                                     addAutomaticKeepAlives: true,
                                     addRepaintBoundaries: false,
                                     shrinkWrap: true,
                                     primary: false,
-
                                     padding: EdgeInsets.only(
                                         bottom: screenHeight * 0.1),
-                                    // + 2 are the headers for each search category
-                                    itemCount: searchRes_aya.length,
+                                    itemCount: searchResAya.length,
                                     itemBuilder: (ctx, i) {
                                       int index = i;
                                       return (searchStatus == false)
-                                          ? CircularProgressIndicator()
+                                          ? const CircularProgressIndicator()
                                           : QuranAyaSearchTiles(
                                               surahNum: HelperFunctions
                                                   .convertToArabicNumbers(
-                                                      searchRes_aya[index]
+                                                      searchResAya[index]
                                                           .index
                                                           .toString()),
-                                              ayaText:
-                                                  searchRes_aya[index].text,
+                                              ayaText: searchResAya[index].text,
                                               numAya: HelperFunctions
                                                   .convertToArabicNumbers(
-                                                      searchRes_aya[index]
+                                                      searchResAya[index]
                                                           .aya
                                                           .toString()),
                                               surahName:
-                                                  searchRes_aya[index].surah,
+                                                  searchResAya[index].surah,
                                               ayaPageNum:
-                                                  searchRes_aya[index].page,
+                                                  searchResAya[index].page,
                                               tapHandler: tapHandlerFunc);
                                     },
                                   ),
@@ -372,7 +338,6 @@ class _QuranScreenState extends State<QuranScreen> {
               left: 0,
               right: 0,
               child: GestureDetector(
-                // Add this
                 onTap: toggleBars,
                 child: showNavBar
                     ? BNavigationBar(

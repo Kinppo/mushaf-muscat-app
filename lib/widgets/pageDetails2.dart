@@ -14,8 +14,8 @@ import '../models/aya_lines.dart';
 import '../providers/audioplayer_provider.dart';
 import '../providers/ayat_lines_provider.dart';
 import '../resources/colors.dart';
-import '../utils/helperFunctions.dart';
-import '../utils/manualLists.dart';
+import '../utils/helper_functions.dart';
+import '../utils/manual_lists.dart';
 
 class pageDetails2 extends StatefulWidget {
   int id;
@@ -75,13 +75,13 @@ class _pageDetails2State extends State<pageDetails2> {
   int indexhighlighted = 0;
   int storeCurrentPage = 0;
 
-  final surahPageswithHeaders = manualLists().surahPageswithHeaders;
+  final surahPageswithHeaders = ManualLists().surahPageswithHeaders;
 
-  final pagesThatNeedExtraPadding = manualLists().pagesThatNeedExtraPadding;
-  final pagesThatNeedSpacing_small = manualLists().pagesThatNeedSpacing_small;
-  final pagesThatNeedSpacing_medium = manualLists().pagesThatNeedSpacing_medium;
-  final pagesThatNeedSmallerFont = manualLists().pagesThatNeedSmallerFont;
-  final pagesThatNeedLessHeight = manualLists().pagesThatNeedLessHeight;
+  final pagesThatNeedExtraPadding = ManualLists().pagesThatNeedExtraPadding;
+  final pagesThatNeedSpacing_small = ManualLists().pagesThatNeedSpacingSmall;
+  final pagesThatNeedSpacing_medium = ManualLists().pagesThatNeedSpacingMedium;
+  final pagesThatNeedSmallerFont = ManualLists().pagesThatNeedSmallerFont;
+  final pagesThatNeedLessHeight = ManualLists().pagesThatNeedLessHeight;
 
   //bookmark variables
   bool bkSamePage = false;

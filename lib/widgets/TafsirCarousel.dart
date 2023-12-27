@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/aya_lines.dart';
 import '../resources/colors.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 class TafsirCarousel extends StatefulWidget {
   int goToPage;

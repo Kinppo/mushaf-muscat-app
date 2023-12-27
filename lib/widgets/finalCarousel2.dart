@@ -21,7 +21,7 @@ import '../providers/audioplayer_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/tafsir_provider.dart';
 import '../resources/colors.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 import 'pageDetails2.dart';
 import '../widgets/chooseWhereToPlay.dart';
 
@@ -199,7 +199,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
         context: context,
         builder: (BuildContext context) {
           return AyaClickedBottomSheet(
-            ShowAudioPlayer: togglePlayer,
+            showAudioPlayer: togglePlayer,
             ayaNum: HelperFunctions.convertToArabicNumbers(ayaS)!,
             clickedHighlightNum: clickedHighlightNum,
             currentPage: currentPage,

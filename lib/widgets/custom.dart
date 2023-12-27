@@ -38,7 +38,7 @@ class CustomAppBar extends StatefulWidget {
 class _CustomAppBarState extends State<CustomAppBar> {
   bool searchToggle = false;
   List<Surah> _surah_search_results = [];
-  List<generalAya> _aya_search_results = [];
+  List<GeneralAya> _aya_search_results = [];
 
   @override
   Widget build(BuildContext context) {
@@ -54,8 +54,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
     final searchBarPadding = screenWidth * 0.04;
 
     Future<void> searchController(isStillSearching, search) async {
-      _surah_search_results = await surahsData.getSeachResults_appbar(search);
-      _aya_search_results = await surahsData.getAyaSeachResults_appbar(search);
+      _surah_search_results = await surahsData.getSeachResultsAppbar(search);
+      _aya_search_results = await surahsData.getAyaSeachResultsAppbar(search);
 
       setState(() {
         searchToggle = isStillSearching;

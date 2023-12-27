@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mushafmuscat/utils/helperFunctions.dart';
+import 'package:mushafmuscat/utils/helper_functions.dart';
 import '../resources/colors.dart';
 
 class QuartersList extends StatelessWidget {
@@ -93,12 +93,10 @@ class QuartersList extends StatelessWidget {
               style: TextStyle(color: CustomColors.grey200),
             ),
             onTap: () {
-                              String? n= 
- HelperFunctions.convertToEnglishNumbers(quarterPageNum!);
-              tapHandler!(n
-);
-            }
-            ),
+              String? n =
+                  HelperFunctions.convertToEnglishNumbers(quarterPageNum!);
+              tapHandler!(n);
+            }),
       ],
     );
   }

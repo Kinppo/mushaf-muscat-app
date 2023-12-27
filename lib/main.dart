@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
           create: (ctx) => TafsirProvider(),
         ),
         ChangeNotifierProvider(
-          create: (ctx) => dailyAyaProvider(),
+          create: (ctx) => DailyAyaProvider(),
         ),
         ChangeNotifierProvider(
           create: (ctx) => tilawaOptions(),
@@ -62,7 +62,7 @@ class MyApp extends StatelessWidget {
           create: (
             ctx,
           ) =>
-              SurahProvider(user_query: ''),
+              SurahProvider(userQuery: ''),
         ),
         ChangeNotifierProvider(
           create: (ctx) => QuarterProvider(),

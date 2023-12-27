@@ -1,10 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mushafmuscat/models/surah.dart';
-
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 class TafsirLines {
   String? text;
@@ -22,22 +19,16 @@ class TafsirLines {
 
 class TafsirProvider with ChangeNotifier {
   List<String?> surahs = [];
-
   List<String?> ayats = [];
   List<String?> tafsirs = [];
   List<String?> carouselJSON = [];
-
-  List<TafsirLines> tafsir_lines = [];
-
+  List<TafsirLines> tafsirLines = [];
   int pageNumber = 0;
 
   Future<List<TafsirLines>> getLines(pageNum) async {
     final List<TafsirLines> lines = [];
-
     String data = await rootBundle.loadString(
         'lib/data/json_files/tafsir_files/surahs_tafsir_$pageNum.json');
-
-    // .loadString('lib/data/json_files/Ayat_pages/$pageNum.json');
 
     var jsonResult = jsonDecode(data);
     for (int index = 0; index < jsonResult.length; index++) {
@@ -49,41 +40,15 @@ class TafsirProvider with ChangeNotifier {
       ));
     }
 
-    tafsir_lines = lines;
-
+    tafsirLines = lines;
     notifyListeners();
-
-    return tafsir_lines;
+    return tafsirLines;
   }
-
-//   Future<void> fetchSurahs(int page) async {
-//  ayats.clear();
-//      tafsirs.clear();
-//     String data = await rootBundle.loadString('lib/data/json_files/tafsir_files/surahs_tafsir_$page.json');
-
-//     var jsonResult = jsonDecode(data);
-
-//     if (jsonResult == null) {
-//       return;
-//     }
-
-//     final List<Surah> loadedSurahs = [];
-
-//     jsonResult.forEach((data) {
-//           ayats.add(data['text']);
-//            tafsirs.add(data['tafsir']);
-
-//     }
-//         );
-
-//     notifyListeners();
-//   }
 
   void fetchSurahsforCarousel() async {
     var data =
         await rootBundle.loadString('lib/data/json_files/surahs_pages.json');
     var jsonResult = jsonDecode(data);
-
     for (int index = 0; index < jsonResult.length; index++) {
       carouselJSON.add(HelperFunctions.normalise(jsonResult[index]['surah']));
     }
@@ -91,7 +56,6 @@ class TafsirProvider with ChangeNotifier {
 
   List<String?> loadSurahs() {
     fetchSurahsforCarousel();
-
     return carouselJSON;
   }
 }

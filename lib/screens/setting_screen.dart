@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../localization/app_localizations.dart';
 import '../widgets/bottom_navigation_bar.dart';
 import '../widgets/setting_about.dart';
@@ -7,15 +6,15 @@ import '../widgets/setting_appearance.dart';
 import '../widgets/setting_storage.dart';
 
 class SettingScreen extends StatelessWidget {
-  const SettingScreen({Key? key}) : super(key: key);
+  const SettingScreen({super.key});
   static const routeName = '/setting';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar:  BNavigationBar(
+        bottomNavigationBar: BNavigationBar(
           pageIndex: 3,
-          toggleBars: () {}, //do nothing and only allow bottom nav bar to disappear in quran screen
+          toggleBars: () {},
         ),
         body: Container(
             width: MediaQuery.of(context).size.width,

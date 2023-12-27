@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:mushafmuscat/widgets/book_mark_grid.dart';
 import 'package:provider/provider.dart';
-
 import '../widgets/bottom_navigation_bar.dart';
 import '../providers/bookmarks_provider.dart';
 
 class BookMarksScreen extends StatefulWidget {
+  const BookMarksScreen({super.key});
   static const routeName = '/book_marks';
 
   @override
@@ -19,8 +18,6 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    //Hive.box('bookMarks').close();
     super.dispose();
   }
 
@@ -46,8 +43,7 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
     return Scaffold(
       bottomNavigationBar: BNavigationBar(
         pageIndex: 1,
-        toggleBars:
-            () {}, //do nothing and only allow bottom nav bar to disappear in quran screen
+        toggleBars: () {},
       ),
       body: Container(
           width: MediaQuery.of(context).size.width,
@@ -57,7 +53,7 @@ class _BookMarksScreenState extends State<BookMarksScreen> {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : BookMarksGrid()),
+              : const BookMarksGrid()),
     );
   }
 }

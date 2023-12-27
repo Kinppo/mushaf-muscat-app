@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 import '../localization/app_localizations.dart';
 import '../providers/quarter_provider.dart';

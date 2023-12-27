@@ -1,44 +1,38 @@
-import 'dart:math' as math; // import this
-
-import 'package:flutter/foundation.dart';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import '../providers/bookmarks_provider.dart';
-
 import 'package:mushafmuscat/localization/app_localizations.dart';
-
 import '../resources/colors.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:flutter/services.dart';
 
 class AyaClickedBottomSheet extends StatefulWidget {
-  Function ShowAudioPlayer;
-  int clickedHighlightNum;
-  int currentPage;
-  String surahName;
-  String ayaNum;
-  String highlightedAyaText;
-  Function playMoreOptions;
-  AyaClickedBottomSheet({
-    Key? key,
-    required this.ShowAudioPlayer,
+  final Function showAudioPlayer;
+  final int clickedHighlightNum;
+  final int currentPage;
+  final String surahName;
+  final String ayaNum;
+  final String highlightedAyaText;
+  final Function playMoreOptions;
+
+  const AyaClickedBottomSheet({
+    super.key,
+    required this.showAudioPlayer,
     required this.clickedHighlightNum,
     required this.currentPage,
     required this.surahName,
     required this.ayaNum,
     required this.highlightedAyaText,
     required this.playMoreOptions,
-  }) : super(key: key);
+  });
 
   @override
   State<AyaClickedBottomSheet> createState() => _AyaClickedBottomSheetState();
 }
 
 class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
-// Icon bookmarkIcon =Icon(Icons.bookmark_border_outlined);
   List<IconData> bkIconsList = [
     Icons.bookmark_border_outlined,
     Icons.bookmark_border_outlined,
@@ -48,7 +42,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
 
   void viewAudioPlayerController() {
     setState(() {
-      widget.ShowAudioPlayer();
+      widget.showAudioPlayer();
     });
   }
 
@@ -63,20 +57,15 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
 
     await Clipboard.setData(ClipboardData(text: copiedAya)).then((_) {
       ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text("تم نسخ الآية!")));
+          .showSnackBar(const SnackBar(content: Text("تم نسخ الآية!")));
     });
   }
 
-//bookmark vars
-
   @override
   Widget build(BuildContext context) {
-    final Screenheight = MediaQuery.of(context).size.height;
-    final Screenwidth = MediaQuery.of(context).size.width;
-    final box = context.findRenderObject() as RenderBox?;
-
+    final screenheight = MediaQuery.of(context).size.height;
     final bookMarkProvider = Provider.of<BookMarks>(context, listen: false);
-    // return grid item container
+
     void getIcon(int type) {
       setState(() {
         if (bookMarkProvider.checkBookmark(type.toString()) == true) {
@@ -94,9 +83,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
     }
 
     Widget returnGridItem(BorderRadius rad, Color bkColor, String bkText,
-        int type, String bkAya, double Screenheight) {
+        int type, String bkAya, double screenheight2) {
       return Container(
-        // color: Colors.red,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: rad,
@@ -104,7 +92,6 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
         child: Row(
           children: [
             IconButton(
-                // padding: const EdgeInsets.all(10),
                 iconSize: 32,
                 alignment: Alignment.topRight,
                 onPressed: () {
@@ -115,23 +102,16 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                       type: type.toString(),
                       pageNum: widget.currentPage,
                       highlightNum: widget.clickedHighlightNum);
-                  //todo: change text next to iconbutton
-                  //todo: fill icon
-                  // setState(() {
-                  //   var bk=getIcon(type);
-                  // });
-                  // getIcon(type);
                   setState(() {
                     getIcon(type);
                   });
                 },
                 icon: (bookMarkProvider.checkBookmark(type.toString()) == true)
-                    ? Icon(Icons.bookmark)
-                    : Icon(Icons.bookmark_border_outlined),
-                // icon: Icon(bkIconsList[type-1]),
+                    ? const Icon(Icons.bookmark)
+                    : const Icon(Icons.bookmark_border_outlined),
                 color: bkColor),
             Padding(
-              padding: EdgeInsets.only(top: Screenheight * 0.025),
+              padding: EdgeInsets.only(top: screenheight2 * 0.025),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -141,10 +121,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                         TextStyle(fontSize: 16, color: CustomColors.black200),
                     textAlign: TextAlign.right,
                   ),
-
-                  //todo: only show this when button is pressed
                   Text(
-                    (bkAya != '' && bkAya != null) ? "الآية: $bkAya" : "",
+                    (bkAya != '') ? "الآية: $bkAya" : "",
                     style: TextStyle(fontSize: 14, color: CustomColors.grey200),
                     textAlign: TextAlign.right,
                   ),
@@ -171,20 +149,18 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                   transform: Matrix4.rotationY(math.pi),
                   child: SvgPicture.asset("assets/images/$path.svg",
                       width: 30, height: 30, fit: BoxFit.fitWidth))
-              // child: Icon(listIcon))
               : SvgPicture.asset("assets/images/$path.svg",
                   width: 30, height: 30, fit: BoxFit.fitWidth),
           title: Text(listText,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
+              style:
+                  const TextStyle(fontWeight: FontWeight.w600, fontSize: 17)),
         ),
       );
     }
 
     return SingleChildScrollView(
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: Screenheight * 0.01),
-        // height: Screenheight*0.65,
-        // color: Colors.blue,
+        padding: EdgeInsets.symmetric(vertical: screenheight * 0.01),
         color: CustomColors.yellow100,
         child: Center(
           child: Column(
@@ -201,8 +177,8 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                       color: CustomColors.yellow100,
                     ),
                     child: GridView(
-                        padding: EdgeInsets.fromLTRB(0, 5, 0, 5),
-                        physics: NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.fromLTRB(0, 5, 0, 5),
+                        physics: const NeverScrollableScrollPhysics(),
                         clipBehavior: Clip.hardEdge,
                         shrinkWrap: true,
                         gridDelegate:
@@ -222,7 +198,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                                   .toString(),
                               1,
                               bkAya("1")!,
-                              Screenheight),
+                              screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   topLeft: Radius.circular(20)),
@@ -232,7 +208,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                                   .toString(),
                               2,
                               bkAya("2")!,
-                              Screenheight),
+                              screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   bottomRight: Radius.circular(20)),
@@ -242,7 +218,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                                   .toString(),
                               3,
                               bkAya("3")!,
-                              Screenheight),
+                              screenheight),
                           returnGridItem(
                               const BorderRadius.only(
                                   bottomLeft: Radius.circular(20)),
@@ -252,12 +228,11 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                                   .toString(),
                               4,
                               bkAya("4")!,
-                              Screenheight),
+                              screenheight),
                         ]),
                   ),
                 ),
               ),
-
               ListTile(
                 title: Container(
                   decoration: BoxDecoration(
@@ -287,7 +262,7 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                   ]),
                 ),
               ),
-              SizedBox(height: 6),
+              const SizedBox(height: 6),
               ListTile(
                 title: Container(
                   decoration: BoxDecoration(
@@ -317,12 +292,6 @@ class _AyaClickedBottomSheetState extends State<AyaClickedBottomSheet> {
                   ]),
                 ),
               ),
-              // SizedBox(height: 8),
-
-              // ElevatedButton(
-              //   child: const Text('Close BottomSheet'),
-              //   onPressed: () => Navigator.pop(context),
-              // )
             ],
           ),
         ),

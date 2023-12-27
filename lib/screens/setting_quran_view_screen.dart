@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-
 import '../localization/app_localizations.dart';
 import '../resources/colors.dart';
 
 class SettingQuranViewScreen extends StatefulWidget {
   static const routeName = '/setting-quran-view';
-  SettingQuranViewScreen({Key? key}) : super(key: key);
+  const SettingQuranViewScreen({super.key});
 
   @override
   State<SettingQuranViewScreen> createState() => _SettingQuranViewScreenState();
@@ -14,14 +13,12 @@ class SettingQuranViewScreen extends StatefulWidget {
 
 class _SettingQuranViewScreenState extends State<SettingQuranViewScreen> {
   String selectedRadio = 'fullscreen';
-  final dataKey = new GlobalKey();
+  final dataKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //leading: const Icon(MdiIcons.chevronRight),
-        //centerTitle: false,
         title: Text(
           AppLocalizations.of(context)!
               .translate('setting_screen_quran')
@@ -60,14 +57,14 @@ class _SettingQuranViewScreenState extends State<SettingQuranViewScreen> {
                             color: CustomColors.yellow300,
                             size: 70,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
                             AppLocalizations.of(context)!
                                 .translate('setting_screen_quran_fullscreen')
                                 .toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Radio(
@@ -89,14 +86,14 @@ class _SettingQuranViewScreenState extends State<SettingQuranViewScreen> {
                             color: CustomColors.yellow300,
                             size: 70,
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           Text(
                             AppLocalizations.of(context)!
                                 .translate('setting_screen_quran_book')
                                 .toString(),
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 16),
                           ),
                           Radio(

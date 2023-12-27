@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:mushafmuscat/models/ayah.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'package:provider/provider.dart';
 import '../providers/daily_aya_provider.dart';
@@ -8,25 +7,24 @@ import '../localization/app_localizations.dart';
 import '../widgets/bottom_navigation_bar.dart';
 
 class AyahScreen extends StatefulWidget {
-  AyahScreen({Key? key}) : super(key: key);
+  const AyahScreen({super.key});
   static const routeName = '/ayah';
 
   @override
   State<AyahScreen> createState() => _AyahScreenState();
 }
 
-late final dailyAya aya;
+late final DailyAya aya;
 bool loading = false;
 
 class _AyahScreenState extends State<AyahScreen> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await Provider.of<dailyAyaProvider>(context, listen: false)
+      await Provider.of<DailyAyaProvider>(context, listen: false)
           .getPostData(context);
-      ;
       setState(() {
-        aya = Provider.of<dailyAyaProvider>(context, listen: false).post;
+        aya = Provider.of<DailyAyaProvider>(context, listen: false).post;
         loading = true;
       });
     });
@@ -34,12 +32,8 @@ class _AyahScreenState extends State<AyahScreen> {
     super.initState();
   }
 
-  // Ayah _ayah = Ayah(
   @override
   Widget build(BuildContext context) {
-    // DailyAya? txt= Provider.of<dailyAyaProvider>(context, listen: false ).dataModel;
-    final _isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
     return Scaffold(
         bottomNavigationBar: BNavigationBar(
           pageIndex: 2,
@@ -53,6 +47,8 @@ class _AyahScreenState extends State<AyahScreen> {
             padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
             child: SingleChildScrollView(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     AppLocalizations.of(context)!
@@ -72,8 +68,7 @@ class _AyahScreenState extends State<AyahScreen> {
                               borderRadius: BorderRadius.circular(10)),
                           child: Column(
                             children: [
-                              Text(aya.Aya,
-                                  // _ayah.ayah,
+                              Text(aya.aya,
                                   style: TextStyle(
                                       fontFamily: 'ScheherazadeNew',
                                       fontWeight: FontWeight.w700,
@@ -83,31 +78,29 @@ class _AyahScreenState extends State<AyahScreen> {
                                 height: 5,
                               ),
                               Align(
+                                alignment: Alignment.topRight,
                                 child: Text(
-                                  aya.Surah,
-                                  // _ayah.surah,
+                                  aya.surah,
                                   style: TextStyle(
                                       fontFamily: 'IBMPlexSansArabic',
                                       fontSize: 19,
                                       fontWeight: FontWeight.w600,
                                       color: CustomColors.brown400),
                                 ),
-                                alignment: Alignment.topRight,
                               ),
                               const SizedBox(
                                 height: 5,
                               ),
                               Align(
+                                alignment: Alignment.topRight,
                                 child: Text(
-                                  aya.Tafsir,
-                                  // _ayah.content,
+                                  aya.tafsir,
                                   style: TextStyle(
                                       fontFamily: 'IBMPlexSansArabic',
                                       fontSize: 19,
                                       fontWeight: FontWeight.w400,
                                       color: CustomColors.brown100),
                                 ),
-                                alignment: Alignment.topRight,
                               ),
                               const SizedBox(
                                 height: 10,
@@ -117,7 +110,6 @@ class _AyahScreenState extends State<AyahScreen> {
                                   borderRadius: BorderRadius.circular(50),
                                   border:
                                       Border.all(color: CustomColors.yellow100),
-                                  //color: CustomColors.brown100,
                                 ),
                                 child: IconButton(
                                   icon: Icon(MdiIcons.share),
@@ -131,8 +123,6 @@ class _AyahScreenState extends State<AyahScreen> {
                           color: CustomColors.yellow200,
                         ),
                 ],
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
               ),
             )));
   }

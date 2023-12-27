@@ -1,18 +1,13 @@
 class HelperFunctions {
   static List<String> splitLinesintoList(String fullpagetext) {
     String fulltexttosplit;
-
     fulltexttosplit = fullpagetext;
-
     fulltexttosplit = fulltexttosplit.replaceAll('(', '.');
     fulltexttosplit = fulltexttosplit.replaceAll(')', '.');
     fulltexttosplit = fulltexttosplit.replaceAll(RegExp(r'\d'), '.');
-
     fulltexttosplit = fulltexttosplit.replaceAll('...', 'L');
-
-    List<String> final_list = fulltexttosplit.split('L');
-
-    return final_list;
+    List<String> finalList = fulltexttosplit.split('L');
+    return finalList;
   }
 
   static String? convertToArabicNumbers(String? input) {
@@ -90,7 +85,6 @@ class HelperFunctions {
         .replaceAll('\u0650', '') //ARABIC KASRA
         .replaceAll('\u0651', '') //ARABIC SHADDA
         .replaceAll('\u0652', '') //ARABIC SUKUN
-        //.replaceAll('\u0653', '') //ARABIC MADDAH ABOVE
         .replaceAll('\u0654', '') //ARABIC HAMZA ABOVE
         .replaceAll('\u0655', '') //ARABIC HAMZA BELOW
         .replaceAll('\u0656', '') //ARABIC SUBSCRIPT ALEF
@@ -102,20 +96,7 @@ class HelperFunctions {
         .replaceAll('\u065C', '') //ARABIC VOWEL SIGN DOT BELOW
         .replaceAll('\u065D', '') //ARABIC REVERSED DAMMA
         .replaceAll('\u065E', '') //ARABIC FATHA WITH TWO DOTS
-        //.replaceAll('\u065F', '') //ARABIC WAVY HAMZA BELOW
         .replaceAll('\u0670', ''); //ARABIC LETTER SUPERSCRIPT ALEF
-
-    //Replace Waw Hamza Above by Waw
-    // .replaceAll('\u0624', '\u0648')
-
-    //Replace Ta Marbuta by Ha
-    // .replaceAll('\u0629', '\u0647')
-
-    //Replace Ya
-    // and Ya Hamza Above by Alif Maksura
-    // .replaceAll('\u064A', '\u0649')
-    // .replaceAll('\u0626', '\u0649')
-
     return input;
   }
 
@@ -188,7 +169,6 @@ class HelperFunctions {
         .replaceAll('\u065E', '') //ARABIC FATHA WITH TWO DOTS
         .replaceAll('\u065F', '') //ARABIC WAVY HAMZA BELOW
         .replaceAll('\u0670', '') //ARABIC LETTER SUPERSCRIPT ALEF
-
         .replaceAll('إ', 'ا') //ARABIC LETTER SUPERSCRIPT ALEF
 
         // Replace Waw Hamza Above by Waw

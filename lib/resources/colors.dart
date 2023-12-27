@@ -1,7 +1,4 @@
 import 'dart:ui';
-
-import 'package:hexcolor/hexcolor.dart';
-
 import 'package:hexcolor/hexcolor.dart';
 
 class CustomColors {
@@ -14,10 +11,9 @@ class CustomColors {
   static Color yellow400 = HexColor('#f5c561');
   static Color yellow500 = HexColor('#faf6f2');
 
-
   static Color green100 = HexColor('#b3c1aa');
-  static Color green200 =HexColor('#b0c2a8');
-  static Color green300= HexColor("#177367");
+  static Color green200 = HexColor('#b0c2a8');
+  static Color green300 = HexColor("#177367");
 
   static Color pink100 = HexColor('#a677f2');
   static Color pink200 = HexColor('#9e7ceb');
@@ -29,17 +25,13 @@ class CustomColors {
   static Color red300 = HexColor('#db0f00');
 
   static Color brown100 = HexColor('#453d35');
-  static Color brown200 =HexColor('#e3d8cc');
-    static Color brown300 =HexColor('#695b4d');
-
+  static Color brown200 = HexColor('#e3d8cc');
+  static Color brown300 = HexColor('#695b4d');
   static Color brown400 = HexColor('#8c5a27');
   static Color brown500 = HexColor('#bdb0a4');
   static Color brown600 = HexColor('#996a39');
-  
-  static Color brown700= HexColor("#d4cac1");
+  static Color brown700 = HexColor("#d4cac1");
 
-static Color blue100= HexColor('#64b5f6');
-
+  static Color blue100 = HexColor('#64b5f6');
   static Color black200 = HexColor('#241c15');
-
 }

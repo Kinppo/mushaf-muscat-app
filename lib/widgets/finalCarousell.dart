@@ -21,7 +21,7 @@ import '../providers/audioplayer_provider.dart';
 import '../providers/surah_provider.dart';
 import '../providers/tafsir_provider.dart';
 import '../resources/colors.dart';
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 import 'pageDetails2.dart';
 import '../widgets/chooseWhereToPlay.dart';
 
@@ -96,8 +96,8 @@ class _finalCarousel2 extends State<finalCarousel2> {
   List<int> LoopIndices = [];
 
 // controllers
-  CarouselController carouselController = new CarouselController();
-  CarouselController carouselController2 = new CarouselController();
+  CarouselController carouselController = CarouselController();
+  CarouselController carouselController2 = CarouselController();
   final assetsAudioPlayerBasmala = AssetsAudioPlayer();
 
 //new state management
@@ -180,7 +180,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
           context: context,
           builder: (BuildContext context) {
             return AyaClickedBottomSheet(
-              ShowAudioPlayer: togglePlayer,
+              showAudioPlayer: togglePlayer,
               ayaNum: HelperFunctions.convertToArabicNumbers(ayaS)!,
               clickedHighlightNum: clickedHighlightNum,
               currentPage: currentPage,
@@ -399,7 +399,7 @@ class _finalCarousel2 extends State<finalCarousel2> {
 
                         carouselController2.animateToPage(
                           index,
-                          duration: Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 400),
                           curve: Curves.ease,
                         );
                       });

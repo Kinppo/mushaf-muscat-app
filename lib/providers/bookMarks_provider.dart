@@ -21,8 +21,6 @@ class BookMarkItem {
 }
 
 class BookMarks extends ChangeNotifier {
-  final String _boxName = 'bookMarks';
-
   List<BookMark> _bookmarks = [];
 
   List<BookMark> get bookmarks {
@@ -32,7 +30,6 @@ class BookMarks extends ChangeNotifier {
   Future<List<BookMark>> getFullAccount() async {
     final box = Boxes.getBookMarks();
     final List<BookMark> bookMarks = box.values.toList().cast<BookMark>();
-
     return bookMarks;
   }
 
@@ -46,12 +43,8 @@ class BookMarks extends ChangeNotifier {
   }
 
   Future<void> addBookMark({id, aya, page, type, pageNum, highlightNum}) async {
-    // final newItem = BookMark(id: '2', aya: '٢٣٥', page: 'test', type: '2');
-
     bool check = checkBookmark(type);
-    if (check == true) {
-    } else {
-      //incremented the highlight num cus it stopped working correctly
+    if (!check) {
       final newItem = BookMark(
           id: id,
           aya: aya,
@@ -70,7 +63,6 @@ class BookMarks extends ChangeNotifier {
   Future<void> deleteBookMark(int id) async {
     final box = Boxes.getBookMarks();
     var listofbox = box.values.toList();
-
     int indices =
         listofbox.indexWhere((element) => element.type == id.toString());
 
@@ -82,7 +74,7 @@ class BookMarks extends ChangeNotifier {
     final box = Boxes.getBookMarks();
     var filteredUsers = box.values.where((box) => box.id == type).toList();
 
-    if (filteredUsers.length >= 1) {
+    if (filteredUsers.isNotEmpty) {
       return true;
     } else {
       return false;
@@ -93,10 +85,10 @@ class BookMarks extends ChangeNotifier {
     final box = Boxes.getBookMarks();
     var bookmarksss = box.values.where((box) => box.id == type).toList();
     String bkTxt = '';
-    bookmarksss.forEach((element) {
-      bkTxt = element.aya.toString();
-    });
 
+    for (var item in bookmarksss) {
+      bkTxt = item.aya.toString();
+    }
     return bkTxt;
   }
 }

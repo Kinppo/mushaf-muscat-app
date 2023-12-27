@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -15,8 +14,8 @@ Future<bool> hasNetwork() async {
   }
 }
 
-Future<dailyAya> getSinglePostData(context) async {
-  late dailyAya result;
+Future<DailyAya> getSinglePostData(context) async {
+  late DailyAya result;
 
   try {
     final response =
@@ -25,7 +24,7 @@ Future<dailyAya> getSinglePostData(context) async {
     });
     if (response.statusCode == 200) {
       final item = json.decode(response.body);
-      result = dailyAya.fromJson(item);
+      result = DailyAya.fromJson(item);
     }
   } catch (e) {
     log(e.toString());
@@ -33,30 +32,30 @@ Future<dailyAya> getSinglePostData(context) async {
   return result;
 }
 
-class dailyAya {
+class DailyAya {
   final int id;
-  final String Aya;
-  final String Surah;
-  final String Tafsir;
+  final String aya;
+  final String surah;
+  final String tafsir;
 
-  dailyAya(
+  DailyAya(
       {required this.id,
-      required this.Aya,
-      required this.Surah,
-      required this.Tafsir});
+      required this.aya,
+      required this.surah,
+      required this.tafsir});
 
-  factory dailyAya.fromJson(Map<String, dynamic> json) {
-    return dailyAya(
+  factory DailyAya.fromJson(Map<String, dynamic> json) {
+    return DailyAya(
       id: json['id'],
-      Aya: json['Aya'],
-      Surah: json['Surah'] ?? "",
-      Tafsir: json['Tafsir'] ?? "",
+      aya: json['Aya'],
+      surah: json['Surah'] ?? "",
+      tafsir: json['Tafsir'] ?? "",
     );
   }
 }
 
-class dailyAyaProvider with ChangeNotifier {
-  late dailyAya post;
+class DailyAyaProvider with ChangeNotifier {
+  late DailyAya post;
   bool loading = false;
 
   getPostData(context) async {

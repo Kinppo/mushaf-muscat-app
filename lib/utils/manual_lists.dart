@@ -1,5 +1,5 @@
-class manualLists {
-final surahPageswithHeaders = [
+class ManualLists {
+  final surahPageswithHeaders = [
     77,
     604,
     599,
@@ -97,7 +97,7 @@ final surahPageswithHeaders = [
     580,
     594
   ];
-final pagesThatNeedExtraPadding =[
+  final pagesThatNeedExtraPadding = [
     600,
     599,
     596,
@@ -150,7 +150,7 @@ final pagesThatNeedExtraPadding =[
     77
   ];
 
-  final pagesThatNeedSpacing_small = [
+  final pagesThatNeedSpacingSmall = [
     596,
     595,
     594,
@@ -175,15 +175,18 @@ final pagesThatNeedExtraPadding =[
     77
   ];
 
-final pagesThatNeedSpacing_medium = [
-   568 , 537 , 523 , 518 , 502 , 483 , 221 , 208 ,151
-];
+  final pagesThatNeedSpacingMedium = [
+    568,
+    537,
+    523,
+    518,
+    502,
+    483,
+    221,
+    208,
+    151
+  ];
 
-final pagesThatNeedSmallerFont = [
-     591 , 585 , 568 , 566 , 446 , 350 , 293
-];
-final pagesThatNeedLessHeight = [
-   591 , 585 ,568 , 566 , 446 , 350 , 293];
-
-
+  final pagesThatNeedSmallerFont = [591, 585, 568, 566, 446, 350, 293];
+  final pagesThatNeedLessHeight = [591, 585, 568, 566, 446, 350, 293];
 }

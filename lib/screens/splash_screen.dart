@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mushafmuscat/resources/colors.dart';
 import 'dart:async';
-
 import '../screens/quran_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const routeName = '/splash';
-  const SplashScreen({Key? key}) : super(key: key);
+  const SplashScreen({super.key});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -23,7 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
     return Container(
       color: CustomColors.brown200,
       child: Column(
@@ -38,11 +36,10 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
           Container(
-          color: CustomColors.brown200,
+            color: CustomColors.brown200,
             height: MediaQuery.of(context).size.height * 0.05,
             width: MediaQuery.of(context).size.height * 0.05,
-            child: CircularProgressIndicator(
-                color: CustomColors.yellow400),
+            child: CircularProgressIndicator(color: CustomColors.yellow400),
           ),
         ],
       ),

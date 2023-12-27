@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import '../localization/app_localizations.dart';
 import '../providers/theme_provider.dart';
 import '../resources/colors.dart';
 
 class SettingAppearanceScreen extends StatefulWidget {
+  const SettingAppearanceScreen({super.key});
   static const routeName = '/setting-appearance';
 
   @override
@@ -15,7 +15,6 @@ class SettingAppearanceScreen extends StatefulWidget {
 
 class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
   String selectedRadio = 'system';
-  var _isInit = true;
 
   @override
   void initState() {
@@ -36,8 +35,6 @@ class _SettingAppearanceScreenState extends State<SettingAppearanceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //leading: const Icon(MdiIcons.chevronRight),
-        //centerTitle: false,
         title: Text(
           AppLocalizations.of(context)!
               .translate('setting_screen_title')

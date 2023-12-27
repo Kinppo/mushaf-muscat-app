@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mushafmuscat/models/surah.dart';
 
-import '../utils/helperFunctions.dart';
+import '../utils/helper_functions.dart';
 
 class tilawaOptions with ChangeNotifier {
   List<Surah> _surahs = [];

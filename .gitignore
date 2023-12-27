@@ -39,7 +39,6 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
