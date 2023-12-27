@@ -218,7 +218,7 @@ class _QuranScreenState extends State<QuranScreen> {
                                   loop: loop,
                                   toggleBars: toggleBars,
                                   loophighlight: highlighNum,
-                                  GlobalCurrentPage: globalCurrentPage,
+                                  globalCurrentPage: globalCurrentPage,
                                   changeGlobal: changeGlobal,
                                   barsOn: showNavBar,
                                 ),

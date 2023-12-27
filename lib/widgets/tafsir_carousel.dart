@@ -11,19 +11,20 @@ class TafsirCarousel extends StatefulWidget {
   int? loop;
   Function toggleBars;
   int? loophighlight;
-  int? GlobalCurrentPage;
+  int? globalCurrentPage;
   Function changeGlobal;
   bool barsOn;
+
   TafsirCarousel({
-    Key? key,
+    super.key,
     required this.goToPage,
     this.loop,
     required this.toggleBars,
     this.loophighlight,
-    required this.GlobalCurrentPage,
+    required this.globalCurrentPage,
     required this.changeGlobal,
     required this.barsOn,
-  }) : super(key: key);
+  });
 
   @override
   State<TafsirCarousel> createState() => _TafsirCarousel();
@@ -31,22 +32,17 @@ class TafsirCarousel extends StatefulWidget {
 
 class _TafsirCarousel extends State<TafsirCarousel> {
   var textlist;
-  // integers
   int overallid = 0;
   int currentPage = 1;
   int activeAya = -1;
   int activeIndex = 1;
   int clickedHighlightNum = 0;
-  String? AyaStringNum = '';
+  String? ayaStringNum = '';
   int prev = 0;
-  //  int ayaFrom;
-// bools and flags
-  bool BasmalaFlag = false;
+  bool basmalaFlag = false;
   bool cameFromMenu = false;
-  bool _isInit = true;
-  bool _isLoading = true;
-  late bool ShowAudioPlayer;
-  late bool ShowOnlyPageNum;
+  late bool showAudioPlayer;
+  late bool showOnlyPageNum;
   bool ayaFlag = false;
   bool firstFlag = false;
   bool moveNextPage = false;
@@ -54,49 +50,40 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   bool loopFlag = false;
   bool pageIndicatorCarouselLoaded = false;
 
-// strings
   String surahName = 'الفاتحة';
   int navigatedFromBK = 0;
-// lists
   late final List<String?> _surahNames;
-  late final List<List<int>> _flagsForEndofSurah;
-  late final List<List<String?>> _ayaNumbers;
   List<String?> ayaStrings = [];
   List<String?> ayaTafsirs = [];
   List<String> ayaNumsforThePage = [];
 
-// controllers
   late CarouselController carouselController;
   late CarouselController carouselController2;
-//new state management
-// bool pageDetails_loadAudios=false;
 
   @override
   void initState() {
     final tafsirProv = Provider.of<TafsirProvider>(context, listen: false);
-    if (widget.goToPage != null && widget.goToPage != 0) {
-      overallid = (widget.goToPage as int) - 1;
-      currentPage = (widget.goToPage as int) - 1;
+    if (widget.goToPage != 0) {
+      overallid = (widget.goToPage) - 1;
+      currentPage = (widget.goToPage) - 1;
       cameFromMenu = true;
 
       setState(() {
-        navigatedFromBK = (widget.goToPage as int) - 1;
-
+        navigatedFromBK = (widget.goToPage) - 1;
         _surahNames = tafsirProv.loadSurahs();
       });
     }
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      //initialize first tafsir page
-      if (widget.goToPage != null && widget.goToPage != 0) {
+      if (widget.goToPage != 0) {
         widget.changeGlobal(currentPage);
 
-        await loadTafisrs(widget.GlobalCurrentPage!);
+        await loadTafisrs(widget.globalCurrentPage!);
       } else {
         await loadTafisrs(1);
       }
     });
 
-    ShowOnlyPageNum = true;
+    showOnlyPageNum = true;
 
     super.initState();
     carouselController = CarouselController();
@@ -125,13 +112,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var Screenheight = MediaQuery.of(context).size.height;
-    var Screenwidth = MediaQuery.of(context).size.width;
-
-    var isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
-
-    List<int> listindex = new List<int>.generate(604, (i) => i + 1);
+    List<int> listindex = List<int>.generate(604, (i) => i + 1);
     List<AyatLines> listofObjects = [];
 
     listindex.forEach((i) => listofObjects.add(AyatLines(
@@ -140,41 +121,23 @@ class _TafsirCarousel extends State<TafsirCarousel> {
         )));
     return Column(children: [
       Container(
-        // height: (ShowOnlyPageNum == false) ? 720 : 750,
         width: MediaQuery.of(context).size.width,
-        // margin: (isLandscape == false)
-        //     ? EdgeInsets.fromLTRB(0, Screenheight*0.05, 0, Screenheight*0.08)
-        //     : EdgeInsets.fromLTRB(10, 50, 10, 50),
         color: CustomColors.yellow100,
         child: Stack(
           children: [
             CarouselSlider(
               options: CarouselOptions(
-
-                  // height: MediaQuery.of(context).size.height,
-                  // height: (isLandscape == false && ShowOnlyPageNum == false)
-                  //     ? 672
-                  //     : (isLandscape == false && ShowOnlyPageNum == true)
-                  //         ? 800
-                  //         : 1400,
                   height: size.height,
                   reverse: false,
                   viewportFraction: 1,
                   enableInfiniteScroll: true,
                   initialPage:
-                      (cameFromMenu == true) ? widget.GlobalCurrentPage! : 0,
-                  //if infinite scroll is false, then initial page has to be -1 not 0
-                  // (cameFromMenu == true) ? (widget.goToPage as int) - 1 : 0,
+                      (cameFromMenu == true) ? widget.globalCurrentPage! : 0,
                   scrollDirection: Axis.horizontal,
                   onPageChanged: (index, reason) async {
-                    // await loadTafisrs();
-
                     setState(() {
-                      // ayaNumsforThePage.clear();
-
                       overallid = index;
                       currentPage = index + 1;
-                      // surahName = _surahNames[index]!;
                       widget.changeGlobal(currentPage);
                       surahName = _surahNames[index]!;
                     });
@@ -184,20 +147,13 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                       if (pageIndicatorCarouselLoaded == true) {
                         carouselController2.animateToPage(
                           index,
-                          duration: Duration(milliseconds: 400),
+                          duration: const Duration(milliseconds: 400),
                           curve: Curves.ease,
                         );
-
-                        //  carouselController2.jumpToPage(
-                        //                     index,
-
-                        //                   );
                       }
                     });
                   }),
               items: listofObjects.map((i) {
-                int idx = listofObjects.indexOf(i);
-
                 return Builder(
                   builder: (BuildContext context) {
                     return GestureDetector(
@@ -206,16 +162,16 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                           pageIndicatorCarouselLoaded = true;
                           widget.toggleBars();
                           if (widget.barsOn == true) {
-                            ShowOnlyPageNum = true;
+                            showOnlyPageNum = true;
                           } else {
-                            ShowOnlyPageNum = !ShowOnlyPageNum;
+                            showOnlyPageNum = !showOnlyPageNum;
                           }
                         });
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                        margin: EdgeInsets.all(2),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                        margin: const EdgeInsets.all(2),
                         child: ListView.builder(
                           padding: const EdgeInsets.fromLTRB(0, 2, 0, 0),
                           itemCount: ayaStrings.length + 1,
@@ -224,11 +180,9 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                               return Column(
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(top: 17),
+                                    margin: const EdgeInsets.only(top: 17),
                                     padding: const EdgeInsets.fromLTRB(
                                         25, 20, 25, 10),
-                                    // padding: const EdgeInsets.symmetric(
-                                    //     horizontal: 22, vertical: 10),
                                     decoration: BoxDecoration(
                                         color: Colors.white,
                                         borderRadius:
@@ -238,7 +192,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                         alignment: Alignment.topRight,
                                         child: Text(ayaStrings[i].toString(),
                                             textAlign: TextAlign.right,
-                                            // _ayah.ayah,
                                             style: TextStyle(
                                                 fontFamily: 'ScheherazadeNew',
                                                 fontWeight: FontWeight.w700,
@@ -252,7 +205,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                           color: CustomColors.yellow200,
                                           thickness: 1.3,
                                           endIndent: 18),
-                                      Align(
+                                      const Align(
                                         alignment: Alignment.topRight,
                                       ),
                                       const SizedBox(
@@ -266,7 +219,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                       ),
                                     ]),
                                   ),
-                                  // (i == ayaStrings.length - 1)
                                 ],
                               );
                             } else {
@@ -282,23 +234,20 @@ class _TafsirCarousel extends State<TafsirCarousel> {
               carouselController: carouselController,
             ),
             Positioned(
-                bottom: 1, // you can adjust this value
+                bottom: 1,
                 left: 0,
                 right: 0,
                 child: //===================PAGE INDICATOR====================
-                    (ShowOnlyPageNum == false)
+                    (showOnlyPageNum == false)
                         ? GestureDetector(
                             onTap: () {
                               setState(() {
-                                ShowOnlyPageNum = !ShowOnlyPageNum;
+                                showOnlyPageNum = !showOnlyPageNum;
                               });
                             },
                             child: Container(
                               width: double.infinity,
-                              // margin: EdgeInsets.only(bottom: 70),
-                              // : EdgeInsets.fromLTRB(0, 0, 0, 10),
                               height: 70,
-
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(7),
                                   shape: BoxShape.rectangle,
@@ -314,24 +263,18 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                     style:
                                         TextStyle(color: CustomColors.red300),
                                   ),
-                                  SizedBox(
+                                  const SizedBox(
                                     height: 4,
                                   ),
                                   CarouselSlider(
                                     carouselController: carouselController2,
                                     options: CarouselOptions(
-                                      onPageChanged: (index, reason) {
-                                        // setState(() {
-                                        //                               pageIndicatorCarouselLoaded=true;
-
-                                        // });
-                                        // _currentIndex = index;
-                                      },
+                                      onPageChanged: (index, reason) {},
                                       height: 30.0,
                                       viewportFraction: 0.13,
                                       reverse: false,
                                       initialPage: (cameFromMenu == true)
-                                          ? widget.GlobalCurrentPage!
+                                          ? widget.globalCurrentPage!
                                           : 0,
                                       scrollDirection: Axis.horizontal,
                                       pageSnapping: true,
@@ -340,7 +283,7 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                     items: listindex.map((i) {
                                       return Builder(
                                         builder: (BuildContext context) {
-                                          return Container(
+                                          return SizedBox(
                                             width: 40,
                                             height: 2,
                                             child: GestureDetector(
@@ -352,7 +295,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
                                                       .animateToPage(i - 1);
                                                   carouselController
                                                       .animateToPage(i - 1);
-                                                  // ShowOnlyPageNum=true;
                                                 });
                                               },
                                               child: Container(
@@ -404,7 +346,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
           ],
         ),
       ),
-      // Container(color: Colors.red, height:300),
     ]);
   }
 
@@ -416,13 +357,13 @@ class _TafsirCarousel extends State<TafsirCarousel> {
           onTap: () {
             setState(() {
               if (cameFromMenu == true) {
-                if (widget.goToPage as int != 0) {
-                  surahName = _surahNames[(widget.goToPage as int) - 1]!;
+                if (widget.goToPage != 0) {
+                  surahName = _surahNames[(widget.goToPage) - 1]!;
                 } else {
                   surahName = _surahNames[0]!;
                 }
 
-                ShowOnlyPageNum = !ShowOnlyPageNum;
+                showOnlyPageNum = !showOnlyPageNum;
               }
             });
           },
@@ -454,7 +395,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
     final matches = braceRegExp.allMatches(text);
 
     if (matches.isEmpty) {
-      // no curly braces found, return a single TextSpan
       return TextSpan(
         text: text,
         style: TextStyle(
@@ -464,13 +404,10 @@ class _TafsirCarousel extends State<TafsirCarousel> {
         ),
       );
     } else {
-      // split the text into segments, alternating between curly brace segments
-      // (to be highlighted) and non-curly brace segments (to be displayed normally)
       final segments = <TextSpan>[];
       int lastIndex = 0;
       for (final match in matches) {
         if (match.start > lastIndex) {
-          // add a normal segment
           final normalText = text.substring(lastIndex, match.start);
           segments.add(TextSpan(
             text: normalText,
@@ -481,7 +418,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
             ),
           ));
         }
-        // add a highlighted segment
         final braceText = text.substring(match.start, match.end);
         segments.add(TextSpan(
           text: braceText,
@@ -493,7 +429,6 @@ class _TafsirCarousel extends State<TafsirCarousel> {
         ));
         lastIndex = match.end;
       }
-      // add the last normal segment (if any)
       if (lastIndex < text.length) {
         final normalText = text.substring(lastIndex);
         segments.add(TextSpan(
